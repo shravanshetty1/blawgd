@@ -1,0 +1,22 @@
+// proto/blog/post.proto
+syntax = "proto3";
+package shravanshetty1.samachar.samachar;
+
+option go_package = "github.com/shravanshetty1/samachar/x/samachar/types";
+
+import "gogoproto/gogo.proto";
+
+message Post {
+  string creator = 1;
+  string id = 2;
+  string content = 3;
+  string parent_post = 4;
+  int64 block_no = 5;
+}
+
+message MsgCreatePost {
+  string creator = 1;
+  string content = 2;
+  string parent_post = 3;
+  string id = 4;
+}

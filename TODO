@@ -1,0 +1,3 @@
+Make sure numeric values cannot overflow
+validate if post id already exists before broadcast
+use relational database

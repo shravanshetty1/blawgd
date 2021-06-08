@@ -10,7 +10,19 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="439f6121-7ef0-4f14-b1b7-cf8dc63b772e" name="Default Changelist" comment="" />
+    <list default="true" id="439f6121-7ef0-4f14-b1b7-cf8dc63b772e" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/store/generated/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/store/generated/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/store/generated/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x/samachar/client/cli/tx.go" beforeDir="false" afterPath="$PROJECT_DIR$/x/samachar/client/cli/tx.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x/samachar/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/x/samachar/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x/samachar/keeper/keeper.go" beforeDir="false" afterPath="$PROJECT_DIR$/x/samachar/keeper/keeper.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x/samachar/types/codec.go" beforeDir="false" afterPath="$PROJECT_DIR$/x/samachar/types/codec.go" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -144,10 +156,6 @@
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.d.ts" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.js" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/index.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/rest.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/rest.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/index.d.ts" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tweet.d.ts" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tweet.js" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.d.ts" />
@@ -159,6 +167,24 @@
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.js" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/profile.js" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/post.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/post.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.d.ts" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.d.ts" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.js" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.d.ts" />
@@ -193,14 +219,18 @@
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state x="791" y="486" width="410" height="141" key="#GOROOT/72.27.1848.1053@72.27.1848.1053" timestamp="1621341476046" />
-    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl" timestamp="1622379249720">
+    <state x="704" y="355" width="573" height="403" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1623161588590">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl/72.27.1848.1053@72.27.1848.1053" timestamp="1622379249720" />
-    <state x="485" y="188" width="1022" height="737" key="SettingsEditor" timestamp="1621342069132">
+    <state x="704" y="355" width="573" height="403" key="#com.intellij.fileTypes.FileTypeChooser/72.27.1848.1053@72.27.1848.1053" timestamp="1623161588590" />
+    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl" timestamp="1623105510191">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state x="485" y="188" width="1022" height="737" key="SettingsEditor/72.27.1848.1053@72.27.1848.1053" timestamp="1621342069132" />
+    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl/72.27.1848.1053@72.27.1848.1053" timestamp="1623105510191" />
+    <state x="485" y="188" width="1022" height="737" key="SettingsEditor" timestamp="1623106010784">
+      <screen x="72" y="27" width="1848" height="1053" />
+    </state>
+    <state x="485" y="188" width="1022" height="737" key="SettingsEditor/72.27.1848.1053@72.27.1848.1053" timestamp="1623106010784" />
     <state x="687" y="294" width="618" height="518" key="find.popup" timestamp="1621421705348">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
