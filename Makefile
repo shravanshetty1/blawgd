@@ -22,3 +22,7 @@ go.sum: go.mod
 
 test:
 	@go test -mod=readonly $(PACKAGES)
+
+frontend:
+	GOOS=js GOARCH=wasm go build -o ./client/assets/main.wasm ./client/cmd/wasm
+	go run ./client/cmd/server

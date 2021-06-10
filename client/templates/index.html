@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title> Samachar </title>
+    <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+    <div class="post-creator">
+        <textarea class="post-creator-input"></textarea>
+        <div class="post-creator-buttons">
+            <div id="post" class="post-creator-button-post">
+                Post
+            </div>
+        </div>
+    </div>
+</body>
+<script src="assets/wasm_exec.js"></script>
+<script>
+    const go = new Go();
+    WebAssembly.instantiateStreaming(fetch("assets/main.wasm"), go.importObject).then((result) => {
+        go.run(result.instance);
+    });
+</script>
+</html>

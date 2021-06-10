@@ -1,20 +1,18 @@
 <template>
 	<div v-if="initialized">
 		<SpWallet ref="wallet" v-on:dropdown-opened="$refs.menu.closeDropdown()" />
-		<SpLayout>
-			<template v-slot:sidebar>
-				<Sidebar />
-			</template>
-			<template v-slot:content>
-				<router-view />
-			</template>
-		</SpLayout>
+<!--		<template v-slot:content>-->
+<!--		</template>-->
+		<router-view />
+		<!--		<SpLayout>-->
+<!--		</SpLayout>-->
 	</div>
 </template>
 
 <style>
 body {
 	margin: 0;
+
 }
 </style>
 
