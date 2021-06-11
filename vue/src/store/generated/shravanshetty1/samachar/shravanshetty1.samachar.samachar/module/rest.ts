@@ -215,7 +215,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title samachar/tx.proto
+ * @title samachar/genesis.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {}

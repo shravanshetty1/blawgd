@@ -11,7 +11,6 @@ func main() {
 	post := document.Call("getElementById", "post")
 
 	post.Call("addEventListener", "click", js.FuncOf(func(this js.Value, args []js.Value) interface{} {
-
 		fmt.Println("click")
 
 		return nil

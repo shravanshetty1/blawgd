@@ -12,13 +12,669 @@
   <component name="ChangeListManager">
     <list default="true" id="439f6121-7ef0-4f14-b1b7-cf8dc63b772e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TODO" beforeDir="false" afterPath="$PROJECT_DIR$/TODO" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/vue/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/store/generated/index.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/store/generated/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/vue/src/store/generated/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/assets/main.wasm" beforeDir="false" afterPath="$PROJECT_DIR$/client/assets/main.wasm" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/cmd/wasm/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/client/cmd/wasm/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/.browserslistrc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/babel.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/App.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/components/Sidebar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/router/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/scss/app.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/bank.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/bank.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/bank.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/bank/v1beta1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/base/v1beta1/coin.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/base/v1beta1/coin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos/base/v1beta1/coin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos_proto/cosmos.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos_proto/cosmos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/cosmos_proto/cosmos.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.bank.v1beta1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/cosmos/base/abci/v1beta1/abci.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/cosmos/base/abci/v1beta1/abci.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/cosmos/base/abci/v1beta1/abci.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/any.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/any.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/any.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/duration.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/duration.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/duration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/timestamp.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/timestamp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/google/protobuf/timestamp.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/abci/types.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/abci/types.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/abci/types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/crypto/keys.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/crypto/keys.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/crypto/keys.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/crypto/proof.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/crypto/proof.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/crypto/proof.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/types/params.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/types/params.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/types/params.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/types/types.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/types/types.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/types/types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/types/validator.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/types/validator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/types/validator.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/version/types.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/version/types.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/module/types/tendermint/version/types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.abci.v1beta1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/types/cosmos/base/v1beta1/coin.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/types/cosmos/base/v1beta1/coin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/types/cosmos/base/v1beta1/coin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.base.v1beta1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/cosmos/base/v1beta1/coin.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/cosmos/base/v1beta1/coin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/cosmos/base/v1beta1/coin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/cosmos/crisis/v1beta1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/cosmos/crisis/v1beta1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/cosmos/crisis/v1beta1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/cosmos/crisis/v1beta1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/cosmos/crisis/v1beta1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/cosmos/crisis/v1beta1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.crisis.v1beta1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/base/v1beta1/coin.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/base/v1beta1/coin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/base/v1beta1/coin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/distribution.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/distribution.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/distribution.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/cosmos/distribution/v1beta1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.distribution.v1beta1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/evidence.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/evidence.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/evidence.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos/evidence/v1beta1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos_proto/cosmos.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos_proto/cosmos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/cosmos_proto/cosmos.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/protobuf/any.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/protobuf/any.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/protobuf/any.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/protobuf/timestamp.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/protobuf/timestamp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/module/types/google/protobuf/timestamp.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.evidence.v1beta1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/base/v1beta1/coin.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/base/v1beta1/coin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/base/v1beta1/coin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/gov.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/gov.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/gov.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos/gov/v1beta1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos_proto/cosmos.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos_proto/cosmos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/cosmos_proto/cosmos.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/any.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/any.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/any.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/duration.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/duration.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/duration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/timestamp.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/timestamp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/module/types/google/protobuf/timestamp.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.gov.v1beta1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/slashing.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/slashing.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/slashing.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/cosmos/slashing/v1beta1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/protobuf/duration.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/protobuf/duration.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/protobuf/duration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/protobuf/timestamp.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/protobuf/timestamp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/module/types/google/protobuf/timestamp.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.slashing.v1beta1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/base/v1beta1/coin.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/base/v1beta1/coin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/base/v1beta1/coin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/staking.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/staking.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/staking.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos/staking/v1beta1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos_proto/cosmos.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos_proto/cosmos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/cosmos_proto/cosmos.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/any.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/any.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/any.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/duration.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/duration.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/duration.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/timestamp.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/timestamp.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/google/protobuf/timestamp.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/crypto/keys.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/crypto/keys.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/crypto/keys.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/crypto/proof.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/crypto/proof.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/crypto/proof.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/types/types.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/types/types.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/types/types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/types/validator.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/types/validator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/types/validator.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/version/types.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/version/types.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/module/types/tendermint/version/types.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.staking.v1beta1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/auth/v1beta1/auth.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/auth/v1beta1/auth.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/auth/v1beta1/auth.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/base/v1beta1/coin.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/base/v1beta1/coin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/base/v1beta1/coin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/vesting/v1beta1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/vesting/v1beta1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/vesting/v1beta1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/vesting/v1beta1/vesting.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/vesting/v1beta1/vesting.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos/vesting/v1beta1/vesting.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos_proto/cosmos.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos_proto/cosmos.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/cosmos_proto/cosmos.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/google/protobuf/any.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/google/protobuf/any.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/google/protobuf/any.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/cosmos.vesting.v1beta1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/cosmos/base/v1beta1/coin.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/cosmos/base/v1beta1/coin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/cosmos/base/v1beta1/coin.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/protobuf/any.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/protobuf/any.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/protobuf/any.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/transfer.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/transfer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/transfer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/applications/transfer/v1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/core/client/v1/client.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/core/client/v1/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/module/types/ibc/core/client/v1/client.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.applications.transfer.v1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/protobuf/any.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/protobuf/any.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/protobuf/any.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/channel.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/channel.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/channel.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/channel/v1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/client/v1/client.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/client/v1/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/module/types/ibc/core/client/v1/client.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.channel.v1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/protobuf/any.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/protobuf/any.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/protobuf/any.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/client.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/client.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/module/types/ibc/core/client/v1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.client.v1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/confio/proofs.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/confio/proofs.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/confio/proofs.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/protobuf/any.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/protobuf/any.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/protobuf/any.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/client/v1/client.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/client/v1/client.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/client/v1/client.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/commitment/v1/commitment.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/commitment/v1/commitment.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/commitment/v1/commitment.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/connection.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/connection.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/connection.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/module/types/ibc/core/connection/v1/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/cosmos/cosmos-sdk/ibc.core.connection.v1/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/rest.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/rest.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/rest.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/post.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/post.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/post.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/vuex-root" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/store/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/src/views/Types.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/vue/vue.config.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,24 +712,27 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../cosmjs" />
-    <property name="settings.editor.selected.configurable" value="watcher.settings" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/assets" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="settings.editor.selected.configurable" value="preferences.updates" />
     <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/client/assets" />
+      <recent name="$PROJECT_DIR$/x/samachar/duptypes" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/scripts" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/client/cmd/browser" />
       <recent name="$PROJECT_DIR$/client/cmd" />
       <recent name="$PROJECT_DIR$/frontend/dist" />
       <recent name="$PROJECT_DIR$/client" />
     </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/scripts" />
-    </key>
   </component>
-  <component name="RunManager" selected="Go Build.go build github.com/shravanshetty1/samachar/go-client">
+  <component name="RunManager" selected="Go Build.go build main.go (1)">
     <configuration name="go build github.com/shravanshetty1/samachar/frontend/server" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="samachar" />
       <working_directory value="$PROJECT_DIR$" />
@@ -89,6 +748,15 @@
       <kind value="PACKAGE" />
       <filePath value="$PROJECT_DIR$/go-client/main.go" />
       <package value="github.com/shravanshetty1/samachar/go-client" />
+      <directory value="$PROJECT_DIR$/" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build main.go (1)" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="samachar" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <filePath value="$PROJECT_DIR$/client/cmd/server/main.go" />
+      <package value="github.com/shravanshetty1/samachar" />
       <directory value="$PROJECT_DIR$/" />
       <method v="2" />
     </configuration>
@@ -109,6 +777,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build main.go (1)" />
         <item itemvalue="Go Build.go build github.com/shravanshetty1/samachar/go-client" />
         <item itemvalue="Go Build.go build main.go" />
         <item itemvalue="Makefile.wasm" />
@@ -121,112 +790,29 @@
     <option name="version" value="2" />
     <option name="exactExcludedFiles">
       <list>
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tweet.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tweet.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.d.ts" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/follow.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/follow.d.ts" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/accountInfo.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/accountInfo.js" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/main.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.js" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.d.ts" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tweet.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tweet.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/follow.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/follow.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/profile.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/profile.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tweet.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tweet.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/follow.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/follow.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/profile.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/profile.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/post.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/post.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/index.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/rest.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/rest.js" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/index.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/post.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/rest.js" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/post.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/genesis.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/query.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/tx.js" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/samachar/post.d.ts" />
         <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/gogoproto/gogo.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/annotations.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/api/http.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/google/protobuf/descriptor.d.ts" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.js" />
-        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/types/cosmos/base/query/v1beta1/pagination.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/rest.d.ts" />
+        <option value="$PROJECT_DIR$/vue/src/store/generated/shravanshetty1/samachar/shravanshetty1.samachar.samachar/module/index.js" />
       </list>
     </option>
   </component>
@@ -254,30 +840,38 @@
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state x="791" y="486" width="410" height="141" key="#GOROOT/72.27.1848.1053@72.27.1848.1053" timestamp="1621341476046" />
+    <state x="454" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1623415095261">
+      <screen x="72" y="27" width="1848" height="1053" />
+    </state>
+    <state x="454" y="211" key="#com.intellij.execution.impl.EditConfigurationsDialog/72.27.1848.1053@72.27.1848.1053" timestamp="1623415095261" />
     <state x="704" y="355" width="608" height="403" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1623303714654">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state x="704" y="355" width="608" height="403" key="#com.intellij.fileTypes.FileTypeChooser/72.27.1848.1053@72.27.1848.1053" timestamp="1623303714654" />
-    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl" timestamp="1623260107312">
+    <state x="658" y="178" width="666" height="758" key="#go_build_github.com/shravanshetty1/samachar/go-client" timestamp="1623415079880">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl/72.27.1848.1053@72.27.1848.1053" timestamp="1623260107312" />
-    <state width="1802" height="340" key="GridCell.Tab.0.bottom" timestamp="1623282467877">
+    <state x="658" y="178" width="666" height="758" key="#go_build_github.com/shravanshetty1/samachar/go-client/72.27.1848.1053@72.27.1848.1053" timestamp="1623415079880" />
+    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl" timestamp="1623385816150">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1802" height="340" key="GridCell.Tab.0.bottom/72.27.1848.1053@72.27.1848.1053" timestamp="1623282467877" />
-    <state width="1802" height="340" key="GridCell.Tab.0.center" timestamp="1623282467877">
+    <state x="779" y="311" width="424" height="491" key="FileChooserDialogImpl/72.27.1848.1053@72.27.1848.1053" timestamp="1623385816150" />
+    <state width="1802" height="275" key="GridCell.Tab.0.bottom" timestamp="1623415202523">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1802" height="340" key="GridCell.Tab.0.center/72.27.1848.1053@72.27.1848.1053" timestamp="1623282467877" />
-    <state width="1802" height="340" key="GridCell.Tab.0.left" timestamp="1623282467877">
+    <state width="1802" height="275" key="GridCell.Tab.0.bottom/72.27.1848.1053@72.27.1848.1053" timestamp="1623415202523" />
+    <state width="1802" height="275" key="GridCell.Tab.0.center" timestamp="1623415202523">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1802" height="340" key="GridCell.Tab.0.left/72.27.1848.1053@72.27.1848.1053" timestamp="1623282467877" />
-    <state width="1802" height="340" key="GridCell.Tab.0.right" timestamp="1623282467877">
+    <state width="1802" height="275" key="GridCell.Tab.0.center/72.27.1848.1053@72.27.1848.1053" timestamp="1623415202523" />
+    <state width="1802" height="275" key="GridCell.Tab.0.left" timestamp="1623415202522">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state width="1802" height="340" key="GridCell.Tab.0.right/72.27.1848.1053@72.27.1848.1053" timestamp="1623282467877" />
+    <state width="1802" height="275" key="GridCell.Tab.0.left/72.27.1848.1053@72.27.1848.1053" timestamp="1623415202522" />
+    <state width="1802" height="275" key="GridCell.Tab.0.right" timestamp="1623415202523">
+      <screen x="72" y="27" width="1848" height="1053" />
+    </state>
+    <state width="1802" height="275" key="GridCell.Tab.0.right/72.27.1848.1053@72.27.1848.1053" timestamp="1623415202523" />
     <state width="1802" height="340" key="GridCell.Tab.1.bottom" timestamp="1623282467877">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
@@ -294,14 +888,18 @@
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
     <state width="1802" height="340" key="GridCell.Tab.1.right/72.27.1848.1053@72.27.1848.1053" timestamp="1623282467877" />
-    <state x="485" y="188" width="1022" height="737" key="SettingsEditor" timestamp="1623106010784">
+    <state x="485" y="188" width="1022" height="737" key="SettingsEditor" timestamp="1623415188916">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state x="485" y="188" width="1022" height="737" key="SettingsEditor/72.27.1848.1053@72.27.1848.1053" timestamp="1623106010784" />
-    <state x="687" y="294" width="618" height="518" key="find.popup" timestamp="1621421705348">
+    <state x="485" y="188" width="1022" height="737" key="SettingsEditor/72.27.1848.1053@72.27.1848.1053" timestamp="1623415188916" />
+    <state x="877" y="498" width="1043" height="518" key="find.popup" timestamp="1623382575258">
       <screen x="72" y="27" width="1848" height="1053" />
     </state>
-    <state x="687" y="294" width="618" height="518" key="find.popup/72.27.1848.1053@72.27.1848.1053" timestamp="1621421705348" />
+    <state x="877" y="498" width="1043" height="518" key="find.popup/72.27.1848.1053@72.27.1848.1053" timestamp="1623382575258" />
+    <state x="721" y="456" width="540" height="201" key="vcs.readOnlyHandler.ReadOnlyStatusDialog" timestamp="1623391775827">
+      <screen x="72" y="27" width="1848" height="1053" />
+    </state>
+    <state x="721" y="456" width="540" height="201" key="vcs.readOnlyHandler.ReadOnlyStatusDialog/72.27.1848.1053@72.27.1848.1053" timestamp="1623391775827" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

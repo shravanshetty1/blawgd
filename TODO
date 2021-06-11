@@ -2,3 +2,4 @@ Make sure numeric values cannot overflow
 validate if post id already exists before broadcast
 use relational database
 frontend component based architecture - all components have their own css and js file
+reduce wasm size by making custom functions which dont import entire library

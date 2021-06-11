@@ -8,14 +8,15 @@
 
 <body>
     <div class="post-creator">
-        <textarea class="post-creator-input"></textarea>
+        <textarea id="post-input" class="post-creator-input"></textarea>
         <div class="post-creator-buttons">
-            <div id="post" class="post-creator-button-post">
+            <div id="post" onclick="main.post()" class="post-creator-button-post">
                 Post
             </div>
         </div>
     </div>
 </body>
+<script type="module" src="assets/main.js"></script>
 <script src="assets/wasm_exec.js"></script>
 <script>
     const go = new Go();

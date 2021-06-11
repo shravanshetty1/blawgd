@@ -1,7 +1,8 @@
-import { txClient, queryClient } from './module';
+import { txClient, queryClient, MissingWalletError } from './module';
 // @ts-ignore
 import { SpVuexError } from '@starport/vuex';
 import { Post } from "./module/types/samachar/post";
+export { Post };
 async function initTxClient(vuexGetters) {
     return await txClient(vuexGetters['common/wallet/signer'], {
         addr: vuexGetters['common/env/apiTendermint']
@@ -11,6 +12,17 @@ async function initQueryClient(vuexGetters) {
     return await queryClient({
         addr: vuexGetters['common/env/apiCosmos']
     });
+}
+function mergeResults(value, next_values) {
+    for (let prop of Object.keys(next_values)) {
+        if (Array.isArray(next_values[prop])) {
+            value[prop] = [...value[prop], ...next_values[prop]];
+        }
+        else {
+            value[prop] = next_values[prop];
+        }
+    }
+    return value;
 }
 function getStructure(template) {
     let structure = { fields: [] };
@@ -56,7 +68,7 @@ export default {
     },
     actions: {
         init({ dispatch, rootGetters }) {
-            console.log('init');
+            console.log('Vuex module: shravanshetty1.samachar.samachar initialized!');
             if (rootGetters['common/env/client']) {
                 rootGetters['common/env/client'].on('newblock', () => {
                     dispatch('StoreUpdate');
@@ -70,37 +82,44 @@ export default {
             commit('UNSUBSCRIBE', subscription);
         },
         async StoreUpdate({ state, dispatch }) {
-            state._Subscriptions.forEach((subscription) => {
-                dispatch(subscription.action, subscription.payload);
+            state._Subscriptions.forEach(async (subscription) => {
+                try {
+                    await dispatch(subscription.action, subscription.payload);
+                }
+                catch (e) {
+                    throw new SpVuexError('Subscriptions: ' + e.message);
+                }
             });
         },
-        async sendMsgCreatePost({ rootGetters }, { value, fee, memo }) {
+        async sendMsgCreatePost({ rootGetters }, { value, fee = [], memo = '' }) {
             try {
-                const msg = await (await initTxClient(rootGetters)).msgCreatePost(value);
-                const result = await (await initTxClient(rootGetters)).signAndBroadcast([msg], { fee: { amount: fee,
+                const txClient = await initTxClient(rootGetters);
+                const msg = await txClient.msgCreatePost(value);
+                const result = await txClient.signAndBroadcast([msg], { fee: { amount: fee,
                         gas: "200000" }, memo });
                 return result;
             }
             catch (e) {
-                if (e.toString() == 'wallet is required') {
+                if (e == MissingWalletError) {
                     throw new SpVuexError('TxClient:MsgCreatePost:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgCreatePost:Send', 'Could not broadcast Tx.');
+                    throw new SpVuexError('TxClient:MsgCreatePost:Send', 'Could not broadcast Tx: ' + e.message);
                 }
             }
         },
         async MsgCreatePost({ rootGetters }, { value }) {
             try {
-                const msg = await (await initTxClient(rootGetters)).msgCreatePost(value);
+                const txClient = await initTxClient(rootGetters);
+                const msg = await txClient.msgCreatePost(value);
                 return msg;
             }
             catch (e) {
-                if (e.toString() == 'wallet is required') {
+                if (e == MissingWalletError) {
                     throw new SpVuexError('TxClient:MsgCreatePost:Init', 'Could not initialize signing client. Wallet is required.');
                 }
                 else {
-                    throw new SpVuexError('TxClient:MsgCreatePost:Create', 'Could not create message.');
+                    throw new SpVuexError('TxClient:MsgCreatePost:Create', 'Could not create message: ' + e.message);
                 }
             }
         },
