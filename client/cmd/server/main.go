@@ -36,6 +36,7 @@ func NewRouter() (*mux.Router, error) {
 	}
 
 	router.PathPrefix("/assets").Handler(http.StripPrefix("/assets", http.FileServer(http.Dir("./client/assets"))))
+	router.PathPrefix("/pkg").Handler(http.StripPrefix("/pkg", http.FileServer(http.Dir("./client/pkg"))))
 	router.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 

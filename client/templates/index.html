@@ -10,18 +10,14 @@
     <div class="post-creator">
         <textarea id="post-input" class="post-creator-input"></textarea>
         <div class="post-creator-buttons">
-            <div id="post" onclick="main.post()" class="post-creator-button-post">
+            <div id="post" class="post-creator-button-post">
                 Post
             </div>
         </div>
     </div>
 </body>
-<script type="module" src="assets/main.js"></script>
-<script src="assets/wasm_exec.js"></script>
-<script>
-    const go = new Go();
-    WebAssembly.instantiateStreaming(fetch("assets/main.wasm"), go.importObject).then((result) => {
-        go.run(result.instance);
-    });
+<script type="module">
+    import init from './pkg/client.js';
+    init();
 </script>
 </html>

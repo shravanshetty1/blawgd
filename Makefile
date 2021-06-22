@@ -24,5 +24,5 @@ test:
 	@go test -mod=readonly $(PACKAGES)
 
 frontend:
-	GOOS=js GOARCH=wasm go build -o ./client/assets/main.wasm ./client/cmd/wasm
+	cd client; wasm-pack build --target web;
 	go run ./client/cmd/server
