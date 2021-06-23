@@ -42,7 +42,7 @@ pub fn main() -> Result<(), JsValue> {
 
 
             let cosmos_client =
-                CosmosClient::new("http://localhost:1317", "http://localhost:9090").expect("could not create cosmos client");
+                CosmosClient::new("http://localhost:1317", "http://localhost:9090");
 
             let address = alice_wallet.get_bech32_address("cosmos").unwrap();
 
