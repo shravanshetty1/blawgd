@@ -259,7 +259,7 @@ dependencies = [
 [[package]]
 name = "crw-client"
 version = "0.1.0"
-source = "git+https://github.com/shravanshetty1/cosmos-rust-wallet?branch=grpc-web#0ff7fd06d9d3e5390372780642ef5473a0c9c3d3"
+source = "git+https://github.com/shravanshetty1/cosmos-rust-wallet?branch=grpc-web#0eb3bb2b32557c950b2f794a2f1361f1b68eea09"
 dependencies = [
  "cosmos-sdk-proto",
  "crw-wallet",
@@ -276,7 +276,7 @@ dependencies = [
 [[package]]
 name = "crw-wallet"
 version = "0.1.0"
-source = "git+https://github.com/shravanshetty1/cosmos-rust-wallet?branch=grpc-web#0ff7fd06d9d3e5390372780642ef5473a0c9c3d3"
+source = "git+https://github.com/shravanshetty1/cosmos-rust-wallet?branch=grpc-web#0eb3bb2b32557c950b2f794a2f1361f1b68eea09"
 dependencies = [
  "bech32 0.8.1",
  "bitcoin",
