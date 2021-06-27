@@ -4,6 +4,9 @@ version = "0.1.0"
 authors = ["Shravan Shetty <shravanshetty322@gmail.com>"]
 edition = "2018"
 
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = false
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -16,6 +19,8 @@ crw-wallet = { git = "https://github.com/shravanshetty1/cosmos-rust-wallet", bra
 crw-client = { git = "https://github.com/shravanshetty1/cosmos-rust-wallet", branch = "grpc-web", default-features = false, features = ["wasm"] }
 wasm-bindgen-futures = "0.4.24"
 cosmos-sdk-proto = "0.5.0"
+prost = { version = "0.7.0"}
+console_error_panic_hook = "0.1.6"
 
 [dependencies.web-sys]
 version = "0.3.4"
