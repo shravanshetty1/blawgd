@@ -3,13 +3,13 @@ package types
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"github.com/google/uuid"
 )
 
 var _ sdk.Msg = &MsgCreatePost{}
 
 const (
-	POST_KEY = "post-"
+	POST_KEY         = "post-"
+	REPOST_COUNT_KEY = "repost-count-"
 )
 
 func NewMsgCreatePost(creator string, content string, parentPost string) *MsgCreatePost {
@@ -17,7 +17,6 @@ func NewMsgCreatePost(creator string, content string, parentPost string) *MsgCre
 		Creator:    creator,
 		Content:    content,
 		ParentPost: parentPost,
-		Id:         uuid.New().String(),
 	}
 }
 

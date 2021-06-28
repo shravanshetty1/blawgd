@@ -2,6 +2,7 @@ package cli
 
 import (
 	"fmt"
+
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 
@@ -24,10 +25,10 @@ func GetTxCmd() *cobra.Command {
 
 	// this line is used by starport scaffolding # 1
 	cmd.AddCommand(CmdCreatePost())
+	cmd.AddCommand(CmdRepost())
 
 	return cmd
 }
-
 
 func CmdCreatePost() *cobra.Command {
 	cmd := &cobra.Command{
@@ -44,6 +45,33 @@ func CmdCreatePost() *cobra.Command {
 			}
 
 			msg := types.NewMsgCreatePost(clientCtx.GetFromAddress().String(), string(argsContent), string(argsParentPost))
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func CmdRepost() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "repost [content] [post_id]",
+		Short: "Creates a post from existing post",
+		Args:  cobra.ExactArgs(2),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			argsContent := string(args[0])
+			argsPostId := string(args[1])
+
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgRepost(clientCtx.GetFromAddress().String(), string(argsContent), string(argsPostId))
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}

@@ -12,11 +12,21 @@ message Post {
   string content = 3;
   string parent_post = 4;
   int64 block_no = 5;
+  int64 reposts = 6;
+
+  // if repost_parent is not empty, post is assumed to be a repost
+  string repost_parent = 7;
 }
 
 message MsgCreatePost {
   string creator = 1;
   string content = 2;
   string parent_post = 3;
-  string id = 4;
 }
+
+message MsgRepost {
+  string creator = 1;
+  string content = 2;
+  string post_id = 3;
+}
+
