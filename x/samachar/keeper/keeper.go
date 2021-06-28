@@ -100,3 +100,18 @@ func (k *Keeper) CreateRepost(ctx sdk.Context, msg *types.MsgRepost) error {
 
 	return nil
 }
+
+func (k *Keeper) UpdateAccountInfo(ctx sdk.Context, msg *types.MsgUpdateAccountInfo) error {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ACCOUNT_INFO_KEY))
+
+	accountInfo := types.AccountInfo{
+		Address: msg.Creator,
+		Bio:     msg.Bio,
+		Photo:   msg.Photo,
+	}
+
+	val := k.cdc.MustMarshalBinaryBare(&accountInfo)
+	store.Set(types.KeyPrefix(types.ACCOUNT_INFO_KEY+msg.Creator), val)
+
+	return nil
+}

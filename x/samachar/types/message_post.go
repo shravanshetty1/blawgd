@@ -10,6 +10,7 @@ var _ sdk.Msg = &MsgCreatePost{}
 const (
 	POST_KEY         = "post-"
 	REPOST_COUNT_KEY = "repost-count-"
+	ACCOUNT_INFO_KEY = "account-info-"
 )
 
 func NewMsgCreatePost(creator string, content string, parentPost string) *MsgCreatePost {
