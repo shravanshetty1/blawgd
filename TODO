@@ -1,3 +1,8 @@
+research commit message
+document issues on github
+research on github release cycles
+create v1 release cycle
+read open source primer
 delete all uneeded code
 make rudamentary frontend
 deploy
@@ -11,4 +16,7 @@ add whose following you feature
 
 
 Before production:
+add like server
+add token burn feature
+update reade me
 Make sure numeric values cannot overflow
