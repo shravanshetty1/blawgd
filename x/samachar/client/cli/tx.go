@@ -27,6 +27,8 @@ func GetTxCmd() *cobra.Command {
 	cmd.AddCommand(CmdCreatePost())
 	cmd.AddCommand(CmdRepost())
 	cmd.AddCommand(CmdUpdateAccountInfo())
+	cmd.AddCommand(CmdFollow())
+	cmd.AddCommand(CmdUnfollow())
 
 	return cmd
 }
@@ -99,6 +101,58 @@ func CmdUpdateAccountInfo() *cobra.Command {
 			}
 
 			msg := types.NewMsgUpdateAccountInfo(clientCtx.GetFromAddress().String(), string(argsPhoto), string(argsBio))
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func CmdFollow() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "follow [address]",
+		Short: "Follow the account of a given address",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			argsAddress := string(args[0])
+
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgFollow(clientCtx.GetFromAddress().String(), argsAddress)
+			if err := msg.ValidateBasic(); err != nil {
+				return err
+			}
+			return tx.GenerateOrBroadcastTxCLI(clientCtx, cmd.Flags(), msg)
+		},
+	}
+
+	flags.AddTxFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func CmdUnfollow() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "unfollow [address]",
+		Short: "Unfollow the account of a given address",
+		Args:  cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			argsAddress := string(args[0])
+
+			clientCtx, err := client.GetClientTxContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			msg := types.NewMsgUnfollow(clientCtx.GetFromAddress().String(), argsAddress)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}

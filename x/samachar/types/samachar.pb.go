@@ -176,6 +176,50 @@ func (m *AccountInfo) GetPhoto() string {
 	return ""
 }
 
+type Following struct {
+	AccountAddresses []string `protobuf:"bytes,1,rep,name=account_addresses,json=accountAddresses,proto3" json:"account_addresses,omitempty"`
+}
+
+func (m *Following) Reset()         { *m = Following{} }
+func (m *Following) String() string { return proto.CompactTextString(m) }
+func (*Following) ProtoMessage()    {}
+func (*Following) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a0d591a6c948f33, []int{2}
+}
+func (m *Following) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Following) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Following.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Following) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Following.Merge(m, src)
+}
+func (m *Following) XXX_Size() int {
+	return m.Size()
+}
+func (m *Following) XXX_DiscardUnknown() {
+	xxx_messageInfo_Following.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Following proto.InternalMessageInfo
+
+func (m *Following) GetAccountAddresses() []string {
+	if m != nil {
+		return m.AccountAddresses
+	}
+	return nil
+}
+
 type MsgCreatePost struct {
 	Creator    string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Content    string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
@@ -186,7 +230,7 @@ func (m *MsgCreatePost) Reset()         { *m = MsgCreatePost{} }
 func (m *MsgCreatePost) String() string { return proto.CompactTextString(m) }
 func (*MsgCreatePost) ProtoMessage()    {}
 func (*MsgCreatePost) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{2}
+	return fileDescriptor_8a0d591a6c948f33, []int{3}
 }
 func (m *MsgCreatePost) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -246,7 +290,7 @@ func (m *MsgRepost) Reset()         { *m = MsgRepost{} }
 func (m *MsgRepost) String() string { return proto.CompactTextString(m) }
 func (*MsgRepost) ProtoMessage()    {}
 func (*MsgRepost) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{3}
+	return fileDescriptor_8a0d591a6c948f33, []int{4}
 }
 func (m *MsgRepost) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -306,7 +350,7 @@ func (m *MsgUpdateAccountInfo) Reset()         { *m = MsgUpdateAccountInfo{} }
 func (m *MsgUpdateAccountInfo) String() string { return proto.CompactTextString(m) }
 func (*MsgUpdateAccountInfo) ProtoMessage()    {}
 func (*MsgUpdateAccountInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{4}
+	return fileDescriptor_8a0d591a6c948f33, []int{5}
 }
 func (m *MsgUpdateAccountInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -356,42 +400,153 @@ func (m *MsgUpdateAccountInfo) GetPhoto() string {
 	return ""
 }
 
+type MsgFollow struct {
+	Creator        string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	AccountAddress string `protobuf:"bytes,2,opt,name=account_address,json=accountAddress,proto3" json:"account_address,omitempty"`
+}
+
+func (m *MsgFollow) Reset()         { *m = MsgFollow{} }
+func (m *MsgFollow) String() string { return proto.CompactTextString(m) }
+func (*MsgFollow) ProtoMessage()    {}
+func (*MsgFollow) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a0d591a6c948f33, []int{6}
+}
+func (m *MsgFollow) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgFollow) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgFollow.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgFollow) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgFollow.Merge(m, src)
+}
+func (m *MsgFollow) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgFollow) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgFollow.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgFollow proto.InternalMessageInfo
+
+func (m *MsgFollow) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgFollow) GetAccountAddress() string {
+	if m != nil {
+		return m.AccountAddress
+	}
+	return ""
+}
+
+type MsgUnfollow struct {
+	Creator        string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	AccountAddress string `protobuf:"bytes,2,opt,name=account_address,json=accountAddress,proto3" json:"account_address,omitempty"`
+}
+
+func (m *MsgUnfollow) Reset()         { *m = MsgUnfollow{} }
+func (m *MsgUnfollow) String() string { return proto.CompactTextString(m) }
+func (*MsgUnfollow) ProtoMessage()    {}
+func (*MsgUnfollow) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a0d591a6c948f33, []int{7}
+}
+func (m *MsgUnfollow) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgUnfollow) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgUnfollow.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgUnfollow) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgUnfollow.Merge(m, src)
+}
+func (m *MsgUnfollow) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgUnfollow) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgUnfollow.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgUnfollow proto.InternalMessageInfo
+
+func (m *MsgUnfollow) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgUnfollow) GetAccountAddress() string {
+	if m != nil {
+		return m.AccountAddress
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*Post)(nil), "shravanshetty1.samachar.samachar.Post")
 	proto.RegisterType((*AccountInfo)(nil), "shravanshetty1.samachar.samachar.AccountInfo")
+	proto.RegisterType((*Following)(nil), "shravanshetty1.samachar.samachar.Following")
 	proto.RegisterType((*MsgCreatePost)(nil), "shravanshetty1.samachar.samachar.MsgCreatePost")
 	proto.RegisterType((*MsgRepost)(nil), "shravanshetty1.samachar.samachar.MsgRepost")
 	proto.RegisterType((*MsgUpdateAccountInfo)(nil), "shravanshetty1.samachar.samachar.MsgUpdateAccountInfo")
+	proto.RegisterType((*MsgFollow)(nil), "shravanshetty1.samachar.samachar.MsgFollow")
+	proto.RegisterType((*MsgUnfollow)(nil), "shravanshetty1.samachar.samachar.MsgUnfollow")
 }
 
 func init() { proto.RegisterFile("samachar/samachar.proto", fileDescriptor_8a0d591a6c948f33) }
 
 var fileDescriptor_8a0d591a6c948f33 = []byte{
-	// 377 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x52, 0xcd, 0x4a, 0xeb, 0x40,
-	0x18, 0x6d, 0x92, 0xb6, 0xb9, 0x9d, 0xde, 0x5e, 0x2e, 0xa1, 0xd0, 0xb9, 0x77, 0x11, 0x4b, 0xdc,
-	0x74, 0xd5, 0x20, 0x7d, 0x02, 0x75, 0xd5, 0x45, 0xb4, 0x14, 0x84, 0xe2, 0xa6, 0x4c, 0x32, 0x63,
-	0x12, 0xb4, 0xf9, 0xc2, 0xcc, 0x54, 0xec, 0x5b, 0xf8, 0x52, 0x82, 0xcb, 0x2e, 0x5d, 0x4a, 0xfb,
-	0x22, 0x92, 0x99, 0xa4, 0x6a, 0xc1, 0x1f, 0xdc, 0x9d, 0xf3, 0xfd, 0x9c, 0x8f, 0x73, 0xf8, 0x50,
-	0x4f, 0x90, 0x05, 0x89, 0x12, 0xc2, 0xfd, 0x0a, 0x0c, 0x73, 0x0e, 0x12, 0x9c, 0xbe, 0x48, 0x38,
-	0xb9, 0x25, 0x99, 0x48, 0x98, 0x94, 0xab, 0xa3, 0xe1, 0xae, 0x5d, 0x81, 0xff, 0xdd, 0x18, 0x62,
-	0x50, 0xc3, 0x7e, 0x81, 0xf4, 0x9e, 0xf7, 0x60, 0xa0, 0xfa, 0x04, 0x84, 0x74, 0x30, 0xb2, 0x23,
-	0xce, 0x88, 0x04, 0x8e, 0x8d, 0xbe, 0x31, 0x68, 0x4d, 0x2b, 0xea, 0xfc, 0x41, 0x66, 0x4a, 0xb1,
-	0xa9, 0x8a, 0x66, 0x4a, 0xd5, 0x24, 0x64, 0x92, 0x65, 0x12, 0x5b, 0xe5, 0xa4, 0xa6, 0xce, 0x01,
-	0x6a, 0xe7, 0x84, 0xb3, 0x4c, 0xce, 0x73, 0x10, 0x12, 0xd7, 0x55, 0x17, 0xe9, 0x92, 0x3a, 0xf2,
-	0x0f, 0xfd, 0x0a, 0x6f, 0x20, 0xba, 0x9e, 0x67, 0x80, 0x1b, 0x7d, 0x63, 0x60, 0x4d, 0x6d, 0xc5,
-	0xcf, 0xa0, 0x50, 0xe5, 0xac, 0x58, 0x13, 0xb8, 0xa9, 0x3b, 0x25, 0x75, 0x0e, 0x51, 0x47, 0xc3,
-	0xb9, 0x56, 0xc2, 0xb6, 0xd2, 0xfd, 0xad, 0x8b, 0x13, 0x55, 0xf3, 0xce, 0x51, 0xfb, 0x38, 0x8a,
-	0x60, 0x99, 0xc9, 0x71, 0x76, 0xa5, 0xd4, 0x08, 0xa5, 0x9c, 0x09, 0x51, 0xb9, 0x29, 0xa9, 0xf3,
-	0x17, 0x59, 0x61, 0x0a, 0xa5, 0x9d, 0x02, 0x3a, 0x5d, 0xd4, 0xc8, 0x13, 0x90, 0x50, 0xba, 0xd1,
-	0xc4, 0xa3, 0xa8, 0x13, 0x88, 0xf8, 0xb4, 0xc8, 0x80, 0x7d, 0x11, 0xd0, 0x9b, 0x40, 0xcc, 0x4f,
-	0x03, 0xb1, 0xf6, 0x03, 0xf1, 0x66, 0xa8, 0x15, 0x88, 0x78, 0xaa, 0x9c, 0xfc, 0xe8, 0x42, 0x0f,
-	0xd9, 0x2a, 0x9a, 0x94, 0x96, 0xea, 0xcd, 0x82, 0x8e, 0xa9, 0x37, 0x43, 0xdd, 0x40, 0xc4, 0x17,
-	0x39, 0x25, 0x92, 0xed, 0x25, 0xf3, 0xc1, 0x91, 0x6f, 0x26, 0x73, 0x12, 0x3c, 0x6e, 0x5c, 0x63,
-	0xbd, 0x71, 0x8d, 0xe7, 0x8d, 0x6b, 0xdc, 0x6f, 0xdd, 0xda, 0x7a, 0xeb, 0xd6, 0x9e, 0xb6, 0x6e,
-	0xed, 0x72, 0x14, 0xa7, 0x32, 0x59, 0x86, 0xc3, 0x08, 0x16, 0xfe, 0xfb, 0x7f, 0xdc, 0xbd, 0xab,
-	0x7f, 0xf7, 0x0a, 0xe5, 0x2a, 0x67, 0x22, 0x6c, 0xaa, 0x47, 0x1c, 0xbd, 0x04, 0x00, 0x00, 0xff,
-	0xff, 0x6f, 0x6e, 0x1e, 0x6b, 0xdb, 0x02, 0x00, 0x00,
+	// 440 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x93, 0xcf, 0x6b, 0x13, 0x41,
+	0x14, 0xc7, 0xb3, 0xd9, 0x36, 0x31, 0x2f, 0xb6, 0xd6, 0x21, 0xd0, 0xd1, 0xc3, 0x1a, 0xd6, 0x83,
+	0x01, 0x21, 0x41, 0x7a, 0xf1, 0x5a, 0x05, 0xa1, 0x87, 0xd4, 0x10, 0x10, 0x8a, 0x97, 0x30, 0xbb,
+	0x33, 0xdd, 0x5d, 0x4c, 0xe7, 0x2d, 0x33, 0x53, 0xb5, 0xff, 0x85, 0xff, 0x94, 0xe0, 0xb1, 0x47,
+	0x8f, 0x92, 0xfc, 0x23, 0x32, 0x3f, 0xb6, 0xda, 0x80, 0x51, 0xa4, 0xb7, 0xef, 0xf7, 0xbd, 0x99,
+	0xef, 0xcc, 0xfb, 0xc0, 0x83, 0x43, 0xcd, 0x2e, 0x58, 0x5e, 0x32, 0x35, 0x69, 0xc4, 0xb8, 0x56,
+	0x68, 0x90, 0x0c, 0x75, 0xa9, 0xd8, 0x47, 0x26, 0x75, 0x29, 0x8c, 0xb9, 0x7a, 0x31, 0xbe, 0x69,
+	0x37, 0xe2, 0xf1, 0xa0, 0xc0, 0x02, 0xdd, 0xe1, 0x89, 0x55, 0xfe, 0x5e, 0xfa, 0x35, 0x82, 0x9d,
+	0x19, 0x6a, 0x43, 0x28, 0x74, 0x73, 0x25, 0x98, 0x41, 0x45, 0xa3, 0x61, 0x34, 0xea, 0xcd, 0x1b,
+	0x4b, 0xf6, 0xa1, 0x5d, 0x71, 0xda, 0x76, 0xc5, 0x76, 0xc5, 0xdd, 0x49, 0x94, 0x46, 0x48, 0x43,
+	0xe3, 0x70, 0xd2, 0x5b, 0xf2, 0x04, 0xfa, 0x35, 0x53, 0x42, 0x9a, 0x45, 0x8d, 0xda, 0xd0, 0x1d,
+	0xd7, 0x05, 0x5f, 0x72, 0x8f, 0x3c, 0x82, 0x7b, 0xd9, 0x12, 0xf3, 0x0f, 0x0b, 0x89, 0x74, 0x77,
+	0x18, 0x8d, 0xe2, 0x79, 0xd7, 0xf9, 0x53, 0xb4, 0xa9, 0x4a, 0xd8, 0x6b, 0x9a, 0x76, 0x7c, 0x27,
+	0x58, 0xf2, 0x14, 0xf6, 0xbc, 0x5c, 0xf8, 0x24, 0xda, 0x75, 0xb9, 0xf7, 0x7d, 0x71, 0xe6, 0x6a,
+	0xe9, 0x5b, 0xe8, 0x1f, 0xe7, 0x39, 0x5e, 0x4a, 0x73, 0x22, 0xcf, 0x5d, 0x1a, 0xe3, 0x5c, 0x09,
+	0xad, 0x9b, 0x69, 0x82, 0x25, 0x07, 0x10, 0x67, 0x15, 0x86, 0x71, 0xac, 0x24, 0x03, 0xd8, 0xad,
+	0x4b, 0x34, 0x18, 0xa6, 0xf1, 0x26, 0x7d, 0x09, 0xbd, 0x37, 0xb8, 0x5c, 0xe2, 0xa7, 0x4a, 0x16,
+	0xe4, 0x39, 0x3c, 0x64, 0x3e, 0x7d, 0x11, 0x72, 0x84, 0x0d, 0x8e, 0x47, 0xbd, 0xf9, 0x41, 0x68,
+	0x1c, 0x37, 0xf5, 0x94, 0xc3, 0xde, 0x54, 0x17, 0xaf, 0x2d, 0x3d, 0xf1, 0x17, 0xb4, 0xbf, 0xa1,
+	0x6c, 0x6f, 0x45, 0x19, 0x6f, 0xa2, 0x4c, 0xcf, 0xa0, 0x37, 0xd5, 0xc5, 0xdc, 0x31, 0xf8, 0xaf,
+	0x17, 0x0e, 0xa1, 0xeb, 0xa0, 0x56, 0x3c, 0xa4, 0x77, 0xac, 0x3d, 0xe1, 0xe9, 0x19, 0x0c, 0xa6,
+	0xba, 0x78, 0x57, 0x73, 0x66, 0xc4, 0x06, 0xd3, 0x3f, 0x3c, 0xf2, 0xaf, 0x4c, 0x4f, 0xdd, 0x9f,
+	0x3d, 0xd6, 0x2d, 0x71, 0xcf, 0xe0, 0xc1, 0x06, 0xed, 0x10, 0xbd, 0x7f, 0x9b, 0x75, 0x3a, 0x83,
+	0xbe, 0xfd, 0xa9, 0x3c, 0xbf, 0xab, 0xc4, 0x57, 0xd3, 0x6f, 0xab, 0x24, 0xba, 0x5e, 0x25, 0xd1,
+	0x8f, 0x55, 0x12, 0x7d, 0x59, 0x27, 0xad, 0xeb, 0x75, 0xd2, 0xfa, 0xbe, 0x4e, 0x5a, 0xef, 0x8f,
+	0x8a, 0xca, 0x94, 0x97, 0xd9, 0x38, 0xc7, 0x8b, 0xc9, 0xed, 0x5d, 0xbb, 0x59, 0xc5, 0xc9, 0xe7,
+	0x5f, 0xd2, 0x5c, 0xd5, 0x42, 0x67, 0x1d, 0xb7, 0x64, 0x47, 0x3f, 0x03, 0x00, 0x00, 0xff, 0xff,
+	0x54, 0x04, 0xdc, 0x53, 0xb7, 0x03, 0x00, 0x00,
 }
 
 func (m *Post) Marshal() (dAtA []byte, err error) {
@@ -502,6 +657,38 @@ func (m *AccountInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Address)))
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Following) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Following) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Following) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.AccountAddresses) > 0 {
+		for iNdEx := len(m.AccountAddresses) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.AccountAddresses[iNdEx])
+			copy(dAtA[i:], m.AccountAddresses[iNdEx])
+			i = encodeVarintSamachar(dAtA, i, uint64(len(m.AccountAddresses[iNdEx])))
+			i--
+			dAtA[i] = 0xa
+		}
 	}
 	return len(dAtA) - i, nil
 }
@@ -638,6 +825,80 @@ func (m *MsgUpdateAccountInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgFollow) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgFollow) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgFollow) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.AccountAddress) > 0 {
+		i -= len(m.AccountAddress)
+		copy(dAtA[i:], m.AccountAddress)
+		i = encodeVarintSamachar(dAtA, i, uint64(len(m.AccountAddress)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgUnfollow) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgUnfollow) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgUnfollow) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.AccountAddress) > 0 {
+		i -= len(m.AccountAddress)
+		copy(dAtA[i:], m.AccountAddress)
+		i = encodeVarintSamachar(dAtA, i, uint64(len(m.AccountAddress)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintSamachar(dAtA []byte, offset int, v uint64) int {
 	offset -= sovSamachar(v)
 	base := offset
@@ -705,6 +966,21 @@ func (m *AccountInfo) Size() (n int) {
 	return n
 }
 
+func (m *Following) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.AccountAddresses) > 0 {
+		for _, s := range m.AccountAddresses {
+			l = len(s)
+			n += 1 + l + sovSamachar(uint64(l))
+		}
+	}
+	return n
+}
+
 func (m *MsgCreatePost) Size() (n int) {
 	if m == nil {
 		return 0
@@ -762,6 +1038,40 @@ func (m *MsgUpdateAccountInfo) Size() (n int) {
 		n += 1 + l + sovSamachar(uint64(l))
 	}
 	l = len(m.Photo)
+	if l > 0 {
+		n += 1 + l + sovSamachar(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgFollow) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovSamachar(uint64(l))
+	}
+	l = len(m.AccountAddress)
+	if l > 0 {
+		n += 1 + l + sovSamachar(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgUnfollow) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovSamachar(uint64(l))
+	}
+	l = len(m.AccountAddress)
 	if l > 0 {
 		n += 1 + l + sovSamachar(uint64(l))
 	}
@@ -1146,6 +1456,88 @@ func (m *AccountInfo) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Photo = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipSamachar(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Following) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowSamachar
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Following: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Following: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AccountAddresses", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.AccountAddresses = append(m.AccountAddresses, string(dAtA[iNdEx:postIndex]))
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
@@ -1584,6 +1976,234 @@ func (m *MsgUpdateAccountInfo) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Photo = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipSamachar(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgFollow) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowSamachar
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgFollow: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgFollow: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AccountAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.AccountAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipSamachar(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgUnfollow) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowSamachar
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgUnfollow: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgUnfollow: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AccountAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.AccountAddress = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

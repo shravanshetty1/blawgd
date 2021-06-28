@@ -115,3 +115,63 @@ func (k *Keeper) UpdateAccountInfo(ctx sdk.Context, msg *types.MsgUpdateAccountI
 
 	return nil
 }
+
+func (k *Keeper) Follow(ctx sdk.Context, msg *types.MsgFollow) error {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
+	key := types.KeyPrefix(types.FOLLOWING_KEY + msg.Creator)
+
+	var following types.Following
+	followingRaw := store.Get(key)
+	err := k.cdc.UnmarshalBinaryBare(followingRaw, &following)
+	if err != nil {
+		return err
+	}
+
+	// To make sure duplicate entries are not being added, you cannot follow the same person twice
+	followingMap := make(map[string]struct{}, len(following.AccountAddresses))
+	for _, v := range following.AccountAddresses {
+		followingMap[v] = struct{}{}
+	}
+	followingMap[msg.AccountAddress] = struct{}{}
+
+	following.AccountAddresses = make([]string, len(followingMap))
+	for k := range followingMap {
+		following.AccountAddresses = append(following.AccountAddresses, k)
+	}
+	followingRaw, err = k.cdc.MarshalBinaryBare(&following)
+	if err != nil {
+		return err
+	}
+	store.Set(key, followingRaw)
+
+	return nil
+}
+func (k *Keeper) Unfollow(ctx sdk.Context, msg *types.MsgUnfollow) error {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
+	key := types.KeyPrefix(types.FOLLOWING_KEY + msg.Creator)
+
+	var following types.Following
+	followingRaw := store.Get(key)
+	err := k.cdc.UnmarshalBinaryBare(followingRaw, &following)
+	if err != nil {
+		return err
+	}
+
+	followingMap := make(map[string]struct{}, len(following.AccountAddresses))
+	for _, v := range following.AccountAddresses {
+		followingMap[v] = struct{}{}
+	}
+	delete(followingMap, msg.AccountAddress)
+
+	following.AccountAddresses = make([]string, len(followingMap))
+	for k := range followingMap {
+		following.AccountAddresses = append(following.AccountAddresses, k)
+	}
+	followingRaw, err = k.cdc.MarshalBinaryBare(&following)
+	if err != nil {
+		return err
+	}
+	store.Set(key, followingRaw)
+
+	return nil
+}

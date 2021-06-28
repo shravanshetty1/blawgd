@@ -11,6 +11,7 @@ const (
 	POST_KEY         = "post-"
 	REPOST_COUNT_KEY = "repost-count-"
 	ACCOUNT_INFO_KEY = "account-info-"
+	FOLLOWING_KEY    = "followers-"
 )
 
 func NewMsgCreatePost(creator string, content string, parentPost string) *MsgCreatePost {
@@ -22,12 +23,12 @@ func NewMsgCreatePost(creator string, content string, parentPost string) *MsgCre
 }
 
 // Route ...
-func (msg MsgCreatePost) Route() string {
+func (msg *MsgCreatePost) Route() string {
 	return RouterKey
 }
 
 // Type ...
-func (msg MsgCreatePost) Type() string {
+func (msg *MsgCreatePost) Type() string {
 	return "CreatePost"
 }
 

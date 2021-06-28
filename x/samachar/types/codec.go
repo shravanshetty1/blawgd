@@ -14,6 +14,8 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreatePost{}, "createPost", nil)
 	cdc.RegisterConcrete(&MsgRepost{}, "repost", nil)
 	cdc.RegisterConcrete(&MsgUpdateAccountInfo{}, "updateAccountInfo", nil)
+	cdc.RegisterConcrete(&MsgFollow{}, "follow", nil)
+	cdc.RegisterConcrete(&MsgUnfollow{}, "unfollow", nil)
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
