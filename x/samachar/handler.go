@@ -23,10 +23,6 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 			return handleMsgRepost(ctx, k, msg)
 		case *types.MsgUpdateAccountInfo:
 			return handleMsgUpdateAccountInfo(ctx, k, msg)
-		case *types.MsgFollow:
-			return handleMsgFollow(ctx, k, msg)
-		case *types.MsgUnfollow:
-			return handleMsgUnfollow(ctx, k, msg)
 		// this line is used by starport scaffolding # 1
 		default:
 			errMsg := fmt.Sprintf("unrecognized %s message type: %T", types.ModuleName, msg)

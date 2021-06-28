@@ -24,10 +24,6 @@ message AccountInfo {
   string photo = 3;
 }
 
-message Following {
-  repeated string account_addresses = 1;
-}
-
 message MsgCreatePost {
   string creator = 1;
   string content = 2;
@@ -44,15 +40,5 @@ message MsgUpdateAccountInfo{
   string creator = 1;
   string bio = 2;
   string photo = 3;
-}
-
-message MsgFollow {
-  string creator = 1;
-  string account_address = 2;
-}
-
-message MsgUnfollow {
-  string creator = 1;
-  string account_address = 2;
 }
 
