@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"fmt"
-	"strconv"
 
 	"github.com/google/uuid"
 
@@ -55,48 +54,11 @@ func (k *Keeper) CreatePost(ctx sdk.Context, msg *types.MsgCreatePost) error {
 		Content:    msg.Content,
 		ParentPost: msg.ParentPost,
 		BlockNo:    ctx.BlockHeight(),
+		Metadata:   msg.Metadata,
 	}
 
 	val := k.cdc.MustMarshalBinaryBare(&post)
 	store.Set(key, val)
-
-	return nil
-}
-
-func (k *Keeper) CreateRepost(ctx sdk.Context, msg *types.MsgRepost) error {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.POST_KEY))
-
-	var id string
-	var key []byte
-	for {
-		id = uuid.NewString()
-		key = types.KeyPrefix(types.POST_KEY + id)
-		if len(store.Get(key)) == 0 {
-			break
-		}
-	}
-
-	post := types.Post{
-		Creator:      msg.Creator,
-		Id:           id,
-		Content:      msg.Content,
-		ParentPost:   "",
-		BlockNo:      ctx.BlockHeight(),
-		RepostParent: msg.PostId,
-	}
-
-	val := k.cdc.MustMarshalBinaryBare(&post)
-	store.Set(key, val)
-
-	// TODO use big int
-	store = prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.REPOST_COUNT_KEY))
-	repostCountKey := types.KeyPrefix(types.REPOST_COUNT_KEY + msg.PostId)
-	repostCountBytes := store.Get(repostCountKey)
-	repostCount, _ := strconv.Atoi(string(repostCountBytes))
-
-	repostCount += 1
-
-	store.Set(repostCountKey, []byte(fmt.Sprint(repostCount)))
 
 	return nil
 }

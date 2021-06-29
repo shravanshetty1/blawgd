@@ -9,16 +9,15 @@ var _ sdk.Msg = &MsgCreatePost{}
 
 const (
 	POST_KEY         = "post-"
-	REPOST_COUNT_KEY = "repost-count-"
 	ACCOUNT_INFO_KEY = "account-info-"
-	FOLLOWING_KEY    = "followers-"
 )
 
-func NewMsgCreatePost(creator string, content string, parentPost string) *MsgCreatePost {
+func NewMsgCreatePost(creator, content, parentPost, metadata string) *MsgCreatePost {
 	return &MsgCreatePost{
 		Creator:    creator,
 		Content:    content,
 		ParentPost: parentPost,
+		Metadata:   metadata,
 	}
 }
 
