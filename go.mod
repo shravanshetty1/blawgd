@@ -3,7 +3,8 @@ module github.com/shravanshetty1/samachar
 go 1.15
 
 require (
-	github.com/cosmos/cosmos-sdk v0.42.6
+	github.com/cosmos/cosmos-sdk v0.43.0-rc0
+	github.com/cosmos/ibc-go v1.0.0-beta1
 	github.com/gogo/protobuf v1.3.3
 	github.com/google/go-cmp v0.5.6 // indirect
 	github.com/google/uuid v1.2.0

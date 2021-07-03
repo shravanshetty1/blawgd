@@ -16,13 +16,13 @@ import (
 
 type (
 	Keeper struct {
-		cdc      codec.Marshaler
+		cdc      codec.Codec
 		storeKey sdk.StoreKey
 		memKey   sdk.StoreKey
 	}
 )
 
-func NewKeeper(cdc codec.Marshaler, storeKey, memKey sdk.StoreKey) *Keeper {
+func NewKeeper(cdc codec.Codec, storeKey, memKey sdk.StoreKey) *Keeper {
 	return &Keeper{
 		cdc:      cdc,
 		storeKey: storeKey,
@@ -57,7 +57,7 @@ func (k *Keeper) CreatePost(ctx sdk.Context, msg *types.MsgCreatePost) error {
 		Metadata:   msg.Metadata,
 	}
 
-	val := k.cdc.MustMarshalBinaryBare(&post)
+	val := k.cdc.MustMarshal(&post)
 	store.Set(key, val)
 
 	return nil
@@ -72,7 +72,7 @@ func (k *Keeper) UpdateAccountInfo(ctx sdk.Context, msg *types.MsgUpdateAccountI
 		Photo:   msg.Photo,
 	}
 
-	val := k.cdc.MustMarshalBinaryBare(&accountInfo)
+	val := k.cdc.MustMarshal(&accountInfo)
 	store.Set(types.KeyPrefix(types.ACCOUNT_INFO_KEY+msg.Creator), val)
 
 	return nil
