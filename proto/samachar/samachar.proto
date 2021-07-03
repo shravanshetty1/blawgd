@@ -16,6 +16,10 @@ message Post {
   string metadata = 6;
 }
 
+message GenesisState {
+
+}
+
 message AccountInfo {
   string address = 1;
   string bio = 2;
