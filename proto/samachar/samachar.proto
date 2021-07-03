@@ -37,5 +37,6 @@ message MsgUpdateAccountInfo{
   string creator = 1;
   string bio = 2;
   string photo = 3;
+  string metadata = 4;
 }
 

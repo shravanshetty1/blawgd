@@ -8,5 +8,5 @@ import (
 
 // x/samachar module sentinel errors
 var (
-	ErrSample = sdkerrors.Register(ModuleName, 1100, "sample error")
+	ErrInputLength = sdkerrors.Register(ModuleName, 660, "invalid input length")
 )

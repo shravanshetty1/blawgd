@@ -52,5 +52,19 @@ func (msg *MsgCreatePost) ValidateBasic() error {
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
+
+	_, err = sdk.AccAddressFromBech32(msg.ParentPost)
+	if err != nil {
+		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	}
+
+	if len(msg.Content) > 280 {
+		return sdkerrors.Wrapf(ErrInputLength, "post size larger than 280 characters")
+	}
+
+	if len(msg.Metadata) > 100 {
+		return sdkerrors.Wrapf(ErrInputLength, "metadata size larger than 100 characters")
+	}
+
 	return nil
 }
