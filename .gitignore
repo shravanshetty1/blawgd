@@ -2,5 +2,5 @@ vue
 secret.yml
 .idea
 
-client/wasm/target
-client/frontend-server/target
+frontend/wasm/target
+frontend/frontend-server/target
