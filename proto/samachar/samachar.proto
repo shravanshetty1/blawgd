@@ -6,6 +6,10 @@ option go_package = "github.com/shravanshetty1/samachar/x/samachar/types";
 
 import "gogoproto/gogo.proto";
 
+message GenesisState {
+
+}
+
 message Post {
   string creator = 1;
   string id = 2;
@@ -16,14 +20,16 @@ message Post {
   string metadata = 6;
 }
 
-message GenesisState {
-
-}
-
 message AccountInfo {
   string address = 1;
   string name = 2;
   string photo = 3;
+  string metadata = 4;
+}
+
+message Following {
+  string address = 1;
+  repeated string followings = 2;
 }
 
 message MsgCreatePost {
@@ -35,8 +41,18 @@ message MsgCreatePost {
 
 message MsgUpdateAccountInfo{
   string creator = 1;
-  string bio = 2;
+  string name = 2;
   string photo = 3;
   string metadata = 4;
+}
+
+message MsgFollow {
+  string creator = 1;
+  string address = 2;
+}
+
+message MsgStopFollow {
+  string creator = 1;
+  string address = 2;
 }
 

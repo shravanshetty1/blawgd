@@ -67,13 +67,65 @@ func (k *Keeper) UpdateAccountInfo(ctx sdk.Context, msg *types.MsgUpdateAccountI
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ACCOUNT_INFO_KEY))
 
 	accountInfo := types.AccountInfo{
-		Address: msg.Creator,
-		Bio:     msg.Bio,
-		Photo:   msg.Photo,
+		Address:  msg.Creator,
+		Name:     msg.Name,
+		Photo:    msg.Photo,
+		Metadata: msg.Metadata,
 	}
 
 	val := k.cdc.MustMarshal(&accountInfo)
 	store.Set(types.KeyPrefix(types.ACCOUNT_INFO_KEY+msg.Creator), val)
+
+	return nil
+}
+
+func GetListWithoutRepeated(list []string) []string {
+	uniqList := make(map[string]struct{}, len(list))
+	for _, v := range list {
+		uniqList[v] = struct{}{}
+	}
+
+	var newList []string
+	for k := range uniqList {
+		newList = append(newList, k)
+	}
+
+	return newList
+}
+
+func (k *Keeper) StartFollowing(ctx sdk.Context, msg *types.MsgFollow) error {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
+	val := store.Get(types.KeyPrefix(types.FOLLOWING_KEY + msg.Creator))
+
+	var following types.Following
+	k.cdc.MustUnmarshal(val, &following)
+	following.Address = msg.Creator
+
+	following.Followings = GetListWithoutRepeated(append(following.Followings, msg.Address))
+
+	val = k.cdc.MustMarshal(&following)
+	store.Set(types.KeyPrefix(types.FOLLOWING_KEY+msg.Creator), val)
+
+	return nil
+}
+
+func (k *Keeper) StopFollowing(ctx sdk.Context, msg *types.MsgStopFollow) error {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
+	val := store.Get(types.KeyPrefix(types.FOLLOWING_KEY + msg.Creator))
+
+	var following types.Following
+	k.cdc.MustUnmarshal(val, &following)
+	following.Address = msg.Creator
+
+	for i, v := range following.Followings {
+		if v == msg.Address {
+			following.Followings = append(following.Followings[:i], following.Followings[i+1:]...)
+			break
+		}
+	}
+
+	val = k.cdc.MustMarshal(&following)
+	store.Set(types.KeyPrefix(types.FOLLOWING_KEY+msg.Creator), val)
 
 	return nil
 }

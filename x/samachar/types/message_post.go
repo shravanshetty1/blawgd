@@ -10,6 +10,7 @@ var _ sdk.Msg = &MsgCreatePost{}
 const (
 	POST_KEY         = "post-"
 	ACCOUNT_INFO_KEY = "account-info-"
+	FOLLOWING_KEY    = "following-"
 )
 
 func NewMsgCreatePost(creator, content, parentPost, metadata string) *MsgCreatePost {

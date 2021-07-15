@@ -7,11 +7,11 @@ import (
 
 var _ sdk.Msg = &MsgUpdateAccountInfo{}
 
-func NewMsgUpdateAccountInfo(creator string, photo string, bio string) *MsgUpdateAccountInfo {
+func NewMsgUpdateAccountInfo(creator, photo, name string) *MsgUpdateAccountInfo {
 	return &MsgUpdateAccountInfo{
 		Creator: creator,
 		Photo:   photo,
-		Bio:     bio,
+		Name:    name,
 	}
 }
 
@@ -31,8 +31,8 @@ func (m *MsgUpdateAccountInfo) ValidateBasic() error {
 	if len(m.Metadata) > 100 {
 		return sdkerrors.Wrapf(ErrInputLength, "metadata size larger than 100 characters")
 	}
-	if len(m.Bio) > 100 {
-		return sdkerrors.Wrapf(ErrInputLength, "bio size larger than 100 characters")
+	if len(m.Name) > 100 {
+		return sdkerrors.Wrapf(ErrInputLength, "name size larger than 100 characters")
 	}
 	if len(m.Photo) > 100 {
 		return sdkerrors.Wrapf(ErrInputLength, "photo size larger than 100 characters")

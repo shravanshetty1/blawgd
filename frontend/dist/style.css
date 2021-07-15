@@ -38,6 +38,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: sticky;
+    height: 99.8vh;
+    top: 0;
 }
 
 .nav-bar-header {

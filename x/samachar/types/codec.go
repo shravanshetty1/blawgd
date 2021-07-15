@@ -9,12 +9,16 @@ import (
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgCreatePost{}, "createPost", nil)
 	cdc.RegisterConcrete(&MsgUpdateAccountInfo{}, "updateAccountInfo", nil)
+	cdc.RegisterConcrete(&MsgFollow{}, "follow", nil)
+	cdc.RegisterConcrete(&MsgStopFollow{}, "stopFollow", nil)
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgCreatePost{},
 		&MsgUpdateAccountInfo{},
+		&MsgFollow{},
+		&MsgStopFollow{},
 	)
 }
 

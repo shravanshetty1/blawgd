@@ -19,6 +19,10 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 			return handleMsgCreatePost(ctx, k, msg)
 		case *types.MsgUpdateAccountInfo:
 			return handleMsgUpdateAccountInfo(ctx, k, msg)
+		case *types.MsgFollow:
+			return handleMsgFollow(ctx, k, msg)
+		case *types.MsgStopFollow:
+			return handleMsgStopFollow(ctx, k, msg)
 		default:
 			errMsg := fmt.Sprintf("unrecognized %s message type: %T", types.ModuleName, msg)
 			return nil, sdkerrors.Wrap(sdkerrors.ErrUnknownRequest, errMsg)
