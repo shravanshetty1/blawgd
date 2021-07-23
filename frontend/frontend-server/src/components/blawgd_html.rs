@@ -9,26 +9,27 @@ impl BlawgdHTMLDoc {
 }
 
 impl super::Component for BlawgdHTMLDoc {
-    fn to_string(&self) -> String {
+    fn to_html(&self) -> String {
         format!(
             r#"
 <!DOCTYPE html>
-<html >
+<html>
 <head>
     <meta charset="UTF-8">
-    <title> Samachar </title>
-    <link rel="stylesheet" href="static/style.css">
+    <title> Blawgd </title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    {}
+{}
 </body>
 <script type="module">
     import init from './pkg/client.js';
+
     init();
 </script>
 </html>
 "#,
-            self.page.to_string()
+            self.page.to_html()
         )
     }
 }
