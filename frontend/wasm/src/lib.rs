@@ -1,3 +1,4 @@
+mod components;
 use cosmos_sdk_proto::cosmos::bank::v1beta1::MsgSend;
 use cosmos_sdk_proto::cosmos::base::v1beta1::Coin;
 use crw_client::client::CosmosClient;
@@ -7,6 +8,12 @@ use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures;
 use web_sys;
 // use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
+use crate::components::blawgd_html::BlawgdHTMLDoc;
+use crate::components::home_page::HomePage;
+use crate::components::nav_bar::NavBar;
+use crate::components::post::Post;
+use crate::components::post_creator::PostCreator;
+use crate::components::Component;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::TxRaw;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::{BroadcastMode, Tx};
 
@@ -15,12 +22,16 @@ use cosmos_sdk_proto::cosmos::tx::v1beta1::{BroadcastMode, Tx};
 pub fn main() -> Result<(), JsValue> {
     console_error_panic_hook::set_once();
 
+    let nav_bar = NavBar::new();
+    let post_creator = PostCreator::new();
+    let post = Post::new();
+    let home_page_component =
+        BlawgdHTMLDoc::new(HomePage::new(nav_bar, post_creator, Box::new([post])));
+
     let window = web_sys::window().expect("no global `window` exists");
     let document = window.document().expect("should have a document on window");
     let body = document.body().expect("document should have a body");
-    let val = document.create_element("p")?;
-    val.set_inner_html("Hello from Rust!");
-    body.append_child(&val)?;
+    body.set_inner_html(&home_page_component.to_html());
 
     let post_element = document
         .get_element_by_id("post")
