@@ -4,7 +4,7 @@ package shravanshetty1.samachar.samachar;
 
 option go_package = "github.com/shravanshetty1/samachar/x/samachar/types";
 
-import "gogoproto/gogo.proto";
+//import "gogoproto/gogo.proto";
 
 message GenesisState {
 

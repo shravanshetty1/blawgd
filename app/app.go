@@ -220,7 +220,7 @@ func New(
 ) *App {
 
 	go func() {
-		fmt.Println("started frontend at port 2341")
+		fmt.Println("started frontend at port 2341...")
 		err := http.ListenAndServe(":2341", http.FileServer(http.Dir("./frontend/dist")))
 		if err != nil {
 			fmt.Println("failed to start frontend")

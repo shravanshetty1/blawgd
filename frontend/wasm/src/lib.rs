@@ -1,3 +1,4 @@
+mod blawgd_client;
 mod components;
 use cosmos_sdk_proto::cosmos::bank::v1beta1::MsgSend;
 use cosmos_sdk_proto::cosmos::base::v1beta1::Coin;

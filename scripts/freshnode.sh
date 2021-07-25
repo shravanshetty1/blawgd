@@ -1,10 +1,11 @@
 #!/bin/bash
 
-go install cmd/samachard/main.go
 
 rm -R ~/.samachar
 rm -R ~/.samachard
 rm -R ~/.samacharcli
+
+go install ./...
 
 samachard keys add alice --keyring-backend test
 samachard keys add bob --keyring-backend test
