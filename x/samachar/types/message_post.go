@@ -9,6 +9,7 @@ var _ sdk.Msg = &MsgCreatePost{}
 
 const (
 	POST_KEY         = "post-"
+	POST_COUNT_KEY   = "post-count"
 	ACCOUNT_INFO_KEY = "account-info-"
 	FOLLOWING_KEY    = "following-"
 )

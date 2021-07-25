@@ -2,8 +2,7 @@ package keeper
 
 import (
 	"fmt"
-
-	"github.com/google/uuid"
+	"math/big"
 
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 
@@ -37,20 +36,13 @@ func (k Keeper) Logger(ctx sdk.Context) log.Logger {
 func (k *Keeper) CreatePost(ctx sdk.Context, msg *types.MsgCreatePost) error {
 
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.POST_KEY))
-
-	var id string
-	var key []byte
-	for {
-		id = uuid.NewString()
-		key = types.KeyPrefix(types.POST_KEY + id)
-		if len(store.Get(key)) == 0 {
-			break
-		}
-	}
+	postCount := new(big.Int)
+	postCount.SetString(string(store.Get(types.KeyPrefix(types.POST_COUNT_KEY))), 10)
+	postCount.Add(postCount, big.NewInt(1))
 
 	post := types.Post{
 		Creator:    msg.Creator,
-		Id:         id,
+		Id:         postCount.String(),
 		Content:    msg.Content,
 		ParentPost: msg.ParentPost,
 		BlockNo:    ctx.BlockHeight(),
@@ -58,9 +50,37 @@ func (k *Keeper) CreatePost(ctx sdk.Context, msg *types.MsgCreatePost) error {
 	}
 
 	val := k.cdc.MustMarshal(&post)
-	store.Set(key, val)
+	store.Set(types.KeyPrefix(types.POST_KEY+postCount.String()), val)
+	store.Set(types.KeyPrefix(types.POST_COUNT_KEY), []byte(postCount.String()))
 
 	return nil
+}
+
+func (k *Keeper) GetPosts(ctx sdk.Context, index, count int64) ([]*types.Post, error) {
+
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.POST_KEY))
+	postCount := new(big.Int)
+	postCount.SetString(string(store.Get(types.KeyPrefix(types.POST_COUNT_KEY))), 10)
+	postCount.Sub(postCount, big.NewInt(index))
+
+	var posts []*types.Post
+	for i := int64(0); i < count; i++ {
+		if postCount.String() == "0" {
+			break
+		}
+
+		postRaw := store.Get(types.KeyPrefix(types.POST_KEY + postCount.String()))
+		var post types.Post
+		err := k.cdc.Unmarshal(postRaw, &post)
+		if err != nil {
+			return nil, err
+		}
+		posts = append(posts, &post)
+
+		postCount.Sub(postCount, big.NewInt(1))
+	}
+
+	return nil, nil
 }
 
 func (k *Keeper) UpdateAccountInfo(ctx sdk.Context, msg *types.MsgUpdateAccountInfo) error {

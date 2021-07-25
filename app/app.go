@@ -219,11 +219,13 @@ func New(
 	appOpts servertypes.AppOptions, baseAppOptions ...func(*baseapp.BaseApp),
 ) *App {
 
-	fmt.Println("started frontend at port 2341")
-	err := http.ListenAndServe(":2341", http.FileServer(http.Dir("./frontend/dist")))
-	if err != nil {
-		fmt.Println("failed to start frontend")
-	}
+	go func() {
+		fmt.Println("started frontend at port 2341")
+		err := http.ListenAndServe(":2341", http.FileServer(http.Dir("./frontend/dist")))
+		if err != nil {
+			fmt.Println("failed to start frontend")
+		}
+	}()
 
 	appCodec := encodingConfig.Marshaler
 	cdc := encodingConfig.Amino

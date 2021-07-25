@@ -10,13 +10,24 @@ message GenesisState {
 
 }
 
+service Query {
+  rpc GetPosts(GetPostsRequest) returns (GetPostsResponse);
+}
+
+message GetPostsRequest {
+  int64 index = 1;
+}
+
+message GetPostsResponse {
+  repeated Post posts = 1;
+}
+
 message Post {
   string creator = 1;
   string id = 2;
   string content = 3;
   string parent_post = 4;
   int64 block_no = 5;
-  // can implement custom features here such as retweet .etc.
   string metadata = 6;
 }
 
