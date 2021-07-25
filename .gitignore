@@ -3,4 +3,4 @@ secret.yml
 .idea
 
 frontend/wasm/target
-frontend/frontend-server/target
+frontend/rust-grpc-gen/target
