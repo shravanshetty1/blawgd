@@ -17,23 +17,37 @@ use crate::components::post_creator::PostCreator;
 use crate::components::Component;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::TxRaw;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::{BroadcastMode, Tx};
+use web_sys::console::log_1;
 
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
     console_error_panic_hook::set_once();
 
-    let nav_bar = NavBar::new();
-    let post_creator = PostCreator::new();
-    let post = Post::new();
-    let home_page_component =
-        BlawgdHTMLDoc::new(HomePage::new(nav_bar, post_creator, Box::new([post])));
+    let url: String = web_sys::window().unwrap().location().href().unwrap();
+    web_sys::console::log_1(&JsValue::from(format!("the url is - {}", url)));
+    let url_path = url.as_str().strip_prefix("http://localhost:2341/").unwrap();
+
+    let comp: Box<dyn Component> = match url_path {
+        "login" => {
+            let nav_bar = NavBar::new();
+            nav_bar
+        }
+        _ => {
+            let nav_bar = NavBar::new();
+            let post_creator = PostCreator::new();
+            let post = Post::new();
+            let home_page_component =
+                BlawgdHTMLDoc::new(HomePage::new(nav_bar, post_creator, Box::new([post])));
+            home_page_component
+        }
+    };
 
     let document = web_sys::window()
         .expect("no global `window` exists")
         .document()
         .expect("document missing");
     let body = document.body().expect("body missing");
-    body.set_inner_html(&home_page_component.to_html());
+    body.set_inner_html(&comp.to_html());
 
     Ok(())
 }

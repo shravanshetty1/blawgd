@@ -33,6 +33,7 @@ features = [
     'Node',
     'Window',
     'EventListener',
+    'Location'
 ]
 
 [patch.crates-io]
