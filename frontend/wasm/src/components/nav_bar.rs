@@ -22,10 +22,10 @@ impl super::Component for NavBar {
             <div class="nav-bar-menu-element">Profile</div>
             <div class="nav-bar-menu-element">About</div>
         </div>
-        <div class="login-link-component-wrapper">
+        <a href="/login" class="login-link-component-wrapper">
             <img src="profile.jpeg" class="post-component-account-info-image">
             <div class="login-link-component-text">Login/Logout</div>
-        </div>
+        </a>
     </div>"#
         ))
     }

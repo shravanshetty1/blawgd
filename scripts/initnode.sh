@@ -2,8 +2,6 @@
 
 
 rm -R ~/.samachar
-rm -R ~/.samachard
-rm -R ~/.samacharcli
 
 go install ./...
 
@@ -19,4 +17,3 @@ samachard add-genesis-account $ALICE_ADDRESS 100000000000stake,1000tok
 samachard add-genesis-account $BOB_ADDRESS 1000tok
 samachard gentx alice 100000000stake --chain-id samachar --keyring-backend test
 samachard collect-gentxs
-samachard start --minimum-gas-prices 0stake

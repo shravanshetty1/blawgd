@@ -17,13 +17,13 @@ impl super::Component for BlawgdHTMLDoc {
 <head>
     <meta charset="UTF-8">
     <title> Blawgd </title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 {}
 </body>
 <script type="module">
-    import init from './pkg/client.js';
+    import init from '/client.js';
 
     init();
 </script>
