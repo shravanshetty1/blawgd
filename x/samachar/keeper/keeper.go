@@ -99,6 +99,15 @@ func (k *Keeper) UpdateAccountInfo(ctx sdk.Context, msg *types.MsgUpdateAccountI
 	return nil
 }
 
+func (k *Keeper) GetAccountInfo(ctx sdk.Context, address string) *types.AccountInfo {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ACCOUNT_INFO_KEY))
+	accountInfoRaw := store.Get(types.KeyPrefix(types.ACCOUNT_INFO_KEY + address))
+
+	var accountInfo types.AccountInfo
+	k.cdc.MustUnmarshal(accountInfoRaw, &accountInfo)
+	return &accountInfo
+}
+
 func GetListWithoutRepeated(list []string) []string {
 	uniqList := make(map[string]struct{}, len(list))
 	for _, v := range list {

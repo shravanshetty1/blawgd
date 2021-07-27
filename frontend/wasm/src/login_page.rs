@@ -1,9 +1,11 @@
+use crate::blawgd_client::GetAccountInfoRequest;
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::login_page::LoginPage;
 use crate::components::nav_bar::NavBar;
 use crate::components::Component;
 use bip39::{Language, Mnemonic, MnemonicType};
 use gloo::events;
+use wasm_bindgen::JsValue;
 
 pub fn handle(window: &web_sys::Window) {
     let document = window.document().expect("document missing");
@@ -52,6 +54,30 @@ pub fn handle(window: &web_sys::Window) {
         let cosmos_dp = "m/44'/118'/0'/0/0";
 
         storage.set_item("wallet_mnemonic", &mnemonic);
+        wasm_bindgen_futures::spawn_local(async move {
+            let wallet = crw_wallet::crypto::MnemonicWallet::new(&mnemonic, cosmos_dp).unwrap();
+            let address = wallet.get_bech32_address("cosmos").unwrap();
+            let client = grpc_web_client::Client::new("http://localhost:9091".into());
+
+            let resp = super::blawgd_client::query_client::QueryClient::new(client)
+                .get_account_info(GetAccountInfoRequest {
+                    address: address.clone(),
+                })
+                .await
+                .unwrap();
+
+            let mut account_info = resp.get_ref().account_info.as_ref().unwrap().clone();
+            account_info.address = address;
+
+            let mut encoded_account_info: Vec<u8> = Vec::new();
+            prost::Message::encode(&account_info, &mut encoded_account_info);
+
+            let account_info_as_string = String::from_utf8(encoded_account_info).unwrap();
+            let window = web_sys::window().unwrap();
+            let storage = window.local_storage().unwrap().unwrap();
+            storage.set_item("account_info", &account_info_as_string);
+            window.location().reload();
+        });
     })
     .forget();
 }

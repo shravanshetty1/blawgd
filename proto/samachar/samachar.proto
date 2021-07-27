@@ -12,6 +12,15 @@ message GenesisState {
 
 service Query {
   rpc GetPosts(GetPostsRequest) returns (GetPostsResponse);
+  rpc GetAccountInfo(GetAccountInfoRequest) returns (GetAccountInfoResponse);
+}
+
+message GetAccountInfoRequest {
+  string address = 1;
+}
+
+message GetAccountInfoResponse {
+  AccountInfo account_info = 1;
 }
 
 message GetPostsRequest {

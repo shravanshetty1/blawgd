@@ -10,10 +10,6 @@ import (
 	"github.com/shravanshetty1/samachar/x/samachar/types"
 )
 
-type QueryServer struct {
-	keeper keeper.Keeper
-}
-
 func NewServer(keeper keeper.Keeper) *QueryServer {
 	return &QueryServer{
 		keeper: keeper,
@@ -21,6 +17,16 @@ func NewServer(keeper keeper.Keeper) *QueryServer {
 }
 
 const POSTS_PER_CALL = 30
+
+type QueryServer struct {
+	keeper keeper.Keeper
+}
+
+func (q *QueryServer) GetAccountInfo(ctx context.Context, req *types.GetAccountInfoRequest) (*types.GetAccountInfoResponse, error) {
+	accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), req.Address)
+
+	return &types.GetAccountInfoResponse{AccountInfo: accountInfo}, nil
+}
 
 func (q *QueryServer) GetPosts(ctx context.Context, req *types.GetPostsRequest) (*types.GetPostsResponse, error) {
 

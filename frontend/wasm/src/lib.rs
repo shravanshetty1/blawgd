@@ -18,7 +18,6 @@ use crate::components::post_creator::PostCreator;
 use crate::components::Component;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::TxRaw;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::{BroadcastMode, Tx};
-use web_sys::console::log_1;
 mod home_page;
 mod login_page;
 

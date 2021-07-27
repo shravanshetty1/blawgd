@@ -3,6 +3,16 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenesisState {}
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetAccountInfoRequest {
+    #[prost(string, tag = "1")]
+    pub address: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetAccountInfoResponse {
+    #[prost(message, optional, tag = "1")]
+    pub account_info: ::core::option::Option<AccountInfo>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsRequest {
     #[prost(int64, tag = "1")]
     pub index: i64,
@@ -116,6 +126,22 @@ pub mod query_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/shravanshetty1.samachar.samachar.Query/GetPosts",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        pub async fn get_account_info(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetAccountInfoRequest>,
+        ) -> Result<tonic::Response<super::GetAccountInfoResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/shravanshetty1.samachar.samachar.Query/GetAccountInfo",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
