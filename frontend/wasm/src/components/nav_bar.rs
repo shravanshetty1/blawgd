@@ -13,11 +13,11 @@ impl super::Component for NavBar {
         String::from(format!(
             r#"
     <div class="nav-bar">
-        <div class="nav-bar-header">
+        <a href="/" class="nav-bar-header">
             Blawgd
-        </div>
+        </a>
         <div class="nav-bar-menu">
-            <div class="nav-bar-menu-element">Home</div>
+            <a href="/" class="nav-bar-menu-element">Home</a>
             <div class="nav-bar-menu-element">Explore</div>
             <div class="nav-bar-menu-element">Profile</div>
             <div class="nav-bar-menu-element">About</div>

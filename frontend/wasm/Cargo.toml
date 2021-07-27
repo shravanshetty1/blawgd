@@ -23,6 +23,8 @@ cosmos-sdk-proto = "0.5.0"
 prost = { version = "0.7.0"}
 console_error_panic_hook = "0.1.6"
 tonic = { version = "0.4.3", default-features = false, features = ["codegen", "prost"] }
+tiny-bip39 = { version = "0.8.0", default-features = false }
+
 
 [dependencies.web-sys]
 version = "0.3.4"
@@ -33,7 +35,8 @@ features = [
     'Node',
     'Window',
     'EventListener',
-    'Location'
+    'Location',
+    'Storage',
 ]
 
 [patch.crates-io]

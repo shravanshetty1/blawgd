@@ -6,6 +6,11 @@ body {
     min-height: 100vh;
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 .page {
     display: flex;
     flex-direction: row;
@@ -56,8 +61,6 @@ body {
     border-radius: 1rem;
     display: flex;
     align-items: center;
-    text-decoration: none;
-    color: black;
 }
 
 .login-link-component-text{

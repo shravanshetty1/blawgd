@@ -213,6 +213,7 @@ dependencies = [
  "crw-wallet",
  "gloo",
  "prost",
+ "tiny-bip39",
  "tonic",
  "wasm-bindgen",
  "wasm-bindgen-futures",
