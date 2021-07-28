@@ -1,5 +1,3 @@
-use crate::components::Component;
-
 pub struct PostCreator {}
 
 impl PostCreator {

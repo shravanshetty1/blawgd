@@ -61,10 +61,14 @@ a {
     border-radius: 1rem;
     display: flex;
     align-items: center;
+    max-width: 85%;
 }
 
 .login-link-component-text{
     padding-left: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .login-component {
