@@ -1,37 +1,55 @@
 use super::Component;
 use crate::blawgd_client::AccountInfo;
 
-pub struct LoginPage {
+pub struct ProfilePage {
     nav_bar: Box<dyn Component>,
     account_info: Option<AccountInfo>,
+    show_edit_button: bool,
+    posts: Box<[Box<dyn Component>]>,
 }
 
-impl LoginPage {
-    pub fn new(nav_bar: Box<dyn Component>, account_info: Option<AccountInfo>) -> Box<LoginPage> {
-        Box::new(LoginPage {
+impl ProfilePage {
+    pub fn new(
+        nav_bar: Box<dyn Component>,
+        account_info: Option<AccountInfo>,
+        show_edit_button: bool,
+        posts: Box<[Box<dyn Component>]>,
+    ) -> Box<ProfilePage> {
+        Box::new(ProfilePage {
             nav_bar,
             account_info,
+            show_edit_button,
+            posts,
         })
     }
 }
 
-impl Component for LoginPage {
+impl Component for ProfilePage {
     fn to_html(&self) -> String {
+        let mut posts: String = String::new();
+        for post in self.posts.iter() {
+            posts = format!("{}{}", posts, post.to_html())
+        }
+
         let mut account_info_component = String::new();
         if self.account_info.is_some() {
             let mut account_info = self.account_info.as_ref().unwrap().clone();
 
+            let mut edit_button = String::new();
+            if self.show_edit_button {
+                edit_button = r#"<a href="/edit-profile" class="button">Edit Profile</a>"#.into()
+            }
+
             account_info_component = String::from(format!(
                 r#"
-                <div class="login-page-header">Currently logged in as</div>
                 <div class="account-info">
                     <img src="{}" class="account-info-photo">
                     <div class="account-info-name">{}</div>
                     <div class="account-info-address">@{}</div>
-                    <div id="logout-button" class="button">Logout</div>
+                    {}
                 </div>
                 "#,
-                account_info.photo, account_info.name, account_info.address
+                account_info.photo, account_info.name, account_info.address, edit_button
             ))
         }
 
@@ -41,20 +59,14 @@ impl Component for LoginPage {
     {}
     <div class="main-column">
         {}
-        <div class="login-component">
-            <textarea id="wallet-mnemonic" class="login-component-mnemonic" placeholder="Mnemonic here..."></textarea>
-            <input id="wallet-password" class="login-component-password" placeholder="Password here...">
-            <div class="login-component-buttons">
-                <div id="generate-account" class="button">Generate Account</div>
-                <div id="login" class="button">Login</div>
-            </div>
-        </div>
+        {}
     </div>
     <div class="secondary-column"></div>
 </div>
 "#,
             self.nav_bar.to_html(),
-            account_info_component
+            account_info_component,
+            posts
         ))
     }
 }

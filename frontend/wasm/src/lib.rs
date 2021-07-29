@@ -5,6 +5,7 @@ mod blawgd_client;
 mod components;
 mod home_page;
 mod login_page;
+mod profile_page;
 mod util;
 
 #[wasm_bindgen(start)]
@@ -17,6 +18,8 @@ pub fn main() -> Result<(), JsValue> {
     let url_path = url.as_str().strip_prefix("http://localhost:2341/").unwrap();
 
     match url_path {
+        "explore" => profile_page::handle(),
+        url if str::starts_with(url, "profile") => profile_page::handle(),
         "login" => login_page::handle(&window),
         _ => home_page::handle(),
     };

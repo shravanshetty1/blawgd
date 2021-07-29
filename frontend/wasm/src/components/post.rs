@@ -16,7 +16,7 @@ impl super::Component for Post {
             r#"
         <div class="post-component">
             <div class="post-component-text-wrapper">
-                <img src="profile.jpeg" class="post-component-account-info-image">
+                <img src="/profile.jpeg" class="post-component-account-info-image">
                 <div class="post-component-text-content">
                     <div class="post-component-account-info">
                         <div class="post-component-account-info-name">Bob Sag</div>

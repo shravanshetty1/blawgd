@@ -23,20 +23,17 @@ impl super::Component for NavBar {
         );
 
         if self.account_info.is_some() {
-            account_menu_items = String::from(
+            account_menu_items = String::from(format!(
                 r#"
             <a href="/explore" class="nav-bar-menu-element">Explore</a>
-            <a href="/profile" class="nav-bar-menu-element">Profile</a> 
+            <a href="/profile/{}" class="nav-bar-menu-element">Profile</a> 
             "#,
-            );
+                self.account_info.as_ref().unwrap().address
+            ));
 
             let account_info = self.account_info.as_ref().unwrap();
             let mut login_comp_image = account_info.photo.clone();
             let mut login_comp_text = account_info.name.clone();
-
-            if login_comp_image.is_empty() {
-                login_comp_image = "profile.jpeg".into();
-            }
 
             if login_comp_text.is_empty() {
                 login_comp_text = account_info.address.clone();

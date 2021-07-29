@@ -37,6 +37,24 @@ pub fn handle(window: &web_sys::Window) {
     })
     .forget();
 
+    if account_info.is_some() {
+        let logout_button = document
+            .get_element_by_id("logout-button")
+            .expect("logout element not found");
+
+        events::EventListener::new(&logout_button, "click", move |_| {
+            let window = web_sys::window().unwrap();
+            let storage = window
+                .local_storage()
+                .expect("storage object missing")
+                .unwrap();
+            storage.remove_item("wallet_mnemonic");
+            storage.remove_item("account_info");
+            window.location().reload();
+        })
+        .forget();
+    }
+
     let mnemonic_field = document
         .get_element_by_id("wallet-mnemonic")
         .expect("mnemonic element not found");
@@ -75,7 +93,15 @@ pub fn handle(window: &web_sys::Window) {
                 .unwrap();
 
             let mut account_info = resp.get_ref().account_info.as_ref().unwrap().clone();
-            account_info.address = address;
+            account_info.address = address.clone();
+            if account_info.photo.is_empty() {
+                account_info.photo = "/profile.jpeg".into();
+            }
+            if account_info.name.is_empty() {
+                let address_suffix: String =
+                    address.chars().skip(address.len() - 5).take(5).collect();
+                account_info.name = format!("anon{}", address_suffix)
+            }
 
             let mut encoded_account_info: Vec<u8> = Vec::new();
             prost::Message::encode(&account_info, &mut encoded_account_info);
