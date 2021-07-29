@@ -64,6 +64,10 @@ func (msg *MsgCreatePost) ValidateBasic() error {
 		}
 	}
 
+	if msg.Content == "" {
+		return sdkerrors.Wrapf(ErrMissingMandatoryField, "content cannot be empty")
+	}
+
 	if len(msg.Content) > 280 {
 		return sdkerrors.Wrapf(ErrInputLength, "post size larger than 280 characters")
 	}
