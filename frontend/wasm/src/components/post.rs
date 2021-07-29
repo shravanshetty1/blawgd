@@ -1,8 +1,12 @@
-pub struct Post {}
+use crate::blawgd_client::Post as PostObj;
+
+pub struct Post {
+    post: PostObj,
+}
 
 impl Post {
-    pub fn new() -> Box<Post> {
-        Box::new(Post {})
+    pub fn new(post: PostObj) -> Box<Post> {
+        Box::new(Post { post })
     }
 }
 
@@ -16,10 +20,10 @@ impl super::Component for Post {
                 <div class="post-component-text-content">
                     <div class="post-component-account-info">
                         <div class="post-component-account-info-name">Bob Sag</div>
-                        <div class="post-component-account-info-address">@sag</div>
+                        <div class="post-component-account-info-address">@{}</div>
                     </div>
                     <div class="post-component-text">
-                        Some tweet lololol. Some tweet ahahha.
+                        {}
                     </div>
                 </div>
             </div>
@@ -28,7 +32,8 @@ impl super::Component for Post {
                 <div class="post-component-bar-button"><div class="post-component-bar-button-content">Retweet</div></div>
                 <div class="post-component-bar-button"><div class="post-component-bar-button-content">Comment</div></div>
             </div>
-        </div>"#
+        </div>"#,
+            self.post.creator, self.post.content
         ))
     }
 }

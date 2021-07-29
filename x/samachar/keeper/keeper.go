@@ -80,7 +80,7 @@ func (k *Keeper) GetPosts(ctx sdk.Context, index, count int64) ([]*types.Post, e
 		postCount.Sub(postCount, big.NewInt(1))
 	}
 
-	return nil, nil
+	return posts, nil
 }
 
 func (k *Keeper) UpdateAccountInfo(ctx sdk.Context, msg *types.MsgUpdateAccountInfo) error {

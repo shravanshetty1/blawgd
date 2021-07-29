@@ -32,6 +32,8 @@ features = [
     'Document',
     'Element',
     'HtmlElement',
+    'HtmlInputElement',
+    'HtmlTextAreaElement',
     'Node',
     'Window',
     'EventListener',

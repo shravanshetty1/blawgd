@@ -9,4 +9,5 @@ import (
 // x/samachar module sentinel errors
 var (
 	ErrInputLength = sdkerrors.Register(ModuleName, 660, "invalid input length")
+	ErrInvalidId   = sdkerrors.Register(ModuleName, 661, "could not parse id")
 )

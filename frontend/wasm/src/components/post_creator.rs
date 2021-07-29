@@ -11,9 +11,9 @@ impl super::Component for PostCreator {
         String::from(format!(
             r#"
         <div class="post-creator">
-            <textarea class="post-creator-input"></textarea>
+            <textarea id="post-creator-input" class="post-creator-input"></textarea>
             <div class="post-creator-buttons">
-                <div class="post-creator-button-post">
+                <div id="post-creator-button" class="post-creator-button-post">
                     Post
                 </div>
             </div>

@@ -5,6 +5,7 @@ use crate::components::nav_bar::NavBar;
 use crate::components::Component;
 use bip39::{Language, Mnemonic, MnemonicType};
 use gloo::events;
+use wasm_bindgen::JsCast;
 
 pub fn handle(window: &web_sys::Window) {
     let document = window.document().expect("document missing");
@@ -14,8 +15,8 @@ pub fn handle(window: &web_sys::Window) {
         .unwrap();
 
     let account_info = super::util::get_account_info_from_storage(&storage);
-    let nav_bar = NavBar::new(account_info);
-    let comp = BlawgdHTMLDoc::new(LoginPage::new(nav_bar));
+    let nav_bar = NavBar::new(account_info.clone());
+    let comp = BlawgdHTMLDoc::new(LoginPage::new(nav_bar, account_info.clone()));
 
     let body = document.body().expect("body missing");
     body.set_inner_html(&comp.to_html());
@@ -49,16 +50,23 @@ pub fn handle(window: &web_sys::Window) {
     //     .expect("password element not found");
 
     events::EventListener::new(&login_element, "click", move |_| {
-        let mnemonic = mnemonic_field.text_content().unwrap();
+        let mnemonic: String = mnemonic_field
+            .dyn_ref::<web_sys::HtmlTextAreaElement>()
+            .unwrap()
+            .value();
+        let mnemonic: String = str::trim(mnemonic.as_str()).into();
+
         // let password = password_field.text_content().unwrap();
         let cosmos_dp = "m/44'/118'/0'/0/0";
+
+        super::util::console_log(mnemonic.as_str());
 
         storage.set_item("wallet_mnemonic", &mnemonic);
         wasm_bindgen_futures::spawn_local(async move {
             let wallet = crw_wallet::crypto::MnemonicWallet::new(&mnemonic, cosmos_dp).unwrap();
             let address = wallet.get_bech32_address("cosmos").unwrap();
-            let client = grpc_web_client::Client::new("http://localhost:9091".into());
 
+            let client = grpc_web_client::Client::new("http://localhost:9091".into());
             let resp = super::blawgd_client::query_client::QueryClient::new(client)
                 .get_account_info(GetAccountInfoRequest {
                     address: address.clone(),

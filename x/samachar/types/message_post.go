@@ -1,6 +1,8 @@
 package types
 
 import (
+	"math/big"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
@@ -55,9 +57,11 @@ func (msg *MsgCreatePost) ValidateBasic() error {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-	_, err = sdk.AccAddressFromBech32(msg.ParentPost)
-	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+	if msg.ParentPost != "" {
+		buf := new(big.Int)
+		if _, valid := buf.SetString(msg.ParentPost, 10); !valid {
+			return sdkerrors.Wrapf(ErrInvalidId, "could not parse parent post")
+		}
 	}
 
 	if len(msg.Content) > 280 {
