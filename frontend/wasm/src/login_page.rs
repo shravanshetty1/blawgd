@@ -90,10 +90,7 @@ fn register_event_listeners(document: &web_sys::Document, account_info: &Option<
                 .unwrap();
             let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
             let account_info = util::get_account_info(client, address.clone()).await;
-            let mut encoded_account_info: Vec<u8> = Vec::new();
-            prost::Message::encode(&account_info.clone(), &mut encoded_account_info);
-            let account_info_as_string = String::from_utf8(encoded_account_info).unwrap();
-            storage.set_item("account_info", &account_info_as_string);
+            util::set_account_info_in_storage(account_info, &storage);
 
             window.location().reload();
         });

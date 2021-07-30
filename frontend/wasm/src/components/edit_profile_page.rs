@@ -32,10 +32,10 @@ impl Component for EditProfilePage {
                 <input id="name-field" class="account-info-field" type="text" placeholder="Name here...">
                 <div class="new-account-info-buttons">
                     <div id="preview-button" class="button">Preview</div>
-                    <div class="button">Reset</div>
+                    <div id="reset-button" class="button">Reset</div>
                 </div>
             </div>
-            <div class="button">Update Profile</div>
+            <div id="update-profile" class="button">Update Profile</div>
         </div>
     </div>
     <div class="secondary-column"></div>

@@ -13,6 +13,8 @@ pub const COSMOS_DP: &str = "m/44'/118'/0'/0/0";
 pub const HOST_NAME: &str = "http://localhost:2341";
 pub const GRPC_WEB_ADDRESS: &str = "http://localhost:9091";
 pub const MSG_TYPE_CREATE_POST: &str = "/shravanshetty1.samachar.samachar.MsgCreatePost";
+pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str =
+    "/shravanshetty1.samachar.samachar.MsgUpdateAccountInfo";
 pub const ADDRESS_HRP: &str = "cosmos";
 
 pub fn get_account_info_from_storage(storage: &web_sys::Storage) -> Option<AccountInfo> {
@@ -25,6 +27,13 @@ pub fn get_account_info_from_storage(storage: &web_sys::Storage) -> Option<Accou
         }
     }
     account_info
+}
+
+pub fn set_account_info_in_storage(account_info: AccountInfo, storage: &web_sys::Storage) {
+    let mut encoded_account_info: Vec<u8> = Vec::new();
+    prost::Message::encode(&account_info.clone(), &mut encoded_account_info);
+    let account_info_as_string = String::from_utf8(encoded_account_info).unwrap();
+    storage.set_item("account_info", &account_info_as_string);
 }
 
 pub fn get_wallet(storage: &web_sys::Storage) -> Result<MnemonicWallet, &str> {
