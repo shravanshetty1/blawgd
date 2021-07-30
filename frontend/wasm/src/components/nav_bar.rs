@@ -32,7 +32,6 @@ impl super::Component for NavBar {
             ));
 
             let account_info = self.account_info.as_ref().unwrap();
-            let mut login_comp_image = account_info.photo.clone();
             let mut login_comp_text = account_info.name.clone();
 
             if login_comp_text.is_empty() {
@@ -46,7 +45,8 @@ impl super::Component for NavBar {
                 <div class="login-link-component-text">{}</div>
             </a>
             "#,
-                login_comp_image, login_comp_text
+                account_info.photo.clone(),
+                login_comp_text
             ));
         }
 

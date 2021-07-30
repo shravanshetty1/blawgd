@@ -121,13 +121,19 @@ a {
     border: 1px solid black;
 }
 
-.account-info {
+.account-info-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-height: 10rem;
     border-bottom: 1px solid black;
+}
+.account-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .account-info-photo {

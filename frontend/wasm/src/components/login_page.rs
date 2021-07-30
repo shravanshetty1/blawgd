@@ -3,11 +3,14 @@ use crate::blawgd_client::AccountInfo;
 
 pub struct LoginPage {
     nav_bar: Box<dyn Component>,
-    account_info: Option<AccountInfo>,
+    account_info: Option<Box<dyn Component>>,
 }
 
 impl LoginPage {
-    pub fn new(nav_bar: Box<dyn Component>, account_info: Option<AccountInfo>) -> Box<LoginPage> {
+    pub fn new(
+        nav_bar: Box<dyn Component>,
+        account_info: Option<Box<dyn Component>>,
+    ) -> Box<LoginPage> {
         Box::new(LoginPage {
             nav_bar,
             account_info,
@@ -19,19 +22,15 @@ impl Component for LoginPage {
     fn to_html(&self) -> String {
         let mut account_info_component = String::new();
         if self.account_info.is_some() {
-            let mut account_info = self.account_info.as_ref().unwrap().clone();
-
             account_info_component = String::from(format!(
                 r#"
                 <div class="login-page-header">Currently logged in as</div>
-                <div class="account-info">
-                    <img src="{}" class="account-info-photo">
-                    <div class="account-info-name">{}</div>
-                    <div class="account-info-address">@{}</div>
+                <div class="account-info-wrapper">
+                    {}
                     <div id="logout-button" class="button">Logout</div>
                 </div>
                 "#,
-                account_info.photo, account_info.name, account_info.address
+                self.account_info.as_ref().unwrap().to_html()
             ))
         }
 

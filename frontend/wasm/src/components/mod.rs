@@ -1,4 +1,6 @@
+pub mod account_info;
 pub mod blawgd_html;
+pub mod edit_profile_page;
 pub mod explore_page;
 pub mod home_page;
 pub mod login_page;

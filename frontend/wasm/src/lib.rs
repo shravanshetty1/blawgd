@@ -3,6 +3,7 @@ use wasm_bindgen::JsValue;
 use web_sys;
 mod blawgd_client;
 mod components;
+mod edit_profile_page;
 mod explore_page;
 mod home_page;
 mod login_page;
@@ -20,6 +21,7 @@ pub fn main() -> Result<(), JsValue> {
             .unwrap();
 
         match url_path {
+            "edit-profile" => edit_profile_page::handle().await,
             "explore" => explore_page::handle().await,
             url if str::starts_with(url, "profile") => profile_page::handle().await,
             "login" => login_page::handle().await,

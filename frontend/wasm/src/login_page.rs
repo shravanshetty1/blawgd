@@ -1,4 +1,5 @@
 use crate::blawgd_client::{AccountInfo, GetAccountInfoRequest};
+use crate::components::account_info::AccountInfoComp;
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::login_page::LoginPage;
 use crate::components::nav_bar::NavBar;
@@ -14,8 +15,13 @@ pub async fn handle() {
     let storage = window.local_storage().unwrap().unwrap();
 
     let account_info = util::get_account_info_from_storage(&storage);
+    let mut account_info_comp: Option<Box<dyn Component>> = None;
+    if account_info.is_some() {
+        account_info_comp = Some(AccountInfoComp::new(account_info.clone().unwrap()))
+    }
+
     let nav_bar = NavBar::new(account_info.clone());
-    let comp = BlawgdHTMLDoc::new(LoginPage::new(nav_bar, account_info.clone()));
+    let comp = BlawgdHTMLDoc::new(LoginPage::new(nav_bar, account_info_comp));
 
     let body = document.body().expect("body missing");
     body.set_inner_html(&comp.to_html());

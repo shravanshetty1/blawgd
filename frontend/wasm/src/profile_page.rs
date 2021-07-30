@@ -1,4 +1,5 @@
 use crate::blawgd_client::{GetAccountInfoRequest, GetPostsByAccountRequest};
+use crate::components::account_info::AccountInfoComp;
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::nav_bar::NavBar;
 use crate::components::post::Post;
@@ -43,7 +44,7 @@ pub async fn handle() {
     let nav_bar = NavBar::new(logged_in_account.clone());
     let comp = BlawgdHTMLDoc::new(ProfilePage::new(
         nav_bar,
-        Some(account_info.clone()),
+        AccountInfoComp::new(account_info.clone()),
         show_edit_button,
         posts.into_boxed_slice(),
     ));
