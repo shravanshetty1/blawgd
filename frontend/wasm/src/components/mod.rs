@@ -1,4 +1,5 @@
 pub mod blawgd_html;
+pub mod explore_page;
 pub mod home_page;
 pub mod login_page;
 pub mod nav_bar;

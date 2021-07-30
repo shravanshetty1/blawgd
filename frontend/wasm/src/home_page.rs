@@ -18,7 +18,7 @@ pub async fn handle() {
         .expect("storage object missing")
         .unwrap();
 
-    let client = grpc_web_client::Client::new("http://localhost:9091".into());
+    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
     let posts_resp = BlawgdQueryClient::new(client)
         .get_posts_by_parent_post(GetPostsByParentPostRequest {
             parent_post: "".to_string(),
