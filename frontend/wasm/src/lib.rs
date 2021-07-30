@@ -11,18 +11,20 @@ mod util;
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
     console_error_panic_hook::set_once();
+    wasm_bindgen_futures::spawn_local(async move {
+        let url: String = web_sys::window().unwrap().location().href().unwrap();
+        let url_path = url
+            .as_str()
+            .strip_prefix(format!("{}/", util::HOST_NAME).as_str())
+            .unwrap();
 
-    let window = web_sys::window().unwrap();
-
-    let url: String = window.location().href().unwrap();
-    let url_path = url.as_str().strip_prefix("http://localhost:2341/").unwrap();
-
-    match url_path {
-        "explore" => profile_page::handle(),
-        url if str::starts_with(url, "profile") => profile_page::handle(),
-        "login" => login_page::handle(&window),
-        _ => home_page::handle(),
-    };
+        match url_path {
+            "explore" => profile_page::handle().await,
+            url if str::starts_with(url, "profile") => profile_page::handle().await,
+            "login" => login_page::handle().await,
+            _ => home_page::handle().await,
+        };
+    });
 
     Ok(())
 }

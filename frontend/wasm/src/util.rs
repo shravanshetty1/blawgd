@@ -1,4 +1,4 @@
-use crate::blawgd_client::AccountInfo;
+use crate::blawgd_client::{AccountInfo, GetAccountInfoRequest};
 use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::{BaseAccount, QueryAccountRequest};
 use cosmos_sdk_proto::cosmos::tx::v1beta1::service_client::ServiceClient;
@@ -8,6 +8,12 @@ use cosmos_sdk_proto::cosmos::tx::v1beta1::{
 use crw_client::tx::TxBuilder;
 use crw_wallet::crypto::MnemonicWallet;
 use wasm_bindgen::JsValue;
+
+pub const COSMOS_DP: &str = "m/44'/118'/0'/0/0";
+pub const HOST_NAME: &str = "http://localhost:2341";
+pub const GRPC_WEB_ADDRESS: &str = "http://localhost:9091";
+pub const MSG_TYPE_CREATE_POST: &str = "/shravanshetty1.samachar.samachar.MsgCreatePost";
+pub const ADDRESS_HRP: &str = "cosmos";
 
 pub fn get_account_info_from_storage(storage: &web_sys::Storage) -> Option<AccountInfo> {
     let account_info_raw: Option<String> = storage.get_item("account_info").unwrap();
@@ -19,6 +25,20 @@ pub fn get_account_info_from_storage(storage: &web_sys::Storage) -> Option<Accou
         }
     }
     account_info
+}
+
+pub fn get_wallet(storage: &web_sys::Storage) -> Result<MnemonicWallet, &str> {
+    let mnemonic = get_mnemonic_from_storage(storage);
+
+    // Validation
+    if mnemonic.is_none() {
+        return Err("cannot create wallet since user has not logged in");
+    }
+
+    Ok(
+        crw_wallet::crypto::MnemonicWallet::new(mnemonic.unwrap().as_str(), COSMOS_DP)
+            .expect("could not generate alice wallet"),
+    )
 }
 
 pub fn get_mnemonic_from_storage(storage: &web_sys::Storage) -> Option<String> {
@@ -55,13 +75,12 @@ pub fn serialize_tx(tx: &Tx) -> Vec<u8> {
 pub async fn broadcast_tx<M: prost::Message>(
     wallet: &MnemonicWallet,
     client: grpc_web_client::Client,
-    address: &str,
     msg_type: &str,
     msg: M,
 ) -> tonic::Response<BroadcastTxResponse> {
     let acc_resp = QueryClient::new(client.clone())
         .account(QueryAccountRequest {
-            address: address.into(),
+            address: wallet.get_bech32_address(ADDRESS_HRP).unwrap(),
         })
         .await
         .unwrap();
@@ -87,4 +106,24 @@ pub async fn broadcast_tx<M: prost::Message>(
         })
         .await
         .unwrap()
+}
+
+pub async fn get_account_info(client: grpc_web_client::Client, address: String) -> AccountInfo {
+    let resp = super::blawgd_client::query_client::QueryClient::new(client)
+        .get_account_info(GetAccountInfoRequest {
+            address: address.clone(),
+        })
+        .await
+        .unwrap();
+
+    let mut account_info = resp.get_ref().account_info.as_ref().unwrap().clone();
+    account_info.address = address.clone();
+    if account_info.photo.is_empty() {
+        account_info.photo = "/profile.jpeg".into();
+    }
+    if account_info.name.is_empty() {
+        let name_suffix: String = address.chars().skip(address.len() - 5).take(5).collect();
+        account_info.name = format!("anon{}", name_suffix);
+    }
+    account_info
 }
