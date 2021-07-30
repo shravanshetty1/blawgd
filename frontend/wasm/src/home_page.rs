@@ -1,5 +1,5 @@
 use crate::blawgd_client::query_client::QueryClient as BlawgdQueryClient;
-use crate::blawgd_client::GetPostsRequest;
+use crate::blawgd_client::GetPostsByParentPostRequest;
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::home_page::HomePage;
 use crate::components::nav_bar::NavBar;
@@ -20,7 +20,10 @@ pub async fn handle() {
 
     let client = grpc_web_client::Client::new("http://localhost:9091".into());
     let posts_resp = BlawgdQueryClient::new(client)
-        .get_posts(GetPostsRequest { index: 0 })
+        .get_posts_by_parent_post(GetPostsByParentPostRequest {
+            parent_post: "".to_string(),
+            index: 0,
+        })
         .await
         .unwrap();
     let mut posts: Vec<Box<dyn Component>> = Vec::new();

@@ -3,6 +3,18 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenesisState {}
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPostsByAccountRequest {
+    #[prost(string, tag = "1")]
+    pub address: ::prost::alloc::string::String,
+    #[prost(int64, tag = "2")]
+    pub index: i64,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPostsByAccountResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub posts: ::prost::alloc::vec::Vec<Post>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetAccountInfoRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -13,12 +25,14 @@ pub struct GetAccountInfoResponse {
     pub account_info: ::core::option::Option<AccountInfo>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPostsRequest {
-    #[prost(int64, tag = "1")]
+pub struct GetPostsByParentPostRequest {
+    #[prost(string, tag = "1")]
+    pub parent_post: ::prost::alloc::string::String,
+    #[prost(int64, tag = "2")]
     pub index: i64,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetPostsResponse {
+pub struct GetPostsByParentPostResponse {
     #[prost(message, repeated, tag = "1")]
     pub posts: ::prost::alloc::vec::Vec<Post>,
 }
@@ -113,10 +127,10 @@ pub mod query_client {
             let inner = tonic::client::Grpc::with_interceptor(inner, interceptor);
             Self { inner }
         }
-        pub async fn get_posts(
+        pub async fn get_posts_by_parent_post(
             &mut self,
-            request: impl tonic::IntoRequest<super::GetPostsRequest>,
-        ) -> Result<tonic::Response<super::GetPostsResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::GetPostsByParentPostRequest>,
+        ) -> Result<tonic::Response<super::GetPostsByParentPostResponse>, tonic::Status> {
             self.inner.ready().await.map_err(|e| {
                 tonic::Status::new(
                     tonic::Code::Unknown,
@@ -125,7 +139,23 @@ pub mod query_client {
             })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/shravanshetty1.samachar.samachar.Query/GetPosts",
+                "/shravanshetty1.samachar.samachar.Query/GetPostsByParentPost",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        pub async fn get_posts_by_account(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetPostsByAccountRequest>,
+        ) -> Result<tonic::Response<super::GetPostsByAccountResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/shravanshetty1.samachar.samachar.Query/GetPostsByAccount",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

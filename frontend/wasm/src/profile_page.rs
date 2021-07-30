@@ -1,4 +1,4 @@
-use crate::blawgd_client::{GetAccountInfoRequest, GetPostsRequest};
+use crate::blawgd_client::{GetAccountInfoRequest, GetPostsByAccountRequest};
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::nav_bar::NavBar;
 use crate::components::post::Post;
@@ -28,7 +28,10 @@ pub async fn handle() {
     }
 
     let posts_resp = super::blawgd_client::query_client::QueryClient::new(client)
-        .get_posts(GetPostsRequest { index: 0 })
+        .get_posts_by_account(GetPostsByAccountRequest {
+            address: account_info.address.clone(),
+            index: 0,
+        })
         .await
         .unwrap();
     let mut posts: Vec<Box<dyn Component>> = Vec::new();

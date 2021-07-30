@@ -11,9 +11,20 @@ message GenesisState {
 }
 
 service Query {
-  rpc GetPosts(GetPostsRequest) returns (GetPostsResponse);
+  rpc GetPostsByParentPost(GetPostsByParentPostRequest) returns (GetPostsByParentPostResponse);
+  rpc GetPostsByAccount(GetPostsByAccountRequest) returns (GetPostsByAccountResponse);
   rpc GetAccountInfo(GetAccountInfoRequest) returns (GetAccountInfoResponse);
 }
+
+message GetPostsByAccountRequest {
+  string address = 1;
+  int64 index = 2;
+}
+
+message GetPostsByAccountResponse {
+  repeated Post posts = 1;
+}
+
 
 message GetAccountInfoRequest {
   string address = 1;
@@ -23,11 +34,12 @@ message GetAccountInfoResponse {
   AccountInfo account_info = 1;
 }
 
-message GetPostsRequest {
-  int64 index = 1;
+message GetPostsByParentPostRequest {
+  string parent_post = 1;
+  int64 index = 2;
 }
 
-message GetPostsResponse {
+message GetPostsByParentPostResponse {
   repeated Post posts = 1;
 }
 

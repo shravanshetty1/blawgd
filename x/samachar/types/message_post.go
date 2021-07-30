@@ -10,10 +10,14 @@ import (
 var _ sdk.Msg = &MsgCreatePost{}
 
 const (
-	POST_KEY         = "post-"
-	POST_COUNT_KEY   = "post-count"
-	ACCOUNT_INFO_KEY = "account-info-"
-	FOLLOWING_KEY    = "following-"
+	POST_KEY            = "post-"
+	POST_COUNT_KEY      = "post-count"
+	SUB_POST_KEY        = "sub-post-"
+	SUB_POST_COUNT_KEY  = "sub-post-count-"
+	USER_POST_KEY       = "user-post-"
+	USER_POST_COUNT_KEY = "user-post-count-"
+	ACCOUNT_INFO_KEY    = "account-info-"
+	FOLLOWING_KEY       = "following-"
 )
 
 func NewMsgCreatePost(creator, content, parentPost, metadata string) *MsgCreatePost {

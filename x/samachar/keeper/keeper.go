@@ -53,7 +53,79 @@ func (k *Keeper) CreatePost(ctx sdk.Context, msg *types.MsgCreatePost) error {
 	store.Set(types.KeyPrefix(types.POST_KEY+postCount.String()), val)
 	store.Set(types.KeyPrefix(types.POST_COUNT_KEY), []byte(postCount.String()))
 
+	store = prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SUB_POST_KEY))
+	subPostCount := new(big.Int)
+	subPostCount.SetString(string(store.Get(types.KeyPrefix(types.SUB_POST_COUNT_KEY+post.ParentPost))), 10)
+	subPostCount.Add(subPostCount, big.NewInt(1))
+	store.Set(types.KeyPrefix(types.SUB_POST_KEY+post.ParentPost+"-"+subPostCount.String()), []byte(post.Id))
+	store.Set(types.KeyPrefix(types.SUB_POST_COUNT_KEY+post.ParentPost), []byte(subPostCount.String()))
+
+	store = prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.USER_POST_KEY))
+	userPostCount := new(big.Int)
+	userPostCount.SetString(string(store.Get(types.KeyPrefix(types.USER_POST_COUNT_KEY+post.Creator))), 10)
+	userPostCount.Add(userPostCount, big.NewInt(1))
+	store.Set(types.KeyPrefix(types.USER_POST_KEY+post.Creator+"-"+userPostCount.String()), []byte(post.Id))
+	store.Set(types.KeyPrefix(types.USER_POST_COUNT_KEY+post.Creator), []byte(userPostCount.String()))
+
 	return nil
+}
+
+func (k *Keeper) GetPostsByParentPost(ctx sdk.Context, parentPost string, index, count int64) ([]*types.Post, error) {
+
+	postStore := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.POST_KEY))
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SUB_POST_KEY))
+	postCount := new(big.Int)
+	postCount.SetString(string(store.Get(types.KeyPrefix(types.SUB_POST_COUNT_KEY+parentPost))), 10)
+	postCount.Sub(postCount, big.NewInt(index))
+
+	var posts []*types.Post
+	for i := int64(0); i < count; i++ {
+		if postCount.String() == "0" {
+			break
+		}
+
+		postId := store.Get(types.KeyPrefix(types.SUB_POST_KEY + parentPost + "-" + postCount.String()))
+		postRaw := postStore.Get(types.KeyPrefix(types.POST_KEY + string(postId)))
+		var post types.Post
+		err := k.cdc.Unmarshal(postRaw, &post)
+		if err != nil {
+			return nil, err
+		}
+		posts = append(posts, &post)
+
+		postCount.Sub(postCount, big.NewInt(1))
+	}
+
+	return posts, nil
+}
+
+func (k *Keeper) GetPostsByAccount(ctx sdk.Context, address string, index, count int64) ([]*types.Post, error) {
+
+	postStore := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.POST_KEY))
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.USER_POST_KEY))
+	postCount := new(big.Int)
+	postCount.SetString(string(store.Get(types.KeyPrefix(types.USER_POST_COUNT_KEY+address))), 10)
+	postCount.Sub(postCount, big.NewInt(index))
+
+	var posts []*types.Post
+	for i := int64(0); i < count; i++ {
+		if postCount.String() == "0" {
+			break
+		}
+
+		postId := store.Get(types.KeyPrefix(types.USER_POST_KEY + address + "-" + postCount.String()))
+		postRaw := postStore.Get(types.KeyPrefix(types.POST_KEY + string(postId)))
+		var post types.Post
+		err := k.cdc.Unmarshal(postRaw, &post)
+		if err != nil {
+			return nil, err
+		}
+		posts = append(posts, &post)
+
+		postCount.Sub(postCount, big.NewInt(1))
+	}
+
+	return posts, nil
 }
 
 func (k *Keeper) GetPosts(ctx sdk.Context, index, count int64) ([]*types.Post, error) {

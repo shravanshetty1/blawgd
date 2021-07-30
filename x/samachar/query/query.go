@@ -22,18 +22,26 @@ type QueryServer struct {
 	keeper keeper.Keeper
 }
 
+func (q *QueryServer) GetPostsByAccount(ctx context.Context, req *types.GetPostsByAccountRequest) (*types.GetPostsByAccountResponse, error) {
+	posts, err := q.keeper.GetPostsByAccount(sdk.UnwrapSDKContext(ctx), req.Address, req.Index, POSTS_PER_CALL)
+	if err != nil {
+		return nil, err
+	}
+
+	return &types.GetPostsByAccountResponse{Posts: posts}, nil
+}
+
 func (q *QueryServer) GetAccountInfo(ctx context.Context, req *types.GetAccountInfoRequest) (*types.GetAccountInfoResponse, error) {
 	accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), req.Address)
 
 	return &types.GetAccountInfoResponse{AccountInfo: accountInfo}, nil
 }
 
-func (q *QueryServer) GetPosts(ctx context.Context, req *types.GetPostsRequest) (*types.GetPostsResponse, error) {
-
-	posts, err := q.keeper.GetPosts(sdk.UnwrapSDKContext(ctx), req.Index, POSTS_PER_CALL)
+func (q *QueryServer) GetPostsByParentPost(ctx context.Context, req *types.GetPostsByParentPostRequest) (*types.GetPostsByParentPostResponse, error) {
+	posts, err := q.keeper.GetPostsByParentPost(sdk.UnwrapSDKContext(ctx), req.ParentPost, req.Index, POSTS_PER_CALL)
 	if err != nil {
 		return nil, err
 	}
 
-	return &types.GetPostsResponse{Posts: posts}, nil
+	return &types.GetPostsByParentPostResponse{Posts: posts}, nil
 }

@@ -63,6 +63,102 @@ func (m *GenesisState) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GenesisState proto.InternalMessageInfo
 
+type GetPostsByAccountRequest struct {
+	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+	Index   int64  `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`
+}
+
+func (m *GetPostsByAccountRequest) Reset()         { *m = GetPostsByAccountRequest{} }
+func (m *GetPostsByAccountRequest) String() string { return proto.CompactTextString(m) }
+func (*GetPostsByAccountRequest) ProtoMessage()    {}
+func (*GetPostsByAccountRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a0d591a6c948f33, []int{1}
+}
+func (m *GetPostsByAccountRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetPostsByAccountRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetPostsByAccountRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetPostsByAccountRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetPostsByAccountRequest.Merge(m, src)
+}
+func (m *GetPostsByAccountRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetPostsByAccountRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetPostsByAccountRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetPostsByAccountRequest proto.InternalMessageInfo
+
+func (m *GetPostsByAccountRequest) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+func (m *GetPostsByAccountRequest) GetIndex() int64 {
+	if m != nil {
+		return m.Index
+	}
+	return 0
+}
+
+type GetPostsByAccountResponse struct {
+	Posts []*Post `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty"`
+}
+
+func (m *GetPostsByAccountResponse) Reset()         { *m = GetPostsByAccountResponse{} }
+func (m *GetPostsByAccountResponse) String() string { return proto.CompactTextString(m) }
+func (*GetPostsByAccountResponse) ProtoMessage()    {}
+func (*GetPostsByAccountResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a0d591a6c948f33, []int{2}
+}
+func (m *GetPostsByAccountResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetPostsByAccountResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetPostsByAccountResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetPostsByAccountResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetPostsByAccountResponse.Merge(m, src)
+}
+func (m *GetPostsByAccountResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetPostsByAccountResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetPostsByAccountResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetPostsByAccountResponse proto.InternalMessageInfo
+
+func (m *GetPostsByAccountResponse) GetPosts() []*Post {
+	if m != nil {
+		return m.Posts
+	}
+	return nil
+}
+
 type GetAccountInfoRequest struct {
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
 }
@@ -71,7 +167,7 @@ func (m *GetAccountInfoRequest) Reset()         { *m = GetAccountInfoRequest{} }
 func (m *GetAccountInfoRequest) String() string { return proto.CompactTextString(m) }
 func (*GetAccountInfoRequest) ProtoMessage()    {}
 func (*GetAccountInfoRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{1}
+	return fileDescriptor_8a0d591a6c948f33, []int{3}
 }
 func (m *GetAccountInfoRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -115,7 +211,7 @@ func (m *GetAccountInfoResponse) Reset()         { *m = GetAccountInfoResponse{}
 func (m *GetAccountInfoResponse) String() string { return proto.CompactTextString(m) }
 func (*GetAccountInfoResponse) ProtoMessage()    {}
 func (*GetAccountInfoResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{2}
+	return fileDescriptor_8a0d591a6c948f33, []int{4}
 }
 func (m *GetAccountInfoResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -151,22 +247,23 @@ func (m *GetAccountInfoResponse) GetAccountInfo() *AccountInfo {
 	return nil
 }
 
-type GetPostsRequest struct {
-	Index int64 `protobuf:"varint,1,opt,name=index,proto3" json:"index,omitempty"`
+type GetPostsByParentPostRequest struct {
+	ParentPost string `protobuf:"bytes,1,opt,name=parent_post,json=parentPost,proto3" json:"parent_post,omitempty"`
+	Index      int64  `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`
 }
 
-func (m *GetPostsRequest) Reset()         { *m = GetPostsRequest{} }
-func (m *GetPostsRequest) String() string { return proto.CompactTextString(m) }
-func (*GetPostsRequest) ProtoMessage()    {}
-func (*GetPostsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{3}
+func (m *GetPostsByParentPostRequest) Reset()         { *m = GetPostsByParentPostRequest{} }
+func (m *GetPostsByParentPostRequest) String() string { return proto.CompactTextString(m) }
+func (*GetPostsByParentPostRequest) ProtoMessage()    {}
+func (*GetPostsByParentPostRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a0d591a6c948f33, []int{5}
 }
-func (m *GetPostsRequest) XXX_Unmarshal(b []byte) error {
+func (m *GetPostsByParentPostRequest) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetPostsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetPostsByParentPostRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetPostsRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetPostsByParentPostRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -176,41 +273,48 @@ func (m *GetPostsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return b[:n], nil
 	}
 }
-func (m *GetPostsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetPostsRequest.Merge(m, src)
+func (m *GetPostsByParentPostRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetPostsByParentPostRequest.Merge(m, src)
 }
-func (m *GetPostsRequest) XXX_Size() int {
+func (m *GetPostsByParentPostRequest) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetPostsRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetPostsRequest.DiscardUnknown(m)
+func (m *GetPostsByParentPostRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetPostsByParentPostRequest.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetPostsRequest proto.InternalMessageInfo
+var xxx_messageInfo_GetPostsByParentPostRequest proto.InternalMessageInfo
 
-func (m *GetPostsRequest) GetIndex() int64 {
+func (m *GetPostsByParentPostRequest) GetParentPost() string {
+	if m != nil {
+		return m.ParentPost
+	}
+	return ""
+}
+
+func (m *GetPostsByParentPostRequest) GetIndex() int64 {
 	if m != nil {
 		return m.Index
 	}
 	return 0
 }
 
-type GetPostsResponse struct {
+type GetPostsByParentPostResponse struct {
 	Posts []*Post `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty"`
 }
 
-func (m *GetPostsResponse) Reset()         { *m = GetPostsResponse{} }
-func (m *GetPostsResponse) String() string { return proto.CompactTextString(m) }
-func (*GetPostsResponse) ProtoMessage()    {}
-func (*GetPostsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{4}
+func (m *GetPostsByParentPostResponse) Reset()         { *m = GetPostsByParentPostResponse{} }
+func (m *GetPostsByParentPostResponse) String() string { return proto.CompactTextString(m) }
+func (*GetPostsByParentPostResponse) ProtoMessage()    {}
+func (*GetPostsByParentPostResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_8a0d591a6c948f33, []int{6}
 }
-func (m *GetPostsResponse) XXX_Unmarshal(b []byte) error {
+func (m *GetPostsByParentPostResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetPostsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *GetPostsByParentPostResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetPostsResponse.Marshal(b, m, deterministic)
+		return xxx_messageInfo_GetPostsByParentPostResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -220,19 +324,19 @@ func (m *GetPostsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return b[:n], nil
 	}
 }
-func (m *GetPostsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetPostsResponse.Merge(m, src)
+func (m *GetPostsByParentPostResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetPostsByParentPostResponse.Merge(m, src)
 }
-func (m *GetPostsResponse) XXX_Size() int {
+func (m *GetPostsByParentPostResponse) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetPostsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetPostsResponse.DiscardUnknown(m)
+func (m *GetPostsByParentPostResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetPostsByParentPostResponse.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetPostsResponse proto.InternalMessageInfo
+var xxx_messageInfo_GetPostsByParentPostResponse proto.InternalMessageInfo
 
-func (m *GetPostsResponse) GetPosts() []*Post {
+func (m *GetPostsByParentPostResponse) GetPosts() []*Post {
 	if m != nil {
 		return m.Posts
 	}
@@ -252,7 +356,7 @@ func (m *Post) Reset()         { *m = Post{} }
 func (m *Post) String() string { return proto.CompactTextString(m) }
 func (*Post) ProtoMessage()    {}
 func (*Post) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{5}
+	return fileDescriptor_8a0d591a6c948f33, []int{7}
 }
 func (m *Post) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -334,7 +438,7 @@ func (m *AccountInfo) Reset()         { *m = AccountInfo{} }
 func (m *AccountInfo) String() string { return proto.CompactTextString(m) }
 func (*AccountInfo) ProtoMessage()    {}
 func (*AccountInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{6}
+	return fileDescriptor_8a0d591a6c948f33, []int{8}
 }
 func (m *AccountInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -400,7 +504,7 @@ func (m *Following) Reset()         { *m = Following{} }
 func (m *Following) String() string { return proto.CompactTextString(m) }
 func (*Following) ProtoMessage()    {}
 func (*Following) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{7}
+	return fileDescriptor_8a0d591a6c948f33, []int{9}
 }
 func (m *Following) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -454,7 +558,7 @@ func (m *MsgCreatePost) Reset()         { *m = MsgCreatePost{} }
 func (m *MsgCreatePost) String() string { return proto.CompactTextString(m) }
 func (*MsgCreatePost) ProtoMessage()    {}
 func (*MsgCreatePost) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{8}
+	return fileDescriptor_8a0d591a6c948f33, []int{10}
 }
 func (m *MsgCreatePost) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -522,7 +626,7 @@ func (m *MsgUpdateAccountInfo) Reset()         { *m = MsgUpdateAccountInfo{} }
 func (m *MsgUpdateAccountInfo) String() string { return proto.CompactTextString(m) }
 func (*MsgUpdateAccountInfo) ProtoMessage()    {}
 func (*MsgUpdateAccountInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{9}
+	return fileDescriptor_8a0d591a6c948f33, []int{11}
 }
 func (m *MsgUpdateAccountInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -588,7 +692,7 @@ func (m *MsgFollow) Reset()         { *m = MsgFollow{} }
 func (m *MsgFollow) String() string { return proto.CompactTextString(m) }
 func (*MsgFollow) ProtoMessage()    {}
 func (*MsgFollow) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{10}
+	return fileDescriptor_8a0d591a6c948f33, []int{12}
 }
 func (m *MsgFollow) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -640,7 +744,7 @@ func (m *MsgStopFollow) Reset()         { *m = MsgStopFollow{} }
 func (m *MsgStopFollow) String() string { return proto.CompactTextString(m) }
 func (*MsgStopFollow) ProtoMessage()    {}
 func (*MsgStopFollow) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{11}
+	return fileDescriptor_8a0d591a6c948f33, []int{13}
 }
 func (m *MsgStopFollow) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -685,10 +789,12 @@ func (m *MsgStopFollow) GetAddress() string {
 
 func init() {
 	proto.RegisterType((*GenesisState)(nil), "shravanshetty1.samachar.samachar.GenesisState")
+	proto.RegisterType((*GetPostsByAccountRequest)(nil), "shravanshetty1.samachar.samachar.GetPostsByAccountRequest")
+	proto.RegisterType((*GetPostsByAccountResponse)(nil), "shravanshetty1.samachar.samachar.GetPostsByAccountResponse")
 	proto.RegisterType((*GetAccountInfoRequest)(nil), "shravanshetty1.samachar.samachar.GetAccountInfoRequest")
 	proto.RegisterType((*GetAccountInfoResponse)(nil), "shravanshetty1.samachar.samachar.GetAccountInfoResponse")
-	proto.RegisterType((*GetPostsRequest)(nil), "shravanshetty1.samachar.samachar.GetPostsRequest")
-	proto.RegisterType((*GetPostsResponse)(nil), "shravanshetty1.samachar.samachar.GetPostsResponse")
+	proto.RegisterType((*GetPostsByParentPostRequest)(nil), "shravanshetty1.samachar.samachar.GetPostsByParentPostRequest")
+	proto.RegisterType((*GetPostsByParentPostResponse)(nil), "shravanshetty1.samachar.samachar.GetPostsByParentPostResponse")
 	proto.RegisterType((*Post)(nil), "shravanshetty1.samachar.samachar.Post")
 	proto.RegisterType((*AccountInfo)(nil), "shravanshetty1.samachar.samachar.AccountInfo")
 	proto.RegisterType((*Following)(nil), "shravanshetty1.samachar.samachar.Following")
@@ -701,42 +807,45 @@ func init() {
 func init() { proto.RegisterFile("samachar/samachar.proto", fileDescriptor_8a0d591a6c948f33) }
 
 var fileDescriptor_8a0d591a6c948f33 = []byte{
-	// 550 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x54, 0xcf, 0x6e, 0xd3, 0x4e,
-	0x10, 0x8e, 0x9d, 0xa4, 0x4d, 0x26, 0xfd, 0xe5, 0x87, 0x56, 0x05, 0x4c, 0x0e, 0x26, 0xf2, 0x01,
-	0x7a, 0x21, 0x51, 0xd2, 0x03, 0x1c, 0x90, 0x10, 0x54, 0x10, 0x71, 0x08, 0x0a, 0xa9, 0xb8, 0x70,
-	0x89, 0x36, 0xf6, 0xc6, 0x36, 0xc4, 0xbb, 0xae, 0x77, 0x52, 0x9a, 0x5b, 0x25, 0x5e, 0x80, 0x67,
-	0xe0, 0x69, 0x38, 0xf6, 0xc8, 0x11, 0x25, 0x2f, 0x82, 0xbc, 0xb6, 0xf3, 0xaf, 0x6a, 0x42, 0x11,
-	0xb7, 0xfd, 0xc6, 0xf3, 0xcd, 0x7c, 0xf3, 0x59, 0x33, 0x70, 0x5f, 0xd2, 0x80, 0xda, 0x1e, 0x8d,
-	0x9a, 0xd9, 0xa3, 0x11, 0x46, 0x02, 0x05, 0xa9, 0x4b, 0x2f, 0xa2, 0xe7, 0x94, 0x4b, 0x8f, 0x21,
-	0x4e, 0x5b, 0x8d, 0xc5, 0xe7, 0xec, 0x61, 0x55, 0xe1, 0xa0, 0xc3, 0x38, 0x93, 0xbe, 0x3c, 0x45,
-	0x8a, 0xcc, 0x6a, 0xc1, 0xdd, 0x0e, 0xc3, 0x97, 0xb6, 0x2d, 0x26, 0x1c, 0xdf, 0xf2, 0x91, 0xe8,
-	0xb3, 0xb3, 0x09, 0x93, 0x48, 0x0c, 0xd8, 0xa7, 0x8e, 0x13, 0x31, 0x29, 0x0d, 0xad, 0xae, 0x1d,
-	0x95, 0xfb, 0x19, 0xb4, 0x3e, 0xc1, 0xbd, 0x4d, 0x8a, 0x0c, 0x05, 0x97, 0x8c, 0xf4, 0xe0, 0x80,
-	0x26, 0xe1, 0x81, 0xcf, 0x47, 0x42, 0x11, 0x2b, 0xed, 0x27, 0x8d, 0x5d, 0xaa, 0x1a, 0xab, 0xc5,
-	0x2a, 0x74, 0x09, 0xac, 0xc7, 0xf0, 0x7f, 0x87, 0x61, 0x4f, 0x48, 0x94, 0x99, 0xb0, 0x43, 0x28,
-	0xfa, 0xdc, 0x61, 0x17, 0xaa, 0x7a, 0xbe, 0x9f, 0x00, 0xab, 0x07, 0x77, 0x96, 0x89, 0xa9, 0x9c,
-	0xe7, 0x50, 0x0c, 0xe3, 0x80, 0xa1, 0xd5, 0xf3, 0x47, 0x95, 0xf6, 0xa3, 0xdd, 0x3a, 0x62, 0x7e,
-	0x3f, 0x21, 0x59, 0xdf, 0x35, 0x28, 0xc4, 0x38, 0x76, 0xc2, 0x8e, 0x18, 0x45, 0x11, 0x65, 0x4e,
-	0xa4, 0x90, 0x54, 0x41, 0xf7, 0x1d, 0x43, 0x57, 0x41, 0xdd, 0x77, 0x54, 0xa6, 0xe0, 0xc8, 0x38,
-	0x1a, 0xf9, 0x34, 0x33, 0x81, 0xe4, 0x21, 0x54, 0x42, 0x1a, 0x31, 0x8e, 0x83, 0xb8, 0xb8, 0x51,
-	0x50, 0x5f, 0x21, 0x09, 0xa9, 0x26, 0x0f, 0xa0, 0x34, 0x1c, 0x0b, 0xfb, 0xf3, 0x80, 0x0b, 0xa3,
-	0xa8, 0x06, 0xdb, 0x57, 0xf8, 0x9d, 0x20, 0x35, 0x28, 0x05, 0x0c, 0xa9, 0x43, 0x91, 0x1a, 0x7b,
-	0x8a, 0xb8, 0xc0, 0x56, 0x00, 0x95, 0x15, 0xef, 0x6e, 0xfe, 0x69, 0x84, 0x40, 0x81, 0xd3, 0x80,
-	0xa5, 0x62, 0xd5, 0x3b, 0x76, 0x32, 0xf4, 0x04, 0x8a, 0x54, 0x6c, 0x02, 0xd6, 0xda, 0x15, 0x36,
-	0xda, 0xbd, 0x86, 0xf2, 0x1b, 0x31, 0x1e, 0x8b, 0x2f, 0x3e, 0x77, 0xb7, 0x34, 0x33, 0x01, 0x46,
-	0x59, 0x9a, 0x34, 0xf4, 0x7a, 0x3e, 0x1e, 0x76, 0x19, 0xb1, 0x2e, 0x35, 0xf8, 0xaf, 0x2b, 0xdd,
-	0x93, 0xd8, 0x46, 0xb6, 0xc3, 0xe3, 0x15, 0x4f, 0xf5, 0xad, 0x9e, 0xe6, 0xaf, 0x79, 0xba, 0x6d,
-	0x92, 0x73, 0x38, 0xec, 0x4a, 0xf7, 0x43, 0xe8, 0x50, 0x64, 0x1b, 0x0e, 0xde, 0x20, 0xe4, 0xdf,
-	0x38, 0xf8, 0x02, 0xca, 0x5d, 0xe9, 0x26, 0x26, 0x6e, 0x9f, 0x3a, 0xf3, 0x56, 0x5f, 0xdf, 0xbe,
-	0x13, 0x65, 0xdd, 0x29, 0x8a, 0xf0, 0xef, 0x8b, 0xb4, 0x2f, 0x75, 0x28, 0xbe, 0x9f, 0xb0, 0x68,
-	0x4a, 0xce, 0xa0, 0x94, 0xed, 0x0d, 0x69, 0xed, 0x5e, 0x90, 0x8d, 0x65, 0xac, 0xb5, 0x6f, 0x43,
-	0x49, 0xd7, 0xf2, 0xab, 0x06, 0xd5, 0xf5, 0x03, 0x42, 0x9e, 0xfe, 0x51, 0x99, 0xeb, 0x57, 0xaa,
-	0xf6, 0xec, 0xf6, 0xc4, 0x44, 0xc5, 0xab, 0xee, 0x8f, 0x99, 0xa9, 0x5d, 0xcd, 0x4c, 0xed, 0xd7,
-	0xcc, 0xd4, 0xbe, 0xcd, 0xcd, 0xdc, 0xd5, 0xdc, 0xcc, 0xfd, 0x9c, 0x9b, 0xb9, 0x8f, 0xc7, 0xae,
-	0x8f, 0xde, 0x64, 0xd8, 0xb0, 0x45, 0xd0, 0x5c, 0xaf, 0xbe, 0x38, 0xb7, 0xcd, 0x8b, 0xe5, 0x13,
-	0xa7, 0x21, 0x93, 0xc3, 0x3d, 0x75, 0x80, 0x8f, 0x7f, 0x07, 0x00, 0x00, 0xff, 0xff, 0xb2, 0x8f,
-	0x13, 0x27, 0x9b, 0x05, 0x00, 0x00,
+	// 607 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x55, 0xcb, 0x6e, 0xd3, 0x40,
+	0x14, 0xed, 0xd8, 0x49, 0xdb, 0xdc, 0x94, 0x48, 0x58, 0x01, 0xdc, 0x80, 0x4c, 0xe4, 0x05, 0xca,
+	0x86, 0x44, 0x4d, 0x17, 0x20, 0x9e, 0xa2, 0x15, 0x44, 0x20, 0x05, 0x85, 0x14, 0x16, 0x20, 0xa4,
+	0x68, 0x62, 0x4f, 0x12, 0x43, 0x32, 0x63, 0x3c, 0x93, 0xd2, 0xec, 0x90, 0xd8, 0xb2, 0x60, 0xc3,
+	0x0f, 0xf0, 0x0d, 0x7c, 0x04, 0xcb, 0x2e, 0x59, 0xa2, 0xe4, 0x47, 0x90, 0xc7, 0x76, 0xde, 0x75,
+	0x68, 0xd4, 0xdd, 0x9c, 0xf1, 0xdc, 0x33, 0xe7, 0x1c, 0xf9, 0xde, 0x81, 0x6b, 0x1c, 0xf7, 0xb0,
+	0xd5, 0xc1, 0x5e, 0x29, 0x5a, 0x14, 0x5d, 0x8f, 0x09, 0xa6, 0xe5, 0x79, 0xc7, 0xc3, 0xc7, 0x98,
+	0xf2, 0x0e, 0x11, 0x62, 0xb0, 0x57, 0x1c, 0x7f, 0x8e, 0x16, 0x66, 0x06, 0x76, 0x2a, 0x84, 0x12,
+	0xee, 0xf0, 0x23, 0x81, 0x05, 0x31, 0x5f, 0x80, 0x5e, 0x21, 0xa2, 0xc6, 0xb8, 0xe0, 0x07, 0x83,
+	0x27, 0x96, 0xc5, 0xfa, 0x54, 0xd4, 0xc9, 0xa7, 0x3e, 0xe1, 0x42, 0xd3, 0x61, 0x0b, 0xdb, 0xb6,
+	0x47, 0x38, 0xd7, 0x51, 0x1e, 0x15, 0x52, 0xf5, 0x08, 0x6a, 0x59, 0x48, 0x3a, 0xd4, 0x26, 0x27,
+	0xba, 0x92, 0x47, 0x05, 0xb5, 0x1e, 0x00, 0xf3, 0x2d, 0xec, 0x2e, 0xe1, 0xe2, 0x2e, 0xa3, 0x9c,
+	0x68, 0x0f, 0x20, 0xe9, 0xfa, 0x5f, 0x74, 0x94, 0x57, 0x0b, 0xe9, 0xf2, 0xad, 0xe2, 0x2a, 0xa9,
+	0x45, 0x9f, 0xa8, 0x1e, 0x14, 0x99, 0x7b, 0x70, 0xa5, 0x42, 0x44, 0xc8, 0xf9, 0x9c, 0xb6, 0xd8,
+	0x4a, 0x8d, 0xe6, 0x07, 0xb8, 0x3a, 0x5f, 0x12, 0x4a, 0xa9, 0xc1, 0x0e, 0x0e, 0xb6, 0x1b, 0x0e,
+	0x6d, 0x31, 0x59, 0x98, 0x2e, 0xdf, 0x5e, 0xad, 0x68, 0x9a, 0x2c, 0x8d, 0x27, 0xc0, 0x7c, 0x0d,
+	0xd7, 0x27, 0xce, 0x6b, 0xd8, 0x23, 0x54, 0x82, 0x48, 0xe4, 0x4d, 0x48, 0xbb, 0x72, 0xb3, 0xe1,
+	0xbb, 0x09, 0x85, 0x82, 0x3b, 0x3e, 0x77, 0x46, 0x9e, 0xef, 0xe1, 0xc6, 0x72, 0xd6, 0x0b, 0x89,
+	0xf4, 0x27, 0x82, 0x84, 0xbc, 0x5c, 0x87, 0x2d, 0xcb, 0x23, 0x58, 0x30, 0x2f, 0x8a, 0x30, 0x84,
+	0x5a, 0x06, 0x14, 0xc7, 0x96, 0x9a, 0x52, 0x75, 0xc5, 0xb1, 0xe5, 0x49, 0x46, 0x05, 0xa1, 0x42,
+	0x57, 0xc3, 0x93, 0x01, 0x9c, 0x77, 0x98, 0x58, 0x70, 0xb8, 0x0b, 0xdb, 0xcd, 0x2e, 0xb3, 0x3e,
+	0x36, 0x28, 0xd3, 0x93, 0xd2, 0xe4, 0x96, 0xc4, 0x2f, 0x99, 0x96, 0x83, 0xed, 0x1e, 0x11, 0xd8,
+	0xc6, 0x02, 0xeb, 0x9b, 0xb2, 0x70, 0x8c, 0xcd, 0x1e, 0xa4, 0xa7, 0x42, 0x8f, 0xf9, 0x23, 0x35,
+	0x48, 0x50, 0xdc, 0x23, 0xa1, 0x58, 0xb9, 0xf6, 0x53, 0x75, 0x3b, 0x4c, 0xb0, 0x50, 0x6c, 0x00,
+	0x66, 0xae, 0x4b, 0xcc, 0x5d, 0xf7, 0x14, 0x52, 0xcf, 0x58, 0xb7, 0xcb, 0x3e, 0x3b, 0xb4, 0x1d,
+	0x73, 0x99, 0x01, 0xd0, 0x8a, 0x8e, 0x71, 0x5d, 0xc9, 0xab, 0xbe, 0xd9, 0xc9, 0x8e, 0xf9, 0x05,
+	0xc1, 0xa5, 0x2a, 0x6f, 0x1f, 0xfa, 0x31, 0x92, 0x15, 0x19, 0x4f, 0x65, 0xaa, 0xc4, 0x66, 0xaa,
+	0x2e, 0x64, 0x1a, 0xe7, 0xe4, 0x18, 0xb2, 0x55, 0xde, 0x7e, 0xe3, 0xda, 0x58, 0x90, 0xb9, 0x04,
+	0xcf, 0x10, 0x72, 0x31, 0x09, 0x3e, 0x86, 0x54, 0x95, 0xb7, 0x83, 0x10, 0xe3, 0x5d, 0x47, 0xd9,
+	0x2a, 0xb3, 0x6d, 0x7b, 0x28, 0xa3, 0x3b, 0x12, 0xcc, 0x5d, 0x9f, 0xa4, 0xfc, 0x4b, 0x85, 0xe4,
+	0xab, 0x3e, 0xf1, 0x06, 0xda, 0x0f, 0x04, 0xd9, 0x65, 0x4d, 0xa4, 0x3d, 0x5c, 0xdd, 0x2d, 0x31,
+	0x2d, 0x9d, 0x7b, 0xb4, 0x6e, 0x79, 0xd8, 0xbb, 0xdf, 0x10, 0x5c, 0x5e, 0x18, 0x96, 0xda, 0xbd,
+	0xf3, 0xb0, 0xce, 0x4e, 0xeb, 0xdc, 0xfd, 0xb5, 0x6a, 0x43, 0x39, 0x5f, 0x11, 0x64, 0x66, 0xa7,
+	0xa5, 0x76, 0xe7, 0xbf, 0xf8, 0x16, 0x47, 0x72, 0xee, 0xee, 0xf9, 0x0b, 0x03, 0x15, 0x07, 0xd5,
+	0xdf, 0x43, 0x03, 0x9d, 0x0e, 0x0d, 0xf4, 0x77, 0x68, 0xa0, 0xef, 0x23, 0x63, 0xe3, 0x74, 0x64,
+	0x6c, 0xfc, 0x19, 0x19, 0x1b, 0xef, 0xf6, 0xdb, 0x8e, 0xe8, 0xf4, 0x9b, 0x45, 0x8b, 0xf5, 0x4a,
+	0xb3, 0xec, 0xe3, 0x27, 0xb0, 0x74, 0x32, 0x59, 0x8a, 0x81, 0x4b, 0x78, 0x73, 0x53, 0x3e, 0x8a,
+	0xfb, 0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0xfe, 0x10, 0xfc, 0x83, 0x2f, 0x07, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -751,7 +860,8 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
-	GetPosts(ctx context.Context, in *GetPostsRequest, opts ...grpc.CallOption) (*GetPostsResponse, error)
+	GetPostsByParentPost(ctx context.Context, in *GetPostsByParentPostRequest, opts ...grpc.CallOption) (*GetPostsByParentPostResponse, error)
+	GetPostsByAccount(ctx context.Context, in *GetPostsByAccountRequest, opts ...grpc.CallOption) (*GetPostsByAccountResponse, error)
 	GetAccountInfo(ctx context.Context, in *GetAccountInfoRequest, opts ...grpc.CallOption) (*GetAccountInfoResponse, error)
 }
 
@@ -763,9 +873,18 @@ func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 	return &queryClient{cc}
 }
 
-func (c *queryClient) GetPosts(ctx context.Context, in *GetPostsRequest, opts ...grpc.CallOption) (*GetPostsResponse, error) {
-	out := new(GetPostsResponse)
-	err := c.cc.Invoke(ctx, "/shravanshetty1.samachar.samachar.Query/GetPosts", in, out, opts...)
+func (c *queryClient) GetPostsByParentPost(ctx context.Context, in *GetPostsByParentPostRequest, opts ...grpc.CallOption) (*GetPostsByParentPostResponse, error) {
+	out := new(GetPostsByParentPostResponse)
+	err := c.cc.Invoke(ctx, "/shravanshetty1.samachar.samachar.Query/GetPostsByParentPost", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) GetPostsByAccount(ctx context.Context, in *GetPostsByAccountRequest, opts ...grpc.CallOption) (*GetPostsByAccountResponse, error) {
+	out := new(GetPostsByAccountResponse)
+	err := c.cc.Invoke(ctx, "/shravanshetty1.samachar.samachar.Query/GetPostsByAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -783,7 +902,8 @@ func (c *queryClient) GetAccountInfo(ctx context.Context, in *GetAccountInfoRequ
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
-	GetPosts(context.Context, *GetPostsRequest) (*GetPostsResponse, error)
+	GetPostsByParentPost(context.Context, *GetPostsByParentPostRequest) (*GetPostsByParentPostResponse, error)
+	GetPostsByAccount(context.Context, *GetPostsByAccountRequest) (*GetPostsByAccountResponse, error)
 	GetAccountInfo(context.Context, *GetAccountInfoRequest) (*GetAccountInfoResponse, error)
 }
 
@@ -791,8 +911,11 @@ type QueryServer interface {
 type UnimplementedQueryServer struct {
 }
 
-func (*UnimplementedQueryServer) GetPosts(ctx context.Context, req *GetPostsRequest) (*GetPostsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPosts not implemented")
+func (*UnimplementedQueryServer) GetPostsByParentPost(ctx context.Context, req *GetPostsByParentPostRequest) (*GetPostsByParentPostResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPostsByParentPost not implemented")
+}
+func (*UnimplementedQueryServer) GetPostsByAccount(ctx context.Context, req *GetPostsByAccountRequest) (*GetPostsByAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPostsByAccount not implemented")
 }
 func (*UnimplementedQueryServer) GetAccountInfo(ctx context.Context, req *GetAccountInfoRequest) (*GetAccountInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAccountInfo not implemented")
@@ -802,20 +925,38 @@ func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
 	s.RegisterService(&_Query_serviceDesc, srv)
 }
 
-func _Query_GetPosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostsRequest)
+func _Query_GetPostsByParentPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPostsByParentPostRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QueryServer).GetPosts(ctx, in)
+		return srv.(QueryServer).GetPostsByParentPost(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/shravanshetty1.samachar.samachar.Query/GetPosts",
+		FullMethod: "/shravanshetty1.samachar.samachar.Query/GetPostsByParentPost",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetPosts(ctx, req.(*GetPostsRequest))
+		return srv.(QueryServer).GetPostsByParentPost(ctx, req.(*GetPostsByParentPostRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_GetPostsByAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPostsByAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetPostsByAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/shravanshetty1.samachar.samachar.Query/GetPostsByAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetPostsByAccount(ctx, req.(*GetPostsByAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -843,8 +984,12 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetPosts",
-			Handler:    _Query_GetPosts_Handler,
+			MethodName: "GetPostsByParentPost",
+			Handler:    _Query_GetPostsByParentPost_Handler,
+		},
+		{
+			MethodName: "GetPostsByAccount",
+			Handler:    _Query_GetPostsByAccount_Handler,
 		},
 		{
 			MethodName: "GetAccountInfo",
@@ -875,6 +1020,78 @@ func (m *GenesisState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *GetPostsByAccountRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetPostsByAccountRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetPostsByAccountRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.Index != 0 {
+		i = encodeVarintSamachar(dAtA, i, uint64(m.Index))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetPostsByAccountResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetPostsByAccountResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetPostsByAccountResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Posts) > 0 {
+		for iNdEx := len(m.Posts) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Posts[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintSamachar(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -943,7 +1160,7 @@ func (m *GetAccountInfoResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) 
 	return len(dAtA) - i, nil
 }
 
-func (m *GetPostsRequest) Marshal() (dAtA []byte, err error) {
+func (m *GetPostsByParentPostRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -953,12 +1170,12 @@ func (m *GetPostsRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetPostsRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetPostsByParentPostRequest) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetPostsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetPostsByParentPostRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -966,12 +1183,19 @@ func (m *GetPostsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	if m.Index != 0 {
 		i = encodeVarintSamachar(dAtA, i, uint64(m.Index))
 		i--
-		dAtA[i] = 0x8
+		dAtA[i] = 0x10
+	}
+	if len(m.ParentPost) > 0 {
+		i -= len(m.ParentPost)
+		copy(dAtA[i:], m.ParentPost)
+		i = encodeVarintSamachar(dAtA, i, uint64(len(m.ParentPost)))
+		i--
+		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
 
-func (m *GetPostsResponse) Marshal() (dAtA []byte, err error) {
+func (m *GetPostsByParentPostResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -981,12 +1205,12 @@ func (m *GetPostsResponse) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetPostsResponse) MarshalTo(dAtA []byte) (int, error) {
+func (m *GetPostsByParentPostResponse) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetPostsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *GetPostsByParentPostResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -1357,6 +1581,37 @@ func (m *GenesisState) Size() (n int) {
 	return n
 }
 
+func (m *GetPostsByAccountRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovSamachar(uint64(l))
+	}
+	if m.Index != 0 {
+		n += 1 + sovSamachar(uint64(m.Index))
+	}
+	return n
+}
+
+func (m *GetPostsByAccountResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Posts) > 0 {
+		for _, e := range m.Posts {
+			l = e.Size()
+			n += 1 + l + sovSamachar(uint64(l))
+		}
+	}
+	return n
+}
+
 func (m *GetAccountInfoRequest) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1383,19 +1638,23 @@ func (m *GetAccountInfoResponse) Size() (n int) {
 	return n
 }
 
-func (m *GetPostsRequest) Size() (n int) {
+func (m *GetPostsByParentPostRequest) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
+	l = len(m.ParentPost)
+	if l > 0 {
+		n += 1 + l + sovSamachar(uint64(l))
+	}
 	if m.Index != 0 {
 		n += 1 + sovSamachar(uint64(m.Index))
 	}
 	return n
 }
 
-func (m *GetPostsResponse) Size() (n int) {
+func (m *GetPostsByParentPostResponse) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -1626,6 +1885,191 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+func (m *GetPostsByAccountRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowSamachar
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetPostsByAccountRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetPostsByAccountRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
+			}
+			m.Index = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.Index |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipSamachar(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetPostsByAccountResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowSamachar
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetPostsByAccountResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetPostsByAccountResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Posts", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Posts = append(m.Posts, &Post{})
+			if err := m.Posts[len(m.Posts)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipSamachar(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
 func (m *GetAccountInfoRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1794,7 +2238,7 @@ func (m *GetAccountInfoResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetPostsRequest) Unmarshal(dAtA []byte) error {
+func (m *GetPostsByParentPostRequest) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1817,13 +2261,45 @@ func (m *GetPostsRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetPostsRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetPostsByParentPostRequest: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetPostsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetPostsByParentPostRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ParentPost", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ParentPost = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
 			}
@@ -1863,7 +2339,7 @@ func (m *GetPostsRequest) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetPostsResponse) Unmarshal(dAtA []byte) error {
+func (m *GetPostsByParentPostResponse) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1886,10 +2362,10 @@ func (m *GetPostsResponse) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetPostsResponse: wiretype end group for non-group")
+			return fmt.Errorf("proto: GetPostsByParentPostResponse: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetPostsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: GetPostsByParentPostResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
