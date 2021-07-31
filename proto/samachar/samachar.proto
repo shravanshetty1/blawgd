@@ -11,9 +11,18 @@ message GenesisState {
 }
 
 service Query {
+  rpc GetPost(GetPostRequest) returns (GetPostResponse);
   rpc GetPostsByParentPost(GetPostsByParentPostRequest) returns (GetPostsByParentPostResponse);
   rpc GetPostsByAccount(GetPostsByAccountRequest) returns (GetPostsByAccountResponse);
   rpc GetAccountInfo(GetAccountInfoRequest) returns (GetAccountInfoResponse);
+}
+
+message GetPostRequest {
+  string id = 1;
+}
+
+message GetPostResponse {
+  PostView post = 1;
 }
 
 message GetPostsByAccountRequest {

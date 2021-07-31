@@ -29,17 +29,16 @@ grpc-web-client = { git = "https://github.com/titanous/grpc-web-client", branch 
 [dependencies.web-sys]
 version = "0.3.4"
 features = [
+    'Window',
     'Document',
     'Element',
-    'HtmlElement',
+    'Storage',
+    'EventListener',
+    'Location',
+    'Node',
     'HtmlInputElement',
     'HtmlTextAreaElement',
     'HtmlImageElement',
-    'Node',
-    'Window',
-    'EventListener',
-    'Location',
-    'Storage',
 ]
 
 [patch.crates-io]

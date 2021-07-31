@@ -22,6 +22,27 @@ type QueryServer struct {
 	keeper keeper.Keeper
 }
 
+func (q *QueryServer) GetPost(ctx context.Context, req *types.GetPostRequest) (*types.GetPostResponse, error) {
+	post, err := q.keeper.GetPost(sdk.UnwrapSDKContext(ctx), req.Id)
+	if err != nil {
+		return nil, err
+	}
+
+	accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), post.Creator)
+	accountInfo.Address = post.Creator
+
+	postView := &types.PostView{
+		Creator:    accountInfo,
+		Id:         post.Id,
+		Content:    post.Content,
+		ParentPost: post.ParentPost,
+		BlockNo:    post.BlockNo,
+		Metadata:   post.Metadata,
+	}
+
+	return &types.GetPostResponse{Post: postView}, nil
+}
+
 func (q *QueryServer) GetPostsByAccount(ctx context.Context, req *types.GetPostsByAccountRequest) (*types.GetPostsByAccountResponse, error) {
 	posts, err := q.keeper.GetPostsByAccount(sdk.UnwrapSDKContext(ctx), req.Address, req.Index, POSTS_PER_CALL)
 	if err != nil {
@@ -31,6 +52,8 @@ func (q *QueryServer) GetPostsByAccount(ctx context.Context, req *types.GetPosts
 	var postViews []*types.PostView
 	for _, post := range posts {
 		accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), post.Creator)
+		accountInfo.Address = post.Creator
+
 		postView := &types.PostView{
 			Creator:    accountInfo,
 			Id:         post.Id,

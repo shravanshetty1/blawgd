@@ -1,8 +1,16 @@
-pub struct PostCreator {}
+pub struct PostCreator {
+    button_text: String,
+}
 
 impl PostCreator {
     pub fn new() -> Box<PostCreator> {
-        Box::new(PostCreator {})
+        Box::new(PostCreator {
+            button_text: "Post".into(),
+        })
+    }
+
+    pub fn set_button_text(&mut self, text: &str) {
+        self.button_text = text.into();
     }
 }
 
@@ -14,10 +22,11 @@ impl super::Component for PostCreator {
             <textarea id="post-creator-input" class="post-creator-input"></textarea>
             <div class="post-creator-buttons">
                 <div id="post-creator-button" class="post-creator-button-post">
-                    Post
+                    {}
                 </div>
             </div>
-        </div>"#
+        </div>"#,
+            self.button_text
         ))
     }
 }

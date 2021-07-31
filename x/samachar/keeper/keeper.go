@@ -99,6 +99,19 @@ func (k *Keeper) GetPostsByParentPost(ctx sdk.Context, parentPost string, index,
 	return posts, nil
 }
 
+func (k *Keeper) GetPost(ctx sdk.Context, id string) (*types.Post, error) {
+
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.POST_KEY))
+	postRaw := store.Get(types.KeyPrefix(types.POST_KEY + id))
+	var post types.Post
+	err := k.cdc.Unmarshal(postRaw, &post)
+	if err != nil {
+		return nil, err
+	}
+
+	return &post, nil
+}
+
 func (k *Keeper) GetPostsByAccount(ctx sdk.Context, address string, index, count int64) ([]*types.Post, error) {
 
 	postStore := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.POST_KEY))

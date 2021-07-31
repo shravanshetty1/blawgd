@@ -3,6 +3,16 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenesisState {}
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPostRequest {
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetPostResponse {
+    #[prost(message, optional, tag = "1")]
+    pub post: ::core::option::Option<PostView>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsByAccountRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -141,6 +151,22 @@ pub mod query_client {
         pub fn with_interceptor(inner: T, interceptor: impl Into<tonic::Interceptor>) -> Self {
             let inner = tonic::client::Grpc::with_interceptor(inner, interceptor);
             Self { inner }
+        }
+        pub async fn get_post(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetPostRequest>,
+        ) -> Result<tonic::Response<super::GetPostResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/shravanshetty1.samachar.samachar.Query/GetPost",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
         }
         pub async fn get_posts_by_parent_post(
             &mut self,
