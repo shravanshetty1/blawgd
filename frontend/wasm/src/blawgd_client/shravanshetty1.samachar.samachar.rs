@@ -12,7 +12,7 @@ pub struct GetPostsByAccountRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsByAccountResponse {
     #[prost(message, repeated, tag = "1")]
-    pub posts: ::prost::alloc::vec::Vec<Post>,
+    pub posts: ::prost::alloc::vec::Vec<PostView>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetAccountInfoRequest {
@@ -34,12 +34,27 @@ pub struct GetPostsByParentPostRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsByParentPostResponse {
     #[prost(message, repeated, tag = "1")]
-    pub posts: ::prost::alloc::vec::Vec<Post>,
+    pub posts: ::prost::alloc::vec::Vec<PostView>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Post {
     #[prost(string, tag = "1")]
     pub creator: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub id: ::prost::alloc::string::String,
+    #[prost(string, tag = "3")]
+    pub content: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub parent_post: ::prost::alloc::string::String,
+    #[prost(int64, tag = "5")]
+    pub block_no: i64,
+    #[prost(string, tag = "6")]
+    pub metadata: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct PostView {
+    #[prost(message, optional, tag = "1")]
+    pub creator: ::core::option::Option<AccountInfo>,
     #[prost(string, tag = "2")]
     pub id: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]

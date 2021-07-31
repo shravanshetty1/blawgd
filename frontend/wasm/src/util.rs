@@ -126,6 +126,10 @@ pub async fn get_account_info(client: grpc_web_client::Client, address: String) 
         .unwrap();
 
     let mut account_info = resp.get_ref().account_info.as_ref().unwrap().clone();
+    normalize_account_info(account_info, address)
+}
+
+pub fn normalize_account_info(mut account_info: AccountInfo, address: String) -> AccountInfo {
     account_info.address = address.clone();
     if account_info.photo.is_empty() {
         account_info.photo = "/profile.jpeg".into();

@@ -22,7 +22,7 @@ message GetPostsByAccountRequest {
 }
 
 message GetPostsByAccountResponse {
-  repeated Post posts = 1;
+  repeated PostView posts = 1;
 }
 
 
@@ -40,11 +40,20 @@ message GetPostsByParentPostRequest {
 }
 
 message GetPostsByParentPostResponse {
-  repeated Post posts = 1;
+  repeated PostView posts = 1;
 }
 
 message Post {
   string creator = 1;
+  string id = 2;
+  string content = 3;
+  string parent_post = 4;
+  int64 block_no = 5;
+  string metadata = 6;
+}
+
+message PostView {
+  AccountInfo creator = 1;
   string id = 2;
   string content = 3;
   string parent_post = 4;

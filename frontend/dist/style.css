@@ -233,6 +233,11 @@ a {
     justify-content: center;
 }
 
+.post-component-bar-button:hover{
+    color: white;
+    background-color: black;
+}
+
 .post-component-bar-button-content {
     text-align: center;
 }
@@ -285,6 +290,9 @@ a {
 
 .post-component-account-info-name {
     font-size: 150%;
+}
+.post-component-account-info-name:hover{
+    text-decoration: underline;
 }
 
 .post-component-account-info-address {

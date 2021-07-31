@@ -28,7 +28,21 @@ func (q *QueryServer) GetPostsByAccount(ctx context.Context, req *types.GetPosts
 		return nil, err
 	}
 
-	return &types.GetPostsByAccountResponse{Posts: posts}, nil
+	var postViews []*types.PostView
+	for _, post := range posts {
+		accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), post.Creator)
+		postView := &types.PostView{
+			Creator:    accountInfo,
+			Id:         post.Id,
+			Content:    post.Content,
+			ParentPost: post.ParentPost,
+			BlockNo:    post.BlockNo,
+			Metadata:   post.Metadata,
+		}
+		postViews = append(postViews, postView)
+	}
+
+	return &types.GetPostsByAccountResponse{Posts: postViews}, nil
 }
 
 func (q *QueryServer) GetAccountInfo(ctx context.Context, req *types.GetAccountInfoRequest) (*types.GetAccountInfoResponse, error) {
@@ -43,5 +57,21 @@ func (q *QueryServer) GetPostsByParentPost(ctx context.Context, req *types.GetPo
 		return nil, err
 	}
 
-	return &types.GetPostsByParentPostResponse{Posts: posts}, nil
+	var postViews []*types.PostView
+	for _, post := range posts {
+		accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), post.Creator)
+		accountInfo.Address = post.Creator
+
+		postView := &types.PostView{
+			Creator:    accountInfo,
+			Id:         post.Id,
+			Content:    post.Content,
+			ParentPost: post.ParentPost,
+			BlockNo:    post.BlockNo,
+			Metadata:   post.Metadata,
+		}
+		postViews = append(postViews, postView)
+	}
+
+	return &types.GetPostsByParentPostResponse{Posts: postViews}, nil
 }
