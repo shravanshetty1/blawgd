@@ -11,6 +11,7 @@ pub async fn handle() {
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
     let storage = window.local_storage().unwrap().unwrap();
+    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
     let url: String = window.location().href().unwrap();
     let address = url
@@ -18,19 +19,19 @@ pub async fn handle() {
         .strip_prefix("http://localhost:2341/profile/")
         .unwrap();
 
-    let logged_in_account = util::get_account_info_from_storage(&storage);
-
-    let mut show_edit_button = true;
-    let mut account_info = logged_in_account.clone().unwrap();
-    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
-    if address != logged_in_account.as_ref().unwrap().address {
-        show_edit_button = false;
-        account_info = util::get_account_info(client.clone(), address.into()).await;
+    let logged_in_data = util::get_stored_data(&storage);
+    let mut show_edit_button = false;
+    if logged_in_data.is_some() {
+        if address == logged_in_data.unwrap().address {
+            show_edit_button = true;
+        }
     }
 
+    let logged_in_account_info = util::get_session_account_info(&storage, client.clone());
+    let account_info = util::get_account_info(client.clone(), address.clone().into());
     let posts_resp = super::blawgd_client::query_client::QueryClient::new(client)
         .get_posts_by_account(GetPostsByAccountRequest {
-            address: account_info.address.clone(),
+            address: address.clone().into(),
             index: 0,
         })
         .await
@@ -41,10 +42,10 @@ pub async fn handle() {
         posts.push(post_comp)
     }
 
-    let nav_bar = NavBar::new(logged_in_account.clone());
+    let nav_bar = NavBar::new(logged_in_account_info.await.clone());
     let comp = BlawgdHTMLDoc::new(ProfilePage::new(
         nav_bar,
-        AccountInfoComp::new(account_info.clone()),
+        AccountInfoComp::new(account_info.await.clone()),
         show_edit_button,
         posts.into_boxed_slice(),
     ));

@@ -22,6 +22,10 @@ type QueryServer struct {
 	keeper keeper.Keeper
 }
 
+func (q *QueryServer) GetFollowings(ctx context.Context, req *types.GetFollowingsRequest) (*types.GetFollowingsResponse, error) {
+	return &types.GetFollowingsResponse{Addresses: q.keeper.GetFollowings(sdk.UnwrapSDKContext(ctx), req.Address).Followings}, nil
+}
+
 func (q *QueryServer) GetPost(ctx context.Context, req *types.GetPostRequest) (*types.GetPostResponse, error) {
 	post, err := q.keeper.GetPost(sdk.UnwrapSDKContext(ctx), req.Id)
 	if err != nil {
@@ -71,7 +75,10 @@ func (q *QueryServer) GetPostsByAccount(ctx context.Context, req *types.GetPosts
 func (q *QueryServer) GetAccountInfo(ctx context.Context, req *types.GetAccountInfoRequest) (*types.GetAccountInfoResponse, error) {
 	accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), req.Address)
 
-	return &types.GetAccountInfoResponse{AccountInfo: accountInfo}, nil
+	return &types.GetAccountInfoResponse{AccountInfo: &types.AccountInfoView{
+		AccountInfo:    accountInfo,
+		FollowingCount: q.keeper.GetFollowingsCount(sdk.UnwrapSDKContext(ctx), req.Address),
+	}}, nil
 }
 
 func (q *QueryServer) GetPostsByParentPost(ctx context.Context, req *types.GetPostsByParentPostRequest) (*types.GetPostsByParentPostResponse, error) {

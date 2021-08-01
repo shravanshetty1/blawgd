@@ -3,6 +3,16 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenesisState {}
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFollowingsRequest {
+    #[prost(string, tag = "1")]
+    pub address: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetFollowingsResponse {
+    #[prost(string, repeated, tag = "1")]
+    pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetPostRequest {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
@@ -32,7 +42,7 @@ pub struct GetAccountInfoRequest {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetAccountInfoResponse {
     #[prost(message, optional, tag = "1")]
-    pub account_info: ::core::option::Option<AccountInfo>,
+    pub account_info: ::core::option::Option<AccountInfoView>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsByParentPostRequest {
@@ -45,6 +55,13 @@ pub struct GetPostsByParentPostRequest {
 pub struct GetPostsByParentPostResponse {
     #[prost(message, repeated, tag = "1")]
     pub posts: ::prost::alloc::vec::Vec<PostView>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccountInfoView {
+    #[prost(message, optional, tag = "1")]
+    pub account_info: ::core::option::Option<AccountInfo>,
+    #[prost(int64, tag = "2")]
+    pub following_count: i64,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Post {
@@ -213,6 +230,22 @@ pub mod query_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/shravanshetty1.samachar.samachar.Query/GetAccountInfo",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        pub async fn get_followings(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetFollowingsRequest>,
+        ) -> Result<tonic::Response<super::GetFollowingsResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/shravanshetty1.samachar.samachar.Query/GetFollowings",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

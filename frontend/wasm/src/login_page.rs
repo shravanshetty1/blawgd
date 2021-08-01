@@ -1,10 +1,11 @@
-use crate::blawgd_client::{AccountInfo, GetAccountInfoRequest};
+use crate::blawgd_client::{AccountInfo, AccountInfoView, GetAccountInfoRequest};
 use crate::components::account_info::AccountInfoComp;
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::login_page::LoginPage;
 use crate::components::nav_bar::NavBar;
 use crate::components::Component;
 use crate::util;
+use crate::util::StoredData;
 use bip39::{Language, Mnemonic, MnemonicType};
 use gloo::events;
 use wasm_bindgen::JsCast;
@@ -13,8 +14,9 @@ pub async fn handle() {
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
     let storage = window.local_storage().unwrap().unwrap();
+    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
-    let account_info = util::get_account_info_from_storage(&storage);
+    let account_info = util::get_session_account_info(&storage, client).await;
     let mut account_info_comp: Option<Box<dyn Component>> = None;
     if account_info.is_some() {
         account_info_comp = Some(AccountInfoComp::new(account_info.clone().unwrap()))
@@ -29,7 +31,7 @@ pub async fn handle() {
     register_event_listeners(&document, &account_info);
 }
 
-fn register_event_listeners(document: &web_sys::Document, account_info: &Option<AccountInfo>) {
+fn register_event_listeners(document: &web_sys::Document, account_info: &Option<AccountInfoView>) {
     let generate_account = document
         .get_element_by_id("generate-account")
         .expect("generate-account element not found");
@@ -58,8 +60,7 @@ fn register_event_listeners(document: &web_sys::Document, account_info: &Option<
             let window = web_sys::window().unwrap();
             let storage = window.local_storage().unwrap().unwrap();
 
-            storage.remove_item("wallet_mnemonic");
-            storage.remove_item("account_info");
+            util::remove_stored_data(&storage);
             window.location().reload();
         })
         .forget();
@@ -82,16 +83,13 @@ fn register_event_listeners(document: &web_sys::Document, account_info: &Option<
                 .dyn_ref::<web_sys::HtmlTextAreaElement>()
                 .unwrap()
                 .value();
-            storage.set_item("wallet_mnemonic", &mnemonic);
 
             let address = crw_wallet::crypto::MnemonicWallet::new(&mnemonic, util::COSMOS_DP)
                 .unwrap()
                 .get_bech32_address("cosmos")
                 .unwrap();
-            let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
-            let account_info = util::get_account_info(client, address.clone()).await;
-            util::set_account_info_in_storage(account_info, &storage);
 
+            util::set_stored_data(&storage, StoredData { mnemonic, address });
             window.location().reload();
         });
     })

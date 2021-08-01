@@ -1,7 +1,6 @@
 use crate::blawgd_client::query_client::QueryClient as BlawgdQueryClient;
 use crate::blawgd_client::{GetPostRequest, GetPostsByParentPostRequest};
 use crate::components::blawgd_html::BlawgdHTMLDoc;
-use crate::components::home_page::HomePage;
 use crate::components::nav_bar::NavBar;
 use crate::components::post::Post;
 use crate::components::post_creator::PostCreator;
@@ -18,6 +17,7 @@ pub async fn handle() {
         .local_storage()
         .expect("storage object missing")
         .unwrap();
+    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
     let url: String = window.location().href().unwrap();
     let post_id = url
@@ -25,7 +25,7 @@ pub async fn handle() {
         .strip_prefix("http://localhost:2341/post/")
         .unwrap();
 
-    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
+    let account_info = util::get_session_account_info(&storage, client.clone());
     let posts_resp = BlawgdQueryClient::new(client.clone())
         .get_posts_by_parent_post(GetPostsByParentPostRequest {
             parent_post: post_id.to_string(),
@@ -47,8 +47,7 @@ pub async fn handle() {
     let mut main_post = Post::new(main_post_resp.get_ref().post.clone().unwrap());
     main_post.as_mut().focus();
 
-    let account_info = util::get_account_info_from_storage(&storage);
-    let nav_bar = NavBar::new(account_info.clone());
+    let nav_bar = NavBar::new(account_info.await.clone());
     let mut post_creator = PostCreator::new();
     post_creator.as_mut().set_button_text("Reply");
     let comp = BlawgdHTMLDoc::new(PostPage::new(
@@ -76,7 +75,7 @@ fn register_event_listeners(main_post_id: String, document: &web_sys::Document) 
             let document = window.document().expect("document missing");
             let storage = window.local_storage().unwrap().unwrap();
 
-            let account_info = util::get_account_info_from_storage(&storage);
+            let address: String = util::get_stored_data(&storage).unwrap().address;
             let post_content: String = document
                 .get_element_by_id("post-creator-input")
                 .expect("post-creator-input element not found")
@@ -84,7 +83,7 @@ fn register_event_listeners(main_post_id: String, document: &web_sys::Document) 
                 .unwrap()
                 .value();
             let msg = super::blawgd_client::MsgCreatePost {
-                creator: account_info.unwrap().address.clone(),
+                creator: address,
                 content: post_content,
                 parent_post: main_post_id,
                 metadata: "".to_string(),

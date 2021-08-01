@@ -1,12 +1,7 @@
-use crate::blawgd_client::query_client::QueryClient as BlawgdQueryClient;
-use crate::blawgd_client::GetPostsByParentPostRequest;
 use crate::components::account_info::AccountInfoComp;
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::edit_profile_page::EditProfilePage;
-use crate::components::home_page::HomePage;
 use crate::components::nav_bar::NavBar;
-use crate::components::post::Post;
-use crate::components::post_creator::PostCreator;
 use crate::components::Component;
 use crate::{blawgd_client, util};
 use gloo::events;
@@ -19,8 +14,9 @@ pub async fn handle() {
         .local_storage()
         .expect("storage object missing")
         .unwrap();
+    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
-    let account_info = util::get_account_info_from_storage(&storage);
+    let account_info = util::get_session_account_info(&storage, client.clone()).await;
     if account_info.is_none() {
         window.location().replace(util::HOST_NAME);
     }
@@ -75,36 +71,40 @@ fn register_event_listeners(document: &web_sys::Document) {
         .get_element_by_id("reset-button")
         .expect("reset-button element not found");
     events::EventListener::new(&reset_button, "click", move |_| {
-        let window = web_sys::window().unwrap();
-        let document = window.document().unwrap();
-        let storage = window.local_storage().unwrap().unwrap();
+        wasm_bindgen_futures::spawn_local(async move {
+            let window = web_sys::window().unwrap();
+            let document = window.document().unwrap();
+            let storage = window.local_storage().unwrap().unwrap();
+            let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
-        let account_info = util::get_account_info_from_storage(&storage).unwrap();
-        document
-            .get_element_by_id("account-info-name")
-            .unwrap()
-            .set_inner_html(account_info.name.as_str());
-        document
-            .get_element_by_id("account-info-photo")
-            .unwrap()
-            .dyn_ref::<web_sys::HtmlImageElement>()
-            .unwrap()
-            .set_src(account_info.photo.as_str());
+            let account_info_view = util::get_session_account_info(&storage, client.clone()).await;
+            let account_info = account_info_view.unwrap().account_info.unwrap();
+            document
+                .get_element_by_id("account-info-name")
+                .unwrap()
+                .set_inner_html(account_info.name.as_str());
+            document
+                .get_element_by_id("account-info-photo")
+                .unwrap()
+                .dyn_ref::<web_sys::HtmlImageElement>()
+                .unwrap()
+                .set_src(account_info.photo.as_str());
 
-        let image_field = document
-            .get_element_by_id("image-field")
-            .expect("image-field element not found");
-        image_field
-            .dyn_ref::<web_sys::HtmlInputElement>()
-            .unwrap()
-            .set_value("");
-        let name_field = document
-            .get_element_by_id("name-field")
-            .expect("name-field element not found");
-        name_field
-            .dyn_ref::<web_sys::HtmlInputElement>()
-            .unwrap()
-            .set_value("");
+            let image_field = document
+                .get_element_by_id("image-field")
+                .expect("image-field element not found");
+            image_field
+                .dyn_ref::<web_sys::HtmlInputElement>()
+                .unwrap()
+                .set_value("");
+            let name_field = document
+                .get_element_by_id("name-field")
+                .expect("name-field element not found");
+            name_field
+                .dyn_ref::<web_sys::HtmlInputElement>()
+                .unwrap()
+                .set_value("");
+        });
     })
     .forget();
 
@@ -131,9 +131,8 @@ fn register_event_listeners(document: &web_sys::Document) {
                 .dyn_ref::<web_sys::HtmlInputElement>()
                 .unwrap()
                 .value();
-            let account_info = util::get_account_info_from_storage(&storage);
             let msg = blawgd_client::MsgUpdateAccountInfo {
-                creator: account_info.clone().unwrap().address,
+                creator: util::get_stored_data(&storage).unwrap().address,
                 name,
                 photo,
                 metadata: "".to_string(),
@@ -148,9 +147,6 @@ fn register_event_listeners(document: &web_sys::Document) {
                 msg,
             )
             .await;
-            let new_account_info =
-                util::get_account_info(client, account_info.clone().unwrap().address).await;
-            util::set_account_info_in_storage(new_account_info, &storage);
             window.location().reload();
         });
     })

@@ -1,5 +1,4 @@
 use super::Component;
-use crate::blawgd_client::AccountInfo;
 
 pub struct EditProfilePage {
     nav_bar: Box<dyn Component>,

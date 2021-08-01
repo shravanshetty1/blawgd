@@ -1,4 +1,4 @@
-use crate::blawgd_client::{AccountInfo, GetAccountInfoRequest};
+use crate::blawgd_client::{AccountInfo, AccountInfoView, GetAccountInfoRequest};
 use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::{BaseAccount, QueryAccountRequest};
 use cosmos_sdk_proto::cosmos::tx::v1beta1::service_client::ServiceClient;
@@ -17,41 +17,68 @@ pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str =
     "/shravanshetty1.samachar.samachar.MsgUpdateAccountInfo";
 pub const ADDRESS_HRP: &str = "cosmos";
 
-pub fn get_account_info_from_storage(storage: &web_sys::Storage) -> Option<AccountInfo> {
-    let account_info_raw: Option<String> = storage.get_item("account_info").unwrap();
-    let mut account_info: Option<AccountInfo> = None;
-    if account_info_raw.is_some() {
-        let account_info_string = account_info_raw.unwrap();
-        if !account_info_string.is_empty() {
-            account_info = Some(prost::Message::decode(account_info_string.as_bytes()).unwrap());
-        }
-    }
-    account_info
+pub struct StoredData {
+    pub mnemonic: String,
+    pub address: String,
 }
 
-pub fn set_account_info_in_storage(account_info: AccountInfo, storage: &web_sys::Storage) {
-    let mut encoded_account_info: Vec<u8> = Vec::new();
-    prost::Message::encode(&account_info.clone(), &mut encoded_account_info);
-    let account_info_as_string = String::from_utf8(encoded_account_info).unwrap();
-    storage.set_item("account_info", &account_info_as_string);
+pub fn set_stored_data(storage: &web_sys::Storage, stored_data: StoredData) {
+    storage.set_item("mnemonic", stored_data.mnemonic.as_str());
+    storage.set_item("address", stored_data.address.as_str());
+}
+
+pub fn get_stored_data(storage: &web_sys::Storage) -> Option<StoredData> {
+    let mnemonic_result = storage.get_item("mnemonic");
+    let mut mnemonic: String = String::new();
+    if mnemonic_result.is_ok() {
+        if mnemonic_result.as_ref().unwrap().is_some() {
+            mnemonic = mnemonic_result.unwrap().unwrap();
+        }
+    }
+
+    let address_result = storage.get_item("address");
+    let mut address: String = String::new();
+    if address_result.is_ok() {
+        if address_result.as_ref().unwrap().is_some() {
+            address = address_result.unwrap().unwrap();
+        }
+    }
+
+    if mnemonic.is_empty() || address.is_empty() {
+        return None;
+    }
+
+    Some(StoredData { mnemonic, address })
+}
+
+pub fn remove_stored_data(storage: &web_sys::Storage) {
+    storage.remove_item("mnemonic");
+    storage.remove_item("address");
+}
+
+pub async fn get_session_account_info(
+    storage: &web_sys::Storage,
+    client: grpc_web_client::Client,
+) -> Option<AccountInfoView> {
+    let stored_data = get_stored_data(storage);
+    if stored_data.is_none() {
+        return None;
+    }
+    Some(get_account_info(client, stored_data.unwrap().address).await)
 }
 
 pub fn get_wallet(storage: &web_sys::Storage) -> Result<MnemonicWallet, &str> {
-    let mnemonic = get_mnemonic_from_storage(storage);
+    let stored_data = get_stored_data(storage);
 
     // Validation
-    if mnemonic.is_none() {
+    if stored_data.is_none() {
         return Err("cannot create wallet since user has not logged in");
     }
 
     Ok(
-        crw_wallet::crypto::MnemonicWallet::new(mnemonic.unwrap().as_str(), COSMOS_DP)
+        crw_wallet::crypto::MnemonicWallet::new(stored_data.unwrap().mnemonic.as_str(), COSMOS_DP)
             .expect("could not generate alice wallet"),
     )
-}
-
-pub fn get_mnemonic_from_storage(storage: &web_sys::Storage) -> Option<String> {
-    storage.get_item("wallet_mnemonic").unwrap()
 }
 
 pub fn console_log(message: &str) {
@@ -117,7 +144,7 @@ pub async fn broadcast_tx<M: prost::Message>(
         .unwrap()
 }
 
-pub async fn get_account_info(client: grpc_web_client::Client, address: String) -> AccountInfo {
+pub async fn get_account_info(client: grpc_web_client::Client, address: String) -> AccountInfoView {
     let resp = super::blawgd_client::query_client::QueryClient::new(client)
         .get_account_info(GetAccountInfoRequest {
             address: address.clone(),
@@ -126,7 +153,11 @@ pub async fn get_account_info(client: grpc_web_client::Client, address: String) 
         .unwrap();
 
     let mut account_info = resp.get_ref().account_info.as_ref().unwrap().clone();
-    normalize_account_info(account_info, address)
+    account_info.account_info = Some(normalize_account_info(
+        account_info.account_info.unwrap(),
+        address,
+    ));
+    account_info
 }
 
 pub fn normalize_account_info(mut account_info: AccountInfo, address: String) -> AccountInfo {

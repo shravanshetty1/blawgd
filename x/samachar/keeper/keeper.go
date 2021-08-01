@@ -207,18 +207,40 @@ func GetListWithoutRepeated(list []string) []string {
 	return newList
 }
 
+func (k *Keeper) GetFollowings(ctx sdk.Context, address string) types.Following {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
+	val := store.Get(types.KeyPrefix(types.FOLLOWING_KEY + address))
+
+	var following types.Following
+	k.cdc.MustUnmarshal(val, &following)
+	following.Address = address
+
+	return following
+}
+
+func (k *Keeper) GetFollowingsCount(ctx sdk.Context, address string) int64 {
+	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
+	followingCount := new(big.Int)
+	followingCount.SetString(string(store.Get(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+address))), 10)
+	return followingCount.Int64()
+}
+
 func (k *Keeper) StartFollowing(ctx sdk.Context, msg *types.MsgFollow) error {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
 	val := store.Get(types.KeyPrefix(types.FOLLOWING_KEY + msg.Creator))
+	followingCount := new(big.Int)
+	followingCount.SetString(string(store.Get(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+msg.Creator))), 10)
 
 	var following types.Following
 	k.cdc.MustUnmarshal(val, &following)
 	following.Address = msg.Creator
 
 	following.Followings = GetListWithoutRepeated(append(following.Followings, msg.Address))
+	followingCount.SetInt64(int64(len(following.Followings)))
 
 	val = k.cdc.MustMarshal(&following)
 	store.Set(types.KeyPrefix(types.FOLLOWING_KEY+msg.Creator), val)
+	store.Set(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+msg.Creator), []byte(followingCount.String()))
 
 	return nil
 }
@@ -226,6 +248,8 @@ func (k *Keeper) StartFollowing(ctx sdk.Context, msg *types.MsgFollow) error {
 func (k *Keeper) StopFollowing(ctx sdk.Context, msg *types.MsgStopFollow) error {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
 	val := store.Get(types.KeyPrefix(types.FOLLOWING_KEY + msg.Creator))
+	followingCount := new(big.Int)
+	followingCount.SetString(string(store.Get(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+msg.Creator))), 10)
 
 	var following types.Following
 	k.cdc.MustUnmarshal(val, &following)
@@ -233,13 +257,19 @@ func (k *Keeper) StopFollowing(ctx sdk.Context, msg *types.MsgStopFollow) error 
 
 	for i, v := range following.Followings {
 		if v == msg.Address {
-			following.Followings = append(following.Followings[:i], following.Followings[i+1:]...)
+			if i == len(following.Followings)-1 {
+				following.Followings = following.Followings[:i]
+			} else {
+				following.Followings = append(following.Followings[:i], following.Followings[i+1:]...)
+			}
 			break
 		}
 	}
+	followingCount.SetInt64(int64(len(following.Followings)))
 
 	val = k.cdc.MustMarshal(&following)
 	store.Set(types.KeyPrefix(types.FOLLOWING_KEY+msg.Creator), val)
+	store.Set(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+msg.Creator), []byte(followingCount.String()))
 
 	return nil
 }

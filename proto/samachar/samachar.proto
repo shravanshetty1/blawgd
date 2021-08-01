@@ -15,6 +15,15 @@ service Query {
   rpc GetPostsByParentPost(GetPostsByParentPostRequest) returns (GetPostsByParentPostResponse);
   rpc GetPostsByAccount(GetPostsByAccountRequest) returns (GetPostsByAccountResponse);
   rpc GetAccountInfo(GetAccountInfoRequest) returns (GetAccountInfoResponse);
+  rpc GetFollowings(GetFollowingsRequest) returns (GetFollowingsResponse);
+}
+
+message GetFollowingsRequest{
+  string address = 1;
+}
+
+message GetFollowingsResponse{
+  repeated string addresses = 1;
 }
 
 message GetPostRequest {
@@ -40,7 +49,7 @@ message GetAccountInfoRequest {
 }
 
 message GetAccountInfoResponse {
-  AccountInfo account_info = 1;
+  AccountInfoView account_info = 1;
 }
 
 message GetPostsByParentPostRequest {
@@ -50,6 +59,11 @@ message GetPostsByParentPostRequest {
 
 message GetPostsByParentPostResponse {
   repeated PostView posts = 1;
+}
+
+message AccountInfoView {
+  AccountInfo account_info = 1;
+  int64 following_count = 2;
 }
 
 message Post {

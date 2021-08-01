@@ -18,6 +18,7 @@ const (
 	USER_POST_COUNT_KEY = "user-post-count-"
 	ACCOUNT_INFO_KEY    = "account-info-"
 	FOLLOWING_KEY       = "following-"
+	FOLLOWING_COUNT_KEY = "following-count-"
 )
 
 func NewMsgCreatePost(creator, content, parentPost, metadata string) *MsgCreatePost {
