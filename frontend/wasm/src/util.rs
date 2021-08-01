@@ -1,3 +1,4 @@
+use crate::blawgd_client;
 use crate::blawgd_client::{AccountInfo, AccountInfoView, GetAccountInfoRequest};
 use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::{BaseAccount, QueryAccountRequest};
@@ -13,6 +14,8 @@ pub const COSMOS_DP: &str = "m/44'/118'/0'/0/0";
 pub const HOST_NAME: &str = "http://localhost:2341";
 pub const GRPC_WEB_ADDRESS: &str = "http://localhost:9091";
 pub const MSG_TYPE_CREATE_POST: &str = "/shravanshetty1.samachar.samachar.MsgCreatePost";
+pub const MSG_TYPE_FOLLOW: &str = "/shravanshetty1.samachar.samachar.MsgFollow";
+pub const MSG_TYPE_STOP_FOLLOW: &str = "/shravanshetty1.samachar.samachar.MsgStopFollow";
 pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str =
     "/shravanshetty1.samachar.samachar.MsgUpdateAccountInfo";
 pub const ADDRESS_HRP: &str = "cosmos";
@@ -25,6 +28,29 @@ pub struct StoredData {
 pub fn set_stored_data(storage: &web_sys::Storage, stored_data: StoredData) {
     storage.set_item("mnemonic", stored_data.mnemonic.as_str());
     storage.set_item("address", stored_data.address.as_str());
+}
+
+pub async fn is_following(
+    client: grpc_web_client::Client,
+    address1: String,
+    address2: String,
+) -> bool {
+    let followings = blawgd_client::query_client::QueryClient::new(client)
+        .get_followings(blawgd_client::GetFollowingsRequest { address: address1 })
+        .await
+        .unwrap()
+        .get_ref()
+        .addresses
+        .clone();
+
+    let mut is_following: bool = false;
+    for following in followings {
+        if following == address2 {
+            is_following = true;
+        }
+    }
+
+    is_following
 }
 
 pub fn get_stored_data(storage: &web_sys::Storage) -> Option<StoredData> {

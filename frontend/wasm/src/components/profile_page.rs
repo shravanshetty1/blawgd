@@ -5,6 +5,8 @@ pub struct ProfilePage {
     account_info: Box<dyn Component>,
     show_edit_button: bool,
     posts: Box<[Box<dyn Component>]>,
+    following: bool,
+    show_button: bool,
 }
 
 impl ProfilePage {
@@ -13,12 +15,16 @@ impl ProfilePage {
         account_info: Box<dyn Component>,
         show_edit_button: bool,
         posts: Box<[Box<dyn Component>]>,
+        following: bool,
+        show_button: bool,
     ) -> Box<ProfilePage> {
         Box::new(ProfilePage {
             nav_bar,
             account_info,
             show_edit_button,
             posts,
+            following,
+            show_button,
         })
     }
 }
@@ -30,9 +36,17 @@ impl Component for ProfilePage {
             posts = format!("{}{}", posts, post.to_html())
         }
 
-        let mut edit_button = String::new();
-        if self.show_edit_button {
-            edit_button = r#"<a href="/edit-profile" class="button">Edit Profile</a>"#.into()
+        let mut button = String::new();
+        if self.show_button {
+            if self.show_edit_button {
+                button = r#"<a href="/edit-profile" class="button">Edit Profile</a>"#.into()
+            } else {
+                if self.following {
+                    button = r#"<a id="follow-toggle" class="button">Unfollow</a>"#.into();
+                } else {
+                    button = r#"<a id="follow-toggle" class="button">Follow</a>"#.into();
+                }
+            }
         }
 
         let account_info_component = String::from(format!(
@@ -43,7 +57,7 @@ impl Component for ProfilePage {
                 </div>
                 "#,
             self.account_info.to_html(),
-            edit_button
+            button
         ));
 
         String::from(format!(
