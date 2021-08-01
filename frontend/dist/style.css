@@ -141,6 +141,29 @@ a {
     padding: 0.25rem;
 }
 
+.account-info-element-wrapper {
+    border-bottom: solid 1px;
+}
+
+.with-padding {
+    padding: 1rem;
+}
+
+.with-margin-bottom {
+    margin-bottom: 1rem;
+}
+
+.with-border-bottom {
+    border-bottom: solid 1px;
+}
+
+.account-info-element{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .account-info-followings:Hover{
     text-decoration: underline;
 }
