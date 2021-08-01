@@ -28,10 +28,10 @@ impl Component for FollowingsPage {
                 {}
            <div class="account-info-element">
             <div class="post-component-text-wrapper">
-                <img src="{}" class="post-component-account-info-image">
+                <a href="/profile/{}"><img src="{}" class="post-component-account-info-image"></a>
                 <div class="post-component-text-content">
                     <div class="post-component-account-info">
-                        <div class="post-component-account-info-name">{}</div>
+                        <a href="/profile/{}" class="post-component-account-info-name">{}</a>
                         <div class="post-component-account-info-address">@{}</div>
                     </div>
                 </div>
@@ -39,7 +39,9 @@ impl Component for FollowingsPage {
             </div> 
             "#,
                 account_infos_component,
+                account_info.address,
                 account_info.photo,
+                account_info.address,
                 account_info.name,
                 account_info.address
             )
