@@ -20,7 +20,7 @@ pub async fn handle() {
     let url: String = window.location().href().unwrap();
     let address = url
         .as_str()
-        .strip_prefix("http://localhost:2341/followings/")
+        .strip_prefix(format!("{}/followings/", util::HOST_NAME))
         .unwrap();
 
     let account_info = util::get_session_account_info(&storage, client.clone());

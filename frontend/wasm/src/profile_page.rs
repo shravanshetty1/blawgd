@@ -19,7 +19,7 @@ pub async fn handle() {
     let url: String = window.location().href().unwrap();
     let address = url
         .as_str()
-        .strip_prefix("http://localhost:2341/profile/")
+        .strip_prefix(format!("{}/profile/", util::HOST_NAME))
         .unwrap();
 
     let logged_in_data = util::get_stored_data(&storage);
