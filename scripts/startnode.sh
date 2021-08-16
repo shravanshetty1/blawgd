@@ -1,4 +1,4 @@
 #!/bin/bash
 
 go install ./...
-samachard start --minimum-gas-prices 0stake
+(trap 'kill 0' SIGINT; samachard start --minimum-gas-prices 0stake & (cd ./faucet; cargo run))

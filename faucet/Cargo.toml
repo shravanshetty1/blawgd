@@ -13,3 +13,4 @@ cosmos-sdk-proto = "0.5.0"
 tonic = { version = "0.4.3", default-features = false, features = ["codegen", "prost"] }
 prost = { version = "0.7.0" }
 qstring = "0.7.2"
+actix-cors = "0.6.0-beta.2"

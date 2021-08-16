@@ -7,6 +7,8 @@ use crate::components::Component;
 use crate::util;
 use crate::util::StoredData;
 use bip39::{Language, Mnemonic, MnemonicType};
+use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
+use cosmos_sdk_proto::cosmos::auth::v1beta1::QueryAccountRequest;
 use gloo::events;
 use wasm_bindgen::JsCast;
 
@@ -88,6 +90,24 @@ fn register_event_listeners(document: &web_sys::Document, account_info: &Option<
                 .unwrap()
                 .get_bech32_address("cosmos")
                 .unwrap();
+
+            let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
+            let acc_resp = QueryClient::new(client.clone())
+                .account(QueryAccountRequest {
+                    address: address.clone(),
+                })
+                .await;
+
+            if !acc_resp.is_ok() {
+                let resp = reqwest::get(&format!("http://localhost:2342/?address={}", address))
+                    .await
+                    .unwrap()
+                    .text()
+                    .await
+                    .unwrap();
+
+                util::console_log(resp.as_str());
+            }
 
             util::set_stored_data(&storage, StoredData { mnemonic, address });
             window.location().reload();

@@ -28,7 +28,12 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         let state = web::Data::new(sender.clone());
+        let cors = actix_cors::Cors::default()
+            .allow_any_origin()
+            .allow_any_header()
+            .allow_any_method();
         App::new()
+            .wrap(cors)
             .app_data(state)
             .route("/", web::get().to(handler))
     })

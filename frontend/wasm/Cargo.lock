@@ -214,6 +214,7 @@ dependencies = [
  "gloo",
  "grpc-web-client",
  "prost",
+ "reqwest",
  "tiny-bip39",
  "tonic",
  "wasm-bindgen",
