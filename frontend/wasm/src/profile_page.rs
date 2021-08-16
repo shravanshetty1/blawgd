@@ -19,7 +19,7 @@ pub async fn handle() {
     let url: String = window.location().href().unwrap();
     let address = url
         .as_str()
-        .strip_prefix(format!("{}/profile/", util::HOST_NAME))
+        .strip_prefix(format!("{}/profile/", util::HOST_NAME).as_str())
         .unwrap();
 
     let logged_in_data = util::get_stored_data(&storage);

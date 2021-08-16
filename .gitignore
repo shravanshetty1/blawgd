@@ -3,4 +3,7 @@ secret.yml
 .idea
 
 frontend/wasm/target
+frontend/wasm/dep.txt
+faucet/dep.txt
+faucet/target
 frontend/rust-grpc-gen/target

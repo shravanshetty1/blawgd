@@ -1,0 +1,15 @@
+[package]
+name = "faucet"
+version = "0.1.0"
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "4.0.0-beta.8"
+crw-wallet = { git = "https://github.com/shravanshetty1/cosmos-rust-wallet", branch = "grpc-web" }
+crw-client = { git = "https://github.com/shravanshetty1/cosmos-rust-wallet", branch = "grpc-web" }
+cosmos-sdk-proto = "0.5.0"
+tonic = { version = "0.4.3", default-features = false, features = ["codegen", "prost"] }
+prost = { version = "0.7.0" }
+qstring = "0.7.2"
