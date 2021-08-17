@@ -93,6 +93,19 @@ async fn handler(state: web::Data<State>, req: HttpRequest) -> HttpResponse {
             .body("address query parameter is mandatory");
     }
 
+    let client = grpc_client(state.grpc_addr.clone().into()).await.unwrap();
+    let acc_resp = QueryClient::new(client.clone())
+        .account(QueryAccountRequest {
+            address: to_address.clone(),
+        })
+        .await;
+
+    if acc_resp.is_ok() {
+        return actix_web::HttpResponse::build(StatusCode::BAD_REQUEST)
+            .content_type("text/json")
+            .body("account with address already registered, faucet will only send tokens to account that have yet to be registered");
+    }
+
     let msg = bank::v1beta1::MsgSend {
         from_address: state.sender_addr.clone(),
         to_address,
@@ -102,7 +115,6 @@ async fn handler(state: web::Data<State>, req: HttpRequest) -> HttpResponse {
         }],
     };
 
-    let client = grpc_client(state.grpc_addr.clone().into()).await.unwrap();
     let res = broadcast_tx(&state.wallet, client, "/cosmos.bank.v1beta1.MsgSend", msg)
         .await
         .get_ref()
