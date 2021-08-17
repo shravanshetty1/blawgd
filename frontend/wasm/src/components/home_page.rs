@@ -2,14 +2,14 @@ use crate::components::Component;
 
 pub struct HomePage {
     nav_bar: Box<dyn Component>,
-    post_creator: Box<dyn Component>,
+    post_creator: Option<Box<dyn Component>>,
     posts: Box<[Box<dyn Component>]>,
 }
 
 impl HomePage {
     pub fn new(
         nav_bar: Box<dyn Component>,
-        post_creator: Box<dyn Component>,
+        post_creator: Option<Box<dyn Component>>,
         posts: Box<[Box<dyn Component>]>,
     ) -> Box<HomePage> {
         Box::new(HomePage {
@@ -27,6 +27,11 @@ impl super::Component for HomePage {
             posts = format!("{}{}", posts, post.to_html())
         }
 
+        let mut post_creator: String = String::new();
+        if self.post_creator.is_some() {
+            post_creator = self.post_creator.as_ref().unwrap().to_html();
+        }
+
         String::from(format!(
             r#"
 <div class="page">
@@ -39,7 +44,7 @@ impl super::Component for HomePage {
 </div>
 "#,
             self.nav_bar.to_html(),
-            self.post_creator.to_html(),
+            post_creator,
             posts
         ))
     }

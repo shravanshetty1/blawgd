@@ -19,7 +19,7 @@ pub async fn handle() {
         .unwrap();
     let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
-    let account_info = util::get_session_account_info(&storage, client.clone());
+    let account_info_future = util::get_session_account_info(&storage, client.clone());
     let posts_resp = BlawgdQueryClient::new(client)
         .get_posts_by_parent_post(GetPostsByParentPostRequest {
             parent_post: "".to_string(),
@@ -32,8 +32,12 @@ pub async fn handle() {
         posts.push(Post::new(post.clone()))
     }
 
-    let nav_bar = NavBar::new(account_info.await.clone());
-    let post_creator = PostCreator::new();
+    let account_info = account_info_future.await;
+    let nav_bar = NavBar::new(account_info.clone());
+    let mut post_creator: Option<Box<dyn Component>> = None;
+    if account_info.is_some() {
+        post_creator = Some(PostCreator::new());
+    }
     let comp = BlawgdHTMLDoc::new(HomePage::new(
         nav_bar,
         post_creator,

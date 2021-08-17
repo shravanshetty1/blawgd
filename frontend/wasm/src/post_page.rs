@@ -25,7 +25,7 @@ pub async fn handle() {
         .strip_prefix(format!("{}/post/", util::HOST_NAME).as_str())
         .unwrap();
 
-    let account_info = util::get_session_account_info(&storage, client.clone());
+    let account_info_future = util::get_session_account_info(&storage, client.clone());
     let posts_resp = BlawgdQueryClient::new(client.clone())
         .get_posts_by_parent_post(GetPostsByParentPostRequest {
             parent_post: post_id.to_string(),
@@ -47,13 +47,19 @@ pub async fn handle() {
     let mut main_post = Post::new(main_post_resp.get_ref().post.clone().unwrap());
     main_post.as_mut().focus();
 
-    let nav_bar = NavBar::new(account_info.await.clone());
-    let mut post_creator = PostCreator::new();
-    post_creator.as_mut().set_button_text("Reply");
+    let account_info = account_info_future.await;
+    let nav_bar = NavBar::new(account_info.clone());
+    let mut post_creator_component: Option<Box<dyn Component>> = None;
+    if account_info.is_some() {
+        let mut post_creator = PostCreator::new();
+        post_creator.as_mut().set_button_text("Reply");
+        post_creator_component = Some(post_creator);
+    }
+
     let comp = BlawgdHTMLDoc::new(PostPage::new(
         nav_bar,
         main_post,
-        post_creator,
+        post_creator_component,
         posts.into_boxed_slice(),
     ));
 
