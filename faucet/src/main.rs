@@ -161,7 +161,7 @@ pub async fn broadcast_tx<M: prost::Message>(
     ServiceClient::new(client)
         .broadcast_tx(BroadcastTxRequest {
             tx_bytes: tx_raw,
-            mode: BroadcastMode::Block as i32,
+            mode: BroadcastMode::Sync as i32,
         })
         .await
         .unwrap()
