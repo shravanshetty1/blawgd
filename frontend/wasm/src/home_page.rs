@@ -47,7 +47,9 @@ pub async fn handle() {
     let body = document.body().expect("body missing");
     body.set_inner_html(&comp.to_html());
 
-    register_event_listeners(&document)
+    if account_info.is_some() {
+        register_event_listeners(&document)
+    }
 }
 
 fn register_event_listeners(document: &web_sys::Document) {

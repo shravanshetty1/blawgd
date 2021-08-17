@@ -3,28 +3,29 @@ use super::Component;
 pub struct ProfilePage {
     nav_bar: Box<dyn Component>,
     account_info: Box<dyn Component>,
-    show_edit_button: bool,
+    button: Option<ButtonType>,
     posts: Box<[Box<dyn Component>]>,
-    following: bool,
-    show_button: bool,
+}
+
+#[derive(Clone)]
+pub enum ButtonType {
+    Edit,
+    Follow,
+    Unfollow,
 }
 
 impl ProfilePage {
     pub fn new(
         nav_bar: Box<dyn Component>,
         account_info: Box<dyn Component>,
-        show_edit_button: bool,
+        button: Option<ButtonType>,
         posts: Box<[Box<dyn Component>]>,
-        following: bool,
-        show_button: bool,
     ) -> Box<ProfilePage> {
         Box::new(ProfilePage {
             nav_bar,
             account_info,
-            show_edit_button,
+            button,
             posts,
-            following,
-            show_button,
         })
     }
 }
@@ -37,15 +38,16 @@ impl Component for ProfilePage {
         }
 
         let mut button = String::new();
-        if self.show_button {
-            if self.show_edit_button {
-                button = r#"<a href="/edit-profile" class="button">Edit Profile</a>"#.into()
-            } else {
-                if self.following {
-                    button = r#"<a id="follow-toggle" class="button">Unfollow</a>"#.into();
-                } else {
-                    button = r#"<a id="follow-toggle" class="button">Follow</a>"#.into();
+        if self.button.is_some() {
+            button = match self.button.as_ref().unwrap() {
+                ButtonType::Edit => {
+                    r#"<a href="/edit-profile" class="button">Edit Profile</a>"#.into()
                 }
+
+                ButtonType::Unfollow => {
+                    r#"<a id="follow-toggle" class="button">Unfollow</a>"#.into()
+                }
+                ButtonType::Follow => r#"<a id="follow-toggle" class="button">Follow</a>"#.into(),
             }
         }
 
