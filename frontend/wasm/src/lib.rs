@@ -4,12 +4,12 @@ use web_sys;
 mod blawgd_client;
 mod components;
 mod edit_profile_page;
-mod explore_page;
 mod followings_page;
 mod home_page;
 mod login_page;
 mod post_page;
 mod profile_page;
+mod timeline_page;
 mod util;
 
 #[wasm_bindgen(start)]
@@ -26,7 +26,7 @@ pub fn main() -> Result<(), JsValue> {
             url if str::starts_with(url, "followings") => followings_page::handle().await,
             url if str::starts_with(url, "post") => post_page::handle().await,
             "edit-profile" => edit_profile_page::handle().await,
-            "explore" => explore_page::handle().await,
+            "timeline" => timeline_page::handle().await,
             url if str::starts_with(url, "profile") => profile_page::handle().await,
             "login" => login_page::handle().await,
             _ => home_page::handle().await,

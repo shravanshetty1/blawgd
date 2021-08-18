@@ -34,7 +34,7 @@ impl super::Component for NavBar {
                 .unwrap();
             account_menu_items = String::from(format!(
                 r#"
-            <a href="/explore" class="nav-bar-menu-element">Explore</a>
+            <a href="/timeline" class="nav-bar-menu-element">Timeline</a>
             <a href="/profile/{}" class="nav-bar-menu-element">Profile</a> 
             "#,
                 account_info.address
@@ -65,7 +65,7 @@ impl super::Component for NavBar {
             Blawgd
         </a>
         <div class="nav-bar-menu">
-            <a href="/" class="nav-bar-menu-element">Home</a>
+            <a href="/" class="nav-bar-menu-element">Explore</a>
             {}
             <a href="/about" class="nav-bar-menu-element">About</a>
         </div>

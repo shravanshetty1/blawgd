@@ -4,6 +4,10 @@ import (
 	"fmt"
 	"math/big"
 
+	abci "github.com/tendermint/tendermint/abci/types"
+
+	"github.com/cosmos/cosmos-sdk/baseapp"
+
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 
 	"github.com/tendermint/tendermint/libs/log"
@@ -18,14 +22,16 @@ type (
 		cdc      codec.Codec
 		storeKey sdk.StoreKey
 		memKey   sdk.StoreKey
+		bApp     *baseapp.BaseApp
 	}
 )
 
-func NewKeeper(cdc codec.Codec, storeKey, memKey sdk.StoreKey) *Keeper {
+func NewKeeper(cdc codec.Codec, storeKey, memKey sdk.StoreKey, bApp *baseapp.BaseApp) *Keeper {
 	return &Keeper{
 		cdc:      cdc,
 		storeKey: storeKey,
 		memKey:   memKey,
+		bApp:     bApp,
 	}
 }
 
@@ -72,7 +78,7 @@ func (k *Keeper) CreatePost(ctx sdk.Context, msg *types.MsgCreatePost) error {
 
 func (k *Keeper) GetPostsByParentPost(ctx sdk.Context, parentPost string, index, count int64) ([]*types.Post, error) {
 
-	postStore := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.POST_KEY))
+	//postStore := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.POST_KEY))
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.SUB_POST_KEY))
 	postCount := new(big.Int)
 	postCount.SetString(string(store.Get(types.KeyPrefix(types.SUB_POST_COUNT_KEY+parentPost))), 10)
@@ -85,7 +91,15 @@ func (k *Keeper) GetPostsByParentPost(ctx sdk.Context, parentPost string, index,
 		}
 
 		postId := store.Get(types.KeyPrefix(types.SUB_POST_KEY + parentPost + "-" + postCount.String()))
-		postRaw := postStore.Get(types.KeyPrefix(types.POST_KEY + string(postId)))
+		resp := k.bApp.Query(abci.RequestQuery{
+			Data:   types.KeyPrefix(types.POST_KEY + types.POST_KEY + string(postId)),
+			Path:   "store/samachar/key",
+			Height: 0,
+			Prove:  true,
+		})
+
+		postRaw := resp.Value
+		//postRaw := postStore.Get(types.KeyPrefix(types.POST_KEY + string(postId)))
 		var post types.Post
 		err := k.cdc.Unmarshal(postRaw, &post)
 		if err != nil {
