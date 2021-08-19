@@ -126,6 +126,12 @@ func (k *Keeper) GetPost(ctx sdk.Context, id string) (*types.Post, error) {
 	return &post, nil
 }
 
+func (k *Keeper) GetTimeline(ctx sdk.Context, address string, index int64) []*types.Post {
+	var posts []*types.Post
+
+	return posts
+}
+
 func (k *Keeper) GetPostsByAccount(ctx sdk.Context, address string, index, count int64) ([]*types.Post, error) {
 
 	postStore := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.POST_KEY))

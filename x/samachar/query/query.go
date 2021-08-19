@@ -22,6 +22,29 @@ type QueryServer struct {
 	keeper keeper.Keeper
 }
 
+func (q *QueryServer) GetTimeline(ctxR context.Context, req *types.GetTimelineRequest) (*types.GetTimelineResponse, error) {
+	ctx := sdk.UnwrapSDKContext(ctxR)
+	posts := q.keeper.GetTimeline(ctx, req.Address, req.Index)
+
+	var postViews []*types.PostView
+	for _, post := range posts {
+		accountInfo := q.keeper.GetAccountInfo(ctx, post.Creator)
+		accountInfo.Address = post.Creator
+
+		postView := &types.PostView{
+			Creator:    accountInfo,
+			Id:         post.Id,
+			Content:    post.Content,
+			ParentPost: post.ParentPost,
+			BlockNo:    post.BlockNo,
+			Metadata:   post.Metadata,
+		}
+		postViews = append(postViews, postView)
+	}
+
+	return &types.GetTimelineResponse{Posts: postViews}, nil
+}
+
 func (q *QueryServer) GetFollowings(ctx context.Context, req *types.GetFollowingsRequest) (*types.GetFollowingsResponse, error) {
 	return &types.GetFollowingsResponse{Addresses: q.keeper.GetFollowings(sdk.UnwrapSDKContext(ctx), req.Address).Followings}, nil
 }

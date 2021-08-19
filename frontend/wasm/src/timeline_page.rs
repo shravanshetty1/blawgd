@@ -1,5 +1,5 @@
 use crate::blawgd_client::query_client::QueryClient as BlawgdQueryClient;
-use crate::blawgd_client::GetPostsByParentPostRequest;
+use crate::blawgd_client::{GetPostsByParentPostRequest, GetTimelineRequest};
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::home_page::HomePage;
 use crate::components::nav_bar::NavBar;
@@ -19,10 +19,10 @@ pub async fn handle() {
         .unwrap();
     let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
-    let account_info_future = util::get_session_account_info(&storage, client.clone());
+    let account_info = util::get_session_account_info(&storage, client.clone()).await;
     let posts_resp = BlawgdQueryClient::new(client)
-        .get_posts_by_parent_post(GetPostsByParentPostRequest {
-            parent_post: "".to_string(),
+        .get_timeline(GetTimelineRequest {
+            address: account_info.clone().unwrap().account_info.unwrap().address,
             index: 0,
         })
         .await
@@ -32,7 +32,6 @@ pub async fn handle() {
         posts.push(Post::new(post.clone()))
     }
 
-    let account_info = account_info_future.await;
     let nav_bar = NavBar::new(account_info.clone());
     let mut post_creator: Option<Box<dyn Component>> = None;
     if account_info.is_some() {

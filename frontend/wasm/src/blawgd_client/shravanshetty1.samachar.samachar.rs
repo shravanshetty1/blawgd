@@ -3,6 +3,18 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GenesisState {}
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetTimelineRequest {
+    #[prost(string, tag = "1")]
+    pub address: ::prost::alloc::string::String,
+    #[prost(int64, tag = "2")]
+    pub index: i64,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetTimelineResponse {
+    #[prost(message, repeated, tag = "1")]
+    pub posts: ::prost::alloc::vec::Vec<PostView>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetFollowingsRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -214,6 +226,22 @@ pub mod query_client {
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
                 "/shravanshetty1.samachar.samachar.Query/GetPostsByAccount",
+            );
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        pub async fn get_timeline(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetTimelineRequest>,
+        ) -> Result<tonic::Response<super::GetTimelineResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/shravanshetty1.samachar.samachar.Query/GetTimeline",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

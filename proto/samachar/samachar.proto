@@ -14,8 +14,18 @@ service Query {
   rpc GetPost(GetPostRequest) returns (GetPostResponse);
   rpc GetPostsByParentPost(GetPostsByParentPostRequest) returns (GetPostsByParentPostResponse);
   rpc GetPostsByAccount(GetPostsByAccountRequest) returns (GetPostsByAccountResponse);
+  rpc GetTimeline(GetTimelineRequest) returns (GetTimelineResponse);
   rpc GetAccountInfo(GetAccountInfoRequest) returns (GetAccountInfoResponse);
   rpc GetFollowings(GetFollowingsRequest) returns (GetFollowingsResponse);
+}
+
+message GetTimelineRequest {
+  string address = 1;
+  int64 index = 2;
+}
+
+message GetTimelineResponse {
+  repeated PostView posts = 1;
 }
 
 message GetFollowingsRequest{
