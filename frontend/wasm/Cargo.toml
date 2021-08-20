@@ -26,6 +26,7 @@ tonic = { version = "0.4.3", default-features = false, features = ["codegen", "p
 tiny-bip39 = { version = "0.8.0", default-features = false }
 grpc-web-client = { git = "https://github.com/titanous/grpc-web-client", branch = "main"}
 reqwest = { version = "=0.10.10", features = ["json"] }
+tendermint-light-client = { git = "https://github.com/informalsystems/tendermint-rs", branch = "master", default-features = false, features = ["std", "eyre_tracer"] }
 
 [dependencies.web-sys]
 version = "0.3.4"
