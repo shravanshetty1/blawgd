@@ -6,5 +6,4 @@ local:
 	./scripts/startnode.sh
 
 go:
-	GOOS=js GOARCH=wasm go build -o ./frontend-go/dst/main.wasm ./frontend-go/cmd/wasm/main.go
-	go run ./frontend-go/cmd/frontend-server/main.go
+	./scripts/frontendgo.sh

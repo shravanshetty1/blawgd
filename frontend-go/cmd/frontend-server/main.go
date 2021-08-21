@@ -15,8 +15,8 @@ func main() {
 		return
 	}
 
-	fmt.Println("started frontend at  port 2341...")
-	err = http.ListenAndServe(":2341", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("started frontend-go at  port 2340...")
+	err = http.ListenAndServe(":2340", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cw := &customWriter{
 			ResponseWriter: w,
 			notFound:       false,
