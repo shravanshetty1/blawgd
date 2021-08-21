@@ -27,6 +27,12 @@ tiny-bip39 = { version = "0.8.0", default-features = false }
 grpc-web-client = { git = "https://github.com/titanous/grpc-web-client", branch = "main"}
 reqwest = { version = "=0.10.10", features = ["json"] }
 tendermint-light-client = { git = "https://github.com/informalsystems/tendermint-rs", branch = "master", default-features = false, features = ["std", "eyre_tracer"] }
+tendermint-rpc = { git = "https://github.com/informalsystems/tendermint-rs", branch = "master" }
+tendermint = { git = "https://github.com/informalsystems/tendermint-rs", branch = "master" }
+serde = "1.0.106"
+serde_json = "1"
+contracts = "0.4.0"
+wasm-rs-async-executor = "0.9.0"
 
 [dependencies.web-sys]
 version = "0.3.4"

@@ -6,6 +6,7 @@ mod components;
 mod edit_profile_page;
 mod followings_page;
 mod home_page;
+mod light_client;
 mod login_page;
 mod post_page;
 mod profile_page;
