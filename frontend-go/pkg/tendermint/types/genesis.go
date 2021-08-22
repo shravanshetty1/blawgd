@@ -11,7 +11,9 @@ import (
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/crypto"
 	tmbytes "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/bytes"
 	tmjson "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/json"
-	tmtime "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/time"
+	tmos "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/os"
+	tmproto "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/proto/tendermint/types"
+	tmtime "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/types/time"
 )
 
 const (
@@ -35,13 +37,13 @@ type GenesisValidator struct {
 
 // GenesisDoc defines the initial conditions for a tendermint blockchain, in particular its validator set.
 type GenesisDoc struct {
-	GenesisTime     time.Time          `json:"genesis_time"`
-	ChainID         string             `json:"chain_id"`
-	InitialHeight   int64              `json:"initial_height"`
-	ConsensusParams *ConsensusParams   `json:"consensus_params,omitempty"`
-	Validators      []GenesisValidator `json:"validators,omitempty"`
-	AppHash         tmbytes.HexBytes   `json:"app_hash"`
-	AppState        json.RawMessage    `json:"app_state,omitempty"`
+	GenesisTime     time.Time                `json:"genesis_time"`
+	ChainID         string                   `json:"chain_id"`
+	InitialHeight   int64                    `json:"initial_height"`
+	ConsensusParams *tmproto.ConsensusParams `json:"consensus_params,omitempty"`
+	Validators      []GenesisValidator       `json:"validators,omitempty"`
+	AppHash         tmbytes.HexBytes         `json:"app_hash"`
+	AppState        json.RawMessage          `json:"app_state,omitempty"`
 }
 
 // SaveAs is a utility method for saving GenensisDoc as a JSON file.
@@ -50,8 +52,7 @@ func (genDoc *GenesisDoc) SaveAs(file string) error {
 	if err != nil {
 		return err
 	}
-
-	return ioutil.WriteFile(file, genDocBytes, 0644) // nolint:gosec
+	return tmos.WriteFile(file, genDocBytes, 0644)
 }
 
 // ValidatorHash returns the hash of the validator set contained in the GenesisDoc
@@ -82,7 +83,7 @@ func (genDoc *GenesisDoc) ValidateAndComplete() error {
 
 	if genDoc.ConsensusParams == nil {
 		genDoc.ConsensusParams = DefaultConsensusParams()
-	} else if err := genDoc.ConsensusParams.ValidateConsensusParams(); err != nil {
+	} else if err := ValidateConsensusParams(*genDoc.ConsensusParams); err != nil {
 		return err
 	}
 

@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"strings"
 
-	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/internal/libs/sync"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/bits"
 	tmjson "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/json"
+	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/sync"
 	tmproto "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/proto/tendermint/types"
 )
 
@@ -500,7 +500,7 @@ func (voteSet *VoteSet) MarshalJSON() ([]byte, error) {
 }
 
 // More human readable JSON of the vote set
-// NOTE: insufficient for unmarshaling from (compressed votes)
+// NOTE: insufficient for unmarshalling from (compressed votes)
 // TODO: make the peerMaj23s nicer to read (eg just the block hash)
 type VoteSetJSON struct {
 	Votes         []string          `json:"votes"`

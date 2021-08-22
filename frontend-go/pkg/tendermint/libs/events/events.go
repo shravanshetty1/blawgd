@@ -4,8 +4,8 @@ package events
 import (
 	"fmt"
 
-	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/internal/libs/sync"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/service"
+	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/sync"
 )
 
 // ErrListenerWasRemoved is returned by AddEvent if the listener was removed.
@@ -32,7 +32,7 @@ type Eventable interface {
 //
 // FireEvent fires an event with the given name and data.
 type Fireable interface {
-	FireEvent(eventValue string, data EventData)
+	FireEvent(event string, data EventData)
 }
 
 // EventSwitch is the interface for synchronous pubsub, where listeners
@@ -46,7 +46,7 @@ type EventSwitch interface {
 	service.Service
 	Fireable
 
-	AddListenerForEvent(listenerID, eventValue string, cb EventCallback) error
+	AddListenerForEvent(listenerID, event string, cb EventCallback) error
 	RemoveListenerForEvent(event string, listenerID string)
 	RemoveListener(listenerID string)
 }
@@ -74,29 +74,27 @@ func (evsw *eventSwitch) OnStart() error {
 
 func (evsw *eventSwitch) OnStop() {}
 
-func (evsw *eventSwitch) AddListenerForEvent(listenerID, eventValue string, cb EventCallback) error {
+func (evsw *eventSwitch) AddListenerForEvent(listenerID, event string, cb EventCallback) error {
 	// Get/Create eventCell and listener.
 	evsw.mtx.Lock()
-
-	eventCell := evsw.eventCells[eventValue]
+	eventCell := evsw.eventCells[event]
 	if eventCell == nil {
 		eventCell = newEventCell()
-		evsw.eventCells[eventValue] = eventCell
+		evsw.eventCells[event] = eventCell
 	}
-
 	listener := evsw.listeners[listenerID]
 	if listener == nil {
 		listener = newEventListener(listenerID)
 		evsw.listeners[listenerID] = listener
 	}
-
 	evsw.mtx.Unlock()
 
-	if err := listener.AddEvent(eventValue); err != nil {
+	// Add event and listener.
+	if err := listener.AddEvent(event); err != nil {
 		return err
 	}
-
 	eventCell.AddListener(listenerID, cb)
+
 	return nil
 }
 

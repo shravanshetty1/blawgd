@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/internal/libs/protoio"
 	tmbytes "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/bytes"
-	tmtime "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/time"
+	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/protoio"
 	tmproto "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/proto/tendermint/types"
+	tmtime "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/types/time"
 )
 
 var (

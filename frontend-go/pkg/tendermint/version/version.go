@@ -1,13 +1,10 @@
 package version
 
-import tmversion "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/proto/tendermint/version"
-
 var (
-	TMVersion = TMVersionDefault
+	TMCoreSemVer = TMVersionDefault
 )
 
 const (
-
 	// TMVersionDefault is the used as the fallback version of Tendermint Core
 	// when not using git describe. It is formatted with semantic versioning.
 	TMVersionDefault = "0.34.11"
@@ -18,7 +15,7 @@ const (
 )
 
 var (
-	// P2PProtocol versions all p2p behavior and msgs.
+	// P2PProtocol versions all p2p behaviour and msgs.
 	// This includes proposer selection.
 	P2PProtocol uint64 = 8
 
@@ -26,15 +23,3 @@ var (
 	// This includes validity of blocks and state updates.
 	BlockProtocol uint64 = 11
 )
-
-type Consensus struct {
-	Block uint64 `json:"block"`
-	App   uint64 `json:"app"`
-}
-
-func (c Consensus) ToProto() tmversion.Consensus {
-	return tmversion.Consensus{
-		Block: c.Block,
-		App:   c.App,
-	}
-}

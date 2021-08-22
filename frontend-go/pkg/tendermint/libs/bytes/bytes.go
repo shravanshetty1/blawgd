@@ -1,20 +1,13 @@
 package bytes
 
 import (
-	"bytes"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
 	"strings"
 )
 
 // HexBytes enables HEX-encoding for json/encoding.
 type HexBytes []byte
-
-var (
-	_ json.Marshaler   = HexBytes{}
-	_ json.Unmarshaler = &HexBytes{}
-)
 
 // Marshal needed for protobuf compatibility
 func (bz HexBytes) Marshal() ([]byte, error) {
@@ -27,45 +20,30 @@ func (bz *HexBytes) Unmarshal(data []byte) error {
 	return nil
 }
 
-// MarshalJSON implements the json.Marshaler interface. The encoding is a JSON
-// quoted string of hexadecimal digits.
+// This is the point of Bytes.
 func (bz HexBytes) MarshalJSON() ([]byte, error) {
-	size := hex.EncodedLen(len(bz)) + 2 // +2 for quotation marks
-	buf := make([]byte, size)
-	hex.Encode(buf[1:], []byte(bz))
-	buf[0] = '"'
-	buf[size-1] = '"'
-
-	// Ensure letter digits are capitalized.
-	for i := 1; i < size-1; i++ {
-		if buf[i] >= 'a' && buf[i] <= 'f' {
-			buf[i] = 'A' + (buf[i] - 'a')
-		}
-	}
-	return buf, nil
+	s := strings.ToUpper(hex.EncodeToString(bz))
+	jbz := make([]byte, len(s)+2)
+	jbz[0] = '"'
+	copy(jbz[1:], s)
+	jbz[len(jbz)-1] = '"'
+	return jbz, nil
 }
 
-// UnmarshalJSON implements the json.Umarshaler interface.
+// This is the point of Bytes.
 func (bz *HexBytes) UnmarshalJSON(data []byte) error {
-	if bytes.Equal(data, []byte("null")) {
-		return nil
-	}
-
 	if len(data) < 2 || data[0] != '"' || data[len(data)-1] != '"' {
 		return fmt.Errorf("invalid hex string: %s", data)
 	}
-
 	bz2, err := hex.DecodeString(string(data[1 : len(data)-1]))
 	if err != nil {
 		return err
 	}
-
 	*bz = bz2
-
 	return nil
 }
 
-// Bytes fulfills various interfaces in light-client, etc...
+// Bytes fulfils various interfaces in light-client, etc...
 func (bz HexBytes) Bytes() []byte {
 	return bz
 }

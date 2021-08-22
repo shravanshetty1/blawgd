@@ -6,7 +6,7 @@ import (
 	"strings"
 	"unicode"
 
-	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/internal/libs/sync"
+	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/sync"
 )
 
 var (

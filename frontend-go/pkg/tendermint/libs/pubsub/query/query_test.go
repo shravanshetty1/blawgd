@@ -2,37 +2,14 @@ package query_test
 
 import (
 	"fmt"
-	"strings"
 	"testing"
 	"time"
 
-	abci "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/abci/types"
-	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/pubsub/query"
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+
+	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/pubsub/query"
 )
-
-func expandEvents(flattenedEvents map[string][]string) []abci.Event {
-	events := make([]abci.Event, len(flattenedEvents))
-
-	for composite, values := range flattenedEvents {
-		tokens := strings.Split(composite, ".")
-
-		attrs := make([]abci.EventAttribute, len(values))
-		for i, v := range values {
-			attrs[i] = abci.EventAttribute{
-				Key:   tokens[len(tokens)-1],
-				Value: v,
-			}
-		}
-
-		events = append(events, abci.Event{
-			Type:       strings.Join(tokens[:len(tokens)-1], "."),
-			Attributes: attrs,
-		})
-	}
-
-	return events
-}
 
 func TestMatches(t *testing.T) {
 	var (
@@ -182,23 +159,21 @@ func TestMatches(t *testing.T) {
 		}
 		require.NotNil(t, q, "Query '%s' should not be nil", tc.s)
 
-		rawEvents := expandEvents(tc.events)
-
 		if tc.matches {
-			match, err := q.Matches(rawEvents)
-			require.Nil(t, err, "Query '%s' should not error on match %v", tc.s, tc.events)
-			require.True(t, match, "Query '%s' should match %v", tc.s, tc.events)
+			match, err := q.Matches(tc.events)
+			assert.Nil(t, err, "Query '%s' should not error on match %v", tc.s, tc.events)
+			assert.True(t, match, "Query '%s' should match %v", tc.s, tc.events)
 		} else {
-			match, err := q.Matches(rawEvents)
-			require.Equal(t, tc.matchErr, err != nil, "Unexpected error for query '%s' match %v", tc.s, tc.events)
-			require.False(t, match, "Query '%s' should not match %v", tc.s, tc.events)
+			match, err := q.Matches(tc.events)
+			assert.Equal(t, tc.matchErr, err != nil, "Unexpected error for query '%s' match %v", tc.s, tc.events)
+			assert.False(t, match, "Query '%s' should not match %v", tc.s, tc.events)
 		}
 	}
 }
 
 func TestMustParse(t *testing.T) {
-	require.Panics(t, func() { query.MustParse("=") })
-	require.NotPanics(t, func() { query.MustParse("tm.events.type='NewBlock'") })
+	assert.Panics(t, func() { query.MustParse("=") })
+	assert.NotPanics(t, func() { query.MustParse("tm.events.type='NewBlock'") })
 }
 
 func TestConditions(t *testing.T) {
@@ -242,6 +217,6 @@ func TestConditions(t *testing.T) {
 
 		c, err := q.Conditions()
 		require.NoError(t, err)
-		require.Equal(t, tc.conditions, c)
+		assert.Equal(t, tc.conditions, c)
 	}
 }

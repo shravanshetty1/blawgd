@@ -25,7 +25,7 @@ func TestMarshalJSON(t *testing.T) {
 			{
 				Type: "testEvent",
 				Attributes: []EventAttribute{
-					{Key: "pho", Value: "bo"},
+					{Key: []byte("pho"), Value: []byte("bo")},
 				},
 			},
 		},
@@ -92,7 +92,7 @@ func TestWriteReadMessage2(t *testing.T) {
 				{
 					Type: "testEvent",
 					Attributes: []EventAttribute{
-						{Key: "abc", Value: "def"},
+						{Key: []byte("abc"), Value: []byte("def")},
 					},
 				},
 			},

@@ -3,8 +3,8 @@ package types
 import (
 	"time"
 
-	tmtime "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/time"
 	tmproto "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/proto/tendermint/types"
+	tmtime "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/types/time"
 )
 
 // Canonical* wraps the structs in types for amino encoding them for use in SignBytes / the Signable interface.

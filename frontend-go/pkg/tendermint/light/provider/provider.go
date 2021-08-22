@@ -6,11 +6,12 @@ import (
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/types"
 )
 
-//go:generate ../../scripts/mockery_generate.sh Provider
-
 // Provider provides information for the light client to sync (verification
 // happens in the client).
 type Provider interface {
+	// ChainID returns the blockchain ID.
+	ChainID() string
+
 	// LightBlock returns the LightBlock that corresponds to the given
 	// height.
 	//

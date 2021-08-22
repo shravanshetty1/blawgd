@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/crypto"
-	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/internal/libs/protoio"
 	tmbytes "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/bytes"
+	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/protoio"
 	tmproto "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/proto/tendermint/types"
 )
 

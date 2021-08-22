@@ -3,7 +3,6 @@ package types
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/abci/types"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/log"
@@ -15,7 +14,7 @@ const defaultCapacity = 0
 
 type EventBusSubscriber interface {
 	Subscribe(ctx context.Context, subscriber string, query tmpubsub.Query, outCapacity ...int) (Subscription, error)
-	Unsubscribe(ctx context.Context, args tmpubsub.UnsubscribeArgs) error
+	Unsubscribe(ctx context.Context, subscriber string, query tmpubsub.Query) error
 	UnsubscribeAll(ctx context.Context, subscriber string) error
 
 	NumClients() int
@@ -23,9 +22,8 @@ type EventBusSubscriber interface {
 }
 
 type Subscription interface {
-	ID() string
 	Out() <-chan tmpubsub.Message
-	Canceled() <-chan struct{}
+	Cancelled() <-chan struct{}
 	Err() error
 }
 
@@ -93,39 +91,55 @@ func (b *EventBus) SubscribeUnbuffered(
 	return b.pubsub.SubscribeUnbuffered(ctx, subscriber, query)
 }
 
-func (b *EventBus) Unsubscribe(ctx context.Context, args tmpubsub.UnsubscribeArgs) error {
-	return b.pubsub.Unsubscribe(ctx, args)
+func (b *EventBus) Unsubscribe(ctx context.Context, subscriber string, query tmpubsub.Query) error {
+	return b.pubsub.Unsubscribe(ctx, subscriber, query)
 }
 
 func (b *EventBus) UnsubscribeAll(ctx context.Context, subscriber string) error {
 	return b.pubsub.UnsubscribeAll(ctx, subscriber)
 }
 
-func (b *EventBus) Publish(eventValue string, eventData TMEventData) error {
+func (b *EventBus) Publish(eventType string, eventData TMEventData) error {
 	// no explicit deadline for publishing events
 	ctx := context.Background()
+	return b.pubsub.PublishWithEvents(ctx, eventData, map[string][]string{EventTypeKey: {eventType}})
+}
 
-	tokens := strings.Split(EventTypeKey, ".")
-	event := types.Event{
-		Type: tokens[0],
-		Attributes: []types.EventAttribute{
-			{
-				Key:   tokens[1],
-				Value: eventValue,
-			},
-		},
+// validateAndStringifyEvents takes a slice of event objects and creates a
+// map of stringified events where each key is composed of the event
+// type and each of the event's attributes keys in the form of
+// "{event.Type}.{attribute.Key}" and the value is each attribute's value.
+func (b *EventBus) validateAndStringifyEvents(events []types.Event, logger log.Logger) map[string][]string {
+	result := make(map[string][]string)
+	for _, event := range events {
+		if len(event.Type) == 0 {
+			logger.Debug("Got an event with an empty type (skipping)", "event", event)
+			continue
+		}
+
+		for _, attr := range event.Attributes {
+			if len(attr.Key) == 0 {
+				logger.Debug("Got an event attribute with an empty key(skipping)", "event", event)
+				continue
+			}
+
+			compositeTag := fmt.Sprintf("%s.%s", event.Type, string(attr.Key))
+			result[compositeTag] = append(result[compositeTag], string(attr.Value))
+		}
 	}
 
-	return b.pubsub.PublishWithEvents(ctx, eventData, []types.Event{event})
+	return result
 }
 
 func (b *EventBus) PublishEventNewBlock(data EventDataNewBlock) error {
 	// no explicit deadline for publishing events
 	ctx := context.Background()
-	events := append(data.ResultBeginBlock.Events, data.ResultEndBlock.Events...)
 
-	// add Tendermint-reserved new block event
-	events = append(events, EventNewBlock)
+	resultEvents := append(data.ResultBeginBlock.Events, data.ResultEndBlock.Events...)
+	events := b.validateAndStringifyEvents(resultEvents, b.Logger.With("block", data.Block.StringShort()))
+
+	// add predefined new block event
+	events[EventTypeKey] = append(events[EventTypeKey], EventNewBlock)
 
 	return b.pubsub.PublishWithEvents(ctx, data, events)
 }
@@ -133,32 +147,27 @@ func (b *EventBus) PublishEventNewBlock(data EventDataNewBlock) error {
 func (b *EventBus) PublishEventNewBlockHeader(data EventDataNewBlockHeader) error {
 	// no explicit deadline for publishing events
 	ctx := context.Background()
-	events := append(data.ResultBeginBlock.Events, data.ResultEndBlock.Events...)
 
-	// add Tendermint-reserved new block header event
-	events = append(events, EventNewBlockHeader)
+	resultTags := append(data.ResultBeginBlock.Events, data.ResultEndBlock.Events...)
+	// TODO: Create StringShort method for Header and use it in logger.
+	events := b.validateAndStringifyEvents(resultTags, b.Logger.With("header", data.Header))
+
+	// add predefined new block header event
+	events[EventTypeKey] = append(events[EventTypeKey], EventNewBlockHeader)
 
 	return b.pubsub.PublishWithEvents(ctx, data, events)
 }
 
 func (b *EventBus) PublishEventNewEvidence(evidence EventDataNewEvidence) error {
-	return b.Publish(EventNewEvidenceValue, evidence)
+	return b.Publish(EventNewEvidence, evidence)
 }
 
 func (b *EventBus) PublishEventVote(data EventDataVote) error {
-	return b.Publish(EventVoteValue, data)
+	return b.Publish(EventVote, data)
 }
 
 func (b *EventBus) PublishEventValidBlock(data EventDataRoundState) error {
-	return b.Publish(EventValidBlockValue, data)
-}
-
-func (b *EventBus) PublishEventBlockSyncStatus(data EventDataBlockSyncStatus) error {
-	return b.Publish(EventBlockSyncStatusValue, data)
-}
-
-func (b *EventBus) PublishEventStateSyncStatus(data EventDataStateSyncStatus) error {
-	return b.Publish(EventStateSyncStatusValue, data)
+	return b.Publish(EventValidBlock, data)
 }
 
 // PublishEventTx publishes tx event with events from Result. Note it will add
@@ -167,74 +176,55 @@ func (b *EventBus) PublishEventStateSyncStatus(data EventDataStateSyncStatus) er
 func (b *EventBus) PublishEventTx(data EventDataTx) error {
 	// no explicit deadline for publishing events
 	ctx := context.Background()
-	events := data.Result.Events
 
-	// add Tendermint-reserved events
-	events = append(events, EventTx)
+	events := b.validateAndStringifyEvents(data.Result.Events, b.Logger.With("tx", data.Tx))
 
-	tokens := strings.Split(TxHashKey, ".")
-	events = append(events, types.Event{
-		Type: tokens[0],
-		Attributes: []types.EventAttribute{
-			{
-				Key:   tokens[1],
-				Value: fmt.Sprintf("%X", Tx(data.Tx).Hash()),
-			},
-		},
-	})
-
-	tokens = strings.Split(TxHeightKey, ".")
-	events = append(events, types.Event{
-		Type: tokens[0],
-		Attributes: []types.EventAttribute{
-			{
-				Key:   tokens[1],
-				Value: fmt.Sprintf("%d", data.Height),
-			},
-		},
-	})
+	// add predefined compositeKeys
+	events[EventTypeKey] = append(events[EventTypeKey], EventTx)
+	events[TxHashKey] = append(events[TxHashKey], fmt.Sprintf("%X", Tx(data.Tx).Hash()))
+	events[TxHeightKey] = append(events[TxHeightKey], fmt.Sprintf("%d", data.Height))
 
 	return b.pubsub.PublishWithEvents(ctx, data, events)
 }
 
 func (b *EventBus) PublishEventNewRoundStep(data EventDataRoundState) error {
-	return b.Publish(EventNewRoundStepValue, data)
+	return b.Publish(EventNewRoundStep, data)
 }
 
 func (b *EventBus) PublishEventTimeoutPropose(data EventDataRoundState) error {
-	return b.Publish(EventTimeoutProposeValue, data)
+	return b.Publish(EventTimeoutPropose, data)
 }
 
 func (b *EventBus) PublishEventTimeoutWait(data EventDataRoundState) error {
-	return b.Publish(EventTimeoutWaitValue, data)
+	return b.Publish(EventTimeoutWait, data)
 }
 
 func (b *EventBus) PublishEventNewRound(data EventDataNewRound) error {
-	return b.Publish(EventNewRoundValue, data)
+	return b.Publish(EventNewRound, data)
 }
 
 func (b *EventBus) PublishEventCompleteProposal(data EventDataCompleteProposal) error {
-	return b.Publish(EventCompleteProposalValue, data)
+	return b.Publish(EventCompleteProposal, data)
 }
 
 func (b *EventBus) PublishEventPolka(data EventDataRoundState) error {
-	return b.Publish(EventPolkaValue, data)
+	return b.Publish(EventPolka, data)
 }
 
 func (b *EventBus) PublishEventUnlock(data EventDataRoundState) error {
-	return b.Publish(EventUnlockValue, data)
+	return b.Publish(EventUnlock, data)
 }
 
 func (b *EventBus) PublishEventRelock(data EventDataRoundState) error {
-	return b.Publish(EventRelockValue, data)
+	return b.Publish(EventRelock, data)
 }
 
 func (b *EventBus) PublishEventLock(data EventDataRoundState) error {
-	return b.Publish(EventLockValue, data)
+	return b.Publish(EventLock, data)
 }
 
 func (b *EventBus) PublishEventValidatorSetUpdates(data EventDataValidatorSetUpdates) error {
-	return b.Publish(EventValidatorSetUpdatesValue, data)
+	return b.Publish(EventValidatorSetUpdates, data)
 }
 
 //-----------------------------------------------------------------------------
@@ -249,7 +239,7 @@ func (NopEventBus) Subscribe(
 	return nil
 }
 
-func (NopEventBus) Unsubscribe(ctx context.Context, args tmpubsub.UnsubscribeArgs) error {
+func (NopEventBus) Unsubscribe(ctx context.Context, subscriber string, query tmpubsub.Query) error {
 	return nil
 }
 
@@ -314,13 +304,5 @@ func (NopEventBus) PublishEventLock(data EventDataRoundState) error {
 }
 
 func (NopEventBus) PublishEventValidatorSetUpdates(data EventDataValidatorSetUpdates) error {
-	return nil
-}
-
-func (NopEventBus) PublishEventBlockSyncStatus(data EventDataBlockSyncStatus) error {
-	return nil
-}
-
-func (NopEventBus) PublishEventStateSyncStatus(data EventDataStateSyncStatus) error {
 	return nil
 }

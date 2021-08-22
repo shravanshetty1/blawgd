@@ -13,11 +13,12 @@ import (
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/crypto"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/crypto/merkle"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/crypto/tmhash"
-	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/internal/libs/sync"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/bits"
 	tmbytes "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/bytes"
 	tmmath "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/math"
+	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/sync"
 	tmproto "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/proto/tendermint/types"
+	tmversion "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/proto/tendermint/version"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/version"
 )
 
@@ -71,13 +72,20 @@ func (b *Block) ValidateBasic() error {
 		return fmt.Errorf("wrong LastCommit: %v", err)
 	}
 
-	if w, g := b.LastCommit.Hash(), b.LastCommitHash; !bytes.Equal(w, g) {
-		return fmt.Errorf("wrong Header.LastCommitHash. Expected %X, got %X", w, g)
+	if !bytes.Equal(b.LastCommitHash, b.LastCommit.Hash()) {
+		return fmt.Errorf("wrong Header.LastCommitHash. Expected %v, got %v",
+			b.LastCommit.Hash(),
+			b.LastCommitHash,
+		)
 	}
 
 	// NOTE: b.Data.Txs may be nil, but b.Data.Hash() still works fine.
-	if w, g := b.Data.Hash(), b.DataHash; !bytes.Equal(w, g) {
-		return fmt.Errorf("wrong Header.DataHash. Expected %X, got %X", w, g)
+	if !bytes.Equal(b.DataHash, b.Data.Hash()) {
+		return fmt.Errorf(
+			"wrong Header.DataHash. Expected %v, got %v",
+			b.Data.Hash(),
+			b.DataHash,
+		)
 	}
 
 	// NOTE: b.Evidence.Evidence may be nil, but we're just looping.
@@ -87,8 +95,11 @@ func (b *Block) ValidateBasic() error {
 		}
 	}
 
-	if w, g := b.Evidence.Hash(), b.EvidenceHash; !bytes.Equal(w, g) {
-		return fmt.Errorf("wrong Header.EvidenceHash. Expected %X, got %X", w, g)
+	if !bytes.Equal(b.EvidenceHash, b.Evidence.Hash()) {
+		return fmt.Errorf("wrong Header.EvidenceHash. Expected %v, got %v",
+			b.EvidenceHash,
+			b.Evidence.Hash(),
+		)
 	}
 
 	return nil
@@ -304,25 +315,6 @@ func MaxDataBytesNoEvidence(maxBytes int64, valsCount int) int64 {
 	return maxDataBytes
 }
 
-// MakeBlock returns a new block with an empty header, except what can be
-// computed from itself.
-// It populates the same set of fields validated by ValidateBasic.
-func MakeBlock(height int64, txs []Tx, lastCommit *Commit, evidence []Evidence) *Block {
-	block := &Block{
-		Header: Header{
-			Version: version.Consensus{Block: version.BlockProtocol, App: 0},
-			Height:  height,
-		},
-		Data: Data{
-			Txs: txs,
-		},
-		Evidence:   EvidenceData{Evidence: evidence},
-		LastCommit: lastCommit,
-	}
-	block.fillHeader()
-	return block
-}
-
 //-----------------------------------------------------------------------------
 
 // Header defines the structure of a Tendermint block header.
@@ -332,10 +324,10 @@ func MakeBlock(height int64, txs []Tx, lastCommit *Commit, evidence []Evidence) 
 // - https://github.com/tendermint/spec/blob/master/spec/blockchain/blockchain.md
 type Header struct {
 	// basic block info
-	Version version.Consensus `json:"version"`
-	ChainID string            `json:"chain_id"`
-	Height  int64             `json:"height"`
-	Time    time.Time         `json:"time"`
+	Version tmversion.Consensus `json:"version"`
+	ChainID string              `json:"chain_id"`
+	Height  int64               `json:"height"`
+	Time    time.Time           `json:"time"`
 
 	// prev block info
 	LastBlockID BlockID `json:"last_block_id"`
@@ -361,7 +353,7 @@ type Header struct {
 // Populate the Header with state-derived data.
 // Call this after MakeBlock to complete the Header.
 func (h *Header) Populate(
-	version version.Consensus, chainID string,
+	version tmversion.Consensus, chainID string,
 	timestamp time.Time, lastBlockID BlockID,
 	valHash, nextValHash []byte,
 	consensusHash, appHash, lastResultsHash []byte,
@@ -449,8 +441,7 @@ func (h *Header) Hash() tmbytes.HexBytes {
 	if h == nil || len(h.ValidatorsHash) == 0 {
 		return nil
 	}
-	hpb := h.Version.ToProto()
-	hbz, err := hpb.Marshal()
+	hbz, err := h.Version.Marshal()
 	if err != nil {
 		return nil
 	}
@@ -528,7 +519,7 @@ func (h *Header) ToProto() *tmproto.Header {
 	}
 
 	return &tmproto.Header{
-		Version:            h.Version.ToProto(),
+		Version:            h.Version,
 		ChainID:            h.ChainID,
 		Height:             h.Height,
 		Time:               h.Time,
@@ -559,7 +550,7 @@ func HeaderFromProto(ph *tmproto.Header) (Header, error) {
 		return Header{}, err
 	}
 
-	h.Version = version.Consensus{Block: ph.Version.Block, App: ph.Version.App}
+	h.Version = ph.Version
 	h.ChainID = ph.ChainID
 	h.Height = ph.Height
 	h.Time = ph.Time
@@ -1196,10 +1187,10 @@ func (blockID BlockID) Key() string {
 func (blockID BlockID) ValidateBasic() error {
 	// Hash can be empty in case of POLBlockID in Proposal.
 	if err := ValidateHash(blockID.Hash); err != nil {
-		return fmt.Errorf("wrong Hash: %w", err)
+		return fmt.Errorf("wrong Hash")
 	}
 	if err := blockID.PartSetHeader.ValidateBasic(); err != nil {
-		return fmt.Errorf("wrong PartSetHeader: %w", err)
+		return fmt.Errorf("wrong PartSetHeader: %v", err)
 	}
 	return nil
 }

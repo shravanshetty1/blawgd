@@ -7,11 +7,11 @@ import (
 	"io"
 
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/crypto/merkle"
-	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/internal/libs/sync"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/bits"
 	tmbytes "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/bytes"
 	tmjson "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/json"
 	tmmath "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/math"
+	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/sync"
 	tmproto "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/proto/tendermint/types"
 )
 

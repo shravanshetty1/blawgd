@@ -1,7 +1,7 @@
 package cmap
 
 import (
-	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/internal/libs/sync"
+	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/sync"
 )
 
 // CMap is a goroutine-safe map

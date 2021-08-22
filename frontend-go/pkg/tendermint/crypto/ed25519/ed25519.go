@@ -3,13 +3,10 @@ package ed25519
 import (
 	"bytes"
 	"crypto/subtle"
-	"errors"
 	"fmt"
 	"io"
 
-	"crypto/ed25519"
-
-	"github.com/hdevalence/ed25519consensus"
+	"golang.org/x/crypto/ed25519"
 
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/crypto"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/crypto/tmhash"
@@ -18,9 +15,7 @@ import (
 
 //-------------------------------------
 
-var (
-	_ crypto.PrivKey = PrivKey{}
-)
+var _ crypto.PrivKey = PrivKey{}
 
 const (
 	PrivKeyName = "tendermint/PrivKeyEd25519"
@@ -37,14 +32,6 @@ const (
 	SeedSize = 32
 
 	KeyType = "ed25519"
-
-	// cacheSize is the number of public keys that will be cached in
-	// an expanded format for repeated signature verification.
-	//
-	// TODO/perf: Either this should exclude single verification, or be
-	// tuned to `> validatorSize + maxTxnsPerBlock` to avoid cache
-	// thrashing.
-	cacheSize = 4096
 )
 
 func init() {
@@ -118,12 +105,14 @@ func GenPrivKey() PrivKey {
 
 // genPrivKey generates a new ed25519 private key using the provided reader.
 func genPrivKey(rand io.Reader) PrivKey {
-	_, priv, err := ed25519.GenerateKey(rand)
+	seed := make([]byte, SeedSize)
+
+	_, err := io.ReadFull(rand, seed)
 	if err != nil {
 		panic(err)
 	}
 
-	return PrivKey(priv)
+	return PrivKey(ed25519.NewKeyFromSeed(seed))
 }
 
 // GenPrivKeyFromSecret hashes the secret with SHA2, and uses
@@ -162,7 +151,7 @@ func (pubKey PubKey) VerifySignature(msg []byte, sig []byte) bool {
 		return false
 	}
 
-	return ed25519consensus.Verify(ed25519.PublicKey(pubKey), msg, sig)
+	return ed25519.Verify(ed25519.PublicKey(pubKey), msg, sig)
 }
 
 func (pubKey PubKey) String() string {
@@ -179,65 +168,4 @@ func (pubKey PubKey) Equals(other crypto.PubKey) bool {
 	}
 
 	return false
-}
-
-var _ crypto.BatchVerifier = &BatchVerifier{}
-
-// BatchVerifier implements batch verification for ed25519.
-type BatchVerifier struct {
-	Entries []Entry
-	*ed25519consensus.BatchVerifier
-}
-
-type Entry struct {
-	PubK ed25519.PublicKey
-	Msg  []byte
-	Sig  []byte
-}
-
-func NewBatchVerifier() crypto.BatchVerifier {
-	bv := ed25519consensus.NewBatchVerifier()
-	return &BatchVerifier{BatchVerifier: &bv}
-}
-
-func (b *BatchVerifier) Add(key crypto.PubKey, msg, signature []byte) error {
-	pkEd, ok := key.(PubKey)
-	if !ok {
-		return fmt.Errorf("pubkey is not Ed25519")
-	}
-
-	pkBytes := pkEd.Bytes()
-
-	if l := len(pkBytes); l != PubKeySize {
-		return fmt.Errorf("pubkey size is incorrect; expected: %d, got %d", PubKeySize, l)
-	}
-
-	// check that the signature is the correct length
-	if len(signature) != SignatureSize {
-		return errors.New("invalid signature")
-	}
-
-	b.BatchVerifier.Add(ed25519.PublicKey(pkBytes), msg, signature)
-	b.Entries = append(b.Entries, Entry{
-		PubK: ed25519.PublicKey(pkBytes),
-		Msg:  msg,
-		Sig:  signature,
-	})
-	return nil
-}
-
-func (b *BatchVerifier) Verify() (bool, []bool) {
-	var bools = make([]bool, len(b.Entries))
-	if b.BatchVerifier.Verify() {
-		for i := 0; i < len(b.Entries); i++ {
-			bools = append(bools, true)
-		}
-		return true, bools
-	} else {
-		for i := 0; i < len(b.Entries); i++ {
-			e := b.Entries[i]
-			bools = append(bools, ed25519consensus.Verify(e.PubK, e.Msg, e.Sig))
-		}
-		return false, bools
-	}
 }

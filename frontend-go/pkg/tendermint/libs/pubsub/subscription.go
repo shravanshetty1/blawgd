@@ -2,11 +2,8 @@ package pubsub
 
 import (
 	"errors"
-	"fmt"
 
-	"github.com/google/uuid"
-	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/abci/types"
-	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/internal/libs/sync"
+	tmsync "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/sync"
 )
 
 var (
@@ -24,20 +21,18 @@ var (
 // 2) channel which is closed if a client is too slow or choose to unsubscribe
 // 3) err indicating the reason for (2)
 type Subscription struct {
-	id  string
 	out chan Message
 
-	canceled chan struct{}
-	mtx      tmsync.RWMutex
-	err      error
+	cancelled chan struct{}
+	mtx       tmsync.RWMutex
+	err       error
 }
 
 // NewSubscription returns a new subscription with the given outCapacity.
 func NewSubscription(outCapacity int) *Subscription {
 	return &Subscription{
-		id:       uuid.NewString(),
-		out:      make(chan Message, outCapacity),
-		canceled: make(chan struct{}),
+		out:       make(chan Message, outCapacity),
+		cancelled: make(chan struct{}),
 	}
 }
 
@@ -48,15 +43,13 @@ func (s *Subscription) Out() <-chan Message {
 	return s.out
 }
 
-func (s *Subscription) ID() string { return s.id }
-
-// Canceled returns a channel that's closed when the subscription is
+// Cancelled returns a channel that's closed when the subscription is
 // terminated and supposed to be used in a select statement.
-func (s *Subscription) Canceled() <-chan struct{} {
-	return s.canceled
+func (s *Subscription) Cancelled() <-chan struct{} {
+	return s.cancelled
 }
 
-// Err returns nil if the channel returned by Canceled is not yet closed.
+// Err returns nil if the channel returned by Cancelled is not yet closed.
 // If the channel is closed, Err returns a non-nil error explaining why:
 //   - ErrUnsubscribed if the subscriber choose to unsubscribe,
 //   - ErrOutOfCapacity if the subscriber is not pulling messages fast enough
@@ -71,42 +64,27 @@ func (s *Subscription) Err() error {
 
 func (s *Subscription) cancel(err error) {
 	s.mtx.Lock()
-	defer s.mtx.Unlock()
-	defer func() {
-		perr := recover()
-		if err == nil && perr != nil {
-			err = fmt.Errorf("problem closing subscription: %v", perr)
-		}
-	}()
-
-	if s.err == nil && err != nil {
-		s.err = err
-	}
-
-	close(s.canceled)
+	s.err = err
+	s.mtx.Unlock()
+	close(s.cancelled)
 }
 
 // Message glues data and events together.
 type Message struct {
-	subID  string
 	data   interface{}
-	events []types.Event
+	events map[string][]string
 }
 
-func NewMessage(subID string, data interface{}, events []types.Event) Message {
-	return Message{
-		subID:  subID,
-		data:   data,
-		events: events,
-	}
+func NewMessage(data interface{}, events map[string][]string) Message {
+	return Message{data, events}
 }
-
-// SubscriptionID returns the unique identifier for the subscription
-// that produced this message.
-func (msg Message) SubscriptionID() string { return msg.subID }
 
 // Data returns an original data published.
-func (msg Message) Data() interface{} { return msg.data }
+func (msg Message) Data() interface{} {
+	return msg.data
+}
 
 // Events returns events, which matched the client's query.
-func (msg Message) Events() []types.Event { return msg.events }
+func (msg Message) Events() map[string][]string {
+	return msg.events
+}
