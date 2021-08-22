@@ -63,6 +63,7 @@ func main() {
 		}
 		if lb != nil {
 			log.Println(lb.String())
+			log.Println("store size - " + fmt.Sprint(store.Size()))
 		}
 
 		<-time.After(time.Second)
@@ -160,7 +161,7 @@ func (m *memStore) Prune(s uint16) error {
 		return nil
 	}
 
-	for i := 0; i < int(size); i++ {
+	for i := 0; i < len(m.list)-size; i++ {
 		delete(m.heightToLightBlock, int64(m.list[i]))
 	}
 
