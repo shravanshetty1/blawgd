@@ -19,6 +19,7 @@ import (
 
 	store2 "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/light/store"
 
+	"github.com/shravanshetty1/samachar/frontend-go/pkg/cosmos/types/tx"
 	logging "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/log"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/light"
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/light/provider"
@@ -54,6 +55,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Println(tx.Tx{})
 
 	log.Println("syncing...")
 	for {

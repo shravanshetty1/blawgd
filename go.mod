@@ -17,19 +17,20 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/onsi/ginkgo v1.16.4 // indirect
 	github.com/onsi/gomega v1.13.0 // indirect
+	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.23.0
 	github.com/sasha-s/go-deadlock v0.2.1-0.20190427202633-1595213edefa
 	github.com/spf13/cast v1.3.1
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/pflag v1.0.5
-	github.com/spf13/viper v1.8.1
 	github.com/stretchr/testify v1.7.0
+	github.com/tendermint/go-amino v0.16.0
 	github.com/tendermint/tendermint v0.34.11
 	github.com/tendermint/tm-db v0.6.4
 	golang.org/x/crypto v0.0.0-20210813211128-0a44fdfbc16e
 	golang.org/x/net v0.0.0-20210525063256-abc453219eb5
 	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
-	google.golang.org/genproto v0.0.0-20210617175327-b9e0b3197ced // indirect
+	google.golang.org/genproto v0.0.0-20210617175327-b9e0b3197ced
 	google.golang.org/grpc v1.38.0
 )
 
