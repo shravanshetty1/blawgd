@@ -11,24 +11,48 @@ import (
 	"sync"
 	"time"
 
+	"google.golang.org/grpc"
+
+	"github.com/ktr0731/grpc-web-go-client/grpcweb"
+
+	codecTypes "github.com/shravanshetty1/samachar/frontend-go/pkg/cosmos/codec/types"
+	cosmTypes "github.com/shravanshetty1/samachar/frontend-go/pkg/cosmos/types"
+	"github.com/shravanshetty1/samachar/frontend-go/pkg/cosmos/types/tx/signing"
+
+	"github.com/gogo/protobuf/proto"
+	"github.com/shravanshetty1/samachar/frontend-go/pkg/cosmos/types/tx"
+
+	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/crypto/secp256k1"
 	tmbytes "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/bytes"
+	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/light"
+	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/light/provider"
 
 	tmjson "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/json"
 
 	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/types"
-
-	store2 "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/light/store"
-
-	logging "github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/libs/log"
-	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/light"
-	"github.com/shravanshetty1/samachar/frontend-go/pkg/tendermint/light/provider"
 )
 
 const TRUSTED_HEIGHT = 13284
 const TRUSTED_HASH = `"C34D2576BF6CB817706D5C6FED9D9C5BBEEBFF255D33E860EC0A95B3809FD267"`
 const CHAIN_ID = "samachar"
+const COSMOS_DP = "m/44'/118'/0'/0/0"
 
 func main() {
+	//mnemonic := "voice salt fortune fork draw endless figure layer need begin trouble use cream will alpha cheese glad cook monkey used rigid better describe demise"
+	//
+	//privKeyByt, err := hd.Secp256k1.Derive()(mnemonic, "", COSMOS_DP)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
+	//fmt.Println(string(privKeyByt))
+	//privKey := hd.Secp256k1.Generate()(privKeyByt)
+	//
+	//fmt.Println(privKey.PubKey().Address().String())
+	//
+	//err = broadcastTx(nil, 0, 0, privKey)
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 
 	var primary provider.Provider = NewWasmProvider()
 	var store store2.Store = NewMemStore()
@@ -68,6 +92,100 @@ func main() {
 
 		<-time.After(time.Second)
 	}
+}
+
+func broadcastTx(conn grpc.ClientConnInterface, accNum, seq uint64, privK secp256k1.PrivKey, msgs ...*codecTypes.Any) error {
+
+	txBody := &tx.TxBody{
+		Messages:                    msgs,
+		Memo:                        "something",
+		TimeoutHeight:               0,
+		ExtensionOptions:            nil,
+		NonCriticalExtensionOptions: nil,
+	}
+
+	txBodyProto, err := proto.Marshal(txBody)
+	if err != nil {
+		return err
+	}
+
+	signerInfo := tx.SignerInfo{
+		PublicKey: &codecTypes.Any{
+			TypeUrl: "/cosmos.crypto.secp256k1.PubKey",
+			Value:   privK.PubKey().Bytes(),
+		},
+		ModeInfo: &tx.ModeInfo{Sum: &tx.ModeInfo_Single_{Single: &tx.ModeInfo_Single{Mode: signing.SignMode(1)}}},
+		Sequence: seq,
+	}
+
+	authInfo := tx.AuthInfo{
+		SignerInfos: []*tx.SignerInfo{&signerInfo},
+		Fee: &tx.Fee{
+			Amount:   cosmTypes.NewCoins(cosmTypes.NewCoin("stake", cosmTypes.NewInt(0))),
+			GasLimit: 300000,
+			Payer:    "",
+			Granter:  "",
+		},
+	}
+
+	authInfoProto, err := proto.Marshal(&authInfo)
+	if err != nil {
+		return err
+	}
+
+	signDoc := tx.SignDoc{
+		BodyBytes:     txBodyProto,
+		AuthInfoBytes: authInfoProto,
+		ChainId:       CHAIN_ID,
+		AccountNumber: accNum,
+	}
+
+	signDocProto, err := proto.Marshal(&signDoc)
+	if err != nil {
+		return err
+	}
+
+	signature, err := privK.Sign(signDocProto)
+	if err != nil {
+		return err
+	}
+
+	txRaw := tx.TxRaw{
+		BodyBytes:     txBodyProto,
+		AuthInfoBytes: authInfoProto,
+		Signatures:    [][]byte{signature},
+	}
+
+	txRawProto, err := proto.Marshal(&txRaw)
+	if err != nil {
+		return err
+	}
+
+	txStr := tmbytes.HexBytes(txRawProto).String()
+
+	resp, err := http.Get("http://localhost:26657/broadcast_tx_commit?tx=0x" + txStr)
+	if err != nil {
+		return err
+	}
+	respRaw, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(string(respRaw))
+	return err
+}
+
+type clWrapper struct {
+	cl *grpcweb.ClientConn
+}
+
+func (c *clWrapper) Invoke(ctx context.Context, method string, args, reply interface{}, opts ...grpc.CallOption) error {
+	return c.cl.Invoke(ctx, method, args, reply)
+}
+
+func (c *clWrapper) NewStream(ctx context.Context, desc *grpc.StreamDesc, method string, opts ...grpc.CallOption) (grpc.ClientStream, error) {
+	return nil, nil
 }
 
 func InsertSorted(ss []int, s int) []int {
