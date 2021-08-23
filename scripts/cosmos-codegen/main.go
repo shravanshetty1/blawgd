@@ -27,7 +27,7 @@ func main() {
 
 	fmt.Println("generating files...")
 	for _, path := range paths {
-		command := "-I ./frontend-go/pkg/cosmos/proto -I ./frontend-go/pkg/cosmos/third_party/proto --gocosmos_out=plugins=interfacetype+grpc,Mgoogle/protobuf/any.proto=github.com/shravanshetty1/samachar/frontend-go/pkg/cosmos/codegen/other:. ./" + path
+		command := "-I ./frontend-go/pkg/cosmos/proto -I ./frontend-go/pkg/cosmos/third_party/proto --gocosmos_out=plugins=interfacetype+grpc,Mgoogle/protobuf/any.proto=github.com/shravanshetty1/samachar/frontend-go/pkg/cosmos/codegen/codec/types:. ./" + path
 		err = exec.Command("protoc", strings.Split(command, " ")...).Run()
 		if err != nil {
 			log.Fatal(err)
