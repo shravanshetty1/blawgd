@@ -26,13 +26,13 @@ tonic = { version = "0.4.3", default-features = false, features = ["codegen", "p
 tiny-bip39 = { version = "0.8.0", default-features = false }
 grpc-web-client = { git = "https://github.com/titanous/grpc-web-client", branch = "main"}
 reqwest = { version = "=0.10.10", features = ["json"] }
-tendermint-light-client = { git = "https://github.com/informalsystems/tendermint-rs", branch = "master", default-features = false, features = ["std", "eyre_tracer"] }
-tendermint-rpc = { git = "https://github.com/informalsystems/tendermint-rs", branch = "master" }
-tendermint = { git = "https://github.com/informalsystems/tendermint-rs", branch = "master" }
+tendermint-light-client = { git = "https://github.com/shravanshetty1/tendermint-rs", branch = "wasm", default-features = false, features = ["std", "eyre_tracer"] }
+tendermint-rpc = { git = "https://github.com/shravanshetty1/tendermint-rs", branch = "wasm" }
+tendermint = { git = "https://github.com/shravanshetty1/tendermint-rs", branch = "wasm" }
 serde = "1.0.106"
 serde_json = "1"
 contracts = "0.4.0"
-wasm-rs-async-executor = "0.9.0"
+async-trait = "0.1.51"
 
 [dependencies.web-sys]
 version = "0.3.4"
@@ -47,6 +47,7 @@ features = [
     'HtmlInputElement',
     'HtmlTextAreaElement',
     'HtmlImageElement',
+    'Response',
 ]
 
 [patch.crates-io]
