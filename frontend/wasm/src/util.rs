@@ -19,6 +19,7 @@ pub const MSG_TYPE_STOP_FOLLOW: &str = "/shravanshetty1.samachar.samachar.MsgSto
 pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str =
     "/shravanshetty1.samachar.samachar.MsgUpdateAccountInfo";
 pub const ADDRESS_HRP: &str = "cosmos";
+pub(crate) const TENDERMINT_HOST: &str = "http://localhost:26657";
 
 pub struct StoredData {
     pub mnemonic: String,

@@ -1,17 +1,13 @@
-use crate::blawgd_client::GetAccountInfoRequest;
-use crate::{
-    edit_profile_page, followings_page, home_page, login_page, post_page, profile_page,
-    timeline_page, util,
-};
-use contracts::contract_trait;
+use std::future::Future;
+use std::time::Duration;
 
 use async_trait::async_trait;
+use contracts::contract_trait;
+use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::service_client::ServiceClient as base_client;
 use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::{
     GetNodeInfoRequest, GetValidatorSetByHeightRequest,
 };
 use reqwest::Url;
-use std::future::Future;
-use std::time::Duration;
 use tendermint::abci::transaction::Hash;
 use tendermint::channel::Serialize;
 use tendermint::evidence::Evidence;
@@ -34,8 +30,65 @@ use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsValue;
 use web_sys;
 
+use crate::blawgd_client::GetAccountInfoRequest;
+use crate::{
+    edit_profile_page, followings_page, home_page, login_page, post_page, profile_page,
+    timeline_page, util,
+};
+
 const TRUSTED_HEIGHT: &str = "13284";
 const TRUSTED_HASH: &str = "C34D2576BF6CB817706D5C6FED9D9C5BBEEBFF255D33E860EC0A95B3809FD267";
+
+pub struct LightClient {
+    supervisor: tendermint_light_client::supervisor::Supervisor,
+}
+
+impl LightClient {
+    pub async fn new() -> LightClient {
+        let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
+        let node_info = base_client::new(client)
+            .get_node_info(GetNodeInfoRequest {})
+            .await
+            .unwrap()
+            .get_ref()
+            .clone()
+            .default_node_info
+            .unwrap();
+        let peer_id = node_info.default_node_id.parse().unwrap();
+
+        let instance = make_instance(peer_id).await;
+        let instance2 = make_instance(peer_id).await;
+        let (instances, addresses) = tendermint_light_client::builder::SupervisorBuilder::new()
+            .primary(peer_id, "tcp://127.0.0.1:26657".parse().unwrap(), instance)
+            .witness(peer_id, "tcp://127.0.0.1:26657".parse().unwrap(), instance2)
+            .inner();
+
+        let mut supervisor = tendermint_light_client::supervisor::Supervisor::new(
+            instances,
+            ProdForkDetector::default(),
+            EvidenceReporter,
+        );
+        LightClient {
+            supervisor: supervisor,
+        }
+    }
+
+    pub async fn run(&mut self) {
+        loop {
+            match self.supervisor.verify_to_highest().await {
+                Ok(light_block) => {
+                    util::console_log(
+                        format!("[info] synced to block {}", light_block.height()).as_str(),
+                    );
+                }
+                Err(err) => {
+                    util::console_log(format!("[error] sync failed: {}", err).as_str());
+                }
+            }
+            gloo::timers::future::TimeoutFuture::new(5000).await;
+        }
+    }
+}
 
 pub(crate) async fn make_instance(
     peer_id: PeerId,
@@ -71,24 +124,17 @@ pub(crate) async fn make_instance(
 }
 
 pub struct WasmClock;
+
 impl tendermint_light_client::components::clock::Clock for WasmClock {
     fn now(&self) -> Time {
         Time::from(chrono::prelude::Utc::now())
     }
 }
 
-const TENDERMINT_HOST: &str = "http://localhost:26657";
-
-pub struct EvidenceReporter {}
-
-impl EvidenceReporter {
-    pub(crate) fn new() -> EvidenceReporter {
-        EvidenceReporter {}
-    }
-}
+pub struct EvidenceReporter;
 
 #[contract_trait]
-#[async_trait(?Send)]
+#[async_trait(? Send)]
 impl tendermint_light_client::evidence::EvidenceReporter for EvidenceReporter {
     async fn report(&self, e: Evidence, peer: PeerId) -> Result<Hash, IoError> {
         let evidence = serde_json::to_string(&e).unwrap();
@@ -96,7 +142,8 @@ impl tendermint_light_client::evidence::EvidenceReporter for EvidenceReporter {
         let resp = reqwest::get(
             format!(
                 "{}/broadcast_evidence?evidence={}",
-                TENDERMINT_HOST, evidence
+                util::TENDERMINT_HOST,
+                evidence
             )
             .as_str(),
         )
@@ -122,7 +169,7 @@ impl LightClientIO {
     }
 }
 
-#[async_trait(?Send)]
+#[async_trait(? Send)]
 impl io::Io for LightClientIO {
     async fn fetch_light_block(&self, height: io::AtHeight) -> Result<LightBlock, IoError> {
         let height = match height {
