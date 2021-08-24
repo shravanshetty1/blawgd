@@ -337,11 +337,13 @@ version = "0.4.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "670ad68c9088c2a963aaa298cb369688cf3f9465ce5e2d4ca10e6e0098a1ce73"
 dependencies = [
+ "js-sys",
  "libc",
  "num-integer",
  "num-traits",
  "serde",
  "time",
+ "wasm-bindgen",
  "winapi 0.3.9",
 ]
 
@@ -350,6 +352,7 @@ name = "client"
 version = "0.1.0"
 dependencies = [
  "async-trait",
+ "chrono",
  "console_error_panic_hook",
  "contracts",
  "cosmos-sdk-proto",
@@ -2265,7 +2268,7 @@ dependencies = [
 [[package]]
 name = "tendermint"
 version = "0.21.0"
-source = "git+https://github.com/shravanshetty1/tendermint-rs?branch=wasm#46519d58bbffc97538d1c70aeede5a4359d5d8fd"
+source = "git+https://github.com/shravanshetty1/tendermint-rs?branch=wasm#9107480979efbe498f2fbebb5924f3a24da06870"
 dependencies = [
  "async-trait",
  "bytes 1.0.1",
@@ -2296,7 +2299,7 @@ dependencies = [
 [[package]]
 name = "tendermint-light-client"
 version = "0.21.0"
-source = "git+https://github.com/shravanshetty1/tendermint-rs?branch=wasm#46519d58bbffc97538d1c70aeede5a4359d5d8fd"
+source = "git+https://github.com/shravanshetty1/tendermint-rs?branch=wasm#9107480979efbe498f2fbebb5924f3a24da06870"
 dependencies = [
  "async-recursion",
  "async-std",
@@ -2336,7 +2339,7 @@ dependencies = [
 [[package]]
 name = "tendermint-proto"
 version = "0.21.0"
-source = "git+https://github.com/shravanshetty1/tendermint-rs?branch=wasm#46519d58bbffc97538d1c70aeede5a4359d5d8fd"
+source = "git+https://github.com/shravanshetty1/tendermint-rs?branch=wasm#9107480979efbe498f2fbebb5924f3a24da06870"
 dependencies = [
  "bytes 1.0.1",
  "chrono",
@@ -2353,7 +2356,7 @@ dependencies = [
 [[package]]
 name = "tendermint-rpc"
 version = "0.21.0"
-source = "git+https://github.com/shravanshetty1/tendermint-rs?branch=wasm#46519d58bbffc97538d1c70aeede5a4359d5d8fd"
+source = "git+https://github.com/shravanshetty1/tendermint-rs?branch=wasm#9107480979efbe498f2fbebb5924f3a24da06870"
 dependencies = [
  "bytes 1.0.1",
  "chrono",

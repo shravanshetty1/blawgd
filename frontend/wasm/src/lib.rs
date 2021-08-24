@@ -41,32 +41,14 @@ pub fn main() -> Result<(), JsValue> {
             .witness(peer_id, "tcp://127.0.0.1:26657".parse().unwrap(), instance2)
             .inner();
 
-        util::console_log("starting sync");
-        let supervisor = tendermint_light_client::supervisor::Supervisor::new(
+        let mut supervisor = tendermint_light_client::supervisor::Supervisor::new(
             instances,
             ProdForkDetector::default(),
             light_client::EvidenceReporter::new(),
         );
 
-        let handle = supervisor.handle();
-
-        util::console_log("starting sync");
-        wasm_bindgen_futures::spawn_local(async {
-            supervisor.run().await;
-            ()
-        });
-
-        // wasm_bindgen_futures::spawn_local(async {
-        //     loop {
-        //         let x = handle.latest_status().unwrap();
-        //         util::console_log(format!("{}", serde_json::to_string(&x).unwrap()).as_ref());
-        //         std::thread::sleep(Duration::from_millis(800));
-        //     }
-        // });
-
-        util::console_log("starting sync");
         loop {
-            match handle.verify_to_highest() {
+            match supervisor.verify_to_highest().await {
                 Ok(light_block) => {
                     util::console_log(
                         format!("[info] synced to block {}", light_block.height()).as_str(),
@@ -77,7 +59,7 @@ pub fn main() -> Result<(), JsValue> {
                 }
             }
 
-            std::thread::sleep(Duration::from_millis(800));
+            // std::thread::sleep(Duration::from_millis(800));
         }
 
         let url: String = web_sys::window().unwrap().location().href().unwrap();

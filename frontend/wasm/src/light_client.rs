@@ -16,6 +16,7 @@ use tendermint::abci::transaction::Hash;
 use tendermint::channel::Serialize;
 use tendermint::evidence::Evidence;
 use tendermint::validator::Info;
+use tendermint::Time;
 use tendermint_light_client::components::clock::SystemClock;
 use tendermint_light_client::components::io;
 use tendermint_light_client::components::io::IoError;
@@ -39,10 +40,9 @@ const TRUSTED_HASH: &str = "C34D2576BF6CB817706D5C6FED9D9C5BBEEBFF255D33E860EC0A
 pub(crate) async fn make_instance(
     peer_id: PeerId,
 ) -> tendermint_light_client::supervisor::Instance {
-    util::console_log("starting sync");
     let options = light_client::Options {
         trust_threshold: TrustThreshold::default(),
-        trusting_period: Duration::from_secs(36000),
+        trusting_period: Duration::from_secs(360000),
         clock_drift: Duration::from_secs(1),
     };
     let builder = tendermint_light_client::builder::LightClientBuilder::custom(
@@ -51,7 +51,7 @@ pub(crate) async fn make_instance(
         Box::new(MemoryStore::new()),
         Box::new(LightClientIO::new(peer_id)),
         Box::new(ProdHasher),
-        Box::new(SystemClock),
+        Box::new(WasmClock),
         Box::new(ProdVerifier::default()),
         Box::new(scheduler::basic_bisecting_schedule),
         Box::new(ProdPredicates),
@@ -65,10 +65,16 @@ pub(crate) async fn make_instance(
         .await
         .unwrap();
 
-    util::console_log("starting sync");
     let instance = builder.build();
 
     instance
+}
+
+pub struct WasmClock;
+impl tendermint_light_client::components::clock::Clock for WasmClock {
+    fn now(&self) -> Time {
+        Time::from(chrono::prelude::Utc::now())
+    }
 }
 
 const TENDERMINT_HOST: &str = "http://localhost:26657";
@@ -124,8 +130,13 @@ impl io::Io for LightClientIO {
             io::AtHeight::Highest => 0,
         };
 
+        let mut param: String = String::new();
+        if height != 0 {
+            param = format!("?height={}", height)
+        }
+
         let signed_header = reqwest::get(
-            format!("http://localhost:26657/commit?height={}", height).as_str(),
+            format!("http://localhost:26657/commit{}", param).as_str(),
         )
         .await
         .unwrap()
