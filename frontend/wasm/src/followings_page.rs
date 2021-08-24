@@ -1,15 +1,8 @@
-use crate::blawgd_client;
-use crate::blawgd_client::{AccountInfoView, GetAccountInfoRequest, GetPostsByAccountRequest};
-use crate::components::account_info::AccountInfoComp;
-use crate::components::blawgd_html::BlawgdHTMLDoc;
-use crate::components::followings_page::FollowingsPage;
-use crate::components::nav_bar::NavBar;
-use crate::components::post::Post;
-use crate::components::profile_page::ProfilePage;
-use crate::components::Component;
-use crate::util;
-use crate::util::StoredData;
-use gloo::events;
+use crate::{
+    blawgd_client, components::blawgd_html::BlawgdHTMLDoc,
+    components::followings_page::FollowingsPage, components::nav_bar::NavBar,
+    components::Component, util,
+};
 
 pub async fn handle() {
     let window = web_sys::window().unwrap();

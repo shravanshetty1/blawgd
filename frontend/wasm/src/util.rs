@@ -1,10 +1,12 @@
-use crate::blawgd_client;
-use crate::blawgd_client::{AccountInfo, AccountInfoView, GetAccountInfoRequest};
-use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
-use cosmos_sdk_proto::cosmos::auth::v1beta1::{BaseAccount, QueryAccountRequest};
-use cosmos_sdk_proto::cosmos::tx::v1beta1::service_client::ServiceClient;
-use cosmos_sdk_proto::cosmos::tx::v1beta1::{
-    BroadcastMode, BroadcastTxRequest, BroadcastTxResponse, Tx, TxRaw,
+use crate::blawgd_client::{
+    query_client::QueryClient as BlawgdClient, AccountInfo, AccountInfoView, GetAccountInfoRequest,
+    GetFollowingsRequest,
+};
+use cosmos_sdk_proto::cosmos::{
+    auth::v1beta1::query_client::QueryClient,
+    auth::v1beta1::{BaseAccount, QueryAccountRequest},
+    tx::v1beta1::service_client::ServiceClient,
+    tx::v1beta1::{BroadcastMode, BroadcastTxRequest, BroadcastTxResponse, Tx, TxRaw},
 };
 use crw_client::tx::TxBuilder;
 use crw_wallet::crypto::MnemonicWallet;
@@ -36,8 +38,8 @@ pub async fn is_following(
     address1: String,
     address2: String,
 ) -> bool {
-    let followings = blawgd_client::query_client::QueryClient::new(client)
-        .get_followings(blawgd_client::GetFollowingsRequest { address: address1 })
+    let followings = BlawgdClient::new(client)
+        .get_followings(GetFollowingsRequest { address: address1 })
         .await
         .unwrap()
         .get_ref()

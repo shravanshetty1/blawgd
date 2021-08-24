@@ -1,14 +1,10 @@
-use crate::blawgd_client::{AccountInfo, AccountInfoView, GetAccountInfoRequest};
-use crate::components::account_info::AccountInfoComp;
-use crate::components::blawgd_html::BlawgdHTMLDoc;
-use crate::components::login_page::LoginPage;
-use crate::components::nav_bar::NavBar;
-use crate::components::Component;
-use crate::util;
-use crate::util::StoredData;
+use crate::{
+    blawgd_client::AccountInfoView, components::account_info::AccountInfoComp,
+    components::blawgd_html::BlawgdHTMLDoc, components::login_page::LoginPage,
+    components::nav_bar::NavBar, components::Component, util, util::StoredData,
+};
 use bip39::{Language, Mnemonic, MnemonicType};
-use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
-use cosmos_sdk_proto::cosmos::auth::v1beta1::QueryAccountRequest;
+
 use gloo::events;
 use wasm_bindgen::JsCast;
 

@@ -1,18 +1,14 @@
 use gloo::events;
 use wasm_bindgen::JsCast;
 
-use crate::blawgd_client::query_client::QueryClient as BlawgdQueryClient;
-use crate::blawgd_client::{GetPostsByParentPostRequest, GetTimelineRequest};
-use crate::components::blawgd_html::BlawgdHTMLDoc;
-use crate::components::home_page::HomePage;
-use crate::components::nav_bar::NavBar;
-use crate::components::post::Post;
-use crate::components::post_creator::PostCreator;
-use crate::components::Component;
-use crate::light_client::LightClient;
-use crate::util;
+use crate::{
+    blawgd_client::query_client::QueryClient as BlawgdQueryClient,
+    blawgd_client::GetTimelineRequest, components::blawgd_html::BlawgdHTMLDoc,
+    components::home_page::HomePage, components::nav_bar::NavBar, components::post::Post,
+    components::post_creator::PostCreator, components::Component, light_client::LightClient, util,
+};
 
-pub async fn handle() {
+pub async fn handle(lc: &LightClient) {
     let window = web_sys::window().unwrap();
     let document = window.document().expect("document missing");
     let storage = window

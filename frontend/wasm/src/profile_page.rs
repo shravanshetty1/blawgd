@@ -1,14 +1,15 @@
-use crate::blawgd_client::{GetAccountInfoRequest, GetPostsByAccountRequest};
-use crate::components::account_info::AccountInfoComp;
-use crate::components::blawgd_html::BlawgdHTMLDoc;
-use crate::components::nav_bar::NavBar;
-use crate::components::post::Post;
-use crate::components::profile_page::{ButtonType, ProfilePage};
-use crate::components::Component;
-use crate::util;
-use crate::util::StoredData;
+use crate::{
+    blawgd_client::GetPostsByAccountRequest,
+    components::account_info::AccountInfoComp,
+    components::blawgd_html::BlawgdHTMLDoc,
+    components::nav_bar::NavBar,
+    components::post::Post,
+    components::profile_page::{ButtonType, ProfilePage},
+    components::Component,
+    util,
+};
+
 use gloo::events;
-use tonic::codegen::Future;
 
 pub async fn handle() {
     let window = web_sys::window().unwrap();

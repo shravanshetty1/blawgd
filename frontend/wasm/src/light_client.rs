@@ -1,40 +1,20 @@
-use std::future::Future;
 use std::time::Duration;
 
 use async_trait::async_trait;
 use contracts::contract_trait;
 use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::service_client::ServiceClient as base_client;
-use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::{
-    GetNodeInfoRequest, GetValidatorSetByHeightRequest,
-};
-use reqwest::Url;
-use tendermint::abci::transaction::Hash;
-use tendermint::channel::Serialize;
-use tendermint::evidence::Evidence;
-use tendermint::validator::Info;
-use tendermint::Time;
-use tendermint_light_client::components::clock::SystemClock;
-use tendermint_light_client::components::io;
-use tendermint_light_client::components::io::IoError;
-use tendermint_light_client::components::scheduler;
-use tendermint_light_client::components::verifier::ProdVerifier;
-use tendermint_light_client::fork_detector::ProdForkDetector;
-use tendermint_light_client::light_client;
-use tendermint_light_client::operations::ProdHasher;
-use tendermint_light_client::peer_list::PeerListBuilder;
-use tendermint_light_client::predicates::ProdPredicates;
-use tendermint_light_client::store::memory::MemoryStore;
-use tendermint_light_client::supervisor::Handle;
-use tendermint_light_client::types::{LightBlock, PeerId, TrustThreshold};
-use wasm_bindgen::prelude::*;
-use wasm_bindgen::JsValue;
-use web_sys;
+use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::GetNodeInfoRequest;
 
-use crate::blawgd_client::GetAccountInfoRequest;
-use crate::{
-    edit_profile_page, followings_page, home_page, login_page, post_page, profile_page,
-    timeline_page, util,
+use tendermint::{abci::transaction::Hash, evidence::Evidence, Time};
+
+use tendermint_light_client::{
+    components::io, components::io::IoError, components::scheduler,
+    components::verifier::ProdVerifier, fork_detector::ProdForkDetector, light_client,
+    operations::ProdHasher, predicates::ProdPredicates, store::memory::MemoryStore,
+    types::LightBlock, types::PeerId, types::TrustThreshold,
 };
+
+use crate::util;
 
 const TRUSTED_HEIGHT: &str = "13284";
 const TRUSTED_HASH: &str = "C34D2576BF6CB817706D5C6FED9D9C5BBEEBFF255D33E860EC0A95B3809FD267";
@@ -63,14 +43,12 @@ impl LightClient {
             .witness(peer_id, "tcp://127.0.0.1:26657".parse().unwrap(), instance2)
             .inner();
 
-        let mut supervisor = tendermint_light_client::supervisor::Supervisor::new(
+        let supervisor = tendermint_light_client::supervisor::Supervisor::new(
             instances,
             ProdForkDetector::default(),
             EvidenceReporter,
         );
-        LightClient {
-            supervisor: supervisor,
-        }
+        LightClient { supervisor }
     }
 
     pub async fn run(&mut self) {
@@ -90,9 +68,7 @@ impl LightClient {
     }
 }
 
-pub(crate) async fn make_instance(
-    peer_id: PeerId,
-) -> tendermint_light_client::supervisor::Instance {
+async fn make_instance(peer_id: PeerId) -> tendermint_light_client::supervisor::Instance {
     let options = light_client::Options {
         trust_threshold: TrustThreshold::default(),
         trusting_period: Duration::from_secs(360000),
