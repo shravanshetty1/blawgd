@@ -28,7 +28,7 @@ func (q *QueryServer) GetTimeline(ctxR context.Context, req *types.GetTimelineRe
 
 	var postViews []*types.PostView
 	for _, post := range posts {
-		accountInfo := q.keeper.GetAccountInfo(ctx, post.Creator)
+		_, accountInfo, _ := q.keeper.GetAccountInfo(0, post.Creator)
 		accountInfo.Address = post.Creator
 
 		postView := &types.PostView{
@@ -55,7 +55,7 @@ func (q *QueryServer) GetPost(ctx context.Context, req *types.GetPostRequest) (*
 		return nil, err
 	}
 
-	accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), post.Creator)
+	_, accountInfo, _ := q.keeper.GetAccountInfo(0, post.Creator)
 	accountInfo.Address = post.Creator
 
 	postView := &types.PostView{
@@ -78,7 +78,7 @@ func (q *QueryServer) GetPostsByAccount(ctx context.Context, req *types.GetPosts
 
 	var postViews []*types.PostView
 	for _, post := range posts {
-		accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), post.Creator)
+		_, accountInfo, _ := q.keeper.GetAccountInfo(0, post.Creator)
 		accountInfo.Address = post.Creator
 
 		postView := &types.PostView{
@@ -95,13 +95,19 @@ func (q *QueryServer) GetPostsByAccount(ctx context.Context, req *types.GetPosts
 	return &types.GetPostsByAccountResponse{Posts: postViews}, nil
 }
 
-func (q *QueryServer) GetAccountInfo(ctx context.Context, req *types.GetAccountInfoRequest) (*types.GetAccountInfoResponse, error) {
-	accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), req.Address)
+func (q *QueryServer) GetProfileInfo(ctx context.Context, req *types.GetProfileInfoRequest) (*types.GetProfileInfoResponse, error) {
+	accountInfoKey, accountInfo, proof := q.keeper.GetAccountInfo(req.Height, req.Address)
+	followingCountKey, followingCount, proof2 := q.keeper.GetFollowingsCount(req.Height, req.Address)
 
-	return &types.GetAccountInfoResponse{AccountInfo: &types.AccountInfoView{
-		AccountInfo:    accountInfo,
-		FollowingCount: q.keeper.GetFollowingsCount(sdk.UnwrapSDKContext(ctx), req.Address),
-	}}, nil
+	return &types.GetProfileInfoResponse{
+		AccountInfo:    accountInfoKey,
+		FollowingCount: followingCountKey,
+		Data: &types.Data{
+			AccountInfos:    []*types.AccountInfo{accountInfo},
+			FollowingCounts: []*types.FollowingCount{followingCount},
+		},
+		Proofs: []*types.Proof{proof, proof2},
+	}, nil
 }
 
 func (q *QueryServer) GetPostsByParentPost(ctx context.Context, req *types.GetPostsByParentPostRequest) (*types.GetPostsByParentPostResponse, error) {
@@ -112,7 +118,7 @@ func (q *QueryServer) GetPostsByParentPost(ctx context.Context, req *types.GetPo
 
 	var postViews []*types.PostView
 	for _, post := range posts {
-		accountInfo := q.keeper.GetAccountInfo(sdk.UnwrapSDKContext(ctx), post.Creator)
+		_, accountInfo, _ := q.keeper.GetAccountInfo(0, post.Creator)
 		accountInfo.Address = post.Creator
 
 		postView := &types.PostView{

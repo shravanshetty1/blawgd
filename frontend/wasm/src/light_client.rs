@@ -71,7 +71,8 @@ impl LightClient {
 async fn make_instance(peer_id: PeerId) -> tendermint_light_client::supervisor::Instance {
     let options = light_client::Options {
         trust_threshold: TrustThreshold::default(),
-        trusting_period: Duration::from_secs(360000),
+        // TODO change trusting period
+        trusting_period: Duration::from_secs(3600000),
         clock_drift: Duration::from_secs(1),
     };
     let builder = tendermint_light_client::builder::LightClientBuilder::custom(

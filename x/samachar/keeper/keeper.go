@@ -1,8 +1,11 @@
 package keeper
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/big"
+
+	"github.com/tendermint/tendermint/proto/tendermint/crypto"
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
@@ -204,13 +207,32 @@ func (k *Keeper) UpdateAccountInfo(ctx sdk.Context, msg *types.MsgUpdateAccountI
 	return nil
 }
 
-func (k *Keeper) GetAccountInfo(ctx sdk.Context, address string) *types.AccountInfo {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.ACCOUNT_INFO_KEY))
-	accountInfoRaw := store.Get(types.KeyPrefix(types.ACCOUNT_INFO_KEY + address))
+func (k *Keeper) Get(height int64, key []byte, val codec.ProtoMarshaler) *types.Proof {
+	resp := k.bApp.Query(abci.RequestQuery{
+		Data:   key,
+		Path:   "store/samachar/key",
+		Height: height,
+		Prove:  true,
+	})
 
+	_ = k.cdc.Unmarshal(resp.Value, val)
+
+	return GetProofFromProofOps(key, resp.ProofOps)
+}
+
+func (k *Keeper) GetAccountInfo(height int64, address string) (string, *types.AccountInfo, *types.Proof) {
+	key := types.AccountInfoKey(types.ACCOUNT_INFO_KEY + address)
 	var accountInfo types.AccountInfo
-	k.cdc.MustUnmarshal(accountInfoRaw, &accountInfo)
-	return &accountInfo
+	proof := k.Get(height, key, &accountInfo)
+	return string(key), &accountInfo, proof
+}
+
+func GetProofFromProofOps(key []byte, proofOps *crypto.ProofOps) *types.Proof {
+	encodedProof, _ := json.Marshal(proofOps)
+	return &types.Proof{
+		Key:   string(key),
+		Proof: string(encodedProof),
+	}
 }
 
 func GetListWithoutRepeated(list []string) []string {
@@ -238,29 +260,31 @@ func (k *Keeper) GetFollowings(ctx sdk.Context, address string) types.Following 
 	return following
 }
 
-func (k *Keeper) GetFollowingsCount(ctx sdk.Context, address string) int64 {
-	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
-	followingCount := new(big.Int)
-	followingCount.SetString(string(store.Get(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+address))), 10)
-	return followingCount.Int64()
+func (k *Keeper) GetFollowingsCount(height int64, address string) (string, *types.FollowingCount, *types.Proof) {
+	// TODO fix key
+	key := types.FollowingKey(types.FOLLOWING_COUNT_KEY + address)
+	var followingCount types.FollowingCount
+	proof := k.Get(height, key, &followingCount)
+	return string(key), &followingCount, proof
 }
 
 func (k *Keeper) StartFollowing(ctx sdk.Context, msg *types.MsgFollow) error {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
 	val := store.Get(types.KeyPrefix(types.FOLLOWING_KEY + msg.Creator))
-	followingCount := new(big.Int)
-	followingCount.SetString(string(store.Get(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+msg.Creator))), 10)
+	_, followingCount, _ := k.GetFollowingsCount(ctx.BlockHeight(), msg.Creator)
 
 	var following types.Following
 	k.cdc.MustUnmarshal(val, &following)
 	following.Address = msg.Creator
-
 	following.Followings = GetListWithoutRepeated(append(following.Followings, msg.Address))
-	followingCount.SetInt64(int64(len(following.Followings)))
+	followingCount = &types.FollowingCount{
+		Address: msg.Creator,
+		Count:   uint64(len(following.Followings)),
+	}
 
 	val = k.cdc.MustMarshal(&following)
 	store.Set(types.KeyPrefix(types.FOLLOWING_KEY+msg.Creator), val)
-	store.Set(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+msg.Creator), []byte(followingCount.String()))
+	store.Set(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+msg.Creator), k.cdc.MustMarshal(followingCount))
 
 	return nil
 }
@@ -268,8 +292,7 @@ func (k *Keeper) StartFollowing(ctx sdk.Context, msg *types.MsgFollow) error {
 func (k *Keeper) StopFollowing(ctx sdk.Context, msg *types.MsgStopFollow) error {
 	store := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FOLLOWING_KEY))
 	val := store.Get(types.KeyPrefix(types.FOLLOWING_KEY + msg.Creator))
-	followingCount := new(big.Int)
-	followingCount.SetString(string(store.Get(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+msg.Creator))), 10)
+	_, followingCount, _ := k.GetFollowingsCount(ctx.BlockHeight(), msg.Creator)
 
 	var following types.Following
 	k.cdc.MustUnmarshal(val, &following)
@@ -285,11 +308,14 @@ func (k *Keeper) StopFollowing(ctx sdk.Context, msg *types.MsgStopFollow) error 
 			break
 		}
 	}
-	followingCount.SetInt64(int64(len(following.Followings)))
+	followingCount = &types.FollowingCount{
+		Address: msg.Creator,
+		Count:   uint64(len(following.Followings)),
+	}
 
 	val = k.cdc.MustMarshal(&following)
 	store.Set(types.KeyPrefix(types.FOLLOWING_KEY+msg.Creator), val)
-	store.Set(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+msg.Creator), []byte(followingCount.String()))
+	store.Set(types.KeyPrefix(types.FOLLOWING_COUNT_KEY+msg.Creator), k.cdc.MustMarshal(followingCount))
 
 	return nil
 }

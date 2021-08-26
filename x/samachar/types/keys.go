@@ -20,3 +20,15 @@ const (
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
+
+func AccountInfoKey(address string) []byte {
+	return []byte(ACCOUNT_INFO_KEY + address)
+}
+
+func FollowingCountKey(address string) []byte {
+	return []byte(FOLLOWING_COUNT_KEY + address)
+}
+
+func FollowingKey(address string) []byte {
+	return []byte(FOLLOWING_KEY + address)
+}

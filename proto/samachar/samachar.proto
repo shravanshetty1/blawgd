@@ -15,7 +15,7 @@ service Query {
   rpc GetPostsByParentPost(GetPostsByParentPostRequest) returns (GetPostsByParentPostResponse);
   rpc GetPostsByAccount(GetPostsByAccountRequest) returns (GetPostsByAccountResponse);
   rpc GetTimeline(GetTimelineRequest) returns (GetTimelineResponse);
-  rpc GetAccountInfo(GetAccountInfoRequest) returns (GetAccountInfoResponse);
+  rpc GetProfileInfo(GetProfileInfoRequest) returns (GetProfileInfoResponse);
   rpc GetFollowings(GetFollowingsRequest) returns (GetFollowingsResponse);
 }
 
@@ -54,12 +54,16 @@ message GetPostsByAccountResponse {
 }
 
 
-message GetAccountInfoRequest {
+message GetProfileInfoRequest {
   string address = 1;
+  int64 height = 2;
 }
 
-message GetAccountInfoResponse {
-  AccountInfoView account_info = 1;
+message GetProfileInfoResponse {
+  string account_info = 1;
+  string following_count = 2;
+  Data data = 3;
+  repeated Proof proofs = 4;
 }
 
 message GetPostsByParentPostRequest {
@@ -71,9 +75,14 @@ message GetPostsByParentPostResponse {
   repeated PostView posts = 1;
 }
 
-message AccountInfoView {
-  AccountInfo account_info = 1;
-  int64 following_count = 2;
+message Proof {
+  string key = 1;
+  string proof = 2;
+}
+
+message Data {
+  repeated AccountInfo account_infos = 1;
+  repeated FollowingCount following_counts = 2;
 }
 
 message Post {
@@ -83,6 +92,11 @@ message Post {
   string parent_post = 4;
   int64 block_no = 5;
   string metadata = 6;
+}
+
+message FollowingCount {
+  string address = 1;
+  uint64 count = 2;
 }
 
 message PostView {
@@ -100,6 +114,13 @@ message AccountInfo {
   string photo = 3;
   string metadata = 4;
 }
+
+
+message AccountInfoView {
+  AccountInfo account_info = 1;
+  int64 following_count = 2;
+}
+
 
 message Following {
   string address = 1;

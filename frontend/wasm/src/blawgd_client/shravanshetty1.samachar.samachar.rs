@@ -47,14 +47,22 @@ pub struct GetPostsByAccountResponse {
     pub posts: ::prost::alloc::vec::Vec<PostView>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetAccountInfoRequest {
+pub struct GetProfileInfoRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
+    #[prost(int64, tag = "2")]
+    pub height: i64,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct GetAccountInfoResponse {
-    #[prost(message, optional, tag = "1")]
-    pub account_info: ::core::option::Option<AccountInfoView>,
+pub struct GetProfileInfoResponse {
+    #[prost(string, tag = "1")]
+    pub account_info: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub following_count: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "3")]
+    pub data: ::core::option::Option<Data>,
+    #[prost(message, repeated, tag = "4")]
+    pub proofs: ::prost::alloc::vec::Vec<Proof>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsByParentPostRequest {
@@ -69,11 +77,18 @@ pub struct GetPostsByParentPostResponse {
     pub posts: ::prost::alloc::vec::Vec<PostView>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
-pub struct AccountInfoView {
-    #[prost(message, optional, tag = "1")]
-    pub account_info: ::core::option::Option<AccountInfo>,
-    #[prost(int64, tag = "2")]
-    pub following_count: i64,
+pub struct Proof {
+    #[prost(string, tag = "1")]
+    pub key: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub proof: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct Data {
+    #[prost(message, repeated, tag = "1")]
+    pub account_infos: ::prost::alloc::vec::Vec<AccountInfo>,
+    #[prost(message, repeated, tag = "2")]
+    pub following_counts: ::prost::alloc::vec::Vec<FollowingCount>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Post {
@@ -89,6 +104,13 @@ pub struct Post {
     pub block_no: i64,
     #[prost(string, tag = "6")]
     pub metadata: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct FollowingCount {
+    #[prost(string, tag = "1")]
+    pub address: ::prost::alloc::string::String,
+    #[prost(uint64, tag = "2")]
+    pub count: u64,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct PostView {
@@ -115,6 +137,13 @@ pub struct AccountInfo {
     pub photo: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
     pub metadata: ::prost::alloc::string::String,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct AccountInfoView {
+    #[prost(message, optional, tag = "1")]
+    pub account_info: ::core::option::Option<AccountInfo>,
+    #[prost(int64, tag = "2")]
+    pub following_count: i64,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Following {
@@ -245,10 +274,10 @@ pub mod query_client {
             );
             self.inner.unary(request.into_request(), path, codec).await
         }
-        pub async fn get_account_info(
+        pub async fn get_profile_info(
             &mut self,
-            request: impl tonic::IntoRequest<super::GetAccountInfoRequest>,
-        ) -> Result<tonic::Response<super::GetAccountInfoResponse>, tonic::Status> {
+            request: impl tonic::IntoRequest<super::GetProfileInfoRequest>,
+        ) -> Result<tonic::Response<super::GetProfileInfoResponse>, tonic::Status> {
             self.inner.ready().await.map_err(|e| {
                 tonic::Status::new(
                     tonic::Code::Unknown,
@@ -257,7 +286,7 @@ pub mod query_client {
             })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static(
-                "/shravanshetty1.samachar.samachar.Query/GetAccountInfo",
+                "/shravanshetty1.samachar.samachar.Query/GetProfileInfo",
             );
             self.inner.unary(request.into_request(), path, codec).await
         }

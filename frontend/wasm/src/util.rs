@@ -1,6 +1,6 @@
 use crate::blawgd_client::{
-    query_client::QueryClient as BlawgdClient, AccountInfo, AccountInfoView, GetAccountInfoRequest,
-    GetFollowingsRequest,
+    query_client::QueryClient as BlawgdClient, AccountInfo, AccountInfoView, GetFollowingsRequest,
+    GetProfileInfoRequest,
 };
 use cosmos_sdk_proto::cosmos::{
     auth::v1beta1::query_client::QueryClient,
@@ -175,13 +175,19 @@ pub async fn broadcast_tx<M: prost::Message>(
 
 pub async fn get_account_info(client: grpc_web_client::Client, address: String) -> AccountInfoView {
     let resp = super::blawgd_client::query_client::QueryClient::new(client)
-        .get_account_info(GetAccountInfoRequest {
+        .get_profile_info(GetProfileInfoRequest {
             address: address.clone(),
+            height: 0,
         })
         .await
         .unwrap();
+    let mut data = resp.into_inner().data.unwrap();
 
-    let mut account_info = resp.get_ref().account_info.as_ref().unwrap().clone();
+    let mut account_info = AccountInfoView {
+        account_info: data.account_infos.pop(),
+        following_count: data.following_counts.pop().unwrap().count as i64,
+    };
+
     account_info.account_info = Some(normalize_account_info(
         account_info.account_info.unwrap(),
         address,
