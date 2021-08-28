@@ -4,8 +4,7 @@
 
 You will need the following dependencies -
 * Latest version of golang - (for blockchain)
-* Latest version of rust - (for frontend)
-* Latest version of protoc - (for grpc setup)
+* Latest version of rust and cargo - (for frontend)
 
 To initialize a node - (Warning! this will reset current chain)
 ```
@@ -16,3 +15,5 @@ To start a node -
 ```
 make local
 ```
+
+App should have be running on `http://localhost:2341`
