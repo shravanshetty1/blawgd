@@ -14,10 +14,8 @@ use tendermint_light_client::{
     types::LightBlock, types::PeerId, types::TrustThreshold,
 };
 
+use crate::config;
 use crate::util;
-
-const TRUSTED_HEIGHT: &str = "13284";
-const TRUSTED_HASH: &str = "C34D2576BF6CB817706D5C6FED9D9C5BBEEBFF255D33E860EC0A95B3809FD267";
 
 pub struct LightClient {
     supervisor: tendermint_light_client::supervisor::Supervisor,
@@ -89,8 +87,8 @@ async fn make_instance(peer_id: PeerId) -> tendermint_light_client::supervisor::
 
     let builder = builder
         .trust_primary_at(
-            TRUSTED_HEIGHT.parse().unwrap(),
-            TRUSTED_HASH.parse().unwrap(),
+            config::TRUSTED_HEIGHT.parse().unwrap(),
+            config::TRUSTED_HASH.parse().unwrap(),
         )
         .await
         .unwrap();

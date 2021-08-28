@@ -3,6 +3,7 @@ use web_sys;
 
 mod blawgd_client;
 mod components;
+mod config;
 mod edit_profile_page;
 mod followings_page;
 mod home_page;
@@ -17,7 +18,7 @@ mod util;
 pub fn main() -> Result<(), JsValue> {
     console_error_panic_hook::set_once();
     wasm_bindgen_futures::spawn_local(async move {
-        let mut lc = light_client::LightClient::new().await;
+        // let mut lc = light_client::LightClient::new().await;
 
         let url: String = web_sys::window().unwrap().location().href().unwrap();
         let url_path = url
@@ -29,13 +30,13 @@ pub fn main() -> Result<(), JsValue> {
             url if str::starts_with(url, "followings") => followings_page::handle().await,
             url if str::starts_with(url, "post") => post_page::handle().await,
             "edit-profile" => edit_profile_page::handle().await,
-            "timeline" => timeline_page::handle(&lc).await,
+            "timeline" => timeline_page::handle().await,
             url if str::starts_with(url, "profile") => profile_page::handle().await,
             "login" => login_page::handle().await,
             _ => home_page::handle().await,
         };
 
-        lc.run().await
+        // lc.run().await
     });
 
     Ok(())

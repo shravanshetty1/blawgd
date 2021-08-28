@@ -8,7 +8,7 @@ use crate::{
     components::post_creator::PostCreator, components::Component, light_client::LightClient, util,
 };
 
-pub async fn handle(lc: &LightClient) {
+pub async fn handle() {
     let window = web_sys::window().unwrap();
     let document = window.document().expect("document missing");
     let storage = window
