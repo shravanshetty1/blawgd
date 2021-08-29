@@ -18,7 +18,7 @@ mod util;
 pub fn main() -> Result<(), JsValue> {
     console_error_panic_hook::set_once();
     wasm_bindgen_futures::spawn_local(async move {
-        // let mut lc = light_client::LightClient::new().await;
+        let mut lc = light_client::LightClient::new().await;
 
         let url: String = web_sys::window().unwrap().location().href().unwrap();
         let url_path = url
@@ -36,7 +36,7 @@ pub fn main() -> Result<(), JsValue> {
             _ => home_page::handle().await,
         };
 
-        // lc.run().await
+        lc.run().await
     });
 
     Ok(())

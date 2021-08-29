@@ -16,6 +16,7 @@ use tendermint_light_client::{
 
 use crate::config;
 use crate::util;
+use tendermint_rpc::endpoint::commit;
 
 pub struct LightClient {
     supervisor: tendermint_light_client::supervisor::Supervisor,
@@ -85,10 +86,18 @@ async fn make_instance(peer_id: PeerId) -> tendermint_light_client::supervisor::
         Box::new(ProdPredicates),
     );
 
+    let mut trusted_height = config::TRUSTED_HEIGHT.to_string();
+    let mut trusted_hash = config::TRUSTED_HASH.to_string();
+    if config::ENVIRONMENT == "dev" {
+        let resp = get_block(0).await;
+        trusted_height = resp.block.header.height.to_string();
+        trusted_hash = resp.block_id.hash.to_string();
+    }
+
     let builder = builder
         .trust_primary_at(
-            config::TRUSTED_HEIGHT.parse().unwrap(),
-            config::TRUSTED_HASH.parse().unwrap(),
+            trusted_height.as_str().parse().unwrap(),
+            trusted_hash.as_str().parse().unwrap(),
         )
         .await
         .unwrap();
@@ -144,6 +153,38 @@ impl LightClientIO {
     }
 }
 
+async fn get_block(height: u64) -> tendermint_rpc::endpoint::block::Response {
+    let mut param: String = String::new();
+    if height != 0 {
+        param = format!("?height={}", height)
+    }
+
+    reqwest::get(format!("http://localhost:26657/block{}", param).as_str())
+        .await
+        .unwrap()
+        .json::<tendermint_rpc::response::Wrapper<tendermint_rpc::endpoint::block::Response>>()
+        .await
+        .unwrap()
+        .into_result()
+        .unwrap()
+}
+
+async fn get_commit(height: u64) -> commit::Response {
+    let mut param: String = String::new();
+    if height != 0 {
+        param = format!("?height={}", height)
+    }
+
+    reqwest::get(format!("http://localhost:26657/commit{}", param).as_str())
+        .await
+        .unwrap()
+        .json::<tendermint_rpc::response::Wrapper<commit::Response>>()
+        .await
+        .unwrap()
+        .into_result()
+        .unwrap()
+}
+
 #[async_trait(? Send)]
 impl io::Io for LightClientIO {
     async fn fetch_light_block(&self, height: io::AtHeight) -> Result<LightBlock, IoError> {
@@ -152,23 +193,7 @@ impl io::Io for LightClientIO {
             io::AtHeight::Highest => 0,
         };
 
-        let mut param: String = String::new();
-        if height != 0 {
-            param = format!("?height={}", height)
-        }
-
-        let signed_header = reqwest::get(
-            format!("http://localhost:26657/commit{}", param).as_str(),
-        )
-        .await
-        .unwrap()
-        .json::<tendermint_rpc::response::Wrapper<tendermint_rpc::endpoint::commit::Response>>()
-        .await
-        .unwrap()
-        .into_result()
-        .unwrap()
-        .signed_header;
-
+        let signed_header = get_commit(height).await.signed_header;
         let height = signed_header.header.height.value();
 
         let validator_infos = reqwest::get(
