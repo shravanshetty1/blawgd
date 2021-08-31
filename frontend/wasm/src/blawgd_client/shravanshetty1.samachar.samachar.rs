@@ -1,96 +1,82 @@
 //import "gogoproto/gogo.proto";
 
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GenesisState {}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetTimelineRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(int64, tag = "2")]
     pub index: i64,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetTimelineResponse {
     #[prost(message, repeated, tag = "1")]
     pub posts: ::prost::alloc::vec::Vec<PostView>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetFollowingsRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetFollowingsResponse {
     #[prost(string, repeated, tag = "1")]
     pub addresses: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetPostRequest {
     #[prost(string, tag = "1")]
     pub id: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetPostResponse {
     #[prost(message, optional, tag = "1")]
     pub post: ::core::option::Option<PostView>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsByAccountRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(int64, tag = "2")]
     pub index: i64,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsByAccountResponse {
     #[prost(message, repeated, tag = "1")]
     pub posts: ::prost::alloc::vec::Vec<PostView>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetProfileInfoRequest {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(int64, tag = "2")]
     pub height: i64,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetProfileInfoResponse {
-    #[prost(string, tag = "1")]
-    pub account_info: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub following_count: ::prost::alloc::string::String,
-    #[prost(message, optional, tag = "3")]
-    pub data: ::core::option::Option<Data>,
-    #[prost(message, repeated, tag = "4")]
-    pub proofs: ::prost::alloc::vec::Vec<Proof>,
+    #[prost(map = "string, message", tag = "1")]
+    pub account_info: ::std::collections::HashMap<::prost::alloc::string::String, AccountInfo>,
+    #[prost(map = "string, message", tag = "2")]
+    pub following_count:
+        ::std::collections::HashMap<::prost::alloc::string::String, FollowingCount>,
+    #[prost(map = "string, bytes", tag = "3")]
+    pub proofs:
+        ::std::collections::HashMap<::prost::alloc::string::String, ::prost::alloc::vec::Vec<u8>>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsByParentPostRequest {
     #[prost(string, tag = "1")]
     pub parent_post: ::prost::alloc::string::String,
     #[prost(int64, tag = "2")]
     pub index: i64,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsByParentPostResponse {
     #[prost(message, repeated, tag = "1")]
     pub posts: ::prost::alloc::vec::Vec<PostView>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Proof {
-    #[prost(string, tag = "1")]
-    pub key: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub proof: ::prost::alloc::string::String,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
-pub struct Data {
-    #[prost(message, repeated, tag = "1")]
-    pub account_infos: ::prost::alloc::vec::Vec<AccountInfo>,
-    #[prost(message, repeated, tag = "2")]
-    pub following_counts: ::prost::alloc::vec::Vec<FollowingCount>,
-}
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct Post {
     #[prost(string, tag = "1")]
     pub creator: ::prost::alloc::string::String,
@@ -105,14 +91,14 @@ pub struct Post {
     #[prost(string, tag = "6")]
     pub metadata: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct FollowingCount {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(uint64, tag = "2")]
     pub count: u64,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct PostView {
     #[prost(message, optional, tag = "1")]
     pub creator: ::core::option::Option<AccountInfo>,
@@ -127,7 +113,7 @@ pub struct PostView {
     #[prost(string, tag = "6")]
     pub metadata: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct AccountInfo {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
@@ -138,21 +124,21 @@ pub struct AccountInfo {
     #[prost(string, tag = "4")]
     pub metadata: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct AccountInfoView {
     #[prost(message, optional, tag = "1")]
     pub account_info: ::core::option::Option<AccountInfo>,
     #[prost(int64, tag = "2")]
     pub following_count: i64,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct Following {
     #[prost(string, tag = "1")]
     pub address: ::prost::alloc::string::String,
     #[prost(string, repeated, tag = "2")]
     pub followings: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct MsgCreatePost {
     #[prost(string, tag = "1")]
     pub creator: ::prost::alloc::string::String,
@@ -163,7 +149,7 @@ pub struct MsgCreatePost {
     #[prost(string, tag = "4")]
     pub metadata: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct MsgUpdateAccountInfo {
     #[prost(string, tag = "1")]
     pub creator: ::prost::alloc::string::String,
@@ -174,14 +160,14 @@ pub struct MsgUpdateAccountInfo {
     #[prost(string, tag = "4")]
     pub metadata: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct MsgFollow {
     #[prost(string, tag = "1")]
     pub creator: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub address: ::prost::alloc::string::String,
 }
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct MsgStopFollow {
     #[prost(string, tag = "1")]
     pub creator: ::prost::alloc::string::String,

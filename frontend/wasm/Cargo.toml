@@ -22,6 +22,7 @@ crw-client = { git = "https://github.com/shravanshetty1/cosmos-rust-wallet", bra
 wasm-bindgen-futures = "0.4.24"
 cosmos-sdk-proto = "0.5.0"
 prost = { version = "0.7.0"}
+prost_2 = { package = "prost", version = "0.8.0" }
 console_error_panic_hook = "0.1.6"
 tonic = { version = "0.4.3", default-features = false, features = ["codegen", "prost"] }
 tiny-bip39 = { version = "0.8.0", default-features = false }
@@ -30,11 +31,15 @@ reqwest = { version = "=0.10.10", features = ["json"] }
 tendermint-light-client = { git = "https://github.com/shravanshetty1/tendermint-rs", branch = "wasm", default-features = false, features = ["std", "eyre_tracer"] }
 tendermint-rpc = { git = "https://github.com/shravanshetty1/tendermint-rs", branch = "wasm" }
 tendermint = { git = "https://github.com/shravanshetty1/tendermint-rs", branch = "wasm" }
+tendermint-proto = { git = "https://github.com/shravanshetty1/tendermint-rs", branch = "wasm" }
 serde = "1.0.106"
 serde_json = "1"
 contracts = "0.4.0"
 async-trait = "0.1.51"
 chrono = { version = "0.4", features = ["wasmbind"] }
+ics23 = { git = "https://github.com/confio/ics23", branch = "master" }
+hex = "0.4.3"
+anyhow = "1.0"
 
 [dependencies.web-sys]
 version = "0.3.4"

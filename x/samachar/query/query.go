@@ -100,13 +100,9 @@ func (q *QueryServer) GetProfileInfo(ctx context.Context, req *types.GetProfileI
 	followingCountKey, followingCount, proof2 := q.keeper.GetFollowingsCount(req.Height, req.Address)
 
 	return &types.GetProfileInfoResponse{
-		AccountInfo:    accountInfoKey,
-		FollowingCount: followingCountKey,
-		Data: &types.Data{
-			AccountInfos:    []*types.AccountInfo{accountInfo},
-			FollowingCounts: []*types.FollowingCount{followingCount},
-		},
-		Proofs: []*types.Proof{proof, proof2},
+		AccountInfo:    map[string]*types.AccountInfo{accountInfoKey: accountInfo},
+		FollowingCount: map[string]*types.FollowingCount{followingCountKey: followingCount},
+		Proofs:         map[string][]byte{accountInfoKey: proof, followingCountKey: proof2},
 	}, nil
 }
 

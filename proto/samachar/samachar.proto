@@ -60,10 +60,9 @@ message GetProfileInfoRequest {
 }
 
 message GetProfileInfoResponse {
-  string account_info = 1;
-  string following_count = 2;
-  Data data = 3;
-  repeated Proof proofs = 4;
+  map<string,AccountInfo> account_info = 1;
+  map<string,FollowingCount> following_count = 2;
+  map<string,bytes> proofs = 3;
 }
 
 message GetPostsByParentPostRequest {
@@ -73,16 +72,6 @@ message GetPostsByParentPostRequest {
 
 message GetPostsByParentPostResponse {
   repeated PostView posts = 1;
-}
-
-message Proof {
-  string key = 1;
-  string proof = 2;
-}
-
-message Data {
-  repeated AccountInfo account_infos = 1;
-  repeated FollowingCount following_counts = 2;
 }
 
 message Post {

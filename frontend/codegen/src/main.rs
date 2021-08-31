@@ -4,6 +4,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .format(true)
         .build_client(true)
         .build_server(false)
+        .type_attribute(".", "#[derive(serde::Serialize, serde::Deserialize)]")
         .compile(
             &["../../proto/samachar/samachar.proto"],
             &["../../proto/samachar"],

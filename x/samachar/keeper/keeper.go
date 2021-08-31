@@ -1,11 +1,8 @@
 package keeper
 
 import (
-	"encoding/json"
 	"fmt"
 	"math/big"
-
-	"github.com/tendermint/tendermint/proto/tendermint/crypto"
 
 	abci "github.com/tendermint/tendermint/abci/types"
 
@@ -207,7 +204,7 @@ func (k *Keeper) UpdateAccountInfo(ctx sdk.Context, msg *types.MsgUpdateAccountI
 	return nil
 }
 
-func (k *Keeper) Get(height int64, key []byte, val codec.ProtoMarshaler) *types.Proof {
+func (k *Keeper) Get(height int64, key []byte, val codec.ProtoMarshaler) []byte {
 	resp := k.bApp.Query(abci.RequestQuery{
 		Data:   key,
 		Path:   "store/samachar/key",
@@ -217,22 +214,14 @@ func (k *Keeper) Get(height int64, key []byte, val codec.ProtoMarshaler) *types.
 
 	_ = k.cdc.Unmarshal(resp.Value, val)
 
-	return GetProofFromProofOps(key, resp.ProofOps)
+	return k.cdc.MustMarshal(resp.ProofOps)
 }
 
-func (k *Keeper) GetAccountInfo(height int64, address string) (string, *types.AccountInfo, *types.Proof) {
+func (k *Keeper) GetAccountInfo(height int64, address string) (string, *types.AccountInfo, []byte) {
 	key := types.AccountInfoKey(types.ACCOUNT_INFO_KEY + address)
 	var accountInfo types.AccountInfo
 	proof := k.Get(height, key, &accountInfo)
 	return string(key), &accountInfo, proof
-}
-
-func GetProofFromProofOps(key []byte, proofOps *crypto.ProofOps) *types.Proof {
-	encodedProof, _ := json.Marshal(proofOps)
-	return &types.Proof{
-		Key:   string(key),
-		Proof: string(encodedProof),
-	}
 }
 
 func GetListWithoutRepeated(list []string) []string {
@@ -260,7 +249,7 @@ func (k *Keeper) GetFollowings(ctx sdk.Context, address string) types.Following 
 	return following
 }
 
-func (k *Keeper) GetFollowingsCount(height int64, address string) (string, *types.FollowingCount, *types.Proof) {
+func (k *Keeper) GetFollowingsCount(height int64, address string) (string, *types.FollowingCount, []byte) {
 	// TODO fix key
 	key := types.FollowingKey(types.FOLLOWING_COUNT_KEY + address)
 	var followingCount types.FollowingCount

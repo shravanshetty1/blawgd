@@ -16,6 +16,7 @@ use tendermint_light_client::{
 
 use crate::config;
 use crate::util;
+use tendermint_light_client::supervisor::Supervisor;
 use tendermint_rpc::endpoint::commit;
 
 pub struct LightClient {
@@ -48,6 +49,10 @@ impl LightClient {
             EvidenceReporter,
         );
         LightClient { supervisor }
+    }
+
+    pub fn supervisor(&self) -> &Supervisor {
+        &self.supervisor
     }
 
     pub async fn run(&mut self) {
