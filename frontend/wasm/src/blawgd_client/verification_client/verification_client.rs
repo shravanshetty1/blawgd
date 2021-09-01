@@ -98,16 +98,24 @@ impl<'a> VerificationClient<'a> {
                 .context("failed to verify non member ship of account info")?;
         };
 
-        Ok((
-            account_info
-                .ok_or(anyhow!("account_info is empty"))?
-                .clone(),
-            following_count
-                .unwrap_or(&FollowingCount {
-                    address: address.clone(),
-                    count: 0,
-                })
-                .clone(),
-        ))
+        let account_info = account_info
+            .unwrap_or(&AccountInfo {
+                address: "".to_string(),
+                name: "".to_string(),
+                photo: "".to_string(),
+                metadata: "".to_string(),
+            })
+            .clone();
+        let account_info = crate::util::normalize_account_info(account_info, address.clone());
+
+        let mut following_count = following_count
+            .unwrap_or(&FollowingCount {
+                address: address.clone(),
+                count: 0,
+            })
+            .clone();
+        following_count.address = address.clone();
+
+        Ok((account_info, following_count))
     }
 }
