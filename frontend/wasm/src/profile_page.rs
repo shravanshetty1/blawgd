@@ -26,11 +26,11 @@ pub async fn handle(cl: &mut VerificationClient<'_>) {
         .unwrap();
 
     let logged_in_account_info = util::get_session_account_info(&storage, client.clone());
-    // let account_info = cl
-    //     .get_profile_info(address.clone().to_string())
-    //     .await
-    //     .context("failed to get valid profile info response")
-    //     .unwrap();
+    let account_info = cl
+        .get_profile_info(address.clone().to_string())
+        .await
+        .context("failed to get valid profile info response")
+        .unwrap();
     let account_info = util::get_account_info(client.clone(), address.clone().into());
     let mut post_client = super::blawgd_client::query_client::QueryClient::new(client.clone());
     let posts_resp = post_client.get_posts_by_account(GetPostsByAccountRequest {

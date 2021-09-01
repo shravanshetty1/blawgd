@@ -56,15 +56,16 @@ impl<'a> VerificationClient<'a> {
         )?;
         let mut proof = convert_tm_to_ics_merkle_proof(proof)?;
 
+        let mut value: Vec<u8> = Vec::new();
         if account_info.is_some() {
-            let mut account_info_proto: Vec<u8> = Vec::new();
-            prost::Message::encode(account_info.unwrap(), &mut account_info_proto);
-
+            prost::Message::encode(account_info.unwrap(), &mut value);
+        }
+        if !value.is_empty() {
             verify_membership(
                 proof,
                 root.as_ref(),
                 account_info_key.as_bytes(),
-                account_info_proto.as_ref(),
+                value.as_ref(),
             )
             .context("failed to verify membership of account info")?;
         } else {
@@ -80,15 +81,16 @@ impl<'a> VerificationClient<'a> {
         )?;
         let mut proof = convert_tm_to_ics_merkle_proof(proof)?;
 
+        let mut value: Vec<u8> = Vec::new();
         if following_count.is_some() {
-            let mut following_count_proto: Vec<u8> = Vec::new();
-            prost::Message::encode(following_count.unwrap(), &mut following_count_proto);
-
+            prost::Message::encode(following_count.unwrap(), &mut value);
+        }
+        if !value.is_empty() {
             verify_membership(
                 proof,
                 root.as_ref(),
                 following_count_key.as_bytes(),
-                following_count_proto.as_ref(),
+                value.as_ref(),
             )
             .context("failed to verify membership of account info")?;
         } else {

@@ -196,7 +196,12 @@ pub async fn get_account_info(client: grpc_web_client::Client, address: String) 
     };
 
     account_info.account_info = Some(normalize_account_info(
-        account_info.account_info.unwrap(),
+        account_info.account_info.unwrap_or(AccountInfo {
+            address: "".to_string(),
+            name: "".to_string(),
+            photo: "".to_string(),
+            metadata: "".to_string(),
+        }),
         address,
     ));
     account_info
