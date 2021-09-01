@@ -17,6 +17,17 @@ service Query {
   rpc GetTimeline(GetTimelineRequest) returns (GetTimelineResponse);
   rpc GetProfileInfo(GetProfileInfoRequest) returns (GetProfileInfoResponse);
   rpc GetFollowings(GetFollowingsRequest) returns (GetFollowingsResponse);
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message GetRequest {
+  uint64 height = 1;
+  repeated string keys = 2;
+}
+
+message GetResponse {
+  map<string,bytes> data = 1;
+  map<string,bytes> proofs = 2;
 }
 
 message GetTimelineRequest {
