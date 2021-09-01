@@ -51,8 +51,8 @@ impl LightClient {
         LightClient { supervisor }
     }
 
-    pub fn supervisor(&self) -> &Supervisor {
-        &self.supervisor
+    pub fn supervisor(&mut self) -> &mut Supervisor {
+        &mut self.supervisor
     }
 
     pub async fn run(&mut self) {
