@@ -9,24 +9,11 @@ import (
 
 var _ sdk.Msg = &MsgCreatePost{}
 
-const (
-	POST_KEY            = "post-"
-	POST_COUNT_KEY      = "post-count"
-	SUB_POST_KEY        = "sub-post-"
-	SUB_POST_COUNT_KEY  = "sub-post-count-"
-	USER_POST_KEY       = "user-post-"
-	USER_POST_COUNT_KEY = "user-post-count-"
-	ACCOUNT_INFO_KEY    = "account-info-"
-	FOLLOWING_KEY       = "following-"
-	FOLLOWING_COUNT_KEY = "following-count-"
-)
-
 func NewMsgCreatePost(creator, content, parentPost, metadata string) *MsgCreatePost {
 	return &MsgCreatePost{
 		Creator:    creator,
 		Content:    content,
 		ParentPost: parentPost,
-		Metadata:   metadata,
 	}
 }
 
@@ -75,10 +62,6 @@ func (msg *MsgCreatePost) ValidateBasic() error {
 
 	if len(msg.Content) > 280 {
 		return sdkerrors.Wrapf(ErrInputLength, "post size larger than 280 characters")
-	}
-
-	if len(msg.Metadata) > 100 {
-		return sdkerrors.Wrapf(ErrInputLength, "metadata size larger than 100 characters")
 	}
 
 	return nil

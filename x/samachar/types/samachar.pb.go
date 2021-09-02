@@ -168,8 +168,6 @@ func (m *GetResponse) GetProofs() map[string][]byte {
 }
 
 type GetTimelineRequest struct {
-	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	Index   int64  `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`
 }
 
 func (m *GetTimelineRequest) Reset()         { *m = GetTimelineRequest{} }
@@ -205,22 +203,7 @@ func (m *GetTimelineRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetTimelineRequest proto.InternalMessageInfo
 
-func (m *GetTimelineRequest) GetAddress() string {
-	if m != nil {
-		return m.Address
-	}
-	return ""
-}
-
-func (m *GetTimelineRequest) GetIndex() int64 {
-	if m != nil {
-		return m.Index
-	}
-	return 0
-}
-
 type GetTimelineResponse struct {
-	Posts []*PostView `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty"`
 }
 
 func (m *GetTimelineResponse) Reset()         { *m = GetTimelineResponse{} }
@@ -256,507 +239,19 @@ func (m *GetTimelineResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_GetTimelineResponse proto.InternalMessageInfo
 
-func (m *GetTimelineResponse) GetPosts() []*PostView {
-	if m != nil {
-		return m.Posts
-	}
-	return nil
-}
-
-type GetFollowingsRequest struct {
-	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-}
-
-func (m *GetFollowingsRequest) Reset()         { *m = GetFollowingsRequest{} }
-func (m *GetFollowingsRequest) String() string { return proto.CompactTextString(m) }
-func (*GetFollowingsRequest) ProtoMessage()    {}
-func (*GetFollowingsRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{5}
-}
-func (m *GetFollowingsRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetFollowingsRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetFollowingsRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetFollowingsRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetFollowingsRequest.Merge(m, src)
-}
-func (m *GetFollowingsRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetFollowingsRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetFollowingsRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetFollowingsRequest proto.InternalMessageInfo
-
-func (m *GetFollowingsRequest) GetAddress() string {
-	if m != nil {
-		return m.Address
-	}
-	return ""
-}
-
-type GetFollowingsResponse struct {
-	Addresses []string `protobuf:"bytes,1,rep,name=addresses,proto3" json:"addresses,omitempty"`
-}
-
-func (m *GetFollowingsResponse) Reset()         { *m = GetFollowingsResponse{} }
-func (m *GetFollowingsResponse) String() string { return proto.CompactTextString(m) }
-func (*GetFollowingsResponse) ProtoMessage()    {}
-func (*GetFollowingsResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{6}
-}
-func (m *GetFollowingsResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetFollowingsResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetFollowingsResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetFollowingsResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetFollowingsResponse.Merge(m, src)
-}
-func (m *GetFollowingsResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetFollowingsResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetFollowingsResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetFollowingsResponse proto.InternalMessageInfo
-
-func (m *GetFollowingsResponse) GetAddresses() []string {
-	if m != nil {
-		return m.Addresses
-	}
-	return nil
-}
-
-type GetPostRequest struct {
-	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-}
-
-func (m *GetPostRequest) Reset()         { *m = GetPostRequest{} }
-func (m *GetPostRequest) String() string { return proto.CompactTextString(m) }
-func (*GetPostRequest) ProtoMessage()    {}
-func (*GetPostRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{7}
-}
-func (m *GetPostRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetPostRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetPostRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetPostRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetPostRequest.Merge(m, src)
-}
-func (m *GetPostRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetPostRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetPostRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetPostRequest proto.InternalMessageInfo
-
-func (m *GetPostRequest) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-type GetPostResponse struct {
-	Post *PostView `protobuf:"bytes,1,opt,name=post,proto3" json:"post,omitempty"`
-}
-
-func (m *GetPostResponse) Reset()         { *m = GetPostResponse{} }
-func (m *GetPostResponse) String() string { return proto.CompactTextString(m) }
-func (*GetPostResponse) ProtoMessage()    {}
-func (*GetPostResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{8}
-}
-func (m *GetPostResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetPostResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetPostResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetPostResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetPostResponse.Merge(m, src)
-}
-func (m *GetPostResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetPostResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetPostResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetPostResponse proto.InternalMessageInfo
-
-func (m *GetPostResponse) GetPost() *PostView {
-	if m != nil {
-		return m.Post
-	}
-	return nil
-}
-
-type GetPostsByAccountRequest struct {
-	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	Index   int64  `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`
-}
-
-func (m *GetPostsByAccountRequest) Reset()         { *m = GetPostsByAccountRequest{} }
-func (m *GetPostsByAccountRequest) String() string { return proto.CompactTextString(m) }
-func (*GetPostsByAccountRequest) ProtoMessage()    {}
-func (*GetPostsByAccountRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{9}
-}
-func (m *GetPostsByAccountRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetPostsByAccountRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetPostsByAccountRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetPostsByAccountRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetPostsByAccountRequest.Merge(m, src)
-}
-func (m *GetPostsByAccountRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetPostsByAccountRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetPostsByAccountRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetPostsByAccountRequest proto.InternalMessageInfo
-
-func (m *GetPostsByAccountRequest) GetAddress() string {
-	if m != nil {
-		return m.Address
-	}
-	return ""
-}
-
-func (m *GetPostsByAccountRequest) GetIndex() int64 {
-	if m != nil {
-		return m.Index
-	}
-	return 0
-}
-
-type GetPostsByAccountResponse struct {
-	Posts []*PostView `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty"`
-}
-
-func (m *GetPostsByAccountResponse) Reset()         { *m = GetPostsByAccountResponse{} }
-func (m *GetPostsByAccountResponse) String() string { return proto.CompactTextString(m) }
-func (*GetPostsByAccountResponse) ProtoMessage()    {}
-func (*GetPostsByAccountResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{10}
-}
-func (m *GetPostsByAccountResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetPostsByAccountResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetPostsByAccountResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetPostsByAccountResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetPostsByAccountResponse.Merge(m, src)
-}
-func (m *GetPostsByAccountResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetPostsByAccountResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetPostsByAccountResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetPostsByAccountResponse proto.InternalMessageInfo
-
-func (m *GetPostsByAccountResponse) GetPosts() []*PostView {
-	if m != nil {
-		return m.Posts
-	}
-	return nil
-}
-
-type GetProfileInfoRequest struct {
-	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	Height  int64  `protobuf:"varint,2,opt,name=height,proto3" json:"height,omitempty"`
-}
-
-func (m *GetProfileInfoRequest) Reset()         { *m = GetProfileInfoRequest{} }
-func (m *GetProfileInfoRequest) String() string { return proto.CompactTextString(m) }
-func (*GetProfileInfoRequest) ProtoMessage()    {}
-func (*GetProfileInfoRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{11}
-}
-func (m *GetProfileInfoRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetProfileInfoRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetProfileInfoRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetProfileInfoRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetProfileInfoRequest.Merge(m, src)
-}
-func (m *GetProfileInfoRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetProfileInfoRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetProfileInfoRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetProfileInfoRequest proto.InternalMessageInfo
-
-func (m *GetProfileInfoRequest) GetAddress() string {
-	if m != nil {
-		return m.Address
-	}
-	return ""
-}
-
-func (m *GetProfileInfoRequest) GetHeight() int64 {
-	if m != nil {
-		return m.Height
-	}
-	return 0
-}
-
-type GetProfileInfoResponse struct {
-	AccountInfo    map[string]*AccountInfo    `protobuf:"bytes,1,rep,name=account_info,json=accountInfo,proto3" json:"account_info,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	FollowingCount map[string]*FollowingCount `protobuf:"bytes,2,rep,name=following_count,json=followingCount,proto3" json:"following_count,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	Proofs         map[string][]byte          `protobuf:"bytes,3,rep,name=proofs,proto3" json:"proofs,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-}
-
-func (m *GetProfileInfoResponse) Reset()         { *m = GetProfileInfoResponse{} }
-func (m *GetProfileInfoResponse) String() string { return proto.CompactTextString(m) }
-func (*GetProfileInfoResponse) ProtoMessage()    {}
-func (*GetProfileInfoResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{12}
-}
-func (m *GetProfileInfoResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetProfileInfoResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetProfileInfoResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetProfileInfoResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetProfileInfoResponse.Merge(m, src)
-}
-func (m *GetProfileInfoResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetProfileInfoResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetProfileInfoResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetProfileInfoResponse proto.InternalMessageInfo
-
-func (m *GetProfileInfoResponse) GetAccountInfo() map[string]*AccountInfo {
-	if m != nil {
-		return m.AccountInfo
-	}
-	return nil
-}
-
-func (m *GetProfileInfoResponse) GetFollowingCount() map[string]*FollowingCount {
-	if m != nil {
-		return m.FollowingCount
-	}
-	return nil
-}
-
-func (m *GetProfileInfoResponse) GetProofs() map[string][]byte {
-	if m != nil {
-		return m.Proofs
-	}
-	return nil
-}
-
-type GetPostsByParentPostRequest struct {
-	ParentPost string `protobuf:"bytes,1,opt,name=parent_post,json=parentPost,proto3" json:"parent_post,omitempty"`
-	Index      int64  `protobuf:"varint,2,opt,name=index,proto3" json:"index,omitempty"`
-}
-
-func (m *GetPostsByParentPostRequest) Reset()         { *m = GetPostsByParentPostRequest{} }
-func (m *GetPostsByParentPostRequest) String() string { return proto.CompactTextString(m) }
-func (*GetPostsByParentPostRequest) ProtoMessage()    {}
-func (*GetPostsByParentPostRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{13}
-}
-func (m *GetPostsByParentPostRequest) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetPostsByParentPostRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetPostsByParentPostRequest.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetPostsByParentPostRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetPostsByParentPostRequest.Merge(m, src)
-}
-func (m *GetPostsByParentPostRequest) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetPostsByParentPostRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetPostsByParentPostRequest.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetPostsByParentPostRequest proto.InternalMessageInfo
-
-func (m *GetPostsByParentPostRequest) GetParentPost() string {
-	if m != nil {
-		return m.ParentPost
-	}
-	return ""
-}
-
-func (m *GetPostsByParentPostRequest) GetIndex() int64 {
-	if m != nil {
-		return m.Index
-	}
-	return 0
-}
-
-type GetPostsByParentPostResponse struct {
-	Posts []*PostView `protobuf:"bytes,1,rep,name=posts,proto3" json:"posts,omitempty"`
-}
-
-func (m *GetPostsByParentPostResponse) Reset()         { *m = GetPostsByParentPostResponse{} }
-func (m *GetPostsByParentPostResponse) String() string { return proto.CompactTextString(m) }
-func (*GetPostsByParentPostResponse) ProtoMessage()    {}
-func (*GetPostsByParentPostResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{14}
-}
-func (m *GetPostsByParentPostResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetPostsByParentPostResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetPostsByParentPostResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *GetPostsByParentPostResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetPostsByParentPostResponse.Merge(m, src)
-}
-func (m *GetPostsByParentPostResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetPostsByParentPostResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetPostsByParentPostResponse.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_GetPostsByParentPostResponse proto.InternalMessageInfo
-
-func (m *GetPostsByParentPostResponse) GetPosts() []*PostView {
-	if m != nil {
-		return m.Posts
-	}
-	return nil
-}
-
 type Post struct {
-	Creator    string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Id         string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	Content    string `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
-	ParentPost string `protobuf:"bytes,4,opt,name=parent_post,json=parentPost,proto3" json:"parent_post,omitempty"`
-	BlockNo    int64  `protobuf:"varint,5,opt,name=block_no,json=blockNo,proto3" json:"block_no,omitempty"`
-	Metadata   string `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Creator       string `protobuf:"bytes,2,opt,name=creator,proto3" json:"creator,omitempty"`
+	Content       string `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	ParentPost    string `protobuf:"bytes,4,opt,name=parent_post,json=parentPost,proto3" json:"parent_post,omitempty"`
+	CommentsCount uint64 `protobuf:"varint,5,opt,name=comments_count,json=commentsCount,proto3" json:"comments_count,omitempty"`
 }
 
 func (m *Post) Reset()         { *m = Post{} }
 func (m *Post) String() string { return proto.CompactTextString(m) }
 func (*Post) ProtoMessage()    {}
 func (*Post) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{15}
+	return fileDescriptor_8a0d591a6c948f33, []int{5}
 }
 func (m *Post) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -785,16 +280,16 @@ func (m *Post) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_Post proto.InternalMessageInfo
 
-func (m *Post) GetCreator() string {
+func (m *Post) GetId() string {
 	if m != nil {
-		return m.Creator
+		return m.Id
 	}
 	return ""
 }
 
-func (m *Post) GetId() string {
+func (m *Post) GetCreator() string {
 	if m != nil {
-		return m.Id
+		return m.Creator
 	}
 	return ""
 }
@@ -813,168 +308,27 @@ func (m *Post) GetParentPost() string {
 	return ""
 }
 
-func (m *Post) GetBlockNo() int64 {
+func (m *Post) GetCommentsCount() uint64 {
 	if m != nil {
-		return m.BlockNo
+		return m.CommentsCount
 	}
 	return 0
-}
-
-func (m *Post) GetMetadata() string {
-	if m != nil {
-		return m.Metadata
-	}
-	return ""
-}
-
-type FollowingCount struct {
-	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	Count   uint64 `protobuf:"varint,2,opt,name=count,proto3" json:"count,omitempty"`
-}
-
-func (m *FollowingCount) Reset()         { *m = FollowingCount{} }
-func (m *FollowingCount) String() string { return proto.CompactTextString(m) }
-func (*FollowingCount) ProtoMessage()    {}
-func (*FollowingCount) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{16}
-}
-func (m *FollowingCount) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *FollowingCount) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_FollowingCount.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *FollowingCount) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_FollowingCount.Merge(m, src)
-}
-func (m *FollowingCount) XXX_Size() int {
-	return m.Size()
-}
-func (m *FollowingCount) XXX_DiscardUnknown() {
-	xxx_messageInfo_FollowingCount.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_FollowingCount proto.InternalMessageInfo
-
-func (m *FollowingCount) GetAddress() string {
-	if m != nil {
-		return m.Address
-	}
-	return ""
-}
-
-func (m *FollowingCount) GetCount() uint64 {
-	if m != nil {
-		return m.Count
-	}
-	return 0
-}
-
-type PostView struct {
-	Creator    *AccountInfo `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Id         string       `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	Content    string       `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
-	ParentPost string       `protobuf:"bytes,4,opt,name=parent_post,json=parentPost,proto3" json:"parent_post,omitempty"`
-	BlockNo    int64        `protobuf:"varint,5,opt,name=block_no,json=blockNo,proto3" json:"block_no,omitempty"`
-	Metadata   string       `protobuf:"bytes,6,opt,name=metadata,proto3" json:"metadata,omitempty"`
-}
-
-func (m *PostView) Reset()         { *m = PostView{} }
-func (m *PostView) String() string { return proto.CompactTextString(m) }
-func (*PostView) ProtoMessage()    {}
-func (*PostView) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{17}
-}
-func (m *PostView) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *PostView) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_PostView.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *PostView) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_PostView.Merge(m, src)
-}
-func (m *PostView) XXX_Size() int {
-	return m.Size()
-}
-func (m *PostView) XXX_DiscardUnknown() {
-	xxx_messageInfo_PostView.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_PostView proto.InternalMessageInfo
-
-func (m *PostView) GetCreator() *AccountInfo {
-	if m != nil {
-		return m.Creator
-	}
-	return nil
-}
-
-func (m *PostView) GetId() string {
-	if m != nil {
-		return m.Id
-	}
-	return ""
-}
-
-func (m *PostView) GetContent() string {
-	if m != nil {
-		return m.Content
-	}
-	return ""
-}
-
-func (m *PostView) GetParentPost() string {
-	if m != nil {
-		return m.ParentPost
-	}
-	return ""
-}
-
-func (m *PostView) GetBlockNo() int64 {
-	if m != nil {
-		return m.BlockNo
-	}
-	return 0
-}
-
-func (m *PostView) GetMetadata() string {
-	if m != nil {
-		return m.Metadata
-	}
-	return ""
 }
 
 type AccountInfo struct {
-	Address  string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Photo    string `protobuf:"bytes,3,opt,name=photo,proto3" json:"photo,omitempty"`
-	Metadata string `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Address        string `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
+	Name           string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Photo          string `protobuf:"bytes,4,opt,name=photo,proto3" json:"photo,omitempty"`
+	FollowingCount uint64 `protobuf:"varint,5,opt,name=following_count,json=followingCount,proto3" json:"following_count,omitempty"`
+	FollowersCount uint64 `protobuf:"varint,6,opt,name=followers_count,json=followersCount,proto3" json:"followers_count,omitempty"`
+	PostCount      uint64 `protobuf:"varint,7,opt,name=post_count,json=postCount,proto3" json:"post_count,omitempty"`
 }
 
 func (m *AccountInfo) Reset()         { *m = AccountInfo{} }
 func (m *AccountInfo) String() string { return proto.CompactTextString(m) }
 func (*AccountInfo) ProtoMessage()    {}
 func (*AccountInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{18}
+	return fileDescriptor_8a0d591a6c948f33, []int{6}
 }
 func (m *AccountInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1024,129 +378,38 @@ func (m *AccountInfo) GetPhoto() string {
 	return ""
 }
 
-func (m *AccountInfo) GetMetadata() string {
-	if m != nil {
-		return m.Metadata
-	}
-	return ""
-}
-
-type AccountInfoView struct {
-	AccountInfo    *AccountInfo `protobuf:"bytes,1,opt,name=account_info,json=accountInfo,proto3" json:"account_info,omitempty"`
-	FollowingCount int64        `protobuf:"varint,2,opt,name=following_count,json=followingCount,proto3" json:"following_count,omitempty"`
-}
-
-func (m *AccountInfoView) Reset()         { *m = AccountInfoView{} }
-func (m *AccountInfoView) String() string { return proto.CompactTextString(m) }
-func (*AccountInfoView) ProtoMessage()    {}
-func (*AccountInfoView) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{19}
-}
-func (m *AccountInfoView) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *AccountInfoView) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_AccountInfoView.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *AccountInfoView) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_AccountInfoView.Merge(m, src)
-}
-func (m *AccountInfoView) XXX_Size() int {
-	return m.Size()
-}
-func (m *AccountInfoView) XXX_DiscardUnknown() {
-	xxx_messageInfo_AccountInfoView.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_AccountInfoView proto.InternalMessageInfo
-
-func (m *AccountInfoView) GetAccountInfo() *AccountInfo {
-	if m != nil {
-		return m.AccountInfo
-	}
-	return nil
-}
-
-func (m *AccountInfoView) GetFollowingCount() int64 {
+func (m *AccountInfo) GetFollowingCount() uint64 {
 	if m != nil {
 		return m.FollowingCount
 	}
 	return 0
 }
 
-type Following struct {
-	Address    string   `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
-	Followings []string `protobuf:"bytes,2,rep,name=followings,proto3" json:"followings,omitempty"`
-}
-
-func (m *Following) Reset()         { *m = Following{} }
-func (m *Following) String() string { return proto.CompactTextString(m) }
-func (*Following) ProtoMessage()    {}
-func (*Following) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{20}
-}
-func (m *Following) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *Following) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_Following.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *Following) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Following.Merge(m, src)
-}
-func (m *Following) XXX_Size() int {
-	return m.Size()
-}
-func (m *Following) XXX_DiscardUnknown() {
-	xxx_messageInfo_Following.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Following proto.InternalMessageInfo
-
-func (m *Following) GetAddress() string {
+func (m *AccountInfo) GetFollowersCount() uint64 {
 	if m != nil {
-		return m.Address
+		return m.FollowersCount
 	}
-	return ""
+	return 0
 }
 
-func (m *Following) GetFollowings() []string {
+func (m *AccountInfo) GetPostCount() uint64 {
 	if m != nil {
-		return m.Followings
+		return m.PostCount
 	}
-	return nil
+	return 0
 }
 
 type MsgCreatePost struct {
 	Creator    string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Content    string `protobuf:"bytes,2,opt,name=content,proto3" json:"content,omitempty"`
 	ParentPost string `protobuf:"bytes,3,opt,name=parent_post,json=parentPost,proto3" json:"parent_post,omitempty"`
-	Metadata   string `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
 }
 
 func (m *MsgCreatePost) Reset()         { *m = MsgCreatePost{} }
 func (m *MsgCreatePost) String() string { return proto.CompactTextString(m) }
 func (*MsgCreatePost) ProtoMessage()    {}
 func (*MsgCreatePost) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{21}
+	return fileDescriptor_8a0d591a6c948f33, []int{7}
 }
 func (m *MsgCreatePost) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1196,25 +459,17 @@ func (m *MsgCreatePost) GetParentPost() string {
 	return ""
 }
 
-func (m *MsgCreatePost) GetMetadata() string {
-	if m != nil {
-		return m.Metadata
-	}
-	return ""
-}
-
 type MsgUpdateAccountInfo struct {
-	Creator  string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Name     string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Photo    string `protobuf:"bytes,3,opt,name=photo,proto3" json:"photo,omitempty"`
-	Metadata string `protobuf:"bytes,4,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Name    string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Photo   string `protobuf:"bytes,3,opt,name=photo,proto3" json:"photo,omitempty"`
 }
 
 func (m *MsgUpdateAccountInfo) Reset()         { *m = MsgUpdateAccountInfo{} }
 func (m *MsgUpdateAccountInfo) String() string { return proto.CompactTextString(m) }
 func (*MsgUpdateAccountInfo) ProtoMessage()    {}
 func (*MsgUpdateAccountInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{22}
+	return fileDescriptor_8a0d591a6c948f33, []int{8}
 }
 func (m *MsgUpdateAccountInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1264,13 +519,6 @@ func (m *MsgUpdateAccountInfo) GetPhoto() string {
 	return ""
 }
 
-func (m *MsgUpdateAccountInfo) GetMetadata() string {
-	if m != nil {
-		return m.Metadata
-	}
-	return ""
-}
-
 type MsgFollow struct {
 	Creator string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	Address string `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
@@ -1280,7 +528,7 @@ func (m *MsgFollow) Reset()         { *m = MsgFollow{} }
 func (m *MsgFollow) String() string { return proto.CompactTextString(m) }
 func (*MsgFollow) ProtoMessage()    {}
 func (*MsgFollow) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{23}
+	return fileDescriptor_8a0d591a6c948f33, []int{9}
 }
 func (m *MsgFollow) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1332,7 +580,7 @@ func (m *MsgStopFollow) Reset()         { *m = MsgStopFollow{} }
 func (m *MsgStopFollow) String() string { return proto.CompactTextString(m) }
 func (*MsgStopFollow) ProtoMessage()    {}
 func (*MsgStopFollow) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{24}
+	return fileDescriptor_8a0d591a6c948f33, []int{10}
 }
 func (m *MsgStopFollow) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -1383,25 +631,8 @@ func init() {
 	proto.RegisterMapType((map[string][]byte)(nil), "shravanshetty1.samachar.samachar.GetResponse.ProofsEntry")
 	proto.RegisterType((*GetTimelineRequest)(nil), "shravanshetty1.samachar.samachar.GetTimelineRequest")
 	proto.RegisterType((*GetTimelineResponse)(nil), "shravanshetty1.samachar.samachar.GetTimelineResponse")
-	proto.RegisterType((*GetFollowingsRequest)(nil), "shravanshetty1.samachar.samachar.GetFollowingsRequest")
-	proto.RegisterType((*GetFollowingsResponse)(nil), "shravanshetty1.samachar.samachar.GetFollowingsResponse")
-	proto.RegisterType((*GetPostRequest)(nil), "shravanshetty1.samachar.samachar.GetPostRequest")
-	proto.RegisterType((*GetPostResponse)(nil), "shravanshetty1.samachar.samachar.GetPostResponse")
-	proto.RegisterType((*GetPostsByAccountRequest)(nil), "shravanshetty1.samachar.samachar.GetPostsByAccountRequest")
-	proto.RegisterType((*GetPostsByAccountResponse)(nil), "shravanshetty1.samachar.samachar.GetPostsByAccountResponse")
-	proto.RegisterType((*GetProfileInfoRequest)(nil), "shravanshetty1.samachar.samachar.GetProfileInfoRequest")
-	proto.RegisterType((*GetProfileInfoResponse)(nil), "shravanshetty1.samachar.samachar.GetProfileInfoResponse")
-	proto.RegisterMapType((map[string]*AccountInfo)(nil), "shravanshetty1.samachar.samachar.GetProfileInfoResponse.AccountInfoEntry")
-	proto.RegisterMapType((map[string]*FollowingCount)(nil), "shravanshetty1.samachar.samachar.GetProfileInfoResponse.FollowingCountEntry")
-	proto.RegisterMapType((map[string][]byte)(nil), "shravanshetty1.samachar.samachar.GetProfileInfoResponse.ProofsEntry")
-	proto.RegisterType((*GetPostsByParentPostRequest)(nil), "shravanshetty1.samachar.samachar.GetPostsByParentPostRequest")
-	proto.RegisterType((*GetPostsByParentPostResponse)(nil), "shravanshetty1.samachar.samachar.GetPostsByParentPostResponse")
 	proto.RegisterType((*Post)(nil), "shravanshetty1.samachar.samachar.Post")
-	proto.RegisterType((*FollowingCount)(nil), "shravanshetty1.samachar.samachar.FollowingCount")
-	proto.RegisterType((*PostView)(nil), "shravanshetty1.samachar.samachar.PostView")
 	proto.RegisterType((*AccountInfo)(nil), "shravanshetty1.samachar.samachar.AccountInfo")
-	proto.RegisterType((*AccountInfoView)(nil), "shravanshetty1.samachar.samachar.AccountInfoView")
-	proto.RegisterType((*Following)(nil), "shravanshetty1.samachar.samachar.Following")
 	proto.RegisterType((*MsgCreatePost)(nil), "shravanshetty1.samachar.samachar.MsgCreatePost")
 	proto.RegisterType((*MsgUpdateAccountInfo)(nil), "shravanshetty1.samachar.samachar.MsgUpdateAccountInfo")
 	proto.RegisterType((*MsgFollow)(nil), "shravanshetty1.samachar.samachar.MsgFollow")
@@ -1411,72 +642,46 @@ func init() {
 func init() { proto.RegisterFile("samachar/samachar.proto", fileDescriptor_8a0d591a6c948f33) }
 
 var fileDescriptor_8a0d591a6c948f33 = []byte{
-	// 1038 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xcc, 0x57, 0x4f, 0x6f, 0x1b, 0x45,
-	0x14, 0xcf, 0xae, 0x37, 0x7f, 0xfc, 0x1c, 0x9c, 0x32, 0x0d, 0x65, 0x6b, 0x2a, 0x63, 0xed, 0x85,
-	0x08, 0x51, 0x27, 0x4d, 0x29, 0x49, 0x8b, 0x28, 0xa5, 0x49, 0x6b, 0x05, 0x08, 0x72, 0xb6, 0x05,
-	0x24, 0x04, 0x0a, 0x13, 0x7b, 0x6c, 0xaf, 0x62, 0xef, 0x2c, 0x3b, 0xe3, 0xb4, 0xe6, 0x84, 0xc4,
-	0x81, 0x4b, 0x0f, 0x5c, 0xf8, 0x00, 0xf0, 0x69, 0x38, 0xf6, 0x82, 0xc4, 0x11, 0x25, 0xdf, 0x82,
-	0x13, 0xda, 0x99, 0xd9, 0xf5, 0xae, 0xbd, 0xb5, 0xbd, 0x56, 0x0e, 0xdc, 0xe6, 0x8d, 0xe7, 0xfd,
-	0xde, 0xef, 0xbd, 0xd9, 0xf7, 0xf3, 0x1b, 0x78, 0x93, 0xe1, 0x1e, 0x6e, 0x74, 0xb0, 0xbf, 0x19,
-	0x2e, 0xaa, 0x9e, 0x4f, 0x39, 0x45, 0x15, 0xd6, 0xf1, 0xf1, 0x19, 0x76, 0x59, 0x87, 0x70, 0x3e,
-	0xb8, 0x55, 0x8d, 0x7e, 0x0e, 0x17, 0x56, 0x11, 0x56, 0x6b, 0xc4, 0x25, 0xcc, 0x61, 0x4f, 0x38,
-	0xe6, 0xc4, 0xda, 0x05, 0xa8, 0x11, 0x6e, 0x93, 0x1f, 0xfa, 0x84, 0x71, 0x74, 0x0d, 0x96, 0x3a,
-	0xc4, 0x69, 0x77, 0xb8, 0xa9, 0x55, 0xb4, 0x0d, 0xc3, 0x56, 0x16, 0x42, 0x60, 0x9c, 0x92, 0x01,
-	0x33, 0xf5, 0x4a, 0x6e, 0x23, 0x6f, 0x8b, 0xb5, 0xf5, 0xbb, 0x0e, 0x05, 0xe1, 0xca, 0x3c, 0xea,
-	0x32, 0x82, 0x3e, 0x03, 0xa3, 0x89, 0x39, 0x36, 0xb5, 0x4a, 0x6e, 0xa3, 0xb0, 0xbd, 0x53, 0x9d,
-	0x46, 0xa5, 0x1a, 0x73, 0xae, 0xee, 0x63, 0x8e, 0x1f, 0xb9, 0xdc, 0x1f, 0xd8, 0x02, 0x04, 0x1d,
-	0xc1, 0x92, 0xe7, 0x53, 0xda, 0x92, 0x21, 0x0b, 0xdb, 0x77, 0xb3, 0xc1, 0xd5, 0x85, 0xaf, 0x04,
-	0x54, 0x40, 0xa5, 0x1d, 0xc8, 0x47, 0x51, 0xd0, 0x15, 0xc8, 0x9d, 0x92, 0x81, 0xc8, 0x32, 0x6f,
-	0x07, 0x4b, 0xb4, 0x0e, 0x8b, 0x67, 0xb8, 0xdb, 0x27, 0xa6, 0x5e, 0xd1, 0x36, 0x56, 0x6d, 0x69,
-	0xdc, 0xd3, 0x77, 0xb5, 0xd2, 0x5d, 0x28, 0xc4, 0xf0, 0xb2, 0xb8, 0x5a, 0xfb, 0x80, 0x6a, 0x84,
-	0x3f, 0x75, 0x7a, 0xa4, 0xeb, 0xb8, 0x24, 0xac, 0xb2, 0x09, 0xcb, 0xb8, 0xd9, 0xf4, 0x09, 0x63,
-	0x0a, 0x25, 0x34, 0x03, 0x24, 0xc7, 0x6d, 0x92, 0xe7, 0x02, 0x29, 0x67, 0x4b, 0xc3, 0xfa, 0x1a,
-	0xae, 0x26, 0x50, 0x54, 0xc1, 0x1f, 0xc0, 0xa2, 0x47, 0x19, 0x67, 0xaa, 0xe2, 0xef, 0x4e, 0x2f,
-	0x51, 0x9d, 0x32, 0xfe, 0x95, 0x43, 0x9e, 0xd9, 0xd2, 0xd1, 0xda, 0x82, 0xf5, 0x1a, 0xe1, 0x8f,
-	0x69, 0xb7, 0x4b, 0x9f, 0x39, 0x6e, 0x9b, 0x4d, 0x25, 0x68, 0xdd, 0x81, 0x37, 0x46, 0x3c, 0x14,
-	0x99, 0x1b, 0x90, 0x57, 0x67, 0x88, 0x24, 0x94, 0xb7, 0x87, 0x1b, 0x56, 0x05, 0x8a, 0x35, 0xc2,
-	0x83, 0xf0, 0x61, 0x88, 0x22, 0xe8, 0x4e, 0x53, 0xa1, 0xeb, 0x4e, 0xd3, 0x3a, 0x82, 0xb5, 0xe8,
-	0x84, 0x82, 0xbc, 0x0f, 0x46, 0x40, 0x53, 0x1c, 0xca, 0x96, 0x9e, 0xf0, 0xb3, 0x3e, 0x05, 0x53,
-	0x41, 0xb2, 0x87, 0x83, 0x4f, 0x1a, 0x0d, 0xda, 0x77, 0xf9, 0xbc, 0x57, 0xf0, 0x1d, 0x5c, 0x4f,
-	0xc1, 0xba, 0xb4, 0x8b, 0x38, 0x10, 0x65, 0xad, 0xfb, 0xb4, 0xe5, 0x74, 0xc9, 0x81, 0xdb, 0xa2,
-	0xd3, 0x79, 0x0e, 0x5b, 0x55, 0x12, 0x55, 0x96, 0xf5, 0xaf, 0x01, 0xd7, 0x46, 0xb1, 0x14, 0xcf,
-	0x2e, 0xac, 0x62, 0x49, 0xfd, 0xd8, 0x71, 0x5b, 0x54, 0xd1, 0x3d, 0x98, 0xa9, 0xb5, 0x52, 0xf0,
-	0xaa, 0xaa, 0x0e, 0xc1, 0x9e, 0x6c, 0xb5, 0x02, 0x1e, 0xee, 0xa0, 0x3e, 0xac, 0xb5, 0xc2, 0xef,
-	0xe4, 0x58, 0x6c, 0xab, 0x5e, 0xfe, 0x7c, 0xee, 0x80, 0xd1, 0x77, 0xb7, 0x17, 0xc0, 0xc9, 0x98,
-	0xc5, 0x56, 0x62, 0x13, 0x7d, 0x1b, 0x29, 0x47, 0x4e, 0x44, 0xdb, 0x9f, 0x3b, 0x5a, 0x9a, 0x88,
-	0xf4, 0xe0, 0xca, 0x68, 0xd6, 0x29, 0x82, 0xb0, 0x17, 0x17, 0x84, 0xc2, 0xf6, 0xcd, 0xe9, 0x14,
-	0x62, 0xa0, 0x71, 0xe9, 0x61, 0x70, 0x35, 0x25, 0xe7, 0x94, 0x88, 0x8f, 0x93, 0x11, 0xb7, 0xa6,
-	0x47, 0x4c, 0xe2, 0x5e, 0x92, 0xde, 0x3d, 0x85, 0xb7, 0x86, 0x6d, 0x52, 0xc7, 0x3e, 0x71, 0x13,
-	0x4d, 0xff, 0x36, 0x14, 0x3c, 0xb1, 0x79, 0x1c, 0x35, 0x76, 0xde, 0x06, 0x2f, 0x3a, 0xf7, 0x8a,
-	0xe6, 0xfb, 0x1e, 0x6e, 0xa4, 0xa3, 0x5e, 0x5a, 0xff, 0xfd, 0xa1, 0x81, 0x21, 0x08, 0x98, 0xb0,
-	0xdc, 0xf0, 0x09, 0xe6, 0xd4, 0x0f, 0xfb, 0x4d, 0x99, 0x4a, 0xb0, 0xf4, 0x50, 0xb0, 0xc4, 0x49,
-	0xea, 0x72, 0xe2, 0x72, 0x33, 0xa7, 0x4e, 0x4a, 0x73, 0x34, 0x4b, 0x63, 0x2c, 0xcb, 0xeb, 0xb0,
-	0x72, 0xd2, 0xa5, 0x8d, 0xd3, 0x63, 0x97, 0x9a, 0x8b, 0x22, 0xd1, 0x65, 0x61, 0x7f, 0x41, 0x51,
-	0x09, 0x56, 0x7a, 0x84, 0x63, 0xf1, 0x47, 0xba, 0x24, 0x1c, 0x23, 0xdb, 0x7a, 0x00, 0xc5, 0xe4,
-	0xa5, 0x4d, 0x56, 0xb1, 0xb0, 0xe5, 0x82, 0xff, 0x71, 0x69, 0x58, 0x7f, 0x69, 0xb0, 0x12, 0xa6,
-	0x8e, 0x6a, 0xc9, 0x54, 0x33, 0x7f, 0xa6, 0xff, 0xa3, 0xca, 0xf4, 0xa0, 0x10, 0x63, 0x36, 0xa1,
-	0x2c, 0x08, 0x0c, 0x17, 0xf7, 0x88, 0x22, 0x2b, 0xd6, 0x41, 0xa9, 0xbc, 0x0e, 0xe5, 0x54, 0x91,
-	0x95, 0x46, 0x22, 0x9c, 0x31, 0x12, 0xee, 0x85, 0x06, 0x6b, 0xb1, 0x78, 0xa2, 0x9a, 0xf5, 0x31,
-	0x6d, 0x9d, 0xa3, 0xa4, 0x09, 0xfd, 0x7c, 0x27, 0x4d, 0x3f, 0x83, 0x92, 0x8c, 0x28, 0x9e, 0xf5,
-	0x08, 0xf2, 0xd1, 0x77, 0x31, 0x21, 0xf7, 0x32, 0x40, 0xe4, 0x18, 0x4e, 0x72, 0xb1, 0x1d, 0xeb,
-	0x27, 0x0d, 0x5e, 0x3b, 0x64, 0xed, 0xbd, 0xe0, 0x56, 0xc9, 0x94, 0x66, 0x88, 0x5d, 0xb1, 0x3e,
-	0xf1, 0x8a, 0x73, 0x63, 0x57, 0x3c, 0xa9, 0xb0, 0x67, 0xb0, 0x7e, 0xc8, 0xda, 0x5f, 0x7a, 0x4d,
-	0xcc, 0xc9, 0xc8, 0x85, 0xbe, 0x82, 0xc8, 0xe5, 0x5c, 0xe8, 0xc7, 0x90, 0x3f, 0x64, 0x6d, 0x59,
-	0xc4, 0xc9, 0x59, 0x87, 0xb5, 0xd5, 0x93, 0x63, 0xd1, 0x9e, 0x28, 0xdd, 0x13, 0x4e, 0xbd, 0xf9,
-	0x41, 0xb6, 0x7f, 0x59, 0x86, 0xc5, 0xa3, 0x3e, 0xf1, 0x07, 0xc8, 0x85, 0x65, 0x25, 0x78, 0x68,
-	0x6b, 0xb6, 0xbf, 0xaf, 0xa1, 0xc8, 0x96, 0x6e, 0x65, 0xf0, 0x50, 0x02, 0xfa, 0x9b, 0x26, 0x06,
-	0xc1, 0x31, 0x85, 0x45, 0x1f, 0xcd, 0x8c, 0x95, 0xa6, 0xf7, 0xa5, 0xfb, 0xf3, 0xba, 0x2b, 0x5e,
-	0x2f, 0x34, 0x78, 0x7d, 0x6c, 0xec, 0x42, 0xf7, 0xb2, 0xa0, 0x26, 0xe7, 0xbe, 0xd2, 0x87, 0x73,
-	0xf9, 0x2a, 0x3a, 0x3f, 0x8a, 0x07, 0x4f, 0x38, 0x87, 0xa3, 0xf7, 0x67, 0xc2, 0x1a, 0x19, 0xfe,
-	0x4b, 0x77, 0x32, 0x7a, 0xa9, 0xd8, 0x3f, 0x6b, 0x72, 0x84, 0x1e, 0xce, 0x29, 0x68, 0x27, 0xfb,
-	0x64, 0x23, 0x29, 0xec, 0xce, 0x3b, 0x12, 0xa1, 0x40, 0x23, 0x12, 0xf3, 0x3f, 0xfa, 0x60, 0x26,
-	0xac, 0xb1, 0x27, 0x46, 0x69, 0x27, 0xb3, 0x9f, 0xa2, 0x70, 0x02, 0xb9, 0x1a, 0xe1, 0xe8, 0xbd,
-	0x19, 0x1f, 0x84, 0x32, 0xda, 0xcd, 0x4c, 0xcf, 0xc7, 0x87, 0x87, 0x7f, 0x9e, 0x97, 0xb5, 0x97,
-	0xe7, 0x65, 0xed, 0x9f, 0xf3, 0xb2, 0xf6, 0xeb, 0x45, 0x79, 0xe1, 0xe5, 0x45, 0x79, 0xe1, 0xef,
-	0x8b, 0xf2, 0xc2, 0x37, 0xb7, 0xdb, 0x0e, 0xef, 0xf4, 0x4f, 0xaa, 0x0d, 0xda, 0xdb, 0x4c, 0x42,
-	0x46, 0x4f, 0xf1, 0xcd, 0xe7, 0xc3, 0x25, 0x1f, 0x78, 0x84, 0x9d, 0x2c, 0x89, 0xc7, 0xf9, 0xed,
-	0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0x6d, 0xb6, 0x03, 0xcc, 0xb7, 0x0f, 0x00, 0x00,
+	// 616 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0xcf, 0x4e, 0x13, 0x5f,
+	0x14, 0x66, 0x66, 0x4a, 0x49, 0x4f, 0xa1, 0xbf, 0x5f, 0xae, 0xa8, 0x13, 0x12, 0x6b, 0x33, 0x89,
+	0xb1, 0x0b, 0x2d, 0x11, 0x34, 0x80, 0x1b, 0xa3, 0xa8, 0x8d, 0x31, 0x4d, 0x60, 0xd0, 0x0d, 0x1b,
+	0x72, 0xe9, 0x1c, 0x3a, 0x13, 0xda, 0x7b, 0xc7, 0x7b, 0x4f, 0xd1, 0xf1, 0x29, 0x8c, 0x6f, 0xe0,
+	0xab, 0xb8, 0x72, 0xc9, 0xd2, 0xa5, 0x81, 0x85, 0xaf, 0x61, 0xe6, 0xce, 0x4c, 0x29, 0x0d, 0x20,
+	0x75, 0x77, 0xfe, 0x7f, 0xdf, 0xf9, 0x66, 0xee, 0x81, 0xdb, 0x9a, 0x0f, 0x78, 0x37, 0xe4, 0x6a,
+	0xb9, 0x30, 0x5a, 0xb1, 0x92, 0x24, 0x59, 0x43, 0x87, 0x8a, 0x1f, 0x71, 0xa1, 0x43, 0x24, 0x4a,
+	0x1e, 0xb5, 0x46, 0xe9, 0xc2, 0xf0, 0x6a, 0x30, 0xdf, 0x46, 0x81, 0x3a, 0xd2, 0x3b, 0xc4, 0x09,
+	0xbd, 0x75, 0x80, 0x36, 0x92, 0x8f, 0x1f, 0x86, 0xa8, 0x89, 0xdd, 0x82, 0x72, 0x88, 0x51, 0x2f,
+	0x24, 0xd7, 0x6a, 0x58, 0xcd, 0x92, 0x9f, 0x7b, 0x8c, 0x41, 0xe9, 0x10, 0x13, 0xed, 0xda, 0x0d,
+	0xa7, 0x59, 0xf1, 0x8d, 0xed, 0x7d, 0xb3, 0xa1, 0x6a, 0x5a, 0x75, 0x2c, 0x85, 0x46, 0xf6, 0x16,
+	0x4a, 0x01, 0x27, 0xee, 0x5a, 0x0d, 0xa7, 0x59, 0x5d, 0x59, 0x6b, 0xfd, 0x8d, 0x4a, 0x6b, 0xac,
+	0xb9, 0xf5, 0x92, 0x13, 0x7f, 0x25, 0x48, 0x25, 0xbe, 0x19, 0xc2, 0xb6, 0xa1, 0x1c, 0x2b, 0x29,
+	0x0f, 0x32, 0xc8, 0xea, 0xca, 0xc6, 0x74, 0xe3, 0xb6, 0x4c, 0x6f, 0x36, 0x30, 0x1f, 0xb4, 0xb4,
+	0x06, 0x95, 0x11, 0x0a, 0xfb, 0x1f, 0x9c, 0x43, 0x4c, 0xcc, 0x96, 0x15, 0x3f, 0x35, 0xd9, 0x22,
+	0xcc, 0x1e, 0xf1, 0xfe, 0x10, 0x5d, 0xbb, 0x61, 0x35, 0xe7, 0xfd, 0xcc, 0x79, 0x6a, 0xaf, 0x5b,
+	0x4b, 0x1b, 0x50, 0x1d, 0x9b, 0x37, 0x4d, 0xab, 0xb7, 0x08, 0xac, 0x8d, 0xf4, 0x2e, 0x1a, 0x60,
+	0x3f, 0x12, 0x98, 0xab, 0xec, 0xdd, 0x84, 0x1b, 0xe7, 0xa2, 0x19, 0x69, 0xef, 0xab, 0x05, 0xa5,
+	0x2d, 0xa9, 0x89, 0xd5, 0xc0, 0x8e, 0x82, 0x1c, 0xc0, 0x8e, 0x02, 0xe6, 0xc2, 0x5c, 0x57, 0x21,
+	0x27, 0xa9, 0x0c, 0x42, 0xc5, 0x2f, 0x5c, 0x93, 0x91, 0x82, 0x50, 0x90, 0xeb, 0xe4, 0x99, 0xcc,
+	0x65, 0x77, 0xa1, 0x1a, 0x73, 0x85, 0x82, 0xf6, 0x62, 0xa9, 0xc9, 0x2d, 0x99, 0x2c, 0x64, 0x21,
+	0x03, 0x72, 0x0f, 0x6a, 0x5d, 0x39, 0x18, 0xa0, 0x20, 0xbd, 0xd7, 0x95, 0x43, 0x41, 0xee, 0xac,
+	0xf9, 0xe4, 0x0b, 0x45, 0x74, 0x33, 0x0d, 0x7a, 0xdf, 0x2d, 0xa8, 0x3e, 0xef, 0x9a, 0x82, 0x37,
+	0xe2, 0x40, 0xa6, 0x88, 0x3c, 0x08, 0x14, 0x6a, 0x5d, 0x70, 0xc9, 0xdd, 0xf4, 0x1f, 0x11, 0x7c,
+	0x80, 0x39, 0x11, 0x63, 0xa7, 0xca, 0xc4, 0xa1, 0x24, 0x99, 0xe3, 0x67, 0x0e, 0xbb, 0x0f, 0xff,
+	0x1d, 0xc8, 0x7e, 0x5f, 0x7e, 0x8c, 0x44, 0xef, 0x1c, 0x76, 0x6d, 0x14, 0x36, 0xe0, 0x67, 0x85,
+	0xa8, 0x0a, 0x92, 0xe5, 0xf1, 0x42, 0x54, 0x19, 0x4b, 0x76, 0x07, 0x20, 0x5d, 0x33, 0xaf, 0x99,
+	0x33, 0x35, 0x95, 0x34, 0x92, 0x2d, 0x11, 0xc0, 0x42, 0x47, 0xf7, 0x36, 0x53, 0xd1, 0xd0, 0x2c,
+	0x3f, 0xa6, 0xa8, 0x75, 0xa9, 0xa2, 0xf6, 0x95, 0x8a, 0x3a, 0x93, 0x8a, 0x7a, 0xbb, 0xb0, 0xd8,
+	0xd1, 0xbd, 0xf7, 0x71, 0xc0, 0x09, 0x27, 0x24, 0xbb, 0x04, 0xac, 0x90, 0xcc, 0xbe, 0x48, 0x32,
+	0x67, 0x4c, 0x32, 0xef, 0x19, 0x54, 0x3a, 0xba, 0xf7, 0xda, 0x6c, 0x7d, 0x35, 0xfb, 0x8b, 0xbf,
+	0x8e, 0xb7, 0x69, 0x24, 0xd8, 0x21, 0x19, 0xff, 0xfb, 0x90, 0x95, 0xdf, 0x16, 0xcc, 0x6e, 0x0f,
+	0x51, 0x25, 0xec, 0xb3, 0x79, 0xfb, 0xc5, 0x2f, 0xcc, 0x1e, 0x5f, 0xeb, 0x79, 0x4e, 0xbc, 0x83,
+	0xa5, 0x27, 0x53, 0x76, 0xe5, 0x87, 0x66, 0x1f, 0x9c, 0x36, 0x12, 0x7b, 0x70, 0xcd, 0x93, 0x90,
+	0x61, 0x3d, 0x9c, 0xea, 0x80, 0xbc, 0xe8, 0xfc, 0x38, 0xa9, 0x5b, 0xc7, 0x27, 0x75, 0xeb, 0xd7,
+	0x49, 0xdd, 0xfa, 0x72, 0x5a, 0x9f, 0x39, 0x3e, 0xad, 0xcf, 0xfc, 0x3c, 0xad, 0xcf, 0xec, 0xae,
+	0xf6, 0x22, 0x0a, 0x87, 0xfb, 0xad, 0xae, 0x1c, 0x2c, 0x9f, 0x1f, 0x39, 0x3a, 0xc6, 0xcb, 0x9f,
+	0xce, 0x4c, 0x4a, 0x62, 0xd4, 0xfb, 0x65, 0x73, 0x9e, 0x57, 0xff, 0x04, 0x00, 0x00, 0xff, 0xff,
+	0xcb, 0xdf, 0xb1, 0x1a, 0xb9, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -1491,12 +696,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
-	GetPost(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostResponse, error)
-	GetPostsByParentPost(ctx context.Context, in *GetPostsByParentPostRequest, opts ...grpc.CallOption) (*GetPostsByParentPostResponse, error)
-	GetPostsByAccount(ctx context.Context, in *GetPostsByAccountRequest, opts ...grpc.CallOption) (*GetPostsByAccountResponse, error)
 	GetTimeline(ctx context.Context, in *GetTimelineRequest, opts ...grpc.CallOption) (*GetTimelineResponse, error)
-	GetProfileInfo(ctx context.Context, in *GetProfileInfoRequest, opts ...grpc.CallOption) (*GetProfileInfoResponse, error)
-	GetFollowings(ctx context.Context, in *GetFollowingsRequest, opts ...grpc.CallOption) (*GetFollowingsResponse, error)
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 }
 
@@ -1508,54 +708,9 @@ func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 	return &queryClient{cc}
 }
 
-func (c *queryClient) GetPost(ctx context.Context, in *GetPostRequest, opts ...grpc.CallOption) (*GetPostResponse, error) {
-	out := new(GetPostResponse)
-	err := c.cc.Invoke(ctx, "/shravanshetty1.samachar.samachar.Query/GetPost", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryClient) GetPostsByParentPost(ctx context.Context, in *GetPostsByParentPostRequest, opts ...grpc.CallOption) (*GetPostsByParentPostResponse, error) {
-	out := new(GetPostsByParentPostResponse)
-	err := c.cc.Invoke(ctx, "/shravanshetty1.samachar.samachar.Query/GetPostsByParentPost", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryClient) GetPostsByAccount(ctx context.Context, in *GetPostsByAccountRequest, opts ...grpc.CallOption) (*GetPostsByAccountResponse, error) {
-	out := new(GetPostsByAccountResponse)
-	err := c.cc.Invoke(ctx, "/shravanshetty1.samachar.samachar.Query/GetPostsByAccount", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *queryClient) GetTimeline(ctx context.Context, in *GetTimelineRequest, opts ...grpc.CallOption) (*GetTimelineResponse, error) {
 	out := new(GetTimelineResponse)
 	err := c.cc.Invoke(ctx, "/shravanshetty1.samachar.samachar.Query/GetTimeline", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryClient) GetProfileInfo(ctx context.Context, in *GetProfileInfoRequest, opts ...grpc.CallOption) (*GetProfileInfoResponse, error) {
-	out := new(GetProfileInfoResponse)
-	err := c.cc.Invoke(ctx, "/shravanshetty1.samachar.samachar.Query/GetProfileInfo", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *queryClient) GetFollowings(ctx context.Context, in *GetFollowingsRequest, opts ...grpc.CallOption) (*GetFollowingsResponse, error) {
-	out := new(GetFollowingsResponse)
-	err := c.cc.Invoke(ctx, "/shravanshetty1.samachar.samachar.Query/GetFollowings", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1573,12 +728,7 @@ func (c *queryClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.Call
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
-	GetPost(context.Context, *GetPostRequest) (*GetPostResponse, error)
-	GetPostsByParentPost(context.Context, *GetPostsByParentPostRequest) (*GetPostsByParentPostResponse, error)
-	GetPostsByAccount(context.Context, *GetPostsByAccountRequest) (*GetPostsByAccountResponse, error)
 	GetTimeline(context.Context, *GetTimelineRequest) (*GetTimelineResponse, error)
-	GetProfileInfo(context.Context, *GetProfileInfoRequest) (*GetProfileInfoResponse, error)
-	GetFollowings(context.Context, *GetFollowingsRequest) (*GetFollowingsResponse, error)
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 }
 
@@ -1586,23 +736,8 @@ type QueryServer interface {
 type UnimplementedQueryServer struct {
 }
 
-func (*UnimplementedQueryServer) GetPost(ctx context.Context, req *GetPostRequest) (*GetPostResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPost not implemented")
-}
-func (*UnimplementedQueryServer) GetPostsByParentPost(ctx context.Context, req *GetPostsByParentPostRequest) (*GetPostsByParentPostResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPostsByParentPost not implemented")
-}
-func (*UnimplementedQueryServer) GetPostsByAccount(ctx context.Context, req *GetPostsByAccountRequest) (*GetPostsByAccountResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPostsByAccount not implemented")
-}
 func (*UnimplementedQueryServer) GetTimeline(ctx context.Context, req *GetTimelineRequest) (*GetTimelineResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTimeline not implemented")
-}
-func (*UnimplementedQueryServer) GetProfileInfo(ctx context.Context, req *GetProfileInfoRequest) (*GetProfileInfoResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetProfileInfo not implemented")
-}
-func (*UnimplementedQueryServer) GetFollowings(ctx context.Context, req *GetFollowingsRequest) (*GetFollowingsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetFollowings not implemented")
 }
 func (*UnimplementedQueryServer) Get(ctx context.Context, req *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
@@ -1610,60 +745,6 @@ func (*UnimplementedQueryServer) Get(ctx context.Context, req *GetRequest) (*Get
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
 	s.RegisterService(&_Query_serviceDesc, srv)
-}
-
-func _Query_GetPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).GetPost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/shravanshetty1.samachar.samachar.Query/GetPost",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetPost(ctx, req.(*GetPostRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Query_GetPostsByParentPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostsByParentPostRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).GetPostsByParentPost(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/shravanshetty1.samachar.samachar.Query/GetPostsByParentPost",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetPostsByParentPost(ctx, req.(*GetPostsByParentPostRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Query_GetPostsByAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPostsByAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).GetPostsByAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/shravanshetty1.samachar.samachar.Query/GetPostsByAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetPostsByAccount(ctx, req.(*GetPostsByAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Query_GetTimeline_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -1680,42 +761,6 @@ func _Query_GetTimeline_Handler(srv interface{}, ctx context.Context, dec func(i
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(QueryServer).GetTimeline(ctx, req.(*GetTimelineRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Query_GetProfileInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetProfileInfoRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).GetProfileInfo(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/shravanshetty1.samachar.samachar.Query/GetProfileInfo",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetProfileInfo(ctx, req.(*GetProfileInfoRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Query_GetFollowings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetFollowingsRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).GetFollowings(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/shravanshetty1.samachar.samachar.Query/GetFollowings",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetFollowings(ctx, req.(*GetFollowingsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1743,28 +788,8 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetPost",
-			Handler:    _Query_GetPost_Handler,
-		},
-		{
-			MethodName: "GetPostsByParentPost",
-			Handler:    _Query_GetPostsByParentPost_Handler,
-		},
-		{
-			MethodName: "GetPostsByAccount",
-			Handler:    _Query_GetPostsByAccount_Handler,
-		},
-		{
 			MethodName: "GetTimeline",
 			Handler:    _Query_GetTimeline_Handler,
-		},
-		{
-			MethodName: "GetProfileInfo",
-			Handler:    _Query_GetProfileInfo_Handler,
-		},
-		{
-			MethodName: "GetFollowings",
-			Handler:    _Query_GetFollowings_Handler,
 		},
 		{
 			MethodName: "Get",
@@ -1920,18 +945,6 @@ func (m *GetTimelineRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if m.Index != 0 {
-		i = encodeVarintSamachar(dAtA, i, uint64(m.Index))
-		i--
-		dAtA[i] = 0x10
-	}
-	if len(m.Address) > 0 {
-		i -= len(m.Address)
-		copy(dAtA[i:], m.Address)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Address)))
-		i--
-		dAtA[i] = 0xa
-	}
 	return len(dAtA) - i, nil
 }
 
@@ -1955,422 +968,6 @@ func (m *GetTimelineResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.Posts) > 0 {
-		for iNdEx := len(m.Posts) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Posts[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintSamachar(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0xa
-		}
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetFollowingsRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetFollowingsRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetFollowingsRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Address) > 0 {
-		i -= len(m.Address)
-		copy(dAtA[i:], m.Address)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Address)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetFollowingsResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetFollowingsResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetFollowingsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Addresses) > 0 {
-		for iNdEx := len(m.Addresses) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.Addresses[iNdEx])
-			copy(dAtA[i:], m.Addresses[iNdEx])
-			i = encodeVarintSamachar(dAtA, i, uint64(len(m.Addresses[iNdEx])))
-			i--
-			dAtA[i] = 0xa
-		}
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetPostRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetPostRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetPostRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetPostResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetPostResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetPostResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Post != nil {
-		{
-			size, err := m.Post.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintSamachar(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetPostsByAccountRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetPostsByAccountRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetPostsByAccountRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Index != 0 {
-		i = encodeVarintSamachar(dAtA, i, uint64(m.Index))
-		i--
-		dAtA[i] = 0x10
-	}
-	if len(m.Address) > 0 {
-		i -= len(m.Address)
-		copy(dAtA[i:], m.Address)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Address)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetPostsByAccountResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetPostsByAccountResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetPostsByAccountResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Posts) > 0 {
-		for iNdEx := len(m.Posts) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Posts[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintSamachar(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0xa
-		}
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetProfileInfoRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetProfileInfoRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetProfileInfoRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Height != 0 {
-		i = encodeVarintSamachar(dAtA, i, uint64(m.Height))
-		i--
-		dAtA[i] = 0x10
-	}
-	if len(m.Address) > 0 {
-		i -= len(m.Address)
-		copy(dAtA[i:], m.Address)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Address)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetProfileInfoResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetProfileInfoResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetProfileInfoResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Proofs) > 0 {
-		for k := range m.Proofs {
-			v := m.Proofs[k]
-			baseI := i
-			if len(v) > 0 {
-				i -= len(v)
-				copy(dAtA[i:], v)
-				i = encodeVarintSamachar(dAtA, i, uint64(len(v)))
-				i--
-				dAtA[i] = 0x12
-			}
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintSamachar(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintSamachar(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0x1a
-		}
-	}
-	if len(m.FollowingCount) > 0 {
-		for k := range m.FollowingCount {
-			v := m.FollowingCount[k]
-			baseI := i
-			if v != nil {
-				{
-					size, err := v.MarshalToSizedBuffer(dAtA[:i])
-					if err != nil {
-						return 0, err
-					}
-					i -= size
-					i = encodeVarintSamachar(dAtA, i, uint64(size))
-				}
-				i--
-				dAtA[i] = 0x12
-			}
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintSamachar(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintSamachar(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0x12
-		}
-	}
-	if len(m.AccountInfo) > 0 {
-		for k := range m.AccountInfo {
-			v := m.AccountInfo[k]
-			baseI := i
-			if v != nil {
-				{
-					size, err := v.MarshalToSizedBuffer(dAtA[:i])
-					if err != nil {
-						return 0, err
-					}
-					i -= size
-					i = encodeVarintSamachar(dAtA, i, uint64(size))
-				}
-				i--
-				dAtA[i] = 0x12
-			}
-			i -= len(k)
-			copy(dAtA[i:], k)
-			i = encodeVarintSamachar(dAtA, i, uint64(len(k)))
-			i--
-			dAtA[i] = 0xa
-			i = encodeVarintSamachar(dAtA, i, uint64(baseI-i))
-			i--
-			dAtA[i] = 0xa
-		}
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetPostsByParentPostRequest) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetPostsByParentPostRequest) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetPostsByParentPostRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Index != 0 {
-		i = encodeVarintSamachar(dAtA, i, uint64(m.Index))
-		i--
-		dAtA[i] = 0x10
-	}
-	if len(m.ParentPost) > 0 {
-		i -= len(m.ParentPost)
-		copy(dAtA[i:], m.ParentPost)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.ParentPost)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *GetPostsByParentPostResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *GetPostsByParentPostResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetPostsByParentPostResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Posts) > 0 {
-		for iNdEx := len(m.Posts) - 1; iNdEx >= 0; iNdEx-- {
-			{
-				size, err := m.Posts[iNdEx].MarshalToSizedBuffer(dAtA[:i])
-				if err != nil {
-					return 0, err
-				}
-				i -= size
-				i = encodeVarintSamachar(dAtA, i, uint64(size))
-			}
-			i--
-			dAtA[i] = 0xa
-		}
-	}
 	return len(dAtA) - i, nil
 }
 
@@ -2394,15 +991,8 @@ func (m *Post) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.Metadata) > 0 {
-		i -= len(m.Metadata)
-		copy(dAtA[i:], m.Metadata)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Metadata)))
-		i--
-		dAtA[i] = 0x32
-	}
-	if m.BlockNo != 0 {
-		i = encodeVarintSamachar(dAtA, i, uint64(m.BlockNo))
+	if m.CommentsCount != 0 {
+		i = encodeVarintSamachar(dAtA, i, uint64(m.CommentsCount))
 		i--
 		dAtA[i] = 0x28
 	}
@@ -2419,121 +1009,18 @@ func (m *Post) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Content)))
 		i--
 		dAtA[i] = 0x1a
-	}
-	if len(m.Id) > 0 {
-		i -= len(m.Id)
-		copy(dAtA[i:], m.Id)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0x12
 	}
 	if len(m.Creator) > 0 {
 		i -= len(m.Creator)
 		copy(dAtA[i:], m.Creator)
 		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Creator)))
 		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *FollowingCount) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *FollowingCount) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *FollowingCount) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.Count != 0 {
-		i = encodeVarintSamachar(dAtA, i, uint64(m.Count))
-		i--
-		dAtA[i] = 0x10
-	}
-	if len(m.Address) > 0 {
-		i -= len(m.Address)
-		copy(dAtA[i:], m.Address)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Address)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *PostView) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *PostView) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *PostView) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Metadata) > 0 {
-		i -= len(m.Metadata)
-		copy(dAtA[i:], m.Metadata)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Metadata)))
-		i--
-		dAtA[i] = 0x32
-	}
-	if m.BlockNo != 0 {
-		i = encodeVarintSamachar(dAtA, i, uint64(m.BlockNo))
-		i--
-		dAtA[i] = 0x28
-	}
-	if len(m.ParentPost) > 0 {
-		i -= len(m.ParentPost)
-		copy(dAtA[i:], m.ParentPost)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.ParentPost)))
-		i--
-		dAtA[i] = 0x22
-	}
-	if len(m.Content) > 0 {
-		i -= len(m.Content)
-		copy(dAtA[i:], m.Content)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Content)))
-		i--
-		dAtA[i] = 0x1a
+		dAtA[i] = 0x12
 	}
 	if len(m.Id) > 0 {
 		i -= len(m.Id)
 		copy(dAtA[i:], m.Id)
 		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Id)))
-		i--
-		dAtA[i] = 0x12
-	}
-	if m.Creator != nil {
-		{
-			size, err := m.Creator.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintSamachar(dAtA, i, uint64(size))
-		}
 		i--
 		dAtA[i] = 0xa
 	}
@@ -2560,112 +1047,41 @@ func (m *AccountInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.Metadata) > 0 {
-		i -= len(m.Metadata)
-		copy(dAtA[i:], m.Metadata)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Metadata)))
+	if m.PostCount != 0 {
+		i = encodeVarintSamachar(dAtA, i, uint64(m.PostCount))
 		i--
-		dAtA[i] = 0x22
+		dAtA[i] = 0x38
+	}
+	if m.FollowersCount != 0 {
+		i = encodeVarintSamachar(dAtA, i, uint64(m.FollowersCount))
+		i--
+		dAtA[i] = 0x30
+	}
+	if m.FollowingCount != 0 {
+		i = encodeVarintSamachar(dAtA, i, uint64(m.FollowingCount))
+		i--
+		dAtA[i] = 0x28
 	}
 	if len(m.Photo) > 0 {
 		i -= len(m.Photo)
 		copy(dAtA[i:], m.Photo)
 		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Photo)))
 		i--
-		dAtA[i] = 0x1a
+		dAtA[i] = 0x22
 	}
 	if len(m.Name) > 0 {
 		i -= len(m.Name)
 		copy(dAtA[i:], m.Name)
 		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Name)))
 		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Address)))
+		i--
 		dAtA[i] = 0x12
-	}
-	if len(m.Address) > 0 {
-		i -= len(m.Address)
-		copy(dAtA[i:], m.Address)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Address)))
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *AccountInfoView) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *AccountInfoView) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *AccountInfoView) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if m.FollowingCount != 0 {
-		i = encodeVarintSamachar(dAtA, i, uint64(m.FollowingCount))
-		i--
-		dAtA[i] = 0x10
-	}
-	if m.AccountInfo != nil {
-		{
-			size, err := m.AccountInfo.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintSamachar(dAtA, i, uint64(size))
-		}
-		i--
-		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *Following) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *Following) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *Following) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Followings) > 0 {
-		for iNdEx := len(m.Followings) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.Followings[iNdEx])
-			copy(dAtA[i:], m.Followings[iNdEx])
-			i = encodeVarintSamachar(dAtA, i, uint64(len(m.Followings[iNdEx])))
-			i--
-			dAtA[i] = 0x12
-		}
-	}
-	if len(m.Address) > 0 {
-		i -= len(m.Address)
-		copy(dAtA[i:], m.Address)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Address)))
-		i--
-		dAtA[i] = 0xa
 	}
 	return len(dAtA) - i, nil
 }
@@ -2690,13 +1106,6 @@ func (m *MsgCreatePost) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.Metadata) > 0 {
-		i -= len(m.Metadata)
-		copy(dAtA[i:], m.Metadata)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Metadata)))
-		i--
-		dAtA[i] = 0x22
-	}
 	if len(m.ParentPost) > 0 {
 		i -= len(m.ParentPost)
 		copy(dAtA[i:], m.ParentPost)
@@ -2741,13 +1150,6 @@ func (m *MsgUpdateAccountInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.Metadata) > 0 {
-		i -= len(m.Metadata)
-		copy(dAtA[i:], m.Metadata)
-		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Metadata)))
-		i--
-		dAtA[i] = 0x22
-	}
 	if len(m.Photo) > 0 {
 		i -= len(m.Photo)
 		copy(dAtA[i:], m.Photo)
@@ -2923,13 +1325,6 @@ func (m *GetTimelineRequest) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.Address)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	if m.Index != 0 {
-		n += 1 + sovSamachar(uint64(m.Index))
-	}
 	return n
 }
 
@@ -2939,191 +1334,6 @@ func (m *GetTimelineResponse) Size() (n int) {
 	}
 	var l int
 	_ = l
-	if len(m.Posts) > 0 {
-		for _, e := range m.Posts {
-			l = e.Size()
-			n += 1 + l + sovSamachar(uint64(l))
-		}
-	}
-	return n
-}
-
-func (m *GetFollowingsRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Address)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	return n
-}
-
-func (m *GetFollowingsResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.Addresses) > 0 {
-		for _, s := range m.Addresses {
-			l = len(s)
-			n += 1 + l + sovSamachar(uint64(l))
-		}
-	}
-	return n
-}
-
-func (m *GetPostRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	return n
-}
-
-func (m *GetPostResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Post != nil {
-		l = m.Post.Size()
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	return n
-}
-
-func (m *GetPostsByAccountRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Address)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	if m.Index != 0 {
-		n += 1 + sovSamachar(uint64(m.Index))
-	}
-	return n
-}
-
-func (m *GetPostsByAccountResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.Posts) > 0 {
-		for _, e := range m.Posts {
-			l = e.Size()
-			n += 1 + l + sovSamachar(uint64(l))
-		}
-	}
-	return n
-}
-
-func (m *GetProfileInfoRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Address)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	if m.Height != 0 {
-		n += 1 + sovSamachar(uint64(m.Height))
-	}
-	return n
-}
-
-func (m *GetProfileInfoResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.AccountInfo) > 0 {
-		for k, v := range m.AccountInfo {
-			_ = k
-			_ = v
-			l = 0
-			if v != nil {
-				l = v.Size()
-				l += 1 + sovSamachar(uint64(l))
-			}
-			mapEntrySize := 1 + len(k) + sovSamachar(uint64(len(k))) + l
-			n += mapEntrySize + 1 + sovSamachar(uint64(mapEntrySize))
-		}
-	}
-	if len(m.FollowingCount) > 0 {
-		for k, v := range m.FollowingCount {
-			_ = k
-			_ = v
-			l = 0
-			if v != nil {
-				l = v.Size()
-				l += 1 + sovSamachar(uint64(l))
-			}
-			mapEntrySize := 1 + len(k) + sovSamachar(uint64(len(k))) + l
-			n += mapEntrySize + 1 + sovSamachar(uint64(mapEntrySize))
-		}
-	}
-	if len(m.Proofs) > 0 {
-		for k, v := range m.Proofs {
-			_ = k
-			_ = v
-			l = 0
-			if len(v) > 0 {
-				l = 1 + len(v) + sovSamachar(uint64(len(v)))
-			}
-			mapEntrySize := 1 + len(k) + sovSamachar(uint64(len(k))) + l
-			n += mapEntrySize + 1 + sovSamachar(uint64(mapEntrySize))
-		}
-	}
-	return n
-}
-
-func (m *GetPostsByParentPostRequest) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.ParentPost)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	if m.Index != 0 {
-		n += 1 + sovSamachar(uint64(m.Index))
-	}
-	return n
-}
-
-func (m *GetPostsByParentPostResponse) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.Posts) > 0 {
-		for _, e := range m.Posts {
-			l = e.Size()
-			n += 1 + l + sovSamachar(uint64(l))
-		}
-	}
 	return n
 }
 
@@ -3133,14 +1343,14 @@ func (m *Post) Size() (n int) {
 	}
 	var l int
 	_ = l
+	l = len(m.Id)
+	if l > 0 {
+		n += 1 + l + sovSamachar(uint64(l))
+	}
 	l = len(m.Creator)
 	if l > 0 {
 		n += 1 + l + sovSamachar(uint64(l))
 	}
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
 	l = len(m.Content)
 	if l > 0 {
 		n += 1 + l + sovSamachar(uint64(l))
@@ -3149,60 +1359,8 @@ func (m *Post) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovSamachar(uint64(l))
 	}
-	if m.BlockNo != 0 {
-		n += 1 + sovSamachar(uint64(m.BlockNo))
-	}
-	l = len(m.Metadata)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	return n
-}
-
-func (m *FollowingCount) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	l = len(m.Address)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	if m.Count != 0 {
-		n += 1 + sovSamachar(uint64(m.Count))
-	}
-	return n
-}
-
-func (m *PostView) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.Creator != nil {
-		l = m.Creator.Size()
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	l = len(m.Id)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	l = len(m.Content)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	l = len(m.ParentPost)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	if m.BlockNo != 0 {
-		n += 1 + sovSamachar(uint64(m.BlockNo))
-	}
-	l = len(m.Metadata)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
+	if m.CommentsCount != 0 {
+		n += 1 + sovSamachar(uint64(m.CommentsCount))
 	}
 	return n
 }
@@ -3225,44 +1383,14 @@ func (m *AccountInfo) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovSamachar(uint64(l))
 	}
-	l = len(m.Metadata)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	return n
-}
-
-func (m *AccountInfoView) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if m.AccountInfo != nil {
-		l = m.AccountInfo.Size()
-		n += 1 + l + sovSamachar(uint64(l))
-	}
 	if m.FollowingCount != 0 {
 		n += 1 + sovSamachar(uint64(m.FollowingCount))
 	}
-	return n
-}
-
-func (m *Following) Size() (n int) {
-	if m == nil {
-		return 0
+	if m.FollowersCount != 0 {
+		n += 1 + sovSamachar(uint64(m.FollowersCount))
 	}
-	var l int
-	_ = l
-	l = len(m.Address)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	if len(m.Followings) > 0 {
-		for _, s := range m.Followings {
-			l = len(s)
-			n += 1 + l + sovSamachar(uint64(l))
-		}
+	if m.PostCount != 0 {
+		n += 1 + sovSamachar(uint64(m.PostCount))
 	}
 	return n
 }
@@ -3285,10 +1413,6 @@ func (m *MsgCreatePost) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovSamachar(uint64(l))
 	}
-	l = len(m.Metadata)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
 	return n
 }
 
@@ -3307,10 +1431,6 @@ func (m *MsgUpdateAccountInfo) Size() (n int) {
 		n += 1 + l + sovSamachar(uint64(l))
 	}
 	l = len(m.Photo)
-	if l > 0 {
-		n += 1 + l + sovSamachar(uint64(l))
-	}
-	l = len(m.Metadata)
 	if l > 0 {
 		n += 1 + l + sovSamachar(uint64(l))
 	}
@@ -3843,57 +1963,6 @@ func (m *GetTimelineRequest) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: GetTimelineRequest: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Address = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
-			}
-			m.Index = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Index |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipSamachar(dAtA[iNdEx:])
@@ -3944,1279 +2013,6 @@ func (m *GetTimelineResponse) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: GetTimelineResponse: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Posts", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Posts = append(m.Posts, &PostView{})
-			if err := m.Posts[len(m.Posts)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetFollowingsRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetFollowingsRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetFollowingsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Address = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetFollowingsResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetFollowingsResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetFollowingsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Addresses", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Addresses = append(m.Addresses, string(dAtA[iNdEx:postIndex]))
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetPostRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetPostRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetPostRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetPostResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetPostResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetPostResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Post", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Post == nil {
-				m.Post = &PostView{}
-			}
-			if err := m.Post.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetPostsByAccountRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetPostsByAccountRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetPostsByAccountRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Address = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
-			}
-			m.Index = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Index |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetPostsByAccountResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetPostsByAccountResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetPostsByAccountResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Posts", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Posts = append(m.Posts, &PostView{})
-			if err := m.Posts[len(m.Posts)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetProfileInfoRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetProfileInfoRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetProfileInfoRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Address = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Height", wireType)
-			}
-			m.Height = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Height |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetProfileInfoResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetProfileInfoResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetProfileInfoResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field AccountInfo", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.AccountInfo == nil {
-				m.AccountInfo = make(map[string]*AccountInfo)
-			}
-			var mapkey string
-			var mapvalue *AccountInfo
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowSamachar
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowSamachar
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					var mapmsglen int
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowSamachar
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapmsglen |= int(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					if mapmsglen < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					postmsgIndex := iNdEx + mapmsglen
-					if postmsgIndex < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					if postmsgIndex > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = &AccountInfo{}
-					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
-						return err
-					}
-					iNdEx = postmsgIndex
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipSamachar(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if (skippy < 0) || (iNdEx+skippy) < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.AccountInfo[mapkey] = mapvalue
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field FollowingCount", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.FollowingCount == nil {
-				m.FollowingCount = make(map[string]*FollowingCount)
-			}
-			var mapkey string
-			var mapvalue *FollowingCount
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowSamachar
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowSamachar
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					var mapmsglen int
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowSamachar
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapmsglen |= int(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					if mapmsglen < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					postmsgIndex := iNdEx + mapmsglen
-					if postmsgIndex < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					if postmsgIndex > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = &FollowingCount{}
-					if err := mapvalue.Unmarshal(dAtA[iNdEx:postmsgIndex]); err != nil {
-						return err
-					}
-					iNdEx = postmsgIndex
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipSamachar(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if (skippy < 0) || (iNdEx+skippy) < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.FollowingCount[mapkey] = mapvalue
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Proofs", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Proofs == nil {
-				m.Proofs = make(map[string][]byte)
-			}
-			var mapkey string
-			mapvalue := []byte{}
-			for iNdEx < postIndex {
-				entryPreIndex := iNdEx
-				var wire uint64
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return ErrIntOverflowSamachar
-					}
-					if iNdEx >= l {
-						return io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					wire |= uint64(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				fieldNum := int32(wire >> 3)
-				if fieldNum == 1 {
-					var stringLenmapkey uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowSamachar
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						stringLenmapkey |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intStringLenmapkey := int(stringLenmapkey)
-					if intStringLenmapkey < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					postStringIndexmapkey := iNdEx + intStringLenmapkey
-					if postStringIndexmapkey < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					if postStringIndexmapkey > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapkey = string(dAtA[iNdEx:postStringIndexmapkey])
-					iNdEx = postStringIndexmapkey
-				} else if fieldNum == 2 {
-					var mapbyteLen uint64
-					for shift := uint(0); ; shift += 7 {
-						if shift >= 64 {
-							return ErrIntOverflowSamachar
-						}
-						if iNdEx >= l {
-							return io.ErrUnexpectedEOF
-						}
-						b := dAtA[iNdEx]
-						iNdEx++
-						mapbyteLen |= uint64(b&0x7F) << shift
-						if b < 0x80 {
-							break
-						}
-					}
-					intMapbyteLen := int(mapbyteLen)
-					if intMapbyteLen < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					postbytesIndex := iNdEx + intMapbyteLen
-					if postbytesIndex < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					if postbytesIndex > l {
-						return io.ErrUnexpectedEOF
-					}
-					mapvalue = make([]byte, mapbyteLen)
-					copy(mapvalue, dAtA[iNdEx:postbytesIndex])
-					iNdEx = postbytesIndex
-				} else {
-					iNdEx = entryPreIndex
-					skippy, err := skipSamachar(dAtA[iNdEx:])
-					if err != nil {
-						return err
-					}
-					if (skippy < 0) || (iNdEx+skippy) < 0 {
-						return ErrInvalidLengthSamachar
-					}
-					if (iNdEx + skippy) > postIndex {
-						return io.ErrUnexpectedEOF
-					}
-					iNdEx += skippy
-				}
-			}
-			m.Proofs[mapkey] = mapvalue
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetPostsByParentPostRequest) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetPostsByParentPostRequest: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetPostsByParentPostRequest: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ParentPost", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ParentPost = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Index", wireType)
-			}
-			m.Index = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Index |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetPostsByParentPostResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetPostsByParentPostResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetPostsByParentPostResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Posts", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Posts = append(m.Posts, &PostView{})
-			if err := m.Posts[len(m.Posts)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipSamachar(dAtA[iNdEx:])
@@ -5269,6 +2065,38 @@ func (m *Post) Unmarshal(dAtA []byte) error {
 		switch fieldNum {
 		case 1:
 			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Id = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
 			}
 			var stringLen uint64
@@ -5299,38 +2127,6 @@ func (m *Post) Unmarshal(dAtA []byte) error {
 			}
 			m.Creator = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Content", wireType)
@@ -5397,9 +2193,9 @@ func (m *Post) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 5:
 			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field BlockNo", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field CommentsCount", wireType)
 			}
-			m.BlockNo = 0
+			m.CommentsCount = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowSamachar
@@ -5409,377 +2205,11 @@ func (m *Post) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.BlockNo |= int64(b&0x7F) << shift
+				m.CommentsCount |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-		case 6:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Metadata", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Metadata = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *FollowingCount) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: FollowingCount: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: FollowingCount: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Address = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Count", wireType)
-			}
-			m.Count = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.Count |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *PostView) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: PostView: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: PostView: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.Creator == nil {
-				m.Creator = &AccountInfo{}
-			}
-			if err := m.Creator.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Id = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 3:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Content", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Content = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field ParentPost", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.ParentPost = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 5:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field BlockNo", wireType)
-			}
-			m.BlockNo = 0
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				m.BlockNo |= int64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-		case 6:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Metadata", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Metadata = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipSamachar(dAtA[iNdEx:])
@@ -5830,7 +2260,7 @@ func (m *AccountInfo) Unmarshal(dAtA []byte) error {
 			return fmt.Errorf("proto: AccountInfo: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		case 1:
+		case 2:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
 			}
@@ -5862,7 +2292,7 @@ func (m *AccountInfo) Unmarshal(dAtA []byte) error {
 			}
 			m.Address = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 2:
+		case 3:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
 			}
@@ -5894,7 +2324,7 @@ func (m *AccountInfo) Unmarshal(dAtA []byte) error {
 			}
 			m.Name = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 3:
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Photo", wireType)
 			}
@@ -5926,125 +2356,7 @@ func (m *AccountInfo) Unmarshal(dAtA []byte) error {
 			}
 			m.Photo = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Metadata", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Metadata = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *AccountInfoView) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: AccountInfoView: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: AccountInfoView: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field AccountInfo", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.AccountInfo == nil {
-				m.AccountInfo = &AccountInfo{}
-			}
-			if err := m.AccountInfo.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		case 2:
+		case 5:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FollowingCount", wireType)
 			}
@@ -6058,66 +2370,16 @@ func (m *AccountInfoView) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				m.FollowingCount |= int64(b&0x7F) << shift
+				m.FollowingCount |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
+		case 6:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field FollowersCount", wireType)
 			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *Following) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Following: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Following: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
-			}
-			var stringLen uint64
+			m.FollowersCount = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowSamachar
@@ -6127,29 +2389,16 @@ func (m *Following) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.FollowersCount |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
+		case 7:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PostCount", wireType)
 			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Address = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 2:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Followings", wireType)
-			}
-			var stringLen uint64
+			m.PostCount = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowSamachar
@@ -6159,24 +2408,11 @@ func (m *Following) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.PostCount |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Followings = append(m.Followings, string(dAtA[iNdEx:postIndex]))
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipSamachar(dAtA[iNdEx:])
@@ -6323,38 +2559,6 @@ func (m *MsgCreatePost) Unmarshal(dAtA []byte) error {
 			}
 			m.ParentPost = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Metadata", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Metadata = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipSamachar(dAtA[iNdEx:])
@@ -6500,38 +2704,6 @@ func (m *MsgUpdateAccountInfo) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Photo = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
-		case 4:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Metadata", wireType)
-			}
-			var stringLen uint64
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowSamachar
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthSamachar
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.Metadata = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

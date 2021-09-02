@@ -11,12 +11,7 @@ message GenesisState {
 }
 
 service Query {
-  rpc GetPost(GetPostRequest) returns (GetPostResponse);
-  rpc GetPostsByParentPost(GetPostsByParentPostRequest) returns (GetPostsByParentPostResponse);
-  rpc GetPostsByAccount(GetPostsByAccountRequest) returns (GetPostsByAccountResponse);
   rpc GetTimeline(GetTimelineRequest) returns (GetTimelineResponse);
-  rpc GetProfileInfo(GetProfileInfoRequest) returns (GetProfileInfoResponse);
-  rpc GetFollowings(GetFollowingsRequest) returns (GetFollowingsResponse);
   rpc Get(GetRequest) returns (GetResponse);
 }
 
@@ -31,114 +26,42 @@ message GetResponse {
 }
 
 message GetTimelineRequest {
-  string address = 1;
-  int64 index = 2;
 }
 
 message GetTimelineResponse {
-  repeated PostView posts = 1;
 }
 
-message GetFollowingsRequest{
-  string address = 1;
-}
-
-message GetFollowingsResponse{
-  repeated string addresses = 1;
-}
-
-message GetPostRequest {
-  string id = 1;
-}
-
-message GetPostResponse {
-  PostView post = 1;
-}
-
-message GetPostsByAccountRequest {
-  string address = 1;
-  int64 index = 2;
-}
-
-message GetPostsByAccountResponse {
-  repeated PostView posts = 1;
-}
-
-
-message GetProfileInfoRequest {
-  string address = 1;
-  int64 height = 2;
-}
-
-message GetProfileInfoResponse {
-  map<string,AccountInfo> account_info = 1;
-  map<string,FollowingCount> following_count = 2;
-  map<string,bytes> proofs = 3;
-}
-
-message GetPostsByParentPostRequest {
-  string parent_post = 1;
-  int64 index = 2;
-}
-
-message GetPostsByParentPostResponse {
-  repeated PostView posts = 1;
-}
+// Values
 
 message Post {
-  string creator = 1;
-  string id = 2;
+  string id = 1;
+  string creator = 2;
   string content = 3;
   string parent_post = 4;
-  int64 block_no = 5;
-  string metadata = 6;
-}
-
-message FollowingCount {
-  string address = 1;
-  uint64 count = 2;
-}
-
-message PostView {
-  AccountInfo creator = 1;
-  string id = 2;
-  string content = 3;
-  string parent_post = 4;
-  int64 block_no = 5;
-  string metadata = 6;
+  uint64 comments_count = 5;
 }
 
 message AccountInfo {
-  string address = 1;
-  string name = 2;
-  string photo = 3;
-  string metadata = 4;
+  string address = 2;
+  string name = 3;
+  string photo = 4;
+  uint64 following_count = 5;
+  uint64 followers_count = 6;
+  uint64 post_count = 7;
 }
 
-
-message AccountInfoView {
-  AccountInfo account_info = 1;
-  int64 following_count = 2;
-}
-
-
-message Following {
-  string address = 1;
-  repeated string followings = 2;
-}
+// Messages
 
 message MsgCreatePost {
   string creator = 1;
   string content = 2;
   string parent_post = 3;
-  string metadata = 4;
 }
 
 message MsgUpdateAccountInfo{
   string creator = 1;
   string name = 2;
   string photo = 3;
-  string metadata = 4;
 }
 
 message MsgFollow {

@@ -18,6 +18,9 @@ mod util;
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
     console_error_panic_hook::set_once();
+    // TODO move event listeners inside components
+    // TODO should not refresh page when visiting another page
+
     wasm_bindgen_futures::spawn_local(async move {
         let mut lc = light_client::LightClient::new().await;
         lc.supervisor().verify_to_highest().await;

@@ -11,6 +11,8 @@ pub mod verification_client;
 // 1. Validation - checks if data being sent is valid using merkle proofs
 // 2. Verification - checks if data being sent is the data you asked for
 // 3. Normalization - Add default values for data that is missing
+
+// TODO why is light client mutable here?
 pub struct VerificationClient<'a> {
     lc: &'a mut LightClient,
     client: grpc_web_client::Client,

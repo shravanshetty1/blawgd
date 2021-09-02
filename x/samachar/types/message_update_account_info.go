@@ -28,9 +28,6 @@ func (m *MsgUpdateAccountInfo) ValidateBasic() error {
 	if err != nil {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
-	if len(m.Metadata) > 100 {
-		return sdkerrors.Wrapf(ErrInputLength, "metadata size larger than 100 characters")
-	}
 	if len(m.Name) > 100 {
 		return sdkerrors.Wrapf(ErrInputLength, "name size larger than 100 characters")
 	}
