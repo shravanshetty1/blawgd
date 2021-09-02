@@ -27,26 +27,30 @@ pub struct GetTimelineResponse {}
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct Post {
     #[prost(string, tag = "1")]
-    pub creator: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
     pub id: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub creator: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
     pub content: ::prost::alloc::string::String,
     #[prost(string, tag = "4")]
     pub parent_post: ::prost::alloc::string::String,
+    #[prost(uint64, tag = "5")]
+    pub comments_count: u64,
 }
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct AccountInfo {
-    #[prost(string, tag = "1")]
-    pub address: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
-    pub name: ::prost::alloc::string::String,
+    pub address: ::prost::alloc::string::String,
     #[prost(string, tag = "3")]
+    pub name: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
     pub photo: ::prost::alloc::string::String,
-    #[prost(uint64, tag = "4")]
-    pub following_count: u64,
     #[prost(uint64, tag = "5")]
+    pub following_count: u64,
+    #[prost(uint64, tag = "6")]
     pub followers_count: u64,
+    #[prost(uint64, tag = "7")]
+    pub post_count: u64,
 }
 // Messages
 

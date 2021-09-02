@@ -25,10 +25,8 @@ func (q *QueryServer) Get(ctx context.Context, request *types.GetRequest) (*type
 	var proofs = make(map[string][]byte)
 	for _, key := range request.Keys {
 		val, proof := q.keeper.Get(int64(request.Height), []byte(key))
-		if val != nil {
-			data[key] = val
-			proofs[key] = proof
-		}
+		data[key] = val
+		proofs[key] = proof
 	}
 
 	return &types.GetResponse{
