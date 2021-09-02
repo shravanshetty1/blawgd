@@ -1,3 +1,4 @@
+use super::keys;
 use super::VerificationClient;
 use crate::blawgd_client::verification_client::helpers::{
     convert_tm_to_ics_merkle_proof, get_exist_proof,
@@ -57,106 +58,19 @@ impl<'a> VerificationClient<'a> {
         }
         Ok(data)
     }
-    pub async fn get_profile_info(
-        &mut self,
-        address: String,
-    ) -> Result<(AccountInfo, FollowingCount)> {
-        let lb = self
-            .lc
-            .supervisor()
-            .latest_trusted()
-            .ok_or(anyhow!("could not fetch light block from the light client"))?;
 
-        let resp = query_client::QueryClient::new(self.client.clone())
-            .get_profile_info(GetProfileInfoRequest {
-                address: address.clone(),
-                height: lb.signed_header.header.height.value() as i64 - 1,
-            })
-            .await?;
-        let resp = resp.into_inner();
+    pub async fn get_account_info(&mut self, address: String) -> Result<AccountInfo> {
+        let account_info_key = keys::account_info_key(address);
 
-        let account_into_map = resp.account_info.clone();
-        let account_info_key = account_into_map
-            .keys()
-            .next()
-            .ok_or(anyhow!("account info key does not exist"))?;
-        let account_info = account_into_map.get(account_info_key);
-        let following_count_map = resp.following_count.clone();
-        let following_count_key = following_count_map
-            .keys()
-            .next()
-            .ok_or(anyhow!("following count key does not exist"))?;
-        let following_count = following_count_map.get(account_info_key);
-        let root = lb.signed_header.header.app_hash.value();
+        let keys = vec![account_info_key];
+        let resp = self.get(keys).await?;
 
-        let mut proof: tendermint_proto::crypto::ProofOps = prost::Message::decode(
-            resp.proofs
-                .get(account_info_key)
-                .ok_or(anyhow!("could not get proof for account info"))?
-                .as_slice(),
-        )?;
-        let mut proof = convert_tm_to_ics_merkle_proof(proof)?;
-
-        let mut value: Vec<u8> = Vec::new();
-        if account_info.is_some() {
-            prost::Message::encode(account_info.unwrap(), &mut value);
-        }
-        if !value.is_empty() {
-            verify_membership(
-                proof,
-                root.as_ref(),
-                account_info_key.as_bytes(),
-                value.as_ref(),
-            )
-            .context("failed to verify membership of account info")?;
-        } else {
-            verify_non_membership(proof, root.as_ref(), account_info_key.as_bytes())
-                .context("failed to verify non member ship of account info")?;
-        };
-
-        let mut proof: tendermint_proto::crypto::ProofOps = prost::Message::decode(
-            resp.proofs
-                .get(following_count_key)
-                .ok_or(anyhow!("could not get proof for account info"))?
-                .as_slice(),
-        )?;
-        let mut proof = convert_tm_to_ics_merkle_proof(proof)?;
-
-        let mut value: Vec<u8> = Vec::new();
-        if following_count.is_some() {
-            prost::Message::encode(following_count.unwrap(), &mut value);
-        }
-        if !value.is_empty() {
-            verify_membership(
-                proof,
-                root.as_ref(),
-                following_count_key.as_bytes(),
-                value.as_ref(),
-            )
-            .context("failed to verify membership of account info")?;
-        } else {
-            verify_non_membership(proof, root.as_ref(), following_count_key.as_bytes())
-                .context("failed to verify non member ship of account info")?;
-        };
-
-        let account_info = account_info
-            .unwrap_or(&AccountInfo {
-                address: "".to_string(),
-                name: "".to_string(),
-                photo: "".to_string(),
-                metadata: "".to_string(),
-            })
+        let account_info_raw = resp
+            .get(&account_info_key)
+            .ok_or(anyhow!("unexpected! did not get account info"))?
             .clone();
-        let account_info = crate::util::normalize_account_info(account_info, address.clone());
+        let account_info: AccountInfo = prost::Message::decode(account_info_raw.as_slice())?;
 
-        let mut following_count = following_count
-            .unwrap_or(&FollowingCount {
-                address: address.clone(),
-                count: 0,
-            })
-            .clone();
-        following_count.address = address.clone();
-
-        Ok((account_info, following_count))
+        Ok(account_info)
     }
 }

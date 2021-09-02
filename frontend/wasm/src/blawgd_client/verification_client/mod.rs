@@ -1,6 +1,7 @@
 use crate::light_client::LightClient;
 
 pub mod helpers;
+pub mod keys;
 pub mod proof;
 pub mod verification_client;
 
