@@ -1,15 +1,15 @@
 use super::Component;
-use crate::blawgd_client::AccountInfoView;
+use crate::blawgd_client::AccountInfo;
 
 pub struct FollowingsPage {
     nav_bar: Box<dyn Component>,
-    account_infos: Vec<AccountInfoView>,
+    account_infos: Vec<AccountInfo>,
 }
 
 impl FollowingsPage {
     pub fn new(
         nav_bar: Box<dyn Component>,
-        account_infos: Vec<AccountInfoView>,
+        account_infos: Vec<AccountInfo>,
     ) -> Box<FollowingsPage> {
         Box::new(FollowingsPage {
             nav_bar,
@@ -21,8 +21,7 @@ impl FollowingsPage {
 impl Component for FollowingsPage {
     fn to_html(&self) -> String {
         let mut account_infos_component = String::new();
-        for account_info_view in &self.account_infos {
-            let account_info = account_info_view.account_info.as_ref().unwrap();
+        for account_info in &self.account_infos {
             account_infos_component = format!(
                 r#"
                 {}

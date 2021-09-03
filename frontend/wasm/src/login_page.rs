@@ -1,20 +1,22 @@
 use crate::{
-    blawgd_client::AccountInfoView, components::account_info::AccountInfoComp,
-    components::blawgd_html::BlawgdHTMLDoc, components::login_page::LoginPage,
-    components::nav_bar::NavBar, components::Component, util, util::StoredData,
+    components::account_info::AccountInfoComp, components::blawgd_html::BlawgdHTMLDoc,
+    components::login_page::LoginPage, components::nav_bar::NavBar, components::Component, util,
+    util::StoredData,
 };
 use bip39::{Language, Mnemonic, MnemonicType};
 
+use crate::blawgd_client::verification_client::VerificationClient;
+use crate::blawgd_client::AccountInfo;
+use anyhow::Result;
 use gloo::events;
 use wasm_bindgen::JsCast;
 
-pub async fn handle() {
+pub async fn handle(cl: VerificationClient) -> Result<()> {
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
     let storage = window.local_storage().unwrap().unwrap();
-    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
-    let account_info = util::get_session_account_info(&storage, client).await;
+    let account_info = util::get_session_account_info(&storage, cl).await;
     let mut account_info_comp: Option<Box<dyn Component>> = None;
     if account_info.is_some() {
         account_info_comp = Some(AccountInfoComp::new(account_info.clone().unwrap()))
@@ -27,9 +29,10 @@ pub async fn handle() {
     body.set_inner_html(&comp.to_html());
 
     register_event_listeners(&document, &account_info);
+    Ok(())
 }
 
-fn register_event_listeners(document: &web_sys::Document, account_info: &Option<AccountInfoView>) {
+fn register_event_listeners(document: &web_sys::Document, account_info: &Option<AccountInfo>) {
     let generate_account = document
         .get_element_by_id("generate-account")
         .expect("generate-account element not found");

@@ -1,53 +1,42 @@
 use crate::blawgd_client::query_client::QueryClient as BlawgdQueryClient;
-use crate::blawgd_client::{GetPostRequest, GetPostsByParentPostRequest};
+use crate::blawgd_client::verification_client::VerificationClient;
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::nav_bar::NavBar;
-use crate::components::post::Post;
+use crate::components::post::PostComponent;
 use crate::components::post_creator::PostCreator;
 use crate::components::post_page::PostPage;
 use crate::components::Component;
 use crate::util;
+use anyhow::Result;
 use gloo::events;
 use wasm_bindgen::JsCast;
 
-pub async fn handle() {
+pub async fn handle(cl: VerificationClient) -> Result<()> {
     let window = web_sys::window().unwrap();
     let document = window.document().expect("document missing");
     let storage = window
         .local_storage()
         .expect("storage object missing")
         .unwrap();
-    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
     let url: String = window.location().href().unwrap();
     let post_id = url
         .as_str()
         .strip_prefix(format!("{}/post/", util::HOST_NAME).as_str())
-        .unwrap();
+        .unwrap()
+        .to_string();
 
-    let account_info_future = util::get_session_account_info(&storage, client.clone());
-    let posts_resp = BlawgdQueryClient::new(client.clone())
-        .get_posts_by_parent_post(GetPostsByParentPostRequest {
-            parent_post: post_id.to_string(),
-            index: 0,
-        })
-        .await
-        .unwrap();
-    let mut posts: Vec<Box<dyn Component>> = Vec::new();
-    for post in &posts_resp.get_ref().posts {
-        posts.push(Post::new(post.clone()))
+    let account_info = util::get_session_account_info(&storage, cl.clone()).await;
+    let posts = cl.get_post_by_parent_post(post_id.clone()).await?;
+    let mut boxed_posts: Vec<Box<dyn Component>> = Vec::new();
+    for post in posts {
+        boxed_posts.push(PostComponent::new(post))
     }
 
-    let main_post_resp = BlawgdQueryClient::new(client)
-        .get_post(GetPostRequest {
-            id: post_id.to_string(),
-        })
-        .await
-        .unwrap();
-    let mut main_post = Post::new(main_post_resp.get_ref().post.clone().unwrap());
+    let main_post = cl.get_post(post_id.clone()).await?;
+    let mut main_post = PostComponent::new(main_post);
     main_post.as_mut().focus();
 
-    let account_info = account_info_future.await;
     let nav_bar = NavBar::new(account_info.clone());
     let mut post_creator_component: Option<Box<dyn Component>> = None;
     if account_info.is_some() {
@@ -60,13 +49,15 @@ pub async fn handle() {
         nav_bar,
         main_post,
         post_creator_component,
-        posts.into_boxed_slice(),
+        boxed_posts.into_boxed_slice(),
     ));
 
     let body = document.body().expect("body missing");
     body.set_inner_html(&comp.to_html());
 
-    register_event_listeners(post_id.to_string(), &document)
+    register_event_listeners(post_id.to_string(), &document);
+
+    Ok(())
 }
 
 fn register_event_listeners(main_post_id: String, document: &web_sys::Document) {
@@ -92,7 +83,6 @@ fn register_event_listeners(main_post_id: String, document: &web_sys::Document) 
                 creator: address,
                 content: post_content,
                 parent_post: main_post_id,
-                metadata: "".to_string(),
             };
 
             let wallet = util::get_wallet(&storage).unwrap();

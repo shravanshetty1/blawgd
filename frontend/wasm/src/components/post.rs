@@ -1,25 +1,23 @@
 use crate::blawgd_client::PostView;
 use crate::util;
 
-pub struct Post {
+pub struct PostComponent {
     post: PostView,
     focus: bool,
 }
 
-impl Post {
-    pub fn new(post: PostView) -> Box<Post> {
-        Box::new(Post { post, focus: false })
+impl PostComponent {
+    pub fn new(post: PostView) -> Box<PostComponent> {
+        Box::new(PostComponent { post, focus: false })
     }
     pub fn focus(&mut self) {
         self.focus = true;
     }
 }
 
-impl super::Component for Post {
+impl super::Component for PostComponent {
     fn to_html(&self) -> String {
-        let account_info = self.post.creator.as_ref().unwrap();
-        let account_info =
-            util::normalize_account_info(account_info.clone(), account_info.address.clone());
+        let account_info = self.post.creator.clone().unwrap();
 
         let mut post_text_class = "post-component-text";
         if self.focus {

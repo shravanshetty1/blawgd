@@ -1,14 +1,12 @@
-use crate::blawgd_client::AccountInfoView;
+use crate::blawgd_client::AccountInfo;
 
 pub struct NavBar {
-    account_info_view: Option<AccountInfoView>,
+    account_info: Option<AccountInfo>,
 }
 
 impl NavBar {
-    pub fn new(account_info: Option<AccountInfoView>) -> Box<NavBar> {
-        Box::new(NavBar {
-            account_info_view: account_info,
-        })
+    pub fn new(account_info: Option<AccountInfo>) -> Box<NavBar> {
+        Box::new(NavBar { account_info })
     }
 }
 
@@ -24,14 +22,8 @@ impl super::Component for NavBar {
             "#,
         );
 
-        if self.account_info_view.is_some() {
-            let account_info = self
-                .account_info_view
-                .as_ref()
-                .unwrap()
-                .account_info
-                .as_ref()
-                .unwrap();
+        if self.account_info.is_some() {
+            let account_info = self.account_info.as_ref().unwrap().clone();
             account_menu_items = String::from(format!(
                 r#"
             <a href="/timeline" class="nav-bar-menu-element">Timeline</a>

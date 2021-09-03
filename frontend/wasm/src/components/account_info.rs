@@ -1,20 +1,18 @@
 use crate::blawgd_client;
 
 pub struct AccountInfoComp {
-    account_info_view: blawgd_client::AccountInfoView,
+    account_info: blawgd_client::AccountInfo,
 }
 
 impl AccountInfoComp {
-    pub fn new(account_info: blawgd_client::AccountInfoView) -> Box<AccountInfoComp> {
-        Box::new(AccountInfoComp {
-            account_info_view: account_info,
-        })
+    pub fn new(account_info: blawgd_client::AccountInfo) -> Box<AccountInfoComp> {
+        Box::new(AccountInfoComp { account_info })
     }
 }
 
 impl super::Component for AccountInfoComp {
     fn to_html(&self) -> String {
-        let account_info = self.account_info_view.account_info.as_ref().unwrap();
+        let account_info = self.account_info.clone();
         format!(
             r#"
             <div class="account-info">
@@ -30,7 +28,7 @@ impl super::Component for AccountInfoComp {
             account_info.name,
             account_info.address,
             account_info.address,
-            self.account_info_view.following_count
+            account_info.following_count
         )
     }
 }

@@ -16,59 +16,50 @@ use tendermint_light_client::{
 
 use crate::config;
 use crate::util;
-use tendermint_light_client::supervisor::Supervisor;
+use tendermint_light_client::supervisor::{Handle, Supervisor};
 use tendermint_rpc::endpoint::commit;
 
-pub struct LightClient {
-    supervisor: tendermint_light_client::supervisor::Supervisor,
+pub async fn new_supervisor(
+    client: grpc_web_client::Client,
+) -> tendermint_light_client::supervisor::Supervisor {
+    let node_info = base_client::new(client.clone())
+        .get_node_info(GetNodeInfoRequest {})
+        .await
+        .unwrap()
+        .get_ref()
+        .clone()
+        .default_node_info
+        .unwrap();
+    let peer_id = node_info.default_node_id.parse().unwrap();
+
+    let instance = make_instance(peer_id).await;
+    let instance2 = make_instance(peer_id).await;
+    let (instances, addresses) = tendermint_light_client::builder::SupervisorBuilder::new()
+        .primary(peer_id, "tcp://127.0.0.1:26657".parse().unwrap(), instance)
+        .witness(peer_id, "tcp://127.0.0.1:26657".parse().unwrap(), instance2)
+        .inner();
+
+    let supervisor = tendermint_light_client::supervisor::Supervisor::new(
+        instances,
+        ProdForkDetector::default(),
+        EvidenceReporter,
+    );
+    supervisor
 }
 
-impl LightClient {
-    pub async fn new() -> LightClient {
-        let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
-        let node_info = base_client::new(client)
-            .get_node_info(GetNodeInfoRequest {})
-            .await
-            .unwrap()
-            .get_ref()
-            .clone()
-            .default_node_info
-            .unwrap();
-        let peer_id = node_info.default_node_id.parse().unwrap();
-
-        let instance = make_instance(peer_id).await;
-        let instance2 = make_instance(peer_id).await;
-        let (instances, addresses) = tendermint_light_client::builder::SupervisorBuilder::new()
-            .primary(peer_id, "tcp://127.0.0.1:26657".parse().unwrap(), instance)
-            .witness(peer_id, "tcp://127.0.0.1:26657".parse().unwrap(), instance2)
-            .inner();
-
-        let supervisor = tendermint_light_client::supervisor::Supervisor::new(
-            instances,
-            ProdForkDetector::default(),
-            EvidenceReporter,
-        );
-        LightClient { supervisor }
-    }
-
-    pub fn supervisor(&mut self) -> &mut Supervisor {
-        &mut self.supervisor
-    }
-
-    pub async fn run(&mut self) {
-        loop {
-            match self.supervisor.verify_to_highest().await {
-                Ok(light_block) => {
-                    util::console_log(
-                        format!("[info] synced to block {}", light_block.height()).as_str(),
-                    );
-                }
-                Err(err) => {
-                    util::console_log(format!("[error] sync failed: {}", err).as_str());
-                }
+pub async fn start_sync(handler: tendermint_light_client::supervisor::SupervisorHandle) {
+    loop {
+        match handler.verify_to_highest().await {
+            Ok(light_block) => {
+                util::console_log(
+                    format!("[info] synced to block {}", light_block.height()).as_str(),
+                );
             }
-            gloo::timers::future::TimeoutFuture::new(5000).await;
+            Err(err) => {
+                util::console_log(format!("[error] sync failed: {}", err).as_str());
+            }
         }
+        gloo::timers::future::TimeoutFuture::new(5000).await;
     }
 }
 

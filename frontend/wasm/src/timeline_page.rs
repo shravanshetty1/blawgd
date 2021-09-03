@@ -1,35 +1,26 @@
 use gloo::events;
 use wasm_bindgen::JsCast;
 
+use crate::blawgd_client::verification_client::VerificationClient;
 use crate::{
     blawgd_client::query_client::QueryClient as BlawgdQueryClient,
     blawgd_client::GetTimelineRequest, components::blawgd_html::BlawgdHTMLDoc,
-    components::home_page::HomePage, components::nav_bar::NavBar, components::post::Post,
-    components::post_creator::PostCreator, components::Component, light_client::LightClient, util,
+    components::home_page::HomePage, components::nav_bar::NavBar, components::post::PostComponent,
+    components::post_creator::PostCreator, components::Component, util,
 };
+use anyhow::Result;
 
-pub async fn handle() {
+pub async fn handle(cl: VerificationClient) -> Result<()> {
     let window = web_sys::window().unwrap();
     let document = window.document().expect("document missing");
     let storage = window
         .local_storage()
         .expect("storage object missing")
         .unwrap();
-    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
-    let account_info = util::get_session_account_info(&storage, client.clone()).await;
-    let posts_resp = BlawgdQueryClient::new(client)
-        .get_timeline(GetTimelineRequest {
-            address: account_info.clone().unwrap().account_info.unwrap().address,
-            index: 0,
-        })
-        .await
-        .unwrap();
+    let account_info = util::get_session_account_info(&storage, cl).await;
+
     let mut posts: Vec<Box<dyn Component>> = Vec::new();
-    for post in &posts_resp.get_ref().posts {
-        posts.push(Post::new(post.clone()))
-    }
-
     let nav_bar = NavBar::new(account_info.clone());
     let mut post_creator: Option<Box<dyn Component>> = None;
     if account_info.is_some() {
@@ -46,7 +37,8 @@ pub async fn handle() {
 
     if account_info.is_some() {
         register_event_listeners(&document)
-    }
+    };
+    Ok(())
 }
 
 fn register_event_listeners(document: &web_sys::Document) {
@@ -70,7 +62,6 @@ fn register_event_listeners(document: &web_sys::Document) {
                 creator: util::get_stored_data(&storage).unwrap().address,
                 content: post_content,
                 parent_post: "".to_string(),
-                metadata: "".to_string(),
             };
 
             let wallet = util::get_wallet(&storage).unwrap();

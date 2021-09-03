@@ -1,5 +1,3 @@
-use crate::light_client::LightClient;
-
 pub mod helpers;
 pub mod keys;
 pub mod proof;
@@ -13,14 +11,17 @@ pub mod verification_client;
 // 2. Verification - checks if data being sent is the data you asked for
 // 3. Normalization - Add default values for data that is missing
 
-// TODO why is light client mutable here?
-pub struct VerificationClient<'a> {
-    lc: &'a mut LightClient,
+#[derive(Clone)]
+pub struct VerificationClient {
+    lc: tendermint_light_client::supervisor::SupervisorHandle,
     client: grpc_web_client::Client,
 }
 
-impl<'a> VerificationClient<'a> {
-    pub fn new(lc: &'a mut LightClient, client: grpc_web_client::Client) -> VerificationClient {
+impl VerificationClient {
+    pub fn new(
+        lc: tendermint_light_client::supervisor::SupervisorHandle,
+        client: grpc_web_client::Client,
+    ) -> VerificationClient {
         VerificationClient { lc, client }
     }
 }

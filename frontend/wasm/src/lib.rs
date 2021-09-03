@@ -1,4 +1,5 @@
 use crate::blawgd_client::verification_client::VerificationClient;
+use tendermint_light_client::supervisor::Handle;
 use wasm_bindgen::{prelude::*, JsValue};
 use web_sys;
 
@@ -22,10 +23,17 @@ pub fn main() -> Result<(), JsValue> {
     // TODO should not refresh page when visiting another page
 
     wasm_bindgen_futures::spawn_local(async move {
-        let mut lc = light_client::LightClient::new().await;
-        lc.supervisor().verify_to_highest().await;
         let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
-        let mut cl = VerificationClient::new(&mut lc, client);
+
+        let mut supervisor = light_client::new_supervisor(client.clone()).await;
+        let handler = supervisor.handle();
+        wasm_bindgen_futures::spawn_local(async move {
+            supervisor.run().await;
+            ()
+        });
+        handler.verify_to_highest().await;
+
+        let cl = VerificationClient::new(handler.clone(), client.clone());
 
         let url: String = web_sys::window().unwrap().location().href().unwrap();
         let url_path = url
@@ -33,17 +41,19 @@ pub fn main() -> Result<(), JsValue> {
             .strip_prefix(format!("{}/", util::HOST_NAME).as_str())
             .unwrap();
 
-        match url_path {
-            url if str::starts_with(url, "followings") => followings_page::handle().await,
-            url if str::starts_with(url, "post") => post_page::handle().await,
-            "edit-profile" => edit_profile_page::handle().await,
-            "timeline" => timeline_page::handle().await,
-            url if str::starts_with(url, "profile") => profile_page::handle(&mut cl).await,
-            "login" => login_page::handle().await,
-            _ => home_page::handle().await,
+        let result = match url_path {
+            url if str::starts_with(url, "followings") => followings_page::handle(cl).await,
+            url if str::starts_with(url, "post") => post_page::handle(cl).await,
+            "edit-profile" => edit_profile_page::handle(cl).await,
+            "timeline" => timeline_page::handle(cl).await,
+            url if str::starts_with(url, "profile") => profile_page::handle(cl).await,
+            "login" => login_page::handle(cl).await,
+            _ => home_page::handle(cl).await,
         };
+        result.unwrap();
 
-        lc.run().await
+        light_client::start_sync(handler).await;
+        ()
     });
 
     Ok(())

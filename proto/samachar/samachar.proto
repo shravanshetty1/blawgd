@@ -31,7 +31,17 @@ message GetTimelineRequest {
 message GetTimelineResponse {
 }
 
-// Values
+// Views
+
+message PostView {
+  string id = 1;
+  AccountInfo creator = 2;
+  string content = 3;
+  string parent_post = 4;
+  uint64 comments_count = 5;
+}
+
+// Models
 
 message Post {
   string id = 1;

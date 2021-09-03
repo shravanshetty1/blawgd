@@ -1,7 +1,6 @@
-use crate::blawgd_client::{
-    query_client::QueryClient as BlawgdClient, AccountInfo, AccountInfoView, FollowingCount,
-    GetFollowingsRequest, GetProfileInfoRequest,
-};
+use crate::blawgd_client::verification_client::VerificationClient;
+use crate::blawgd_client::{query_client::QueryClient as BlawgdClient, AccountInfo};
+use anyhow::Result;
 use cosmos_sdk_proto::cosmos::{
     auth::v1beta1::query_client::QueryClient,
     auth::v1beta1::{BaseAccount, QueryAccountRequest},
@@ -23,6 +22,7 @@ pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str =
 pub const ADDRESS_HRP: &str = "cosmos";
 pub(crate) const TENDERMINT_HOST: &str = "http://localhost:26657";
 
+// TODO this is bad
 pub struct StoredData {
     pub mnemonic: String,
     pub address: String,
@@ -34,28 +34,23 @@ pub fn set_stored_data(storage: &web_sys::Storage, stored_data: StoredData) {
 }
 
 pub async fn is_following(
-    client: grpc_web_client::Client,
+    cl: VerificationClient,
     address1: String,
     address2: String,
-) -> bool {
-    let followings = BlawgdClient::new(client)
-        .get_followings(GetFollowingsRequest { address: address1 })
-        .await
-        .unwrap()
-        .get_ref()
-        .addresses
-        .clone();
+) -> Result<bool> {
+    let followings = cl.get_following_list(address1).await?;
 
     let mut is_following: bool = false;
     for following in followings {
-        if following == address2 {
+        if following.to_string() == address2 {
             is_following = true;
         }
     }
 
-    is_following
+    Ok(is_following)
 }
 
+// TODO This is bad
 pub fn get_stored_data(storage: &web_sys::Storage) -> Option<StoredData> {
     let mnemonic_result = storage.get_item("mnemonic");
     let mut mnemonic: String = String::new();
@@ -87,13 +82,17 @@ pub fn remove_stored_data(storage: &web_sys::Storage) {
 
 pub async fn get_session_account_info(
     storage: &web_sys::Storage,
-    client: grpc_web_client::Client,
-) -> Option<AccountInfoView> {
+    client: VerificationClient,
+) -> Option<AccountInfo> {
     let stored_data = get_stored_data(storage);
     if stored_data.is_none() {
         return None;
     }
-    Some(get_account_info(client, stored_data.unwrap().address).await)
+
+    client
+        .get_account_info(stored_data.unwrap().address.clone())
+        .await
+        .ok()
 }
 
 pub fn get_wallet(storage: &web_sys::Storage) -> Result<MnemonicWallet, &str> {
@@ -171,50 +170,4 @@ pub async fn broadcast_tx<M: prost::Message>(
         })
         .await
         .unwrap()
-}
-
-pub async fn get_account_info(client: grpc_web_client::Client, address: String) -> AccountInfoView {
-    let resp = super::blawgd_client::query_client::QueryClient::new(client)
-        .get_profile_info(GetProfileInfoRequest {
-            address: address.clone(),
-            height: 0,
-        })
-        .await
-        .unwrap();
-    let resp = resp.into_inner();
-    let account_info = resp.account_info.values().next().cloned();
-    let following_count = resp.following_count.values().next().cloned();
-
-    let mut account_info = AccountInfoView {
-        account_info,
-        following_count: following_count
-            .unwrap_or(FollowingCount {
-                address: address.clone(),
-                count: 0,
-            })
-            .count as i64,
-    };
-
-    account_info.account_info = Some(normalize_account_info(
-        account_info.account_info.unwrap_or(AccountInfo {
-            address: "".to_string(),
-            name: "".to_string(),
-            photo: "".to_string(),
-            metadata: "".to_string(),
-        }),
-        address,
-    ));
-    account_info
-}
-
-pub fn normalize_account_info(mut account_info: AccountInfo, address: String) -> AccountInfo {
-    account_info.address = address.clone();
-    if account_info.photo.is_empty() {
-        account_info.photo = "/profile.jpeg".into();
-    }
-    if account_info.name.is_empty() {
-        let name_suffix: String = address.chars().skip(address.len() - 5).take(5).collect();
-        account_info.name = format!("anon{}", name_suffix);
-    }
-    account_info
 }

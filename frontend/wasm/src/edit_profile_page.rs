@@ -1,22 +1,23 @@
+use crate::blawgd_client::verification_client::VerificationClient;
 use crate::components::account_info::AccountInfoComp;
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::edit_profile_page::EditProfilePage;
 use crate::components::nav_bar::NavBar;
 use crate::components::Component;
 use crate::{blawgd_client, util};
+use anyhow::Result;
 use gloo::events;
 use wasm_bindgen::JsCast;
 
-pub async fn handle() {
+pub async fn handle(cl: VerificationClient) -> Result<()> {
     let window = web_sys::window().unwrap();
     let document = window.document().expect("document missing");
     let storage = window
         .local_storage()
         .expect("storage object missing")
         .unwrap();
-    let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
-    let account_info = util::get_session_account_info(&storage, client.clone()).await;
+    let account_info = util::get_session_account_info(&storage, cl.clone()).await;
     if account_info.is_none() {
         window.location().replace(util::HOST_NAME);
     }
@@ -28,10 +29,11 @@ pub async fn handle() {
     let body = document.body().expect("body missing");
     body.set_inner_html(&comp.to_html());
 
-    register_event_listeners(&document)
+    register_event_listeners(&document, cl);
+    Ok(())
 }
 
-fn register_event_listeners(document: &web_sys::Document) {
+fn register_event_listeners(document: &web_sys::Document, cl: VerificationClient) {
     let preview_button = document
         .get_element_by_id("preview-button")
         .expect("preview-button element not found");
@@ -71,14 +73,13 @@ fn register_event_listeners(document: &web_sys::Document) {
         .get_element_by_id("reset-button")
         .expect("reset-button element not found");
     events::EventListener::new(&reset_button, "click", move |_| {
+        let cl = cl.clone();
         wasm_bindgen_futures::spawn_local(async move {
             let window = web_sys::window().unwrap();
             let document = window.document().unwrap();
             let storage = window.local_storage().unwrap().unwrap();
-            let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
-            let account_info_view = util::get_session_account_info(&storage, client.clone()).await;
-            let account_info = account_info_view.unwrap().account_info.unwrap();
+            let account_info = util::get_session_account_info(&storage, cl).await.unwrap();
             document
                 .get_element_by_id("account-info-name")
                 .unwrap()
@@ -126,7 +127,7 @@ fn register_event_listeners(document: &web_sys::Document) {
                 .value();
             let name_field = document
                 .get_element_by_id("name-field")
-                .expect("name-field element not found");
+                .expect("nam0e-field element not found");
             let name: String = name_field
                 .dyn_ref::<web_sys::HtmlInputElement>()
                 .unwrap()
@@ -135,7 +136,6 @@ fn register_event_listeners(document: &web_sys::Document) {
                 creator: util::get_stored_data(&storage).unwrap().address,
                 name,
                 photo,
-                metadata: "".to_string(),
             };
 
             let wallet = util::get_wallet(&storage).unwrap();

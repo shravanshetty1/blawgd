@@ -22,7 +22,22 @@ pub struct GetResponse {
 pub struct GetTimelineRequest {}
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetTimelineResponse {}
-// Values
+// Views
+
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
+pub struct PostView {
+    #[prost(string, tag = "1")]
+    pub id: ::prost::alloc::string::String,
+    #[prost(message, optional, tag = "2")]
+    pub creator: ::core::option::Option<AccountInfo>,
+    #[prost(string, tag = "3")]
+    pub content: ::prost::alloc::string::String,
+    #[prost(string, tag = "4")]
+    pub parent_post: ::prost::alloc::string::String,
+    #[prost(uint64, tag = "5")]
+    pub comments_count: u64,
+}
+// Models
 
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct Post {
