@@ -4,10 +4,11 @@ use wasm_bindgen::JsCast;
 use crate::blawgd_client::verification_client::VerificationClient;
 use crate::{
     blawgd_client::query_client::QueryClient as BlawgdQueryClient,
-    blawgd_client::GetTimelineRequest, components::blawgd_html::BlawgdHTMLDoc,
-    components::home_page::HomePage, components::nav_bar::NavBar, components::post::PostComponent,
+    components::blawgd_html::BlawgdHTMLDoc, components::home_page::HomePage,
+    components::nav_bar::NavBar, components::post::PostComponent,
     components::post_creator::PostCreator, components::Component, util,
 };
+use anyhow::anyhow;
 use anyhow::Result;
 
 pub async fn handle(cl: VerificationClient) -> Result<()> {
@@ -18,9 +19,21 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
         .expect("storage object missing")
         .unwrap();
 
-    let account_info = util::get_session_account_info(&storage, cl).await;
+    let account_info = util::get_session_account_info(&storage, cl.clone()).await;
 
-    let mut posts: Vec<Box<dyn Component>> = Vec::new();
+    let posts = cl
+        .get_timeline(
+            account_info
+                .clone()
+                .ok_or(anyhow!("user not logged in"))?
+                .address
+                .clone(),
+        )
+        .await?;
+    let mut boxed_posts: Vec<Box<dyn Component>> = Vec::new();
+    for post in posts {
+        boxed_posts.push(PostComponent::new(post))
+    }
     let nav_bar = NavBar::new(account_info.clone());
     let mut post_creator: Option<Box<dyn Component>> = None;
     if account_info.is_some() {
@@ -29,7 +42,7 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     let comp = BlawgdHTMLDoc::new(HomePage::new(
         nav_bar,
         post_creator,
-        posts.into_boxed_slice(),
+        boxed_posts.into_boxed_slice(),
     ));
 
     let body = document.body().expect("body missing");

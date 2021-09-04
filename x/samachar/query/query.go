@@ -32,7 +32,3 @@ func (q *QueryServer) Get(ctx context.Context, request *types.GetRequest) (*type
 		Proofs: proofs,
 	}, nil
 }
-
-func (q *QueryServer) GetTimeline(ctxR context.Context, req *types.GetTimelineRequest) (*types.GetTimelineResponse, error) {
-	return &types.GetTimelineResponse{}, nil
-}

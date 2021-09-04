@@ -134,7 +134,7 @@ impl VerificationClient {
         if account_info.post_count == 0 {
             return Ok(Vec::new());
         }
-        for i in 1..account_info.post_count + 1 {
+        for i in (1..account_info.post_count + 1).rev() {
             keys.push(keys::user_post_key(address.clone(), i.to_string()))
         }
         let post_ids: Result<Vec<String>, _> = self
@@ -160,7 +160,7 @@ impl VerificationClient {
             return Ok(Vec::new());
         }
         let mut keys: Vec<String> = Vec::new();
-        for i in 1..parent_post.comments_count + 1 {
+        for i in (1..parent_post.comments_count + 1).rev() {
             keys.push(keys::subpost_key(parent_post.id.clone(), i.to_string()))
         }
         let post_ids: Result<Vec<String>, _> = self
@@ -239,6 +239,53 @@ impl VerificationClient {
             .ok_or(anyhow!("could not get post with id {}", id))?
             .clone();
         Ok(post_view)
+    }
+
+    pub async fn get_timeline(&self, address: String) -> Result<Vec<PostView>> {
+        let followings = self.get_following_list(address).await?;
+        let mut key_to_address: HashMap<String, String> = HashMap::new();
+        for addr in followings.clone() {
+            key_to_address.insert(keys::account_info_key(addr.clone()), addr.clone());
+        }
+        let account_info_keys: Vec<String> = followings
+            .iter()
+            .map(|v| keys::account_info_key(v.clone()))
+            .collect();
+        let account_infos = self.get_proto::<AccountInfo>(account_info_keys).await?;
+        let mut user_post_keys: Vec<String> = Vec::new();
+        for (k, info) in account_infos {
+            if info.is_none() {
+                continue;
+            }
+            let info = info.unwrap();
+            let post_count = info.post_count;
+            if post_count == 0 {
+                continue;
+            }
+
+            for i in 1..post_count + 1 {
+                user_post_keys.push(keys::user_post_key(
+                    key_to_address
+                        .get(&k.clone())
+                        .cloned()
+                        .ok_or(anyhow!("couldnt find address for key {}", k))?,
+                    i.to_string(),
+                ))
+            }
+        }
+
+        let post_keys: Result<Vec<String>, _> = self
+            .get(user_post_keys)
+            .await?
+            .values()
+            .map(|v| -> Result<String> {
+                Ok(String::from_utf8(
+                    v.clone().ok_or(anyhow!("could not get sub post"))?,
+                )?)
+            })
+            .collect();
+
+        self.get_posts(post_keys?).await
     }
 }
 

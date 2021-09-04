@@ -18,10 +18,6 @@ pub struct GetResponse {
     pub proofs:
         ::std::collections::HashMap<::prost::alloc::string::String, ::prost::alloc::vec::Vec<u8>>,
 }
-#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
-pub struct GetTimelineRequest {}
-#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
-pub struct GetTimelineResponse {}
 // Views
 
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
@@ -122,22 +118,6 @@ pub mod query_client {
         pub fn with_interceptor(inner: T, interceptor: impl Into<tonic::Interceptor>) -> Self {
             let inner = tonic::client::Grpc::with_interceptor(inner, interceptor);
             Self { inner }
-        }
-        pub async fn get_timeline(
-            &mut self,
-            request: impl tonic::IntoRequest<super::GetTimelineRequest>,
-        ) -> Result<tonic::Response<super::GetTimelineResponse>, tonic::Status> {
-            self.inner.ready().await.map_err(|e| {
-                tonic::Status::new(
-                    tonic::Code::Unknown,
-                    format!("Service was not ready: {}", e.into()),
-                )
-            })?;
-            let codec = tonic::codec::ProstCodec::default();
-            let path = http::uri::PathAndQuery::from_static(
-                "/shravanshetty1.samachar.samachar.Query/GetTimeline",
-            );
-            self.inner.unary(request.into_request(), path, codec).await
         }
         pub async fn get(
             &mut self,

@@ -167,21 +167,26 @@ func (m *GetResponse) GetProofs() map[string][]byte {
 	return nil
 }
 
-type GetTimelineRequest struct {
+type PostView struct {
+	Id            string       `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Creator       *AccountInfo `protobuf:"bytes,2,opt,name=creator,proto3" json:"creator,omitempty"`
+	Content       string       `protobuf:"bytes,3,opt,name=content,proto3" json:"content,omitempty"`
+	ParentPost    string       `protobuf:"bytes,4,opt,name=parent_post,json=parentPost,proto3" json:"parent_post,omitempty"`
+	CommentsCount uint64       `protobuf:"varint,5,opt,name=comments_count,json=commentsCount,proto3" json:"comments_count,omitempty"`
 }
 
-func (m *GetTimelineRequest) Reset()         { *m = GetTimelineRequest{} }
-func (m *GetTimelineRequest) String() string { return proto.CompactTextString(m) }
-func (*GetTimelineRequest) ProtoMessage()    {}
-func (*GetTimelineRequest) Descriptor() ([]byte, []int) {
+func (m *PostView) Reset()         { *m = PostView{} }
+func (m *PostView) String() string { return proto.CompactTextString(m) }
+func (*PostView) ProtoMessage()    {}
+func (*PostView) Descriptor() ([]byte, []int) {
 	return fileDescriptor_8a0d591a6c948f33, []int{3}
 }
-func (m *GetTimelineRequest) XXX_Unmarshal(b []byte) error {
+func (m *PostView) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *GetTimelineRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *PostView) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_GetTimelineRequest.Marshal(b, m, deterministic)
+		return xxx_messageInfo_PostView.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -191,53 +196,52 @@ func (m *GetTimelineRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, 
 		return b[:n], nil
 	}
 }
-func (m *GetTimelineRequest) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetTimelineRequest.Merge(m, src)
+func (m *PostView) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PostView.Merge(m, src)
 }
-func (m *GetTimelineRequest) XXX_Size() int {
+func (m *PostView) XXX_Size() int {
 	return m.Size()
 }
-func (m *GetTimelineRequest) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetTimelineRequest.DiscardUnknown(m)
+func (m *PostView) XXX_DiscardUnknown() {
+	xxx_messageInfo_PostView.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_GetTimelineRequest proto.InternalMessageInfo
+var xxx_messageInfo_PostView proto.InternalMessageInfo
 
-type GetTimelineResponse struct {
-}
-
-func (m *GetTimelineResponse) Reset()         { *m = GetTimelineResponse{} }
-func (m *GetTimelineResponse) String() string { return proto.CompactTextString(m) }
-func (*GetTimelineResponse) ProtoMessage()    {}
-func (*GetTimelineResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{4}
-}
-func (m *GetTimelineResponse) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *GetTimelineResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_GetTimelineResponse.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
+func (m *PostView) GetId() string {
+	if m != nil {
+		return m.Id
 	}
-}
-func (m *GetTimelineResponse) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_GetTimelineResponse.Merge(m, src)
-}
-func (m *GetTimelineResponse) XXX_Size() int {
-	return m.Size()
-}
-func (m *GetTimelineResponse) XXX_DiscardUnknown() {
-	xxx_messageInfo_GetTimelineResponse.DiscardUnknown(m)
+	return ""
 }
 
-var xxx_messageInfo_GetTimelineResponse proto.InternalMessageInfo
+func (m *PostView) GetCreator() *AccountInfo {
+	if m != nil {
+		return m.Creator
+	}
+	return nil
+}
+
+func (m *PostView) GetContent() string {
+	if m != nil {
+		return m.Content
+	}
+	return ""
+}
+
+func (m *PostView) GetParentPost() string {
+	if m != nil {
+		return m.ParentPost
+	}
+	return ""
+}
+
+func (m *PostView) GetCommentsCount() uint64 {
+	if m != nil {
+		return m.CommentsCount
+	}
+	return 0
+}
 
 type Post struct {
 	Id            string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -251,7 +255,7 @@ func (m *Post) Reset()         { *m = Post{} }
 func (m *Post) String() string { return proto.CompactTextString(m) }
 func (*Post) ProtoMessage()    {}
 func (*Post) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{5}
+	return fileDescriptor_8a0d591a6c948f33, []int{4}
 }
 func (m *Post) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -328,7 +332,7 @@ func (m *AccountInfo) Reset()         { *m = AccountInfo{} }
 func (m *AccountInfo) String() string { return proto.CompactTextString(m) }
 func (*AccountInfo) ProtoMessage()    {}
 func (*AccountInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{6}
+	return fileDescriptor_8a0d591a6c948f33, []int{5}
 }
 func (m *AccountInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -409,7 +413,7 @@ func (m *MsgCreatePost) Reset()         { *m = MsgCreatePost{} }
 func (m *MsgCreatePost) String() string { return proto.CompactTextString(m) }
 func (*MsgCreatePost) ProtoMessage()    {}
 func (*MsgCreatePost) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{7}
+	return fileDescriptor_8a0d591a6c948f33, []int{6}
 }
 func (m *MsgCreatePost) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -469,7 +473,7 @@ func (m *MsgUpdateAccountInfo) Reset()         { *m = MsgUpdateAccountInfo{} }
 func (m *MsgUpdateAccountInfo) String() string { return proto.CompactTextString(m) }
 func (*MsgUpdateAccountInfo) ProtoMessage()    {}
 func (*MsgUpdateAccountInfo) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{8}
+	return fileDescriptor_8a0d591a6c948f33, []int{7}
 }
 func (m *MsgUpdateAccountInfo) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -528,7 +532,7 @@ func (m *MsgFollow) Reset()         { *m = MsgFollow{} }
 func (m *MsgFollow) String() string { return proto.CompactTextString(m) }
 func (*MsgFollow) ProtoMessage()    {}
 func (*MsgFollow) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{9}
+	return fileDescriptor_8a0d591a6c948f33, []int{8}
 }
 func (m *MsgFollow) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -580,7 +584,7 @@ func (m *MsgStopFollow) Reset()         { *m = MsgStopFollow{} }
 func (m *MsgStopFollow) String() string { return proto.CompactTextString(m) }
 func (*MsgStopFollow) ProtoMessage()    {}
 func (*MsgStopFollow) Descriptor() ([]byte, []int) {
-	return fileDescriptor_8a0d591a6c948f33, []int{10}
+	return fileDescriptor_8a0d591a6c948f33, []int{9}
 }
 func (m *MsgStopFollow) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -629,8 +633,7 @@ func init() {
 	proto.RegisterType((*GetResponse)(nil), "shravanshetty1.samachar.samachar.GetResponse")
 	proto.RegisterMapType((map[string][]byte)(nil), "shravanshetty1.samachar.samachar.GetResponse.DataEntry")
 	proto.RegisterMapType((map[string][]byte)(nil), "shravanshetty1.samachar.samachar.GetResponse.ProofsEntry")
-	proto.RegisterType((*GetTimelineRequest)(nil), "shravanshetty1.samachar.samachar.GetTimelineRequest")
-	proto.RegisterType((*GetTimelineResponse)(nil), "shravanshetty1.samachar.samachar.GetTimelineResponse")
+	proto.RegisterType((*PostView)(nil), "shravanshetty1.samachar.samachar.PostView")
 	proto.RegisterType((*Post)(nil), "shravanshetty1.samachar.samachar.Post")
 	proto.RegisterType((*AccountInfo)(nil), "shravanshetty1.samachar.samachar.AccountInfo")
 	proto.RegisterType((*MsgCreatePost)(nil), "shravanshetty1.samachar.samachar.MsgCreatePost")
@@ -642,46 +645,45 @@ func init() {
 func init() { proto.RegisterFile("samachar/samachar.proto", fileDescriptor_8a0d591a6c948f33) }
 
 var fileDescriptor_8a0d591a6c948f33 = []byte{
-	// 616 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x54, 0xcf, 0x4e, 0x13, 0x5f,
-	0x14, 0x66, 0x66, 0x4a, 0x49, 0x4f, 0xa1, 0xbf, 0x5f, 0xae, 0xa8, 0x13, 0x12, 0x6b, 0x33, 0x89,
-	0xb1, 0x0b, 0x2d, 0x11, 0x34, 0x80, 0x1b, 0xa3, 0xa8, 0x8d, 0x31, 0x4d, 0x60, 0xd0, 0x0d, 0x1b,
-	0x72, 0xe9, 0x1c, 0x3a, 0x13, 0xda, 0x7b, 0xc7, 0x7b, 0x4f, 0xd1, 0xf1, 0x29, 0x8c, 0x6f, 0xe0,
-	0xab, 0xb8, 0x72, 0xc9, 0xd2, 0xa5, 0x81, 0x85, 0xaf, 0x61, 0xe6, 0xce, 0x4c, 0x29, 0x0d, 0x20,
-	0x75, 0x77, 0xfe, 0x7f, 0xdf, 0xf9, 0x66, 0xee, 0x81, 0xdb, 0x9a, 0x0f, 0x78, 0x37, 0xe4, 0x6a,
-	0xb9, 0x30, 0x5a, 0xb1, 0x92, 0x24, 0x59, 0x43, 0x87, 0x8a, 0x1f, 0x71, 0xa1, 0x43, 0x24, 0x4a,
-	0x1e, 0xb5, 0x46, 0xe9, 0xc2, 0xf0, 0x6a, 0x30, 0xdf, 0x46, 0x81, 0x3a, 0xd2, 0x3b, 0xc4, 0x09,
-	0xbd, 0x75, 0x80, 0x36, 0x92, 0x8f, 0x1f, 0x86, 0xa8, 0x89, 0xdd, 0x82, 0x72, 0x88, 0x51, 0x2f,
-	0x24, 0xd7, 0x6a, 0x58, 0xcd, 0x92, 0x9f, 0x7b, 0x8c, 0x41, 0xe9, 0x10, 0x13, 0xed, 0xda, 0x0d,
-	0xa7, 0x59, 0xf1, 0x8d, 0xed, 0x7d, 0xb3, 0xa1, 0x6a, 0x5a, 0x75, 0x2c, 0x85, 0x46, 0xf6, 0x16,
-	0x4a, 0x01, 0x27, 0xee, 0x5a, 0x0d, 0xa7, 0x59, 0x5d, 0x59, 0x6b, 0xfd, 0x8d, 0x4a, 0x6b, 0xac,
-	0xb9, 0xf5, 0x92, 0x13, 0x7f, 0x25, 0x48, 0x25, 0xbe, 0x19, 0xc2, 0xb6, 0xa1, 0x1c, 0x2b, 0x29,
-	0x0f, 0x32, 0xc8, 0xea, 0xca, 0xc6, 0x74, 0xe3, 0xb6, 0x4c, 0x6f, 0x36, 0x30, 0x1f, 0xb4, 0xb4,
-	0x06, 0x95, 0x11, 0x0a, 0xfb, 0x1f, 0x9c, 0x43, 0x4c, 0xcc, 0x96, 0x15, 0x3f, 0x35, 0xd9, 0x22,
-	0xcc, 0x1e, 0xf1, 0xfe, 0x10, 0x5d, 0xbb, 0x61, 0x35, 0xe7, 0xfd, 0xcc, 0x79, 0x6a, 0xaf, 0x5b,
-	0x4b, 0x1b, 0x50, 0x1d, 0x9b, 0x37, 0x4d, 0xab, 0xb7, 0x08, 0xac, 0x8d, 0xf4, 0x2e, 0x1a, 0x60,
-	0x3f, 0x12, 0x98, 0xab, 0xec, 0xdd, 0x84, 0x1b, 0xe7, 0xa2, 0x19, 0x69, 0xef, 0xab, 0x05, 0xa5,
-	0x2d, 0xa9, 0x89, 0xd5, 0xc0, 0x8e, 0x82, 0x1c, 0xc0, 0x8e, 0x02, 0xe6, 0xc2, 0x5c, 0x57, 0x21,
-	0x27, 0xa9, 0x0c, 0x42, 0xc5, 0x2f, 0x5c, 0x93, 0x91, 0x82, 0x50, 0x90, 0xeb, 0xe4, 0x99, 0xcc,
-	0x65, 0x77, 0xa1, 0x1a, 0x73, 0x85, 0x82, 0xf6, 0x62, 0xa9, 0xc9, 0x2d, 0x99, 0x2c, 0x64, 0x21,
-	0x03, 0x72, 0x0f, 0x6a, 0x5d, 0x39, 0x18, 0xa0, 0x20, 0xbd, 0xd7, 0x95, 0x43, 0x41, 0xee, 0xac,
-	0xf9, 0xe4, 0x0b, 0x45, 0x74, 0x33, 0x0d, 0x7a, 0xdf, 0x2d, 0xa8, 0x3e, 0xef, 0x9a, 0x82, 0x37,
-	0xe2, 0x40, 0xa6, 0x88, 0x3c, 0x08, 0x14, 0x6a, 0x5d, 0x70, 0xc9, 0xdd, 0xf4, 0x1f, 0x11, 0x7c,
-	0x80, 0x39, 0x11, 0x63, 0xa7, 0xca, 0xc4, 0xa1, 0x24, 0x99, 0xe3, 0x67, 0x0e, 0xbb, 0x0f, 0xff,
-	0x1d, 0xc8, 0x7e, 0x5f, 0x7e, 0x8c, 0x44, 0xef, 0x1c, 0x76, 0x6d, 0x14, 0x36, 0xe0, 0x67, 0x85,
-	0xa8, 0x0a, 0x92, 0xe5, 0xf1, 0x42, 0x54, 0x19, 0x4b, 0x76, 0x07, 0x20, 0x5d, 0x33, 0xaf, 0x99,
-	0x33, 0x35, 0x95, 0x34, 0x92, 0x2d, 0x11, 0xc0, 0x42, 0x47, 0xf7, 0x36, 0x53, 0xd1, 0xd0, 0x2c,
-	0x3f, 0xa6, 0xa8, 0x75, 0xa9, 0xa2, 0xf6, 0x95, 0x8a, 0x3a, 0x93, 0x8a, 0x7a, 0xbb, 0xb0, 0xd8,
-	0xd1, 0xbd, 0xf7, 0x71, 0xc0, 0x09, 0x27, 0x24, 0xbb, 0x04, 0xac, 0x90, 0xcc, 0xbe, 0x48, 0x32,
-	0x67, 0x4c, 0x32, 0xef, 0x19, 0x54, 0x3a, 0xba, 0xf7, 0xda, 0x6c, 0x7d, 0x35, 0xfb, 0x8b, 0xbf,
-	0x8e, 0xb7, 0x69, 0x24, 0xd8, 0x21, 0x19, 0xff, 0xfb, 0x90, 0x95, 0xdf, 0x16, 0xcc, 0x6e, 0x0f,
-	0x51, 0x25, 0xec, 0xb3, 0x79, 0xfb, 0xc5, 0x2f, 0xcc, 0x1e, 0x5f, 0xeb, 0x79, 0x4e, 0xbc, 0x83,
-	0xa5, 0x27, 0x53, 0x76, 0xe5, 0x87, 0x66, 0x1f, 0x9c, 0x36, 0x12, 0x7b, 0x70, 0xcd, 0x93, 0x90,
-	0x61, 0x3d, 0x9c, 0xea, 0x80, 0xbc, 0xe8, 0xfc, 0x38, 0xa9, 0x5b, 0xc7, 0x27, 0x75, 0xeb, 0xd7,
-	0x49, 0xdd, 0xfa, 0x72, 0x5a, 0x9f, 0x39, 0x3e, 0xad, 0xcf, 0xfc, 0x3c, 0xad, 0xcf, 0xec, 0xae,
-	0xf6, 0x22, 0x0a, 0x87, 0xfb, 0xad, 0xae, 0x1c, 0x2c, 0x9f, 0x1f, 0x39, 0x3a, 0xc6, 0xcb, 0x9f,
-	0xce, 0x4c, 0x4a, 0x62, 0xd4, 0xfb, 0x65, 0x73, 0x9e, 0x57, 0xff, 0x04, 0x00, 0x00, 0xff, 0xff,
-	0xcb, 0xdf, 0xb1, 0x1a, 0xb9, 0x05, 0x00, 0x00,
+	// 605 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x54, 0xcd, 0x6e, 0xd3, 0x40,
+	0x10, 0xae, 0xed, 0x34, 0x25, 0xe3, 0x36, 0xa0, 0x55, 0x05, 0x56, 0x25, 0x42, 0x64, 0x09, 0x91,
+	0x03, 0x4d, 0x45, 0x7a, 0x68, 0xcb, 0x05, 0x41, 0x81, 0x08, 0xa1, 0x48, 0xad, 0x2b, 0x38, 0xf4,
+	0x52, 0x6d, 0xed, 0x69, 0x6c, 0xb5, 0xd9, 0x35, 0xbb, 0x93, 0x96, 0xbc, 0x05, 0xe2, 0x0d, 0x78,
+	0x15, 0x24, 0x24, 0x8e, 0x3d, 0x72, 0x44, 0xed, 0x8b, 0x20, 0xaf, 0xed, 0x34, 0xad, 0xfa, 0x43,
+	0x39, 0x70, 0x9b, 0x19, 0xcf, 0x7c, 0xf3, 0x7d, 0xdf, 0x5a, 0x03, 0x0f, 0x34, 0x1f, 0xf0, 0x30,
+	0xe6, 0x6a, 0xa9, 0x0c, 0xda, 0xa9, 0x92, 0x24, 0x59, 0x53, 0xc7, 0x8a, 0x1f, 0x72, 0xa1, 0x63,
+	0x24, 0x1a, 0x3d, 0x6b, 0x8f, 0x3f, 0x97, 0x81, 0x5f, 0x87, 0xd9, 0x2e, 0x0a, 0xd4, 0x89, 0xde,
+	0x22, 0x4e, 0xe8, 0xaf, 0x02, 0x74, 0x91, 0x02, 0xfc, 0x34, 0x44, 0x4d, 0xec, 0x3e, 0x54, 0x63,
+	0x4c, 0xfa, 0x31, 0x79, 0x56, 0xd3, 0x6a, 0x55, 0x82, 0x22, 0x63, 0x0c, 0x2a, 0xfb, 0x38, 0xd2,
+	0x9e, 0xdd, 0x74, 0x5a, 0xb5, 0xc0, 0xc4, 0xfe, 0x37, 0x1b, 0x5c, 0x33, 0xaa, 0x53, 0x29, 0x34,
+	0xb2, 0xf7, 0x50, 0x89, 0x38, 0x71, 0xcf, 0x6a, 0x3a, 0x2d, 0xb7, 0xb3, 0xd2, 0xbe, 0x89, 0x4a,
+	0x7b, 0x62, 0xb8, 0xfd, 0x9a, 0x13, 0x7f, 0x23, 0x48, 0x8d, 0x02, 0x03, 0xc2, 0x36, 0xa1, 0x9a,
+	0x2a, 0x29, 0xf7, 0xf2, 0x95, 0x6e, 0x67, 0xed, 0x76, 0x70, 0x1b, 0x66, 0x36, 0x07, 0x2c, 0x80,
+	0x16, 0x56, 0xa0, 0x36, 0xde, 0xc2, 0xee, 0x81, 0xb3, 0x8f, 0x23, 0xa3, 0xb2, 0x16, 0x64, 0x21,
+	0x9b, 0x87, 0xe9, 0x43, 0x7e, 0x30, 0x44, 0xcf, 0x6e, 0x5a, 0xad, 0xd9, 0x20, 0x4f, 0x9e, 0xdb,
+	0xab, 0xd6, 0xc2, 0x1a, 0xb8, 0x13, 0x78, 0xb7, 0x19, 0xf5, 0x7f, 0x58, 0x70, 0x67, 0x43, 0x6a,
+	0xfa, 0x98, 0xe0, 0x11, 0xab, 0x83, 0x9d, 0x44, 0xc5, 0x9c, 0x9d, 0x44, 0xac, 0x0b, 0x33, 0xa1,
+	0x42, 0x4e, 0x52, 0x99, 0x41, 0xb7, 0xb3, 0x78, 0xb3, 0xc8, 0x97, 0x61, 0x28, 0x87, 0x82, 0xde,
+	0x89, 0x3d, 0x19, 0x94, 0xd3, 0xcc, 0x83, 0x99, 0x50, 0x0a, 0x42, 0x41, 0x9e, 0x63, 0xd0, 0xcb,
+	0x94, 0x3d, 0x02, 0x37, 0xe5, 0x0a, 0x05, 0xed, 0xa4, 0x52, 0x93, 0x57, 0x31, 0x5f, 0x21, 0x2f,
+	0x65, 0xbc, 0xd8, 0x63, 0xa8, 0x87, 0x72, 0x30, 0x40, 0x41, 0x7a, 0xc7, 0x20, 0x7b, 0xd3, 0xe6,
+	0xe1, 0xe7, 0xca, 0xea, 0x7a, 0x56, 0xf4, 0xbf, 0x5a, 0x50, 0x31, 0xfd, 0x17, 0x35, 0x78, 0xe7,
+	0x35, 0xd4, 0xfe, 0x27, 0xa9, 0xef, 0x16, 0xb8, 0x13, 0x7e, 0x64, 0x1b, 0x79, 0x14, 0x29, 0xd4,
+	0xba, 0xe4, 0x52, 0xa4, 0xd9, 0xef, 0x2b, 0xf8, 0x00, 0x0b, 0x22, 0x26, 0xce, 0x1e, 0x2d, 0x8d,
+	0x25, 0xc9, 0x62, 0x7f, 0x9e, 0xb0, 0x27, 0x70, 0x77, 0x4f, 0x1e, 0x1c, 0xc8, 0xa3, 0x44, 0xf4,
+	0xcf, 0xed, 0xae, 0x8f, 0xcb, 0x66, 0xf9, 0x59, 0x23, 0xaa, 0x92, 0x64, 0x75, 0xb2, 0x11, 0x55,
+	0xce, 0x92, 0x3d, 0x04, 0xc8, 0x64, 0x16, 0x3d, 0x33, 0xa6, 0xa7, 0x96, 0x55, 0x72, 0x11, 0x11,
+	0xcc, 0xf5, 0x74, 0x7f, 0x3d, 0x33, 0x0d, 0x8d, 0xf8, 0x09, 0x47, 0xad, 0x2b, 0x1d, 0xb5, 0xaf,
+	0x75, 0xd4, 0xb9, 0xe8, 0xa8, 0xbf, 0x0d, 0xf3, 0x3d, 0xdd, 0xff, 0x90, 0x46, 0x9c, 0xf0, 0x82,
+	0x65, 0x57, 0x2c, 0x2b, 0x2d, 0xb3, 0x2f, 0xb3, 0xcc, 0x99, 0xb0, 0xcc, 0x7f, 0x01, 0xb5, 0x9e,
+	0xee, 0xbf, 0x35, 0xaa, 0xaf, 0x67, 0x7f, 0xf9, 0xeb, 0xf8, 0xeb, 0xc6, 0x82, 0x2d, 0x92, 0xe9,
+	0xbf, 0x83, 0x74, 0xf6, 0x61, 0x7a, 0x73, 0x88, 0x6a, 0xc4, 0x76, 0xc1, 0xe9, 0x22, 0xb1, 0xa7,
+	0x7f, 0x79, 0x30, 0xcc, 0xdd, 0x5b, 0x58, 0xbc, 0xd5, 0x79, 0x79, 0xd5, 0xfb, 0x79, 0xd2, 0xb0,
+	0x8e, 0x4f, 0x1a, 0xd6, 0xef, 0x93, 0x86, 0xf5, 0xe5, 0xb4, 0x31, 0x75, 0x7c, 0xda, 0x98, 0xfa,
+	0x75, 0xda, 0x98, 0xda, 0x5e, 0xee, 0x27, 0x14, 0x0f, 0x77, 0xdb, 0xa1, 0x1c, 0x2c, 0x9d, 0x87,
+	0x1c, 0x9f, 0xea, 0xa5, 0xcf, 0x67, 0x21, 0x8d, 0x52, 0xd4, 0xbb, 0x55, 0x73, 0xbc, 0x97, 0xff,
+	0x04, 0x00, 0x00, 0xff, 0xff, 0xd7, 0xc0, 0xb5, 0x37, 0xd7, 0x05, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -696,7 +698,6 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type QueryClient interface {
-	GetTimeline(ctx context.Context, in *GetTimelineRequest, opts ...grpc.CallOption) (*GetTimelineResponse, error)
 	Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error)
 }
 
@@ -706,15 +707,6 @@ type queryClient struct {
 
 func NewQueryClient(cc grpc1.ClientConn) QueryClient {
 	return &queryClient{cc}
-}
-
-func (c *queryClient) GetTimeline(ctx context.Context, in *GetTimelineRequest, opts ...grpc.CallOption) (*GetTimelineResponse, error) {
-	out := new(GetTimelineResponse)
-	err := c.cc.Invoke(ctx, "/shravanshetty1.samachar.samachar.Query/GetTimeline", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *queryClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.CallOption) (*GetResponse, error) {
@@ -728,7 +720,6 @@ func (c *queryClient) Get(ctx context.Context, in *GetRequest, opts ...grpc.Call
 
 // QueryServer is the server API for Query service.
 type QueryServer interface {
-	GetTimeline(context.Context, *GetTimelineRequest) (*GetTimelineResponse, error)
 	Get(context.Context, *GetRequest) (*GetResponse, error)
 }
 
@@ -736,33 +727,12 @@ type QueryServer interface {
 type UnimplementedQueryServer struct {
 }
 
-func (*UnimplementedQueryServer) GetTimeline(ctx context.Context, req *GetTimelineRequest) (*GetTimelineResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTimeline not implemented")
-}
 func (*UnimplementedQueryServer) Get(ctx context.Context, req *GetRequest) (*GetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
 	s.RegisterService(&_Query_serviceDesc, srv)
-}
-
-func _Query_GetTimeline_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetTimelineRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(QueryServer).GetTimeline(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/shravanshetty1.samachar.samachar.Query/GetTimeline",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QueryServer).GetTimeline(ctx, req.(*GetTimelineRequest))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _Query_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -787,10 +757,6 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "shravanshetty1.samachar.samachar.Query",
 	HandlerType: (*QueryServer)(nil),
 	Methods: []grpc.MethodDesc{
-		{
-			MethodName: "GetTimeline",
-			Handler:    _Query_GetTimeline_Handler,
-		},
 		{
 			MethodName: "Get",
 			Handler:    _Query_Get_Handler,
@@ -925,7 +891,7 @@ func (m *GetResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
-func (m *GetTimelineRequest) Marshal() (dAtA []byte, err error) {
+func (m *PostView) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -935,39 +901,54 @@ func (m *GetTimelineRequest) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *GetTimelineRequest) MarshalTo(dAtA []byte) (int, error) {
+func (m *PostView) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *GetTimelineRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *PostView) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	return len(dAtA) - i, nil
-}
-
-func (m *GetTimelineResponse) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
+	if m.CommentsCount != 0 {
+		i = encodeVarintSamachar(dAtA, i, uint64(m.CommentsCount))
+		i--
+		dAtA[i] = 0x28
 	}
-	return dAtA[:n], nil
-}
-
-func (m *GetTimelineResponse) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *GetTimelineResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
+	if len(m.ParentPost) > 0 {
+		i -= len(m.ParentPost)
+		copy(dAtA[i:], m.ParentPost)
+		i = encodeVarintSamachar(dAtA, i, uint64(len(m.ParentPost)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Content) > 0 {
+		i -= len(m.Content)
+		copy(dAtA[i:], m.Content)
+		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Content)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.Creator != nil {
+		{
+			size, err := m.Creator.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintSamachar(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Id) > 0 {
+		i -= len(m.Id)
+		copy(dAtA[i:], m.Id)
+		i = encodeVarintSamachar(dAtA, i, uint64(len(m.Id)))
+		i--
+		dAtA[i] = 0xa
+	}
 	return len(dAtA) - i, nil
 }
 
@@ -1319,21 +1300,31 @@ func (m *GetResponse) Size() (n int) {
 	return n
 }
 
-func (m *GetTimelineRequest) Size() (n int) {
+func (m *PostView) Size() (n int) {
 	if m == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	return n
-}
-
-func (m *GetTimelineResponse) Size() (n int) {
-	if m == nil {
-		return 0
+	l = len(m.Id)
+	if l > 0 {
+		n += 1 + l + sovSamachar(uint64(l))
 	}
-	var l int
-	_ = l
+	if m.Creator != nil {
+		l = m.Creator.Size()
+		n += 1 + l + sovSamachar(uint64(l))
+	}
+	l = len(m.Content)
+	if l > 0 {
+		n += 1 + l + sovSamachar(uint64(l))
+	}
+	l = len(m.ParentPost)
+	if l > 0 {
+		n += 1 + l + sovSamachar(uint64(l))
+	}
+	if m.CommentsCount != 0 {
+		n += 1 + sovSamachar(uint64(m.CommentsCount))
+	}
 	return n
 }
 
@@ -1934,7 +1925,7 @@ func (m *GetResponse) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
-func (m *GetTimelineRequest) Unmarshal(dAtA []byte) error {
+func (m *PostView) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -1957,62 +1948,163 @@ func (m *GetTimelineRequest) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: GetTimelineRequest: wiretype end group for non-group")
+			return fmt.Errorf("proto: PostView: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetTimelineRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: PostView: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
-		default:
-			iNdEx = preIndex
-			skippy, err := skipSamachar(dAtA[iNdEx:])
-			if err != nil {
-				return err
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Id", wireType)
 			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
 				return ErrInvalidLengthSamachar
 			}
-			if (iNdEx + skippy) > l {
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *GetTimelineResponse) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowSamachar
+			m.Id = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
 			}
-			if iNdEx >= l {
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
+			if m.Creator == nil {
+				m.Creator = &AccountInfo{}
 			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: GetTimelineResponse: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: GetTimelineResponse: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
+			if err := m.Creator.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Content", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Content = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ParentPost", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthSamachar
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ParentPost = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CommentsCount", wireType)
+			}
+			m.CommentsCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowSamachar
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.CommentsCount |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipSamachar(dAtA[iNdEx:])
