@@ -57,6 +57,9 @@ func (k *Keeper) SetPost(ctx sdk.Context, id string, post types.Post) error {
 func (k *Keeper) CreatePost(ctx sdk.Context, msg *types.MsgCreatePost) error {
 	store := ctx.KVStore(k.storeKey)
 	postCountRaw := store.Get(types.PostCountKey())
+	if len(postCountRaw) < 1 {
+		postCountRaw = []byte("0")
+	}
 	postCount, err := strconv.ParseUint(string(postCountRaw), 10, 64)
 	if err != nil {
 		return err

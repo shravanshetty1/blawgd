@@ -7,8 +7,8 @@ use crate::components::post::PostComponent;
 use crate::components::post_creator::PostCreator;
 use crate::components::Component;
 use crate::util;
-use anyhow::anyhow;
 use anyhow::Result;
+use anyhow::{anyhow, Context};
 use gloo::events;
 use wasm_bindgen::JsCast;
 
@@ -18,7 +18,10 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     let storage = window.local_storage().unwrap().unwrap();
 
     let account_info = util::get_session_account_info(&storage, cl.clone()).await;
-    let posts = cl.get_post_by_parent_post("".to_string()).await?;
+    let posts = cl
+        .get_post_by_parent_post("".to_string())
+        .await
+        .context("failed to get posts for home")?;
     let mut boxed_posts: Vec<Box<dyn Component>> = Vec::new();
     for post in posts {
         boxed_posts.push(PostComponent::new(post))

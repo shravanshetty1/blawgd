@@ -26,14 +26,14 @@ pub fn main() -> Result<(), JsValue> {
         let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
 
         let mut supervisor = light_client::new_supervisor(client.clone()).await;
-        let handler = supervisor.handle();
+        let light_client = supervisor.handle();
         wasm_bindgen_futures::spawn_local(async move {
             supervisor.run().await;
             ()
         });
-        handler.verify_to_highest().await;
+        light_client.verify_to_highest().await;
 
-        let cl = VerificationClient::new(handler.clone(), client.clone());
+        let cl = VerificationClient::new(light_client.clone(), client.clone());
 
         let url: String = web_sys::window().unwrap().location().href().unwrap();
         let url_path = url
@@ -52,7 +52,7 @@ pub fn main() -> Result<(), JsValue> {
         };
         result.unwrap();
 
-        light_client::start_sync(handler).await;
+        light_client::start_sync(light_client).await;
         ()
     });
 

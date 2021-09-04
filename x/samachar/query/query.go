@@ -14,8 +14,6 @@ func NewServer(keeper keeper.Keeper) *QueryServer {
 	}
 }
 
-const POSTS_PER_CALL = 30
-
 type QueryServer struct {
 	keeper keeper.Keeper
 }
