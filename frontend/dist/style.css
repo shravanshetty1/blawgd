@@ -138,6 +138,10 @@ a {
 }
 
 .account-info-follower-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 100%;
     padding: 0.25rem;
 }
 

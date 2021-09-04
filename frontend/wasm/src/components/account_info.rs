@@ -20,6 +20,7 @@ impl super::Component for AccountInfoComp {
                 <div id="account-info-name" class="account-info-name">{}</div>
                 <div class="account-info-address">@{}</div>
                 <div class="account-info-follower-info">
+                    <a>{} Followers</a>
                     <a href="/followings/{}" class="account-info-followings">{} Following</a>
                 </div>
             </div>
@@ -27,6 +28,7 @@ impl super::Component for AccountInfoComp {
             account_info.photo,
             account_info.name,
             account_info.address,
+            account_info.followers_count,
             account_info.address,
             account_info.following_count
         )

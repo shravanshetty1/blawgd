@@ -127,7 +127,7 @@ func (k *Keeper) StartFollowing(ctx sdk.Context, msg *types.MsgFollow) error {
 	followingList = append(followingList, msg.Address)
 	followingList = GetListWithoutRepeated(followingList)
 
-	if oldLen != len(followingList)+1 {
+	if oldLen+1 != len(followingList) {
 		return fmt.Errorf("Unexpected increase in following list length")
 	}
 
@@ -182,11 +182,11 @@ func (k *Keeper) StopFollowing(ctx sdk.Context, msg *types.MsgStopFollow) error 
 		return newFollowingList[i] > newFollowingList[j]
 	})
 
-	if oldLen != len(followingList)-1 {
+	if oldLen-1 != len(newFollowingList) {
 		return fmt.Errorf("Unexpected decrease in following list length")
 	}
 
-	store.Set(types.FollowingKey(msg.Creator), []byte(strings.Join(followingList, ",")))
+	store.Set(types.FollowingKey(msg.Creator), []byte(strings.Join(newFollowingList, ",")))
 
 	creatorAccountInfo, err := k.GetAccountInfo(ctx, msg.Creator)
 	if err != nil {
