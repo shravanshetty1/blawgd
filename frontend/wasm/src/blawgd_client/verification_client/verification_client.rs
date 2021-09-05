@@ -195,7 +195,7 @@ impl VerificationClient {
                     .collect(),
             )
             .await?;
-        let post_views: Vec<PostView> = posts
+        let mut post_views: Vec<PostView> = posts
             .iter()
             .map(|p| {
                 let p = p.clone();
@@ -228,6 +228,8 @@ impl VerificationClient {
                 }
             })
             .collect();
+
+        post_views.sort_by(|a, b| b.id.cmp(&a.id));
         Ok(post_views)
     }
 
