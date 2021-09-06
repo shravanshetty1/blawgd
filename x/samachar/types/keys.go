@@ -52,3 +52,7 @@ func AccountInfoKey(address string) []byte {
 func FollowingKey(address string) []byte {
 	return []byte("following-" + address)
 }
+
+func LikeKey(postId string, address string) []byte {
+	return []byte("like-" + postId + "-" + address)
+}

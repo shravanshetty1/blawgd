@@ -10,7 +10,7 @@ import (
 	"github.com/shravanshetty1/samachar/x/samachar/types"
 )
 
-func (k *Keeper) CreatePost(ctx sdk.Context, msg *types.MsgCreatePost) error {
+func (k *Keeper) CreatePost(ctx sdk.Context, newPost *types.NewPost) error {
 	store := ctx.KVStore(k.storeKey)
 	postCountRaw := store.Get(types.PostCountKey())
 	if len(postCountRaw) < 1 {
@@ -22,10 +22,11 @@ func (k *Keeper) CreatePost(ctx sdk.Context, msg *types.MsgCreatePost) error {
 	}
 	postCount += 1
 	post := types.Post{
-		Creator:    msg.Creator,
-		Id:         fmt.Sprint(postCount),
-		Content:    msg.Content,
-		ParentPost: msg.ParentPost,
+		Creator:      newPost.Creator,
+		Id:           fmt.Sprint(postCount),
+		Content:      newPost.Content,
+		ParentPost:   newPost.ParentPost,
+		RepostParent: newPost.RepostParent,
 	}
 	val, err := k.cdc.Marshal(&post)
 	if err != nil {
@@ -169,4 +170,44 @@ func (k *Keeper) StopFollowing(ctx sdk.Context, msg *types.MsgStopFollow) error 
 	}
 
 	return nil
+}
+
+// TODO use prefix store and iterator to delete likes
+func (k *Keeper) Like(ctx sdk.Context, msg *types.MsgLikePost) error {
+	store := ctx.KVStore(k.storeKey)
+	val := store.Get(types.LikeKey(msg.PostId, msg.Creator))
+	if string(val) == "1" {
+		return nil
+	}
+
+	store.Set(types.LikeKey(msg.PostId, msg.Creator), []byte("1"))
+
+	post, err := k.GetPost(ctx, msg.PostId)
+	if err != nil {
+		return err
+	}
+
+	post.LikeCount += 1
+
+	return k.SetPost(ctx, msg.PostId, post)
+}
+
+// TODO use prefix store and iterator to delete likes
+func (k *Keeper) Unlike(ctx sdk.Context, msg *types.MsgUnlikePost) error {
+	store := ctx.KVStore(k.storeKey)
+	val := store.Get(types.LikeKey(msg.PostId, msg.Creator))
+	if string(val) != "1" {
+		return nil
+	}
+
+	store.Delete(types.LikeKey(msg.PostId, msg.Creator))
+
+	post, err := k.GetPost(ctx, msg.PostId)
+	if err != nil {
+		return err
+	}
+
+	post.LikeCount -= 1
+
+	return k.SetPost(ctx, msg.PostId, post)
 }

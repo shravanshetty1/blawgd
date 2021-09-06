@@ -47,6 +47,10 @@ pub struct Post {
     pub parent_post: ::prost::alloc::string::String,
     #[prost(uint64, tag = "5")]
     pub comments_count: u64,
+    #[prost(uint64, tag = "6")]
+    pub like_count: u64,
+    #[prost(string, tag = "7")]
+    pub repost_parent: ::prost::alloc::string::String,
 }
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct AccountInfo {
@@ -65,6 +69,13 @@ pub struct AccountInfo {
 }
 // Messages
 
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
+pub struct MsgRepost {
+    #[prost(string, tag = "1")]
+    pub creator: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub post_id: ::prost::alloc::string::String,
+}
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct MsgCreatePost {
     #[prost(string, tag = "1")]
@@ -96,6 +107,20 @@ pub struct MsgStopFollow {
     pub creator: ::prost::alloc::string::String,
     #[prost(string, tag = "2")]
     pub address: ::prost::alloc::string::String,
+}
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
+pub struct MsgLikePost {
+    #[prost(string, tag = "1")]
+    pub creator: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub post_id: ::prost::alloc::string::String,
+}
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
+pub struct MsgUnlikePost {
+    #[prost(string, tag = "1")]
+    pub creator: ::prost::alloc::string::String,
+    #[prost(string, tag = "2")]
+    pub post_id: ::prost::alloc::string::String,
 }
 #[doc = r" Generated client implementations."]
 pub mod query_client {

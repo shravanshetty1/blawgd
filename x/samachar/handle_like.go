@@ -6,13 +6,8 @@ import (
 	"github.com/shravanshetty1/samachar/x/samachar/types"
 )
 
-func handleMsgCreatePost(ctx sdk.Context, k keeper.Keeper, msg *types.MsgCreatePost) (*sdk.Result, error) {
-	err := k.CreatePost(ctx, &types.NewPost{
-		Creator:      msg.Creator,
-		Content:      msg.Content,
-		ParentPost:   msg.ParentPost,
-		RepostParent: "",
-	})
+func handleMsgLikePost(ctx sdk.Context, k keeper.Keeper, msg *types.MsgLikePost) (*sdk.Result, error) {
+	err := k.Like(ctx, msg)
 	if err != nil {
 		return nil, err
 	}

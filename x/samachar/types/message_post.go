@@ -9,7 +9,7 @@ import (
 
 var _ sdk.Msg = &MsgCreatePost{}
 
-func NewMsgCreatePost(creator, content, parentPost, metadata string) *MsgCreatePost {
+func NewMsgCreatePost(creator, content, parentPost string) *MsgCreatePost {
 	return &MsgCreatePost{
 		Creator:    creator,
 		Content:    content,

@@ -32,20 +32,19 @@ func GetTxCmd() *cobra.Command {
 
 func CmdCreatePost() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create-post [content] [parent_post] [metadata]",
+		Use:   "create-post [content] [parent_post]",
 		Short: "Creates a new post",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			argsContent := string(args[0])
 			argsParentPost := string(args[1])
-			argsMetadata := string(args[2])
 
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
 				return err
 			}
 
-			msg := types.NewMsgCreatePost(clientCtx.GetFromAddress().String(), string(argsContent), string(argsParentPost), argsMetadata)
+			msg := types.NewMsgCreatePost(clientCtx.GetFromAddress().String(), string(argsContent), string(argsParentPost))
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
