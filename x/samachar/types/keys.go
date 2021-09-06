@@ -41,6 +41,10 @@ func PostCountKey() []byte {
 	return []byte("post-count")
 }
 
+func MaxPostCountKey() []byte {
+	return []byte("max-post-count")
+}
+
 func PostKey(order string) []byte {
 	return []byte("post-" + order)
 }

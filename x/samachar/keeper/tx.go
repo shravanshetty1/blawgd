@@ -6,9 +6,16 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/cosmos/cosmos-sdk/store/prefix"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/shravanshetty1/samachar/x/samachar/types"
 )
+
+func (k *Keeper) Init(ctx sdk.Context, gen *types.GenesisState) {
+	store := ctx.KVStore(k.storeKey)
+	store.Set(types.MaxPostCountKey(), []byte(fmt.Sprint(gen.MaxPostCount)))
+}
 
 func (k *Keeper) CreatePost(ctx sdk.Context, newPost *types.NewPost) error {
 	store := ctx.KVStore(k.storeKey)
@@ -55,6 +62,41 @@ func (k *Keeper) CreatePost(ctx sdk.Context, newPost *types.NewPost) error {
 	err = k.SetAccountInfo(ctx, post.Creator, creator)
 	if err != nil {
 		return err
+	}
+
+	maxPostCountRaw := store.Get(types.MaxPostCountKey())
+	maxPostCount, err := strconv.ParseUint(string(maxPostCountRaw), 10, 64)
+	if err != nil {
+		return err
+	}
+
+	// delete old post
+	if postCount > maxPostCount {
+		toDeletePostId := fmt.Sprint(postCount - maxPostCount)
+		toDeletePost, err := k.GetPost(ctx, toDeletePostId)
+		if err != nil {
+			return err
+		}
+		// return if post does not exist
+		if toDeletePost.Creator == "" {
+			return nil
+		}
+
+		store.Delete(types.PostKey(toDeletePostId))
+
+		// Subposts will get cleared automatically
+		for i := uint64(1); i < toDeletePost.CommentsCount+1; i++ {
+			store.Delete(types.SubpostKey(toDeletePostId, fmt.Sprint(i)))
+		}
+
+		likes := prefix.NewStore(store, types.LikeKey(toDeletePostId, "")).Iterator(nil, nil)
+		for likes.Valid() {
+			store.Delete(likes.Key())
+			likes.Next()
+		}
+
+		userPosts := prefix.NewStore(store, types.UserPostKey(toDeletePost.Creator, "")).ReverseIterator(nil, nil)
+		store.Delete(userPosts.Key())
 	}
 
 	return nil
@@ -172,7 +214,6 @@ func (k *Keeper) StopFollowing(ctx sdk.Context, msg *types.MsgStopFollow) error 
 	return nil
 }
 
-// TODO use prefix store and iterator to delete likes
 func (k *Keeper) Like(ctx sdk.Context, msg *types.MsgLikePost) error {
 	store := ctx.KVStore(k.storeKey)
 	val := store.Get(types.LikeKey(msg.PostId, msg.Creator))
@@ -192,7 +233,6 @@ func (k *Keeper) Like(ctx sdk.Context, msg *types.MsgLikePost) error {
 	return k.SetPost(ctx, msg.PostId, post)
 }
 
-// TODO use prefix store and iterator to delete likes
 func (k *Keeper) Unlike(ctx sdk.Context, msg *types.MsgUnlikePost) error {
 	store := ctx.KVStore(k.storeKey)
 	val := store.Get(types.LikeKey(msg.PostId, msg.Creator))

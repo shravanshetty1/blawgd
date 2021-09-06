@@ -7,7 +7,7 @@ option go_package = "github.com/shravanshetty1/samachar/x/samachar/types";
 //import "gogoproto/gogo.proto";
 
 message GenesisState {
-
+  uint64 max_post_count = 1;
 }
 
 service Query {
