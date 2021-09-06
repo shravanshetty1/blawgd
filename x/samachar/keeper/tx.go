@@ -230,6 +230,19 @@ func (k *Keeper) Like(ctx sdk.Context, msg *types.MsgLikePost) error {
 
 	post.LikeCount += 1
 
+	sender, err := sdk.AccAddressFromBech32(msg.Creator)
+	if err != nil {
+		return err
+	}
+	reciever, err := sdk.AccAddressFromBech32(post.Creator)
+	if err != nil {
+		return err
+	}
+	err = k.bKeeper.SendCoins(ctx, sender, reciever, sdk.NewCoins(sdk.NewCoin("stake", sdk.NewInt(int64(msg.Tip)))))
+	if err != nil {
+		return err
+	}
+
 	return k.SetPost(ctx, msg.PostId, post)
 }
 

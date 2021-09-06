@@ -3,6 +3,8 @@ package keeper
 import (
 	"fmt"
 
+	bankkeeper "github.com/cosmos/cosmos-sdk/x/bank/keeper"
+
 	"github.com/cosmos/cosmos-sdk/baseapp"
 
 	"github.com/tendermint/tendermint/libs/log"
@@ -18,15 +20,17 @@ type (
 		storeKey sdk.StoreKey
 		memKey   sdk.StoreKey
 		bApp     *baseapp.BaseApp
+		bKeeper  bankkeeper.Keeper
 	}
 )
 
-func NewKeeper(cdc codec.Codec, storeKey, memKey sdk.StoreKey, bApp *baseapp.BaseApp) *Keeper {
+func NewKeeper(cdc codec.Codec, storeKey, memKey sdk.StoreKey, bApp *baseapp.BaseApp, b bankkeeper.Keeper) *Keeper {
 	return &Keeper{
 		cdc:      cdc,
 		storeKey: storeKey,
 		memKey:   memKey,
 		bApp:     bApp,
+		bKeeper:  b,
 	}
 }
 

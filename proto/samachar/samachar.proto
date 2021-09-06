@@ -87,6 +87,7 @@ message MsgStopFollow {
 message MsgLikePost {
   string creator = 1;
   string post_id = 2;
+  uint64 tip = 3;
 }
 
 message MsgUnlikePost {
