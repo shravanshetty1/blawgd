@@ -88,7 +88,7 @@ func (k *Keeper) EndBlock(ctx sdk.Context) error {
 	// delete old post
 	if postCount > maxPostCount {
 		lastPostId := fmt.Sprint(postCount - maxPostCount)
-		postIter := prefix.NewStore(store, types.PostKey("")).Iterator(types.PostKey(lastPostId), nil)
+		postIter := prefix.NewStore(store, types.PostKey("")).ReverseIterator([]byte(fmt.Sprint(1)), []byte(lastPostId))
 
 		for postIter.Valid() {
 			toDeletePostId := string(postIter.Key())
@@ -108,9 +108,9 @@ func (k *Keeper) EndBlock(ctx sdk.Context) error {
 				store.Delete(types.SubpostKey(toDeletePostId, fmt.Sprint(i)))
 			}
 
-			userPosts := prefix.NewStore(store, types.UserPostKey(toDeletePost.Creator, "")).ReverseIterator(nil, nil)
+			userPosts := prefix.NewStore(store, types.UserPostKey(toDeletePost.Creator, "")).Iterator(nil, nil)
 			if userPosts.Valid() {
-				store.Delete(userPosts.Key())
+				store.Delete(types.UserPostKey(toDeletePost.Creator, string(userPosts.Key())))
 			}
 
 			userPosts.Close()
@@ -128,7 +128,7 @@ func (k *Keeper) EndBlock(ctx sdk.Context) error {
 	// freeze posts
 	if postCount > freePostCount {
 		lastPostId := fmt.Sprint(postCount - freePostCount)
-		postIter := prefix.NewStore(store, types.PostKey("")).Iterator(types.PostKey(lastPostId), nil)
+		postIter := prefix.NewStore(store, types.PostKey("")).ReverseIterator([]byte(fmt.Sprint(1)), []byte(lastPostId))
 
 		for postIter.Valid() {
 			toFreezePostId := string(postIter.Key())
@@ -154,7 +154,7 @@ func (k *Keeper) EndBlock(ctx sdk.Context) error {
 
 			likes := prefix.NewStore(store, types.LikeKey(toFreezePostId, "")).Iterator(nil, nil)
 			for likes.Valid() {
-				store.Delete(likes.Key())
+				store.Delete(types.LikeKey(toFreezePostId, string(likes.Key())))
 				likes.Next()
 			}
 

@@ -183,6 +183,7 @@ impl VerificationClient {
             .get_proto::<Post>(keys)
             .await?
             .values()
+            .filter(|p| p.is_some())
             .map(|p| p.clone().ok_or(anyhow!("could not get post")))
             .collect();
         let posts = posts?;
