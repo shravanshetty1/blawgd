@@ -12,7 +12,6 @@ func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgFollow{}, "follow", nil)
 	cdc.RegisterConcrete(&MsgStopFollow{}, "stopFollow", nil)
 	cdc.RegisterConcrete(&MsgLikePost{}, "likePost", nil)
-	cdc.RegisterConcrete(&MsgUnlikePost{}, "unlikePost", nil)
 	cdc.RegisterConcrete(&MsgRepost{}, "repost", nil)
 }
 
@@ -23,7 +22,6 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 		&MsgFollow{},
 		&MsgStopFollow{},
 		&MsgLikePost{},
-		&MsgUnlikePost{},
 		&MsgRepost{},
 	)
 }

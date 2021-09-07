@@ -45,10 +45,6 @@ func MaxPostCountKey() []byte {
 	return []byte("mpc")
 }
 
-func FreePostCountKey() []byte {
-	return []byte("fpc")
-}
-
 func PostKey(order string) []byte {
 	return []byte("p-" + order)
 }
@@ -59,8 +55,4 @@ func AccountInfoKey(address string) []byte {
 
 func FollowingKey(address string) []byte {
 	return []byte("f-" + address)
-}
-
-func LikeKey(postId string, address string) []byte {
-	return []byte("l-" + postId + "-" + address)
 }

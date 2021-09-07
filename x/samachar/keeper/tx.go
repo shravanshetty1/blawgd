@@ -165,60 +165,25 @@ func (k *Keeper) StopFollowing(ctx sdk.Context, msg *types.MsgStopFollow) error 
 }
 
 func (k *Keeper) Like(ctx sdk.Context, msg *types.MsgLikePost) error {
-	store := ctx.KVStore(k.storeKey)
-	val := store.Get(types.LikeKey(msg.PostId, msg.Creator))
-	if string(val) == "1" {
-		return nil
-	}
-
 	post, err := k.GetPost(ctx, msg.PostId)
 	if err != nil {
 		return err
 	}
 
-	if post.Frozen {
-		return fmt.Errorf("cannot like frozen post")
-	}
-
-	store.Set(types.LikeKey(msg.PostId, msg.Creator), []byte("1"))
-
-	post.LikeCount += 1
+	post.LikeCount += msg.Amount
 
 	sender, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
 		return err
 	}
-	reciever, err := sdk.AccAddressFromBech32(post.Creator)
+	receiver, err := sdk.AccAddressFromBech32(post.Creator)
 	if err != nil {
 		return err
 	}
-	err = k.bKeeper.SendCoins(ctx, sender, reciever, sdk.NewCoins(sdk.NewCoin("stake", sdk.NewInt(int64(msg.Tip)))))
+	err = k.bKeeper.SendCoins(ctx, sender, receiver, sdk.NewCoins(sdk.NewCoin("stake", sdk.NewInt(int64(msg.Amount)))))
 	if err != nil {
 		return err
 	}
-
-	return k.SetPost(ctx, msg.PostId, post)
-}
-
-func (k *Keeper) Unlike(ctx sdk.Context, msg *types.MsgUnlikePost) error {
-	store := ctx.KVStore(k.storeKey)
-	val := store.Get(types.LikeKey(msg.PostId, msg.Creator))
-	if string(val) != "1" {
-		return nil
-	}
-
-	post, err := k.GetPost(ctx, msg.PostId)
-	if err != nil {
-		return err
-	}
-
-	if post.Frozen {
-		return fmt.Errorf("cannot unlike frozen post")
-	}
-
-	store.Delete(types.LikeKey(msg.PostId, msg.Creator))
-
-	post.LikeCount -= 1
 
 	return k.SetPost(ctx, msg.PostId, post)
 }

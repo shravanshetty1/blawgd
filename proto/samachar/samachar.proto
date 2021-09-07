@@ -8,7 +8,6 @@ option go_package = "github.com/shravanshetty1/samachar/x/samachar/types";
 
 message GenesisState {
   uint64 max_post_count = 1;
-  uint64 free_post_count = 2;
 }
 
 service Query {
@@ -45,7 +44,6 @@ message Post {
   uint64 comments_count = 5;
   uint64 like_count = 6;
   string repost_parent = 7;
-  bool frozen = 8;
 }
 
 message AccountInfo {
@@ -89,12 +87,7 @@ message MsgStopFollow {
 message MsgLikePost {
   string creator = 1;
   string post_id = 2;
-  uint64 tip = 3;
-}
-
-message MsgUnlikePost {
-  string creator = 1;
-  string post_id = 2;
+  uint64 amount = 3;
 }
 
 

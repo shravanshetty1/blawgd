@@ -38,35 +38,13 @@ func (k *Keeper) NewAnteHandler(inner sdk.AnteHandler) sdk.AnteHandler {
 					return ctx, fmt.Errorf("post does not exist")
 				}
 
-				store := ctx.KVStore(k.storeKey)
-				val := store.Get(types.LikeKey(msg.PostId, msg.Creator))
-				if string(val) == "1" {
-					return ctx, fmt.Errorf("%v has already liked post %v", msg.Creator, msg.PostId)
-				}
-
 				addr, err := sdk.AccAddressFromBech32(msg.Creator)
 				if err != nil {
 					return ctx, err
 				}
 				balance := k.bKeeper.GetBalance(ctx, addr, "stake")
-				if balance.Amount.Uint64() < msg.Tip {
-					return ctx, fmt.Errorf("%v has insufficient balance to make tip - balance:%v, tip:%v", msg.Creator, balance.Amount.Uint64(), msg.Tip)
-				}
-			case *types.MsgUnlikePost:
-				msg, _ := m.(*types.MsgUnlikePost)
-				post, err := k.GetPost(ctx, msg.PostId)
-				if err != nil {
-					return ctx, err
-				}
-
-				if post.Creator == "" {
-					return ctx, fmt.Errorf("post does not exist")
-				}
-
-				store := ctx.KVStore(k.storeKey)
-				val := store.Get(types.LikeKey(msg.PostId, msg.Creator))
-				if string(val) != "1" {
-					return ctx, fmt.Errorf("cannot unlike since %v has not liked post %v", msg.Creator, msg.PostId)
+				if balance.Amount.Uint64() < msg.Amount {
+					return ctx, fmt.Errorf("%v has insufficient balance to send likes - balance:%v, likes:%v", msg.Creator, balance.Amount.Uint64(), msg.Amount)
 				}
 
 			case *types.MsgFollow:

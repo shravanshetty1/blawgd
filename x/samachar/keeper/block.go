@@ -13,7 +13,6 @@ import (
 func (k *Keeper) Init(ctx sdk.Context, gen *types.GenesisState) {
 	store := ctx.KVStore(k.storeKey)
 	store.Set(types.MaxPostCountKey(), []byte(fmt.Sprint(gen.MaxPostCount)))
-	store.Set(types.FreePostCountKey(), []byte(fmt.Sprint(gen.FreePostCount)))
 }
 
 func (k *Keeper) EndBlock(ctx sdk.Context) error {
@@ -62,51 +61,6 @@ func (k *Keeper) EndBlock(ctx sdk.Context) error {
 			}
 
 			userPosts.Close()
-			postIter.Next()
-		}
-		postIter.Close()
-	}
-
-	freePostCountRaw := store.Get(types.FreePostCountKey())
-	freePostCount, err := strconv.ParseUint(string(freePostCountRaw), 10, 64)
-	if err != nil {
-		return err
-	}
-
-	// freeze posts
-	if postCount > freePostCount {
-		lastPostId := fmt.Sprint(postCount - freePostCount)
-		postIter := prefix.NewStore(store, types.PostKey("")).ReverseIterator([]byte(fmt.Sprint(1)), []byte(lastPostId))
-
-		for postIter.Valid() {
-			toFreezePostId := string(postIter.Key())
-			toFreezePost, err := k.GetPost(ctx, toFreezePostId)
-			if err != nil {
-				return err
-			}
-			// return if post does not exist
-			if toFreezePost.Creator == "" {
-				break
-			}
-			// break if post already frozen
-			if toFreezePost.Frozen {
-				break
-			}
-
-			toFreezePost.Frozen = true
-
-			err = k.SetPost(ctx, toFreezePostId, toFreezePost)
-			if err != nil {
-				return err
-			}
-
-			likes := prefix.NewStore(store, types.LikeKey(toFreezePostId, "")).Iterator(nil, nil)
-			for likes.Valid() {
-				store.Delete(types.LikeKey(toFreezePostId, string(likes.Key())))
-				likes.Next()
-			}
-
-			likes.Close()
 			postIter.Next()
 		}
 		postIter.Close()

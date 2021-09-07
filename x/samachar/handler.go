@@ -25,8 +25,6 @@ func NewHandler(k keeper.Keeper) sdk.Handler {
 			return handleMsgStopFollow(ctx, k, msg)
 		case *types.MsgLikePost:
 			return handleMsgLikePost(ctx, k, msg)
-		case *types.MsgUnlikePost:
-			return handleMsgUnlikePost(ctx, k, msg)
 		case *types.MsgRepost:
 			return handleMsgRepost(ctx, k, msg)
 		default:

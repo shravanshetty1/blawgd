@@ -48,8 +48,8 @@ func (msg *MsgLikePost) ValidateBasic() error {
 		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
 	}
 
-	if msg.Tip == 0 {
-		return fmt.Errorf("tip cannot be 0")
+	if msg.Amount == 0 {
+		return fmt.Errorf("cannot like a post 0 times")
 	}
 
 	return nil
