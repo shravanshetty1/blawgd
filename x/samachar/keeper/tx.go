@@ -108,18 +108,11 @@ func (k *Keeper) EndBlock(ctx sdk.Context) error {
 				store.Delete(types.SubpostKey(toDeletePostId, fmt.Sprint(i)))
 			}
 
-			likes := prefix.NewStore(store, types.LikeKey(toDeletePostId, "")).Iterator(nil, nil)
-			for likes.Valid() {
-				store.Delete(likes.Key())
-				likes.Next()
-			}
-
 			userPosts := prefix.NewStore(store, types.UserPostKey(toDeletePost.Creator, "")).ReverseIterator(nil, nil)
 			if userPosts.Valid() {
 				store.Delete(userPosts.Key())
 			}
 
-			likes.Close()
 			userPosts.Close()
 			postIter.Next()
 		}
@@ -155,10 +148,16 @@ func (k *Keeper) EndBlock(ctx sdk.Context) error {
 				return err
 			}
 
+			likes := prefix.NewStore(store, types.LikeKey(toFreezePostId, "")).Iterator(nil, nil)
+			for likes.Valid() {
+				store.Delete(likes.Key())
+				likes.Next()
+			}
+
+			likes.Close()
 			postIter.Next()
 		}
 		postIter.Close()
-
 	}
 
 	return nil
