@@ -13,8 +13,8 @@ func DefaultGenesis() *GenesisState {
 		// 2 billion
 		MaxPostCount: 2000000000,
 
-		// 400 mill
-		FreePostCount: 400000000,
+		// 200 mill
+		FreePostCount: 200000000,
 	}
 }
 
