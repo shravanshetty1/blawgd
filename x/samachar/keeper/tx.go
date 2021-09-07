@@ -64,6 +64,20 @@ func (k *Keeper) CreatePost(ctx sdk.Context, newPost *types.NewPost) error {
 		return err
 	}
 
+	return nil
+}
+
+func (k *Keeper) EndBlock(ctx sdk.Context) error {
+	store := ctx.KVStore(k.storeKey)
+	postCountRaw := store.Get(types.PostCountKey())
+	if len(postCountRaw) < 1 {
+		postCountRaw = []byte("0")
+	}
+	postCount, err := strconv.ParseUint(string(postCountRaw), 10, 64)
+	if err != nil {
+		return err
+	}
+
 	maxPostCountRaw := store.Get(types.MaxPostCountKey())
 	maxPostCount, err := strconv.ParseUint(string(maxPostCountRaw), 10, 64)
 	if err != nil {
@@ -72,31 +86,43 @@ func (k *Keeper) CreatePost(ctx sdk.Context, newPost *types.NewPost) error {
 
 	// delete old post
 	if postCount > maxPostCount {
-		toDeletePostId := fmt.Sprint(postCount - maxPostCount)
-		toDeletePost, err := k.GetPost(ctx, toDeletePostId)
-		if err != nil {
-			return err
-		}
-		// return if post does not exist
-		if toDeletePost.Creator == "" {
-			return nil
-		}
+		lastPostId := fmt.Sprint(postCount - maxPostCount)
+		postIter := prefix.NewStore(store, types.PostKey("")).Iterator(types.PostKey(lastPostId), nil)
 
-		store.Delete(types.PostKey(toDeletePostId))
+		for postIter.Valid() {
+			toDeletePostId := string(postIter.Key())
+			toDeletePost, err := k.GetPost(ctx, toDeletePostId)
+			if err != nil {
+				return err
+			}
+			// return if post does not exist
+			if toDeletePost.Creator == "" {
+				break
+			}
 
-		// Subposts will get cleared automatically
-		for i := uint64(1); i < toDeletePost.CommentsCount+1; i++ {
-			store.Delete(types.SubpostKey(toDeletePostId, fmt.Sprint(i)))
+			store.Delete(types.PostKey(toDeletePostId))
+
+			// Subposts will get cleared automatically
+			for i := uint64(1); i < toDeletePost.CommentsCount+1; i++ {
+				store.Delete(types.SubpostKey(toDeletePostId, fmt.Sprint(i)))
+			}
+
+			likes := prefix.NewStore(store, types.LikeKey(toDeletePostId, "")).Iterator(nil, nil)
+			for likes.Valid() {
+				store.Delete(likes.Key())
+				likes.Next()
+			}
+
+			userPosts := prefix.NewStore(store, types.UserPostKey(toDeletePost.Creator, "")).ReverseIterator(nil, nil)
+			if userPosts.Valid() {
+				store.Delete(userPosts.Key())
+			}
+
+			likes.Close()
+			userPosts.Close()
+			postIter.Next()
 		}
-
-		likes := prefix.NewStore(store, types.LikeKey(toDeletePostId, "")).Iterator(nil, nil)
-		for likes.Valid() {
-			store.Delete(likes.Key())
-			likes.Next()
-		}
-
-		userPosts := prefix.NewStore(store, types.UserPostKey(toDeletePost.Creator, "")).ReverseIterator(nil, nil)
-		store.Delete(userPosts.Key())
+		postIter.Close()
 	}
 
 	return nil

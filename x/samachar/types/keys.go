@@ -30,33 +30,33 @@ const (
 )
 
 func UserPostKey(address, order string) []byte {
-	return []byte("user-post-" + address + "-" + order)
+	return []byte("up-" + address + "-" + order)
 }
 
 func SubpostKey(parentPost, order string) []byte {
-	return []byte("sub-post-" + parentPost + "-" + order)
+	return []byte("sp-" + parentPost + "-" + order)
 }
 
 func PostCountKey() []byte {
-	return []byte("post-count")
+	return []byte("pc")
 }
 
 func MaxPostCountKey() []byte {
-	return []byte("max-post-count")
+	return []byte("mpc")
 }
 
 func PostKey(order string) []byte {
-	return []byte("post-" + order)
+	return []byte("p-" + order)
 }
 
 func AccountInfoKey(address string) []byte {
-	return []byte("account-info-" + address)
+	return []byte("ac-" + address)
 }
 
 func FollowingKey(address string) []byte {
-	return []byte("following-" + address)
+	return []byte("f-" + address)
 }
 
 func LikeKey(postId string, address string) []byte {
-	return []byte("like-" + postId + "-" + address)
+	return []byte("l-" + postId + "-" + address)
 }
