@@ -136,6 +136,10 @@ func (k *Keeper) EndBlock(ctx sdk.Context) error {
 			if err != nil {
 				return err
 			}
+			// return if post does not exist
+			if toFreezePost.Creator == "" {
+				break
+			}
 			// break if post already frozen
 			if toFreezePost.Frozen {
 				break

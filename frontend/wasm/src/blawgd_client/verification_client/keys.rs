@@ -1,23 +1,23 @@
 pub fn user_post_key(address: String, order: String) -> String {
-    format!("user-post-{}-{}", address, order)
+    format!("up-{}-{}", address, order)
 }
 
 pub fn subpost_key(parent_post: String, order: String) -> String {
-    format!("sub-post-{}-{}", parent_post, order)
+    format!("sp-{}-{}", parent_post, order)
 }
 
 pub fn post_count_key() -> String {
-    String::from("post-count")
+    String::from("pc")
 }
 
 pub fn post_key(order: String) -> String {
-    format!("post-{}", order)
+    format!("p-{}", order)
 }
 
 pub fn account_info_key(address: String) -> String {
-    format!("account-info-{}", address)
+    format!("ac-{}", address)
 }
 
 pub fn following_key(address: String) -> String {
-    format!("following-{}", address)
+    format!("f-{}", address)
 }

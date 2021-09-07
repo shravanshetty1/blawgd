@@ -53,6 +53,7 @@ func main() {
 	}
 
 	editedFile = strings.Replace(string(b), "cors_allowed_origins = []", `cors_allowed_origins = ["*"]`, -1)
+	editedFile = strings.Replace(editedFile, `timeout_commit = "5s"`, `timeout_commit = "1s"`, -1)
 
 	err = ioutil.WriteFile(filepath.Join(userHomeAbs, TENDERMINT_CONFIG_FILE), []byte(editedFile), 0777)
 	if err != nil {
