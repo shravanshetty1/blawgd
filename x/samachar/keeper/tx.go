@@ -15,6 +15,7 @@ import (
 func (k *Keeper) Init(ctx sdk.Context, gen *types.GenesisState) {
 	store := ctx.KVStore(k.storeKey)
 	store.Set(types.MaxPostCountKey(), []byte(fmt.Sprint(gen.MaxPostCount)))
+	store.Set(types.FreePostCountKey(), []byte(fmt.Sprint(gen.FreePostCount)))
 }
 
 func (k *Keeper) CreatePost(ctx sdk.Context, newPost *types.NewPost) error {
@@ -123,6 +124,41 @@ func (k *Keeper) EndBlock(ctx sdk.Context) error {
 			postIter.Next()
 		}
 		postIter.Close()
+	}
+
+	freePostCountRaw := store.Get(types.FreePostCountKey())
+	freePostCount, err := strconv.ParseUint(string(freePostCountRaw), 10, 64)
+	if err != nil {
+		return err
+	}
+
+	// freeze posts
+	if postCount > freePostCount {
+		lastPostId := fmt.Sprint(postCount - freePostCount)
+		postIter := prefix.NewStore(store, types.PostKey("")).Iterator(types.PostKey(lastPostId), nil)
+
+		for postIter.Valid() {
+			toFreezePostId := string(postIter.Key())
+			toFreezePost, err := k.GetPost(ctx, toFreezePostId)
+			if err != nil {
+				return err
+			}
+			// break if post already frozen
+			if toFreezePost.Frozen {
+				break
+			}
+
+			toFreezePost.Frozen = true
+
+			err = k.SetPost(ctx, toFreezePostId, toFreezePost)
+			if err != nil {
+				return err
+			}
+
+			postIter.Next()
+		}
+		postIter.Close()
+
 	}
 
 	return nil
@@ -247,12 +283,16 @@ func (k *Keeper) Like(ctx sdk.Context, msg *types.MsgLikePost) error {
 		return nil
 	}
 
-	store.Set(types.LikeKey(msg.PostId, msg.Creator), []byte("1"))
-
 	post, err := k.GetPost(ctx, msg.PostId)
 	if err != nil {
 		return err
 	}
+
+	if post.Frozen {
+		return fmt.Errorf("cannot like frozen post")
+	}
+
+	store.Set(types.LikeKey(msg.PostId, msg.Creator), []byte("1"))
 
 	post.LikeCount += 1
 
@@ -279,12 +319,16 @@ func (k *Keeper) Unlike(ctx sdk.Context, msg *types.MsgUnlikePost) error {
 		return nil
 	}
 
-	store.Delete(types.LikeKey(msg.PostId, msg.Creator))
-
 	post, err := k.GetPost(ctx, msg.PostId)
 	if err != nil {
 		return err
 	}
+
+	if post.Frozen {
+		return fmt.Errorf("cannot unlike frozen post")
+	}
+
+	store.Delete(types.LikeKey(msg.PostId, msg.Creator))
 
 	post.LikeCount -= 1
 

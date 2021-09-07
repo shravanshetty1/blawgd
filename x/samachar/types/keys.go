@@ -45,6 +45,10 @@ func MaxPostCountKey() []byte {
 	return []byte("mpc")
 }
 
+func FreePostCountKey() []byte {
+	return []byte("fpc")
+}
+
 func PostKey(order string) []byte {
 	return []byte("p-" + order)
 }
