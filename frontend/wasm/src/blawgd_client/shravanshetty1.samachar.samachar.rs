@@ -4,8 +4,6 @@
 pub struct GenesisState {
     #[prost(uint64, tag = "1")]
     pub max_post_count: u64,
-    #[prost(uint64, tag = "2")]
-    pub free_post_count: u64,
 }
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetRequest {
@@ -56,8 +54,6 @@ pub struct Post {
     pub like_count: u64,
     #[prost(string, tag = "7")]
     pub repost_parent: ::prost::alloc::string::String,
-    #[prost(bool, tag = "8")]
-    pub frozen: bool,
 }
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct AccountInfo {
@@ -122,14 +118,7 @@ pub struct MsgLikePost {
     #[prost(string, tag = "2")]
     pub post_id: ::prost::alloc::string::String,
     #[prost(uint64, tag = "3")]
-    pub tip: u64,
-}
-#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
-pub struct MsgUnlikePost {
-    #[prost(string, tag = "1")]
-    pub creator: ::prost::alloc::string::String,
-    #[prost(string, tag = "2")]
-    pub post_id: ::prost::alloc::string::String,
+    pub amount: u64,
 }
 #[doc = r" Generated client implementations."]
 pub mod query_client {

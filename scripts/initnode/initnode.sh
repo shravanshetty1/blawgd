@@ -9,7 +9,7 @@ echo "voice salt fortune fork draw endless figure layer need begin trouble use c
 echo "1"
 samachard init val1 --chain-id samachar -o
 echo "1"
-samachard add-genesis-account cosmos13kx7tkt2kfg4cpsmu9hrfhynlmem4vfl5vl54r 100000000000stake,1000tok
+samachard add-genesis-account cosmos13kx7tkt2kfg4cpsmu9hrfhynlmem4vfl5vl54r 100000000000stake
 echo "1"
 samachard gentx alice 100000000stake --chain-id samachar --keyring-backend test
 echo "1"
