@@ -10,12 +10,18 @@ func DefaultGenesis() *GenesisState {
 	return &GenesisState{
 		// this line is used by starport scaffolding # genesis/types/default
 
+		// ~ 2 weeks at 2000 posts/persec
+		// 2 TB
 		// 2 billion
-		MaxPostCount: 2000000000,
+		//MaxPostCount: 2000000000,
+		MaxPostCount: 2000000,
 		//MaxPostCount: 6,
 
-		// 200 mill
-		FreePostCount: 200000000,
+		// ~ 15 hours at 2000 posts/persec
+		// 20 TB
+		// 100 mill
+		//FreePostCount: 100000000,
+		FreePostCount: 100000,
 		//FreePostCount: 3,
 	}
 }

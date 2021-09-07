@@ -486,6 +486,7 @@ func New(
 		tmos.Exit(err.Error())
 	}
 
+	ah = app.samacharKeeper.NewAnteHandler(ah)
 	app.SetAnteHandler(ah)
 	app.SetEndBlocker(app.EndBlocker)
 

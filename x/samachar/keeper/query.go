@@ -2,7 +2,11 @@ package keeper
 
 import (
 	"sort"
+	"strings"
 
+	"github.com/shravanshetty1/samachar/x/samachar/types"
+
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	abci "github.com/tendermint/tendermint/abci/types"
 )
 
@@ -15,6 +19,16 @@ func (k *Keeper) Get(height int64, key []byte) ([]byte, []byte) {
 	})
 
 	return resp.Value, k.cdc.MustMarshal(resp.ProofOps)
+}
+
+func (k *Keeper) GetFollowing(ctx sdk.Context, address string) []string {
+	store := ctx.KVStore(k.storeKey)
+	followingListRaw := string(store.Get(types.FollowingKey(address)))
+	var followingList []string
+	if followingListRaw != "" {
+		followingList = strings.Split(followingListRaw, ",")
+	}
+	return followingList
 }
 
 func GetListWithoutRepeated(list []string) []string {
