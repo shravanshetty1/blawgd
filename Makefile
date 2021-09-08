@@ -5,5 +5,3 @@ local:
 	cd frontend/wasm; wasm-pack build --target web --out-dir ../dist;
 	./scripts/startnode.sh
 
-go:
-	./scripts/frontendgo.sh

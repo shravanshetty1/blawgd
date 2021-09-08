@@ -1,4 +1,4 @@
-module github.com/shravanshetty1/samachar
+module github.com/shravanshetty1/blawgd
 
 go 1.15
 
@@ -14,6 +14,7 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/onsi/ginkgo v1.16.4 // indirect
 	github.com/onsi/gomega v1.13.0 // indirect
+	github.com/rs/cors v1.8.0 // indirect
 	github.com/spf13/cast v1.3.1
 	github.com/spf13/cobra v1.2.1
 	github.com/spf13/pflag v1.0.5

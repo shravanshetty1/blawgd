@@ -1,9 +1,3 @@
-vue
-secret.yml
 .idea
-
-frontend/wasm/target
-frontend/wasm/dep.txt
-faucet/dep.txt
-faucet/target
-frontend/codegen/target
+frontends/rust/client/target
+backends/cosmos/cmd/faucet/target
