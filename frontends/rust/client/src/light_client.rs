@@ -158,7 +158,7 @@ async fn get_block(height: u64) -> tendermint_rpc::endpoint::block::Response {
         param = format!("?height={}", height)
     }
 
-    reqwest::get(format!("http://localhost:26657/block{}", param).as_str())
+    reqwest::get(format!("{}/block{}", util::TENDERMINT_HOST, param).as_str())
         .await
         .unwrap()
         .json::<tendermint_rpc::response::Wrapper<tendermint_rpc::endpoint::block::Response>>()
@@ -174,7 +174,7 @@ async fn get_commit(height: u64) -> commit::Response {
         param = format!("?height={}", height)
     }
 
-    reqwest::get(format!("http://localhost:26657/commit{}", param).as_str())
+    reqwest::get(format!("{}/commit{}", util::TENDERMINT_HOST, param).as_str())
         .await
         .unwrap()
         .json::<tendermint_rpc::response::Wrapper<commit::Response>>()
@@ -196,7 +196,7 @@ impl io::Io for LightClientIO {
         let height = signed_header.header.height.value();
 
         let validator_infos = reqwest::get(
-            format!("http://localhost:26657/validators?height={}", height).as_str(),
+            format!("{}/validators?height={}", util::TENDERMINT_HOST, height).as_str(),
         )
         .await
         .unwrap()
@@ -214,7 +214,7 @@ impl io::Io for LightClientIO {
         .unwrap();
 
         let next_validator_infos = reqwest::get(
-            format!("http://localhost:26657/validators?height={}", height + 1).as_str(),
+            format!("{}/validators?height={}", util::TENDERMINT_HOST, height + 1).as_str(),
         )
         .await
         .unwrap()

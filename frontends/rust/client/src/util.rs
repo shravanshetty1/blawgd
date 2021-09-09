@@ -19,7 +19,8 @@ pub const MSG_TYPE_FOLLOW: &str = "/blawgd.MsgFollow";
 pub const MSG_TYPE_STOP_FOLLOW: &str = "/blawgd.MsgStopFollow";
 pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str = "/blawgd.MsgUpdateAccountInfo";
 pub const ADDRESS_HRP: &str = "cosmos";
-pub(crate) const TENDERMINT_HOST: &str = "http://localhost:26657";
+pub const TENDERMINT_HOST: &str = "http://localhost:26657";
+pub const FAUCET_ADDR: &str = "http://localhost:2342";
 
 // TODO this is bad
 pub struct StoredData {
@@ -162,11 +163,16 @@ pub async fn broadcast_tx<M: prost::Message>(
         .expect("could not build tx");
     let tx_raw = serialize_tx(&tx);
 
-    ServiceClient::new(client)
+    let resp = ServiceClient::new(client)
         .broadcast_tx(BroadcastTxRequest {
             tx_bytes: tx_raw,
             mode: BroadcastMode::Block as i32,
         })
         .await
-        .unwrap()
+        .unwrap();
+
+    // wait for another block to get committed since light client is 1 block behind
+    gloo::timers::future::TimeoutFuture::new(800).await;
+
+    resp
 }

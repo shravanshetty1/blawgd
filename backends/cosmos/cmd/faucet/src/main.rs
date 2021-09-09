@@ -120,7 +120,7 @@ async fn handler(state: web::Data<State>, req: HttpRequest) -> HttpResponse {
         to_address,
         amount: vec![Coin {
             denom: "stake".to_string(),
-            amount: "1".to_string(),
+            amount: "1000".to_string(),
         }],
     };
 
