@@ -1,3 +1,4 @@
 .idea
 frontends/rust/client/target
 backends/cosmos/cmd/faucet/target
+backends/cosmos/node-configs
