@@ -1,5 +1,5 @@
 .idea
 frontends/rust/client/target
 backends/cosmos/cmd/faucet/target
-
+scripts/codegen/frontend-rust/target
 backends/cosmos/node-configs
