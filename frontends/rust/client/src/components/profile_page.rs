@@ -66,7 +66,7 @@ impl Component for ProfilePage {
             r#"
 <div class="page">
     {}
-    <div class="main-column">
+    <div id="main-column" class="main-column">
         {}
         {}
     </div>

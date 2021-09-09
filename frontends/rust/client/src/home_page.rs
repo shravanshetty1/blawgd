@@ -6,6 +6,7 @@ use crate::components::nav_bar::NavBar;
 use crate::components::post::PostComponent;
 use crate::components::post_creator::PostCreator;
 use crate::components::Component;
+use crate::state::{get_state, set_state, State};
 use crate::util;
 use anyhow::Result;
 use anyhow::{anyhow, Context};
@@ -42,13 +43,13 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     body.set_inner_html(&comp.to_html());
 
     if account_info.is_some() {
-        register_event_listeners(document.clone());
+        register_event_listeners(document.clone(), cl.clone());
     }
 
     Ok(())
 }
 
-fn register_event_listeners(document: web_sys::Document) {
+fn register_event_listeners(document: web_sys::Document, cl: VerificationClient) {
     let post_creator_button = document
         .clone()
         .get_element_by_id("post-creator-button")
@@ -87,20 +88,38 @@ fn register_event_listeners(document: web_sys::Document) {
 
     let window = web_sys::window().unwrap();
     events::EventListener::new(&window, "scroll", move |_| {
-        let doc = document.document_element().unwrap();
-        let scroll_top: i32 = doc.scroll_top();
-        let scroll_height: i32 = doc.scroll_height();
-        let client_height: i32 = doc.client_height();
-        let main_column = document
-            .clone()
-            .get_element_by_id("main-column")
-            .expect("post-creator-button element not found");
+        let cl = cl.clone();
+        wasm_bindgen_futures::spawn_local(async move {
+            let window = web_sys::window().unwrap();
+            let document = window.document().expect("document missing");
+            let doc = document.document_element().unwrap();
+            let scroll_top: i32 = doc.scroll_top();
+            let scroll_height: i32 = doc.scroll_height();
+            let client_height: i32 = doc.client_height();
+            let main_column = document
+                .clone()
+                .get_element_by_id("main-column")
+                .expect("post-creator-button element not found");
 
-        if scroll_top + client_height >= scroll_height {
-            util::console_log("bottom");
-        } else {
-            util::console_log("scrolled");
-        }
+            if scroll_top + client_height >= scroll_height {
+                let mut state = get_state();
+                state.page += 1;
+
+                let posts = cl
+                    .get_post_by_parent_post("".to_string(), state.page.clone() as u64)
+                    .await
+                    .unwrap();
+                let mut posts_html: String = String::new();
+                for post in posts {
+                    posts_html = format!("{}{}", posts_html, PostComponent::new(post).to_html());
+                }
+
+                main_column.insert_adjacent_html("beforeend", posts_html.as_str());
+
+                set_state(state.clone());
+                util::console_log(format!("{}", state.page).as_str());
+            }
+        });
     })
     .forget();
 }

@@ -1,4 +1,5 @@
 use crate::blawgd_client::verification_client::VerificationClient;
+use crate::state::State;
 use tendermint_light_client::supervisor::Handle;
 use wasm_bindgen::{prelude::*, JsValue};
 use web_sys;
@@ -13,6 +14,7 @@ mod light_client;
 mod login_page;
 mod post_page;
 mod profile_page;
+mod state;
 mod timeline_page;
 mod util;
 
@@ -51,6 +53,8 @@ pub fn main() -> Result<(), JsValue> {
             _ => home_page::handle(cl).await,
         };
         result.unwrap();
+
+        crate::state::set_state(State { page: 1 });
 
         light_client::start_sync(light_client).await;
         ()

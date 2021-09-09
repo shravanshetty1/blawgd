@@ -149,6 +149,10 @@ impl VerificationClient {
         let mut max = account_info.post_count;
         let mut min = 1;
         if max > PER_PAGE {
+            if max <= (PER_PAGE * (page - 1)) {
+                return Ok(Vec::new());
+            }
+
             max = max - (PER_PAGE * (page - 1));
             if max > PER_PAGE {
                 min = max + 1 - PER_PAGE
@@ -194,6 +198,10 @@ impl VerificationClient {
         let mut max = parent_post.comments_count;
         let mut min = 1;
         if max > PER_PAGE {
+            if max <= (PER_PAGE * (page - 1)) {
+                return Ok(Vec::new());
+            }
+
             max = max - (PER_PAGE * (page - 1));
             if max > PER_PAGE {
                 min = max + 1 - PER_PAGE

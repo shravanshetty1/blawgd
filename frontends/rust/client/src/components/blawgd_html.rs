@@ -20,6 +20,7 @@ impl super::Component for BlawgdHTMLDoc {
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+<div id="state" hidden>This is a disgusting hack</div>
 {}
 </body>
 <script type="module">

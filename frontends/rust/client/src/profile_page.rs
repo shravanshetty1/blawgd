@@ -9,6 +9,7 @@ use crate::{
 };
 
 use crate::blawgd_client::verification_client::VerificationClient;
+use crate::state::{get_state, set_state};
 use anyhow::Context;
 use anyhow::Result;
 use gloo::events;
@@ -22,14 +23,15 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     let address = url
         .as_str()
         .strip_prefix(format!("{}/profile/", util::HOST_NAME).as_str())
-        .unwrap();
+        .unwrap()
+        .to_string();
 
     let logged_in_account_info = util::get_session_account_info(&storage, cl.clone()).await;
     let account_info = cl
-        .get_account_info(address.clone().to_string())
+        .get_account_info(address.clone())
         .await
         .context("failed to get valid profile info response")?;
-    let posts = cl.get_post_by_account(address.clone().parse()?, 1).await?;
+    let posts = cl.get_post_by_account(address.clone(), 1).await?;
     let logged_in_data = util::get_stored_data(&storage);
     let mut profile_button: Option<ButtonType> = None;
     if logged_in_data.is_some() {
@@ -39,7 +41,7 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
             let is_following = util::is_following(
                 cl.clone(),
                 logged_in_data.as_ref().unwrap().address.clone(),
-                address.into(),
+                address.clone(),
             )
             .await?;
             if is_following {
@@ -71,18 +73,58 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
 
     if profile_button.is_some() {
         if !matches!(profile_button.unwrap(), ButtonType::Edit) {
-            register_event_listeners(&document, address.into(), cl);
+            register_event_listeners(&document, address.clone(), cl.clone());
         }
     }
+
+    let window = web_sys::window().unwrap();
+    events::EventListener::new(&window, "scroll", move |_| {
+        let cl = cl.clone();
+        let address = address.clone();
+        wasm_bindgen_futures::spawn_local(async move {
+            let window = web_sys::window().unwrap();
+            let document = window.document().expect("document missing");
+            let doc = document.document_element().unwrap();
+            let scroll_top: i32 = doc.scroll_top();
+            let scroll_height: i32 = doc.scroll_height();
+            let client_height: i32 = doc.client_height();
+            let main_column = document
+                .clone()
+                .get_element_by_id("main-column")
+                .expect("post-creator-button element not found");
+
+            if scroll_top + client_height >= scroll_height {
+                let mut state = get_state();
+                state.page += 1;
+
+                let posts = cl
+                    .get_post_by_account(address.clone(), state.page.clone() as u64)
+                    .await
+                    .unwrap();
+                let mut posts_html: String = String::new();
+                for post in posts {
+                    posts_html = format!("{}{}", posts_html, PostComponent::new(post).to_html());
+                }
+
+                main_column.insert_adjacent_html("beforeend", posts_html.as_str());
+
+                set_state(state.clone());
+                util::console_log(format!("{}", state.page).as_str());
+            }
+        });
+    })
+    .forget();
     Ok(())
 }
 
 fn register_event_listeners(document: &web_sys::Document, address: String, cl: VerificationClient) {
     let follow_toggle = document.get_element_by_id("follow-toggle").unwrap();
 
+    let address1 = address.clone();
+    let cl1 = cl.clone();
     events::EventListener::new(&follow_toggle, "click", move |_| {
-        let address = address.clone();
-        let cl = cl.clone();
+        let address = address1.clone();
+        let cl = cl1.clone();
         wasm_bindgen_futures::spawn_local(async move {
             let window = web_sys::window().unwrap();
             let document = window.document().unwrap();

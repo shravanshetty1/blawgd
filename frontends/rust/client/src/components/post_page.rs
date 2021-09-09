@@ -39,7 +39,7 @@ impl super::Component for PostPage {
             r#"
 <div class="page">
     {}
-    <div class="main-column">
+    <div id="main-column" class="main-column">
         {}
         {}
         {}

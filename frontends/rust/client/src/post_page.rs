@@ -6,6 +6,7 @@ use crate::components::post::PostComponent;
 use crate::components::post_creator::PostCreator;
 use crate::components::post_page::PostPage;
 use crate::components::Component;
+use crate::state::{get_state, set_state};
 use crate::util;
 use anyhow::Result;
 use gloo::events;
@@ -55,18 +56,23 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     let body = document.body().expect("body missing");
     body.set_inner_html(&comp.to_html());
 
-    register_event_listeners(post_id.to_string(), &document);
+    register_event_listeners(post_id.to_string(), &document, cl.clone());
 
     Ok(())
 }
 
-fn register_event_listeners(main_post_id: String, document: &web_sys::Document) {
+fn register_event_listeners(
+    main_post_id: String,
+    document: &web_sys::Document,
+    cl: VerificationClient,
+) {
     let post_creator_button = document
         .get_element_by_id("post-creator-button")
         .expect("post-creator-button element not found");
 
+    let main_post_id1: String = main_post_id.clone();
     events::EventListener::new(&post_creator_button, "click", move |_| {
-        let main_post_id: String = main_post_id.clone();
+        let main_post_id: String = main_post_id1.clone();
         wasm_bindgen_futures::spawn_local(async move {
             let window = web_sys::window().unwrap();
             let document = window.document().expect("document missing");
@@ -89,6 +95,44 @@ fn register_event_listeners(main_post_id: String, document: &web_sys::Document) 
             let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
             util::broadcast_tx(&wallet, client, util::MSG_TYPE_CREATE_POST, msg).await;
             window.location().reload();
+        });
+    })
+    .forget();
+
+    let window = web_sys::window().unwrap();
+    events::EventListener::new(&window, "scroll", move |_| {
+        let cl = cl.clone();
+        let main_post_id = main_post_id.clone();
+        wasm_bindgen_futures::spawn_local(async move {
+            let window = web_sys::window().unwrap();
+            let document = window.document().expect("document missing");
+            let doc = document.document_element().unwrap();
+            let scroll_top: i32 = doc.scroll_top();
+            let scroll_height: i32 = doc.scroll_height();
+            let client_height: i32 = doc.client_height();
+            let main_column = document
+                .clone()
+                .get_element_by_id("main-column")
+                .expect("post-creator-button element not found");
+
+            if scroll_top + client_height >= scroll_height {
+                let mut state = get_state();
+                state.page += 1;
+
+                let posts = cl
+                    .get_post_by_parent_post(main_post_id.clone(), state.page.clone() as u64)
+                    .await
+                    .unwrap();
+                let mut posts_html: String = String::new();
+                for post in posts {
+                    posts_html = format!("{}{}", posts_html, PostComponent::new(post).to_html());
+                }
+
+                main_column.insert_adjacent_html("beforeend", posts_html.as_str());
+
+                set_state(state.clone());
+                util::console_log(format!("{}", state.page).as_str());
+            }
         });
     })
     .forget();
