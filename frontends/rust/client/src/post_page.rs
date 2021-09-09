@@ -27,7 +27,7 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
         .to_string();
 
     let account_info = util::get_session_account_info(&storage, cl.clone()).await;
-    let posts = cl.get_post_by_parent_post(post_id.clone()).await?;
+    let posts = cl.get_post_by_parent_post(post_id.clone(), 1).await?;
     let mut boxed_posts: Vec<Box<dyn Component>> = Vec::new();
     for post in posts {
         boxed_posts.push(PostComponent::new(post))

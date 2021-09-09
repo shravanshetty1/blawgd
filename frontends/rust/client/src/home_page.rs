@@ -19,7 +19,7 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
 
     let account_info = util::get_session_account_info(&storage, cl.clone()).await;
     let posts = cl
-        .get_post_by_parent_post("".to_string())
+        .get_post_by_parent_post("".to_string(), 1)
         .await
         .context("failed to get posts for home")?;
     let mut boxed_posts: Vec<Box<dyn Component>> = Vec::new();
@@ -42,14 +42,15 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     body.set_inner_html(&comp.to_html());
 
     if account_info.is_some() {
-        register_event_listeners(&document);
+        register_event_listeners(document.clone());
     }
 
     Ok(())
 }
 
-fn register_event_listeners(document: &web_sys::Document) {
+fn register_event_listeners(document: web_sys::Document) {
     let post_creator_button = document
+        .clone()
         .get_element_by_id("post-creator-button")
         .expect("post-creator-button element not found");
 
@@ -81,6 +82,25 @@ fn register_event_listeners(document: &web_sys::Document) {
 
             window.location().reload();
         });
+    })
+    .forget();
+
+    let window = web_sys::window().unwrap();
+    events::EventListener::new(&window, "scroll", move |_| {
+        let doc = document.document_element().unwrap();
+        let scroll_top: i32 = doc.scroll_top();
+        let scroll_height: i32 = doc.scroll_height();
+        let client_height: i32 = doc.client_height();
+        let main_column = document
+            .clone()
+            .get_element_by_id("main-column")
+            .expect("post-creator-button element not found");
+
+        if scroll_top + client_height >= scroll_height {
+            util::console_log("bottom");
+        } else {
+            util::console_log("scrolled");
+        }
     })
     .forget();
 }

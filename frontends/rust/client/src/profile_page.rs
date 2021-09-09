@@ -29,7 +29,7 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
         .get_account_info(address.clone().to_string())
         .await
         .context("failed to get valid profile info response")?;
-    let posts = cl.get_post_by_account(address.clone().parse()?).await?;
+    let posts = cl.get_post_by_account(address.clone().parse()?, 1).await?;
     let logged_in_data = util::get_stored_data(&storage);
     let mut profile_button: Option<ButtonType> = None;
     if logged_in_data.is_some() {

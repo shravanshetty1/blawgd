@@ -17,6 +17,8 @@ use tendermint::merkle::proof;
 use tendermint_light_client::supervisor::Handle;
 use wasm_bindgen::__rt::std::collections::HashMap;
 
+const PER_PAGE: u64 = 5;
+
 impl VerificationClient {
     pub async fn get(&self, keys: Vec<String>) -> Result<HashMap<String, Option<Vec<u8>>>> {
         let lb = self
@@ -128,13 +130,32 @@ impl VerificationClient {
             Ok(Vec::new())
         }
     }
-    pub async fn get_post_by_account(&self, address: String) -> Result<Vec<PostView>> {
+    pub async fn get_post_by_account(
+        &self,
+        address: String,
+        mut page: u64,
+    ) -> Result<Vec<PostView>> {
         let account_info = self.get_account_info(address.clone()).await?;
         let mut keys: Vec<String> = Vec::new();
         if account_info.post_count == 0 {
             return Ok(Vec::new());
         }
-        for i in (1..account_info.post_count + 1).rev() {
+
+        if page == 0 {
+            page = 1;
+        }
+
+        // pagination
+        let mut max = account_info.post_count;
+        let mut min = 1;
+        if max > PER_PAGE {
+            max = max - (PER_PAGE * (page - 1));
+            if max > PER_PAGE {
+                min = max + 1 - PER_PAGE
+            }
+        }
+
+        for i in (min..max + 1).rev() {
             keys.push(keys::user_post_key(address.clone(), i.to_string()))
         }
         let post_ids: Result<Vec<String>, _> = self
@@ -150,7 +171,11 @@ impl VerificationClient {
         self.get_posts(post_ids?).await
     }
 
-    pub async fn get_post_by_parent_post(&self, parent_post_id: String) -> Result<Vec<PostView>> {
+    pub async fn get_post_by_parent_post(
+        &self,
+        parent_post_id: String,
+        mut page: u64,
+    ) -> Result<Vec<PostView>> {
         let parent_post = self.get_post(parent_post_id.clone()).await;
         if parent_post.is_err() {
             return Ok(Vec::new());
@@ -160,7 +185,22 @@ impl VerificationClient {
             return Ok(Vec::new());
         }
         let mut keys: Vec<String> = Vec::new();
-        for i in (1..parent_post.comments_count + 1).rev() {
+
+        if page == 0 {
+            page = 1;
+        }
+
+        // pagination
+        let mut max = parent_post.comments_count;
+        let mut min = 1;
+        if max > PER_PAGE {
+            max = max - (PER_PAGE * (page - 1));
+            if max > PER_PAGE {
+                min = max + 1 - PER_PAGE
+            }
+        }
+
+        for i in (min..max + 1).rev() {
             keys.push(keys::subpost_key(parent_post.id.clone(), i.to_string()))
         }
         let post_ids: Result<Vec<String>, _> = self
@@ -230,7 +270,12 @@ impl VerificationClient {
             })
             .collect();
 
-        post_views.sort_by(|a, b| b.id.cmp(&a.id));
+        post_views.sort_by(|a, b| {
+            let id1: u64 = a.id.parse().unwrap_or(0);
+            let id2: u64 = b.id.parse().unwrap_or(0);
+            id2.cmp(&id1)
+        });
+
         Ok(post_views)
     }
 

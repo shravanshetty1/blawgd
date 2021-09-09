@@ -36,7 +36,7 @@ impl super::Component for HomePage {
             r#"
 <div class="page">
     {}
-    <div class="main-column">
+    <div id="main-column" class="main-column">
         {}
         {}
     </div>
