@@ -25,7 +25,6 @@ async fn main() -> std::io::Result<()> {
     }
 
     let mnemonic = args.index(1).clone();
-    let mnemonic = "voice salt fortune fork draw endless figure layer need begin trouble use cream will alpha cheese glad cook monkey used rigid better describe demise".to_string();
     let broadcast_node_addr = args.index(2).clone();
 
     let wallet = crw_wallet::crypto::MnemonicWallet::new(mnemonic.as_str(), COSMOS_DP)
@@ -120,7 +119,7 @@ async fn handler(state: web::Data<State>, req: HttpRequest) -> HttpResponse {
         from_address: state.sender_addr.clone(),
         to_address,
         amount: vec![Coin {
-            denom: "tok".to_string(),
+            denom: "stake".to_string(),
             amount: "1".to_string(),
         }],
     };
@@ -133,11 +132,7 @@ async fn handler(state: web::Data<State>, req: HttpRequest) -> HttpResponse {
 
     let mut log: String = String::new();
     if res.is_some() {
-        let res = res.unwrap();
-        log = res.raw_log;
-        println!("{}", res.info.as_str());
-        println!("{}", res.timestamp.as_str());
-        println!("{}", res.data.as_str());
+        log = res.unwrap().raw_log;
     }
 
     actix_web::HttpResponse::build(StatusCode::OK)

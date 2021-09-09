@@ -99,7 +99,7 @@ fn register_event_listeners(document: &web_sys::Document, account_info: &Option<
             util::console_log(resp.as_str());
 
             util::set_stored_data(&storage, StoredData { mnemonic, address });
-            // window.location().reload();
+            window.location().reload();
         });
     })
     .forget();

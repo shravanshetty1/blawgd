@@ -14,10 +14,10 @@ use wasm_bindgen::JsValue;
 pub const COSMOS_DP: &str = "m/44'/118'/0'/0/0";
 pub const HOST_NAME: &str = "http://localhost:2341";
 pub const GRPC_WEB_ADDRESS: &str = "http://localhost:9091";
-pub const MSG_TYPE_CREATE_POST: &str = "/shravanshetty1.blawgd.blawgd.MsgCreatePost";
-pub const MSG_TYPE_FOLLOW: &str = "/shravanshetty1.blawgd.blawgd.MsgFollow";
-pub const MSG_TYPE_STOP_FOLLOW: &str = "/shravanshetty1.blawgd.blawgd.MsgStopFollow";
-pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str = "/shravanshetty1.blawgd.blawgd.MsgUpdateAccountInfo";
+pub const MSG_TYPE_CREATE_POST: &str = "/blawgd.MsgCreatePost";
+pub const MSG_TYPE_FOLLOW: &str = "/blawgd.MsgFollow";
+pub const MSG_TYPE_STOP_FOLLOW: &str = "/blawgd.MsgStopFollow";
+pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str = "/blawgd.MsgUpdateAccountInfo";
 pub const ADDRESS_HRP: &str = "cosmos";
 pub(crate) const TENDERMINT_HOST: &str = "http://localhost:26657";
 
@@ -155,12 +155,12 @@ pub async fn broadcast_tx<M: prost::Message>(
         .memo("Test memo")
         .account_info(account_data.sequence, account_data.account_number)
         .timeout_height(0)
-        .fee("token", "0", 3000000)
+        .fee("stake", "0", 3000000)
         .add_message(msg_type, msg)
         .unwrap()
         .sign(wallet)
         .expect("could not build tx");
-    let tx_raw = super::util::serialize_tx(&tx);
+    let tx_raw = serialize_tx(&tx);
 
     ServiceClient::new(client)
         .broadcast_tx(BroadcastTxRequest {
