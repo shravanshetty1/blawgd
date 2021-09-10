@@ -145,7 +145,11 @@ impl VerificationClient {
             page = 1;
         }
 
-        let (min, max) = pagination(1, account_info.post_count, page, PER_PAGE);
+        let pagination = pagination(1, account_info.post_count, page, PER_PAGE);
+        if pagination.is_err() {
+            return Ok(Vec::new());
+        }
+        let (min, max) = pagination?;
         for i in (min..max + 1).rev() {
             keys.push(keys::user_post_key(address.clone(), i.to_string()))
         }
@@ -181,7 +185,11 @@ impl VerificationClient {
             page = 1;
         }
 
-        let (min, max) = pagination(1, parent_post.comments_count, page, PER_PAGE);
+        let pagination = pagination(1, parent_post.comments_count, page, PER_PAGE);
+        if pagination.is_err() {
+            return Ok(Vec::new());
+        }
+        let (min, max) = pagination?;
         for i in (min..max + 1).rev() {
             keys.push(keys::subpost_key(parent_post.id.clone(), i.to_string()))
         }
@@ -344,14 +352,13 @@ pub fn normalize_account_info(mut account_info: AccountInfo, address: String) ->
 pub fn pagination(abs_min: u64, abs_max: u64, page: u64, per_page: u64) -> Result<(u64, u64)> {
     let mut max = abs_max;
     let mut min = abs_min;
+    if max <= (per_page * (page - 1)) {
+        return Err(anyhow!(
+            "page number {} to high, not enough pages in collection",
+            page
+        ));
+    }
     if max > per_page {
-        if max <= (per_page * (page - 1)) {
-            bail!(
-                "page number {} to high, not enough pages in collection",
-                page
-            )
-        }
-
         max = max - (per_page * (page - 1));
         if max > per_page {
             min = max + 1 - per_page

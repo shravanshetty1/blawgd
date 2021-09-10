@@ -109,6 +109,10 @@ fn register_event_listeners(document: web_sys::Document, cl: VerificationClient)
                     .get_post_by_parent_post("".to_string(), state.page.clone() as u64)
                     .await
                     .unwrap();
+                if posts.len() == 0 {
+                    return;
+                }
+
                 let mut posts_html: String = String::new();
                 for post in posts {
                     posts_html = format!("{}{}", posts_html, PostComponent::new(post).to_html());

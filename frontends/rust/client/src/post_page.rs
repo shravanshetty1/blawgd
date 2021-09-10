@@ -123,6 +123,9 @@ fn register_event_listeners(
                     .get_post_by_parent_post(main_post_id.clone(), state.page.clone() as u64)
                     .await
                     .unwrap();
+                if posts.len() == 0 {
+                    return;
+                }
                 let mut posts_html: String = String::new();
                 for post in posts {
                     posts_html = format!("{}{}", posts_html, PostComponent::new(post).to_html());

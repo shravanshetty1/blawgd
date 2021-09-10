@@ -101,6 +101,9 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
                     .get_post_by_account(address.clone(), state.page.clone() as u64)
                     .await
                     .unwrap();
+                if posts.len() == 0 {
+                    return;
+                }
                 let mut posts_html: String = String::new();
                 for post in posts {
                     posts_html = format!("{}{}", posts_html, PostComponent::new(post).to_html());
