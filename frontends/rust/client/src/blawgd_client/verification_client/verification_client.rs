@@ -17,7 +17,7 @@ use tendermint::merkle::proof;
 use tendermint_light_client::supervisor::Handle;
 use wasm_bindgen::__rt::std::collections::HashMap;
 
-const PER_PAGE: u64 = 5;
+const PER_PAGE: u64 = 30;
 
 impl VerificationClient {
     pub async fn get(&self, keys: Vec<String>) -> Result<HashMap<String, Option<Vec<u8>>>> {
@@ -145,20 +145,7 @@ impl VerificationClient {
             page = 1;
         }
 
-        // pagination
-        let mut max = account_info.post_count;
-        let mut min = 1;
-        if max > PER_PAGE {
-            if max <= (PER_PAGE * (page - 1)) {
-                return Ok(Vec::new());
-            }
-
-            max = max - (PER_PAGE * (page - 1));
-            if max > PER_PAGE {
-                min = max + 1 - PER_PAGE
-            }
-        }
-
+        let (min, max) = pagination(1, account_info.post_count, page, PER_PAGE);
         for i in (min..max + 1).rev() {
             keys.push(keys::user_post_key(address.clone(), i.to_string()))
         }
@@ -194,20 +181,7 @@ impl VerificationClient {
             page = 1;
         }
 
-        // pagination
-        let mut max = parent_post.comments_count;
-        let mut min = 1;
-        if max > PER_PAGE {
-            if max <= (PER_PAGE * (page - 1)) {
-                return Ok(Vec::new());
-            }
-
-            max = max - (PER_PAGE * (page - 1));
-            if max > PER_PAGE {
-                min = max + 1 - PER_PAGE
-            }
-        }
-
+        let (min, max) = pagination(1, parent_post.comments_count, page, PER_PAGE);
         for i in (min..max + 1).rev() {
             keys.push(keys::subpost_key(parent_post.id.clone(), i.to_string()))
         }
@@ -297,7 +271,7 @@ impl VerificationClient {
         Ok(post_view)
     }
 
-    pub async fn get_timeline(&self, address: String) -> Result<Vec<PostView>> {
+    pub async fn get_timeline(&self, address: String, mut page: u64) -> Result<Vec<PostView>> {
         let followings = self.get_following_list(address).await?;
         let mut key_to_address: HashMap<String, String> = HashMap::new();
         for addr in followings.clone() {
@@ -309,6 +283,11 @@ impl VerificationClient {
             .collect();
         let account_infos = self.get_proto::<AccountInfo>(account_info_keys).await?;
         let mut user_post_keys: Vec<String> = Vec::new();
+
+        if page == 0 {
+            page = 1;
+        }
+
         for (k, info) in account_infos {
             if info.is_none() {
                 continue;
@@ -319,7 +298,12 @@ impl VerificationClient {
                 continue;
             }
 
-            for i in 1..post_count + 1 {
+            let pagination = pagination(1, post_count, page, 5);
+            if pagination.is_err() {
+                continue;
+            }
+            let (min, max) = pagination?;
+            for i in min..max + 1 {
                 user_post_keys.push(keys::user_post_key(
                     key_to_address
                         .get(&k.clone())
@@ -355,4 +339,24 @@ pub fn normalize_account_info(mut account_info: AccountInfo, address: String) ->
         account_info.name = format!("anon{}", name_suffix);
     }
     account_info
+}
+
+pub fn pagination(abs_min: u64, abs_max: u64, page: u64, per_page: u64) -> Result<(u64, u64)> {
+    let mut max = abs_max;
+    let mut min = abs_min;
+    if max > per_page {
+        if max <= (per_page * (page - 1)) {
+            bail!(
+                "page number {} to high, not enough pages in collection",
+                page
+            )
+        }
+
+        max = max - (per_page * (page - 1));
+        if max > per_page {
+            min = max + 1 - per_page
+        }
+    };
+
+    Ok((min, max))
 }
