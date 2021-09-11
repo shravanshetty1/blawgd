@@ -10,7 +10,42 @@ import (
 	"github.com/shravanshetty1/blawgd/backends/cosmos/pkg/modules/blawgd/types"
 )
 
+func (k *Keeper) Repost(ctx sdk.Context, msg *types.MsgRepost) error {
+	post, err := k.GetPost(ctx, msg.PostId)
+	if err != nil {
+		return err
+	}
+
+	if post.Creator == "" {
+		return fmt.Errorf("post %v does not exist", msg.PostId)
+	}
+
+	var repost types.Post
+	if post.RepostParent != nil {
+		repost = *post.RepostParent
+	} else {
+		repost = post
+	}
+
+	err = k.CreatePost(ctx, &types.NewPost{
+		Creator:      msg.Creator,
+		RepostParent: &repost,
+	})
+	if err != nil {
+		return err
+	}
+
+	post.RepostCount += 1
+	return k.SetPost(ctx, msg.PostId, post)
+}
+
 func (k *Keeper) CreatePost(ctx sdk.Context, newPost *types.NewPost) error {
+	if newPost.RepostParent != nil {
+		if newPost.RepostParent.RepostParent != nil {
+			return fmt.Errorf("cannot repost a repost")
+		}
+	}
+
 	store := ctx.KVStore(k.storeKey)
 	postCountRaw := store.Get(types.PostCountKey())
 	if len(postCountRaw) < 1 {

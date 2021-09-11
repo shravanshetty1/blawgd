@@ -35,6 +35,10 @@ pub struct PostView {
     pub comments_count: u64,
     #[prost(uint64, tag = "6")]
     pub like_count: u64,
+    #[prost(uint64, tag = "7")]
+    pub repost_count: u64,
+    #[prost(message, optional, boxed, tag = "8")]
+    pub repost_parent: ::core::option::Option<::prost::alloc::boxed::Box<PostView>>,
 }
 // Models
 
@@ -52,8 +56,10 @@ pub struct Post {
     pub comments_count: u64,
     #[prost(uint64, tag = "6")]
     pub like_count: u64,
-    #[prost(string, tag = "7")]
-    pub repost_parent: ::prost::alloc::string::String,
+    #[prost(uint64, tag = "7")]
+    pub repost_count: u64,
+    #[prost(message, optional, boxed, tag = "8")]
+    pub repost_parent: ::core::option::Option<::prost::alloc::boxed::Box<Post>>,
 }
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct AccountInfo {

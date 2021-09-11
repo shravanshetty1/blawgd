@@ -23,10 +23,6 @@ func (k *Keeper) NewAnteHandler(inner sdk.AnteHandler) sdk.AnteHandler {
 					return ctx, fmt.Errorf("post does not exist")
 				}
 
-				if post.RepostParent != "" {
-					return ctx, fmt.Errorf("cannot repost a repost")
-				}
-
 			case *types.MsgLikePost:
 				msg, _ := m.(*types.MsgLikePost)
 				post, err := k.GetPost(ctx, msg.PostId)

@@ -32,6 +32,8 @@ message PostView {
   string parent_post = 4;
   uint64 comments_count = 5;
   uint64 like_count = 6;
+  uint64 repost_count = 7;
+  PostView repost_parent = 8;
 }
 
 // Models
@@ -43,7 +45,8 @@ message Post {
   string parent_post = 4;
   uint64 comments_count = 5;
   uint64 like_count = 6;
-  string repost_parent = 7;
+  uint64 repost_count = 7;
+  Post repost_parent = 8;
 }
 
 message AccountInfo {

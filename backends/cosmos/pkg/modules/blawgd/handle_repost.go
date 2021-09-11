@@ -7,10 +7,7 @@ import (
 )
 
 func handleMsgRepost(ctx sdk.Context, k keeper.Keeper, msg *types.MsgRepost) (*sdk.Result, error) {
-	err := k.CreatePost(ctx, &types.NewPost{
-		Creator:      msg.Creator,
-		RepostParent: msg.PostId,
-	})
+	err := k.Repost(ctx, msg)
 
 	return &sdk.Result{Events: ctx.EventManager().ABCIEvents()}, err
 }

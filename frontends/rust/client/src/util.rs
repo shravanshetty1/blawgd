@@ -1,6 +1,6 @@
 use crate::blawgd_client::verification_client::VerificationClient;
 use crate::blawgd_client::{
-    query_client::QueryClient as BlawgdClient, AccountInfo, MsgLikePost, PostView,
+    query_client::QueryClient as BlawgdClient, AccountInfo, MsgLikePost, MsgRepost, PostView,
 };
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::{
@@ -21,6 +21,7 @@ pub const MSG_TYPE_CREATE_POST: &str = "/blawgd.MsgCreatePost";
 pub const MSG_TYPE_FOLLOW: &str = "/blawgd.MsgFollow";
 pub const MSG_TYPE_STOP_FOLLOW: &str = "/blawgd.MsgStopFollow";
 pub const MSG_TYPE_LIKE: &str = "/blawgd.MsgLikePost";
+pub const MSG_TYPE_REPOST: &str = "/blawgd.MsgRepost";
 pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str = "/blawgd.MsgUpdateAccountInfo";
 pub const ADDRESS_HRP: &str = "cosmos";
 pub const TENDERMINT_HOST: &str = "http://localhost:26657";
@@ -196,11 +197,16 @@ pub fn register_post_event_listener(
         .unwrap();
     let like_button_id = format!("post-{}-like-content", post.id);
     let like_button = document.get_element_by_id(like_button_id.as_str()).unwrap();
+
+    let client1 = client.clone();
+    let wallet1 = wallet.clone();
+    let address1 = address.clone();
+    let post1 = post.clone();
     events::EventListener::new(&like_button_wrapper, "click", move |_| {
-        let address = address.clone();
-        let post = post.clone();
-        let wallet = wallet.clone();
-        let client = client.clone();
+        let address = address1.clone();
+        let post = post1.clone();
+        let wallet = wallet1.clone();
+        let client = client1.clone();
 
         let like_button_text: String = like_button.inner_html();
         let likes_count_text = like_button_text
@@ -220,6 +226,47 @@ pub fn register_post_event_listener(
                     creator: address,
                     post_id: post.id,
                     amount: 1,
+                },
+                BroadcastMode::Sync as i32,
+            )
+            .await;
+
+            console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str())
+        });
+    })
+    .forget();
+
+    let repost_button_wrapper_id = format!("post-{}-repost", post.id);
+    let repost_button_wrapper = document
+        .get_element_by_id(repost_button_wrapper_id.as_str())
+        .unwrap();
+    let repost_button_id = format!("post-{}-repost-content", post.id);
+    let repost_button = document
+        .get_element_by_id(repost_button_id.as_str())
+        .unwrap();
+    events::EventListener::new(&repost_button_wrapper, "click", move |_| {
+        let address = address.clone();
+        let post = post.clone();
+        let wallet = wallet.clone();
+        let client = client.clone();
+
+        let repost_button_text: String = repost_button.inner_html();
+        let repost_count_text = repost_button_text
+            .strip_suffix(" Reposts")
+            .unwrap_or("0")
+            .to_string();
+        let mut repost_count = repost_count_text.parse::<i32>().unwrap_or(0);
+        repost_count += 1;
+        repost_button.set_inner_html(format!("{} Reposts", repost_count).as_str());
+
+        wasm_bindgen_futures::spawn_local(async move {
+            let resp = broadcast_tx(
+                &wallet,
+                client,
+                MSG_TYPE_REPOST,
+                MsgRepost {
+                    creator: address,
+                    post_id: post.id,
                 },
                 BroadcastMode::Sync as i32,
             )

@@ -4,7 +4,7 @@ type NewPost struct {
 	Creator      string
 	Content      string
 	ParentPost   string
-	RepostParent string
+	RepostParent *Post
 }
 
 const MAX_FOLLOWING_COUNT = 250

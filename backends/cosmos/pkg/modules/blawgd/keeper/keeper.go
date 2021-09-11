@@ -73,6 +73,11 @@ func (k *Keeper) GetPost(ctx sdk.Context, id string) (types.Post, error) {
 
 func (k *Keeper) SetPost(ctx sdk.Context, id string, post types.Post) error {
 	store := ctx.KVStore(k.storeKey)
+	if post.RepostParent != nil {
+		if post.RepostParent.RepostParent != nil {
+			return fmt.Errorf("cannot repost a repost - post %v", post.Id)
+		}
+	}
 	post.Id = id
 	postRaw, err := k.cdc.Marshal(&post)
 	if err != nil {

@@ -261,6 +261,16 @@ a {
     flex-direction: row;
 }
 
+.post-component-header {
+    padding-left: 0.75rem;
+    padding-top: 0.75rem;
+}
+
+.post-component-header:hover{
+    cursor: pointer;
+    text-decoration: underline;
+}
+
 .post-component-bar-button {
     border: 1px solid black;
     width: 33%;

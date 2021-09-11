@@ -217,49 +217,24 @@ impl VerificationClient {
             .map(|p| p.clone().ok_or(anyhow!("could not get post")))
             .collect();
         let posts = posts?;
-        let account_infos = self
-            .get_proto::<AccountInfo>(
-                posts
-                    .clone()
-                    .iter()
-                    .map(|v| keys::account_info_key(v.creator.clone()))
-                    .collect(),
-            )
-            .await?;
-        let mut post_views: Vec<PostView> = posts
+        let mut account_info_keys = Vec::new();
+        for post in posts.clone() {
+            account_info_keys.push(keys::account_info_key(post.creator.clone()));
+            if post.repost_parent.is_some() {
+                account_info_keys.push(keys::account_info_key(
+                    post.repost_parent.unwrap().creator.clone(),
+                ))
+            }
+        }
+        let account_infos: HashMap<String, AccountInfo> = self
+            .get_proto::<AccountInfo>(account_info_keys)
+            .await?
             .iter()
-            .map(|p| {
-                let p = p.clone();
-                let account_info = account_infos
-                    .get(&keys::account_info_key(p.creator.clone()))
-                    .cloned()
-                    .unwrap_or(Some(AccountInfo {
-                        address: "".to_string(),
-                        name: "".to_string(),
-                        photo: "".to_string(),
-                        following_count: 0,
-                        followers_count: 0,
-                        post_count: 0,
-                    }))
-                    .unwrap_or(AccountInfo {
-                        address: "".to_string(),
-                        name: "".to_string(),
-                        photo: "".to_string(),
-                        following_count: 0,
-                        followers_count: 0,
-                        post_count: 0,
-                    });
-                let account_info = normalize_account_info(account_info, p.creator.clone());
-                PostView {
-                    id: p.id,
-                    creator: Some(account_info),
-                    content: p.content,
-                    parent_post: p.parent_post,
-                    comments_count: p.comments_count,
-                    like_count: p.like_count,
-                }
-            })
+            .filter(|(k, v)| v.is_some())
+            .map(|(k, v)| (k.clone(), v.as_ref().unwrap().clone()))
             .collect();
+
+        let mut post_views = postsToPostViews(account_infos, posts);
 
         post_views.sort_by(|a, b| {
             let id1: u64 = a.id.parse().unwrap_or(0);
@@ -336,6 +311,68 @@ impl VerificationClient {
 
         self.get_posts(post_keys?).await
     }
+}
+
+pub fn postsToPostViews(
+    account_infos: HashMap<String, AccountInfo>,
+    posts: Vec<Post>,
+) -> Vec<PostView> {
+    let mut post_views: Vec<PostView> = Vec::new();
+    for p in posts {
+        let p = p.clone();
+        let account_info = account_infos
+            .get(&keys::account_info_key(p.creator.clone()))
+            .cloned()
+            .unwrap_or(AccountInfo {
+                address: "".to_string(),
+                name: "".to_string(),
+                photo: "".to_string(),
+                following_count: 0,
+                followers_count: 0,
+                post_count: 0,
+            });
+        let account_info = normalize_account_info(account_info, p.creator.clone());
+
+        let mut repost_parent_view: Option<Box<PostView>> = None;
+        if p.repost_parent.is_some() {
+            let p = p.repost_parent.unwrap().clone();
+            let account_info = account_infos
+                .get(&keys::account_info_key(p.creator.clone()))
+                .cloned()
+                .unwrap_or(AccountInfo {
+                    address: "".to_string(),
+                    name: "".to_string(),
+                    photo: "".to_string(),
+                    following_count: 0,
+                    followers_count: 0,
+                    post_count: 0,
+                });
+            let account_info = normalize_account_info(account_info, p.creator.clone());
+            repost_parent_view = Some(Box::new(PostView {
+                id: p.id,
+                creator: Some(account_info),
+                content: p.content,
+                parent_post: p.parent_post,
+                comments_count: p.comments_count,
+                like_count: p.like_count,
+                repost_count: p.repost_count,
+                repost_parent: None,
+            }))
+        }
+
+        post_views.push(PostView {
+            id: p.id,
+            creator: Some(account_info),
+            content: p.content,
+            parent_post: p.parent_post,
+            comments_count: p.comments_count,
+            like_count: p.like_count,
+            repost_count: p.repost_count,
+            repost_parent: repost_parent_view,
+        })
+    }
+
+    post_views
 }
 
 pub fn normalize_account_info(mut account_info: AccountInfo, address: String) -> AccountInfo {

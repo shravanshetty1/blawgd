@@ -8,10 +8,9 @@ import (
 
 func handleMsgCreatePost(ctx sdk.Context, k keeper.Keeper, msg *types.MsgCreatePost) (*sdk.Result, error) {
 	err := k.CreatePost(ctx, &types.NewPost{
-		Creator:      msg.Creator,
-		Content:      msg.Content,
-		ParentPost:   msg.ParentPost,
-		RepostParent: "",
+		Creator:    msg.Creator,
+		Content:    msg.Content,
+		ParentPost: msg.ParentPost,
 	})
 	if err != nil {
 		return nil, err
