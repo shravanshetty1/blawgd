@@ -6,5 +6,5 @@ MNEMONIC="voice salt fortune fork draw endless figure layer need begin trouble u
 VAL_HOME=./backends/cosmos/node-configs/gen-val
 
 (./scripts/codegen/main.sh)
-(cd ./frontends/rust/client; wasm-pack build --target web --out-dir ../server/dst;)
+(cd ./frontends/rust/client; wasm-pack build --target web --dev --out-dir ../server/dst;)
 (trap 'kill 0' SIGINT; (./backends/cosmos/scripts/network/genesis-validator/run/main.sh $VAL_HOME) & (cd ./backends/cosmos/cmd/faucet; cargo run "$MNEMONIC" "http://localhost:9090") & (go run ./frontends/rust/server/main.go))
