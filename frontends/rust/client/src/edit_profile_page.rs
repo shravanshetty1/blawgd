@@ -6,6 +6,7 @@ use crate::components::nav_bar::NavBar;
 use crate::components::Component;
 use crate::{blawgd_client, util};
 use anyhow::Result;
+use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 use wasm_bindgen::JsCast;
 
@@ -145,6 +146,7 @@ fn register_event_listeners(document: &web_sys::Document, cl: VerificationClient
                 client.clone(),
                 util::MSG_TYPE_UPDATE_ACCOUNT_INFO,
                 msg,
+                BroadcastMode::Block as i32,
             )
             .await;
             window.location().reload();

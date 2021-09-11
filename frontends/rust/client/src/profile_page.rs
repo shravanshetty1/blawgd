@@ -12,6 +12,7 @@ use crate::blawgd_client::verification_client::VerificationClient;
 use crate::state::{get_state, set_state};
 use anyhow::Context;
 use anyhow::Result;
+use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 
 pub async fn handle(cl: VerificationClient) -> Result<()> {
@@ -149,6 +150,7 @@ fn register_event_listeners(document: &web_sys::Document, address: String, cl: V
                     client.clone(),
                     msg_type,
                     msg,
+                    BroadcastMode::Block as i32,
                 )
                 .await;
             } else {
@@ -162,6 +164,7 @@ fn register_event_listeners(document: &web_sys::Document, address: String, cl: V
                     client.clone(),
                     msg_type,
                     msg,
+                    BroadcastMode::Block as i32,
                 )
                 .await;
             }

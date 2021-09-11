@@ -256,6 +256,7 @@ impl VerificationClient {
                     content: p.content,
                     parent_post: p.parent_post,
                     comments_count: p.comments_count,
+                    like_count: p.like_count,
                 }
             })
             .collect();

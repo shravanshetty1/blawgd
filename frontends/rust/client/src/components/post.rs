@@ -51,9 +51,9 @@ impl super::Component for PostComponent {
                 </div>
             </div>
             <div class="post-component-bar">
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Like</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Retweet</div></div>
-                <a href="/post/{}" class="post-component-bar-button"><div class="post-component-bar-button-content">Comment</div></a>
+                <div id="post-{}-like" class="post-component-bar-button"><div id="post-{}-like-content" class="post-component-bar-button-content">{} Likes</div></div>
+                <div class="post-component-bar-button"><div class="post-component-bar-button-content">{} Reposts</div></div>
+                <a href="/post/{}" class="post-component-bar-button"><div class="post-component-bar-button-content">{} Comments</div></a>
             </div>
         </div>"#,
             post_header,
@@ -64,7 +64,12 @@ impl super::Component for PostComponent {
             account_info.address,
             post_text_class,
             self.post.content,
-            self.post.id
+            self.post.id,
+            self.post.id,
+            self.post.like_count,
+            0,
+            self.post.id,
+            self.post.comments_count
         ))
     }
 }

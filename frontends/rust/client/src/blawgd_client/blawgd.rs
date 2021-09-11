@@ -33,6 +33,8 @@ pub struct PostView {
     pub parent_post: ::prost::alloc::string::String,
     #[prost(uint64, tag = "5")]
     pub comments_count: u64,
+    #[prost(uint64, tag = "6")]
+    pub like_count: u64,
 }
 // Models
 

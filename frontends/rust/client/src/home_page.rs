@@ -8,8 +8,10 @@ use crate::components::post_creator::PostCreator;
 use crate::components::Component;
 use crate::state::{get_state, set_state, State};
 use crate::util;
+use crate::util::{get_wallet, register_post_event_listener};
 use anyhow::Result;
 use anyhow::{anyhow, Context};
+use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 use wasm_bindgen::JsCast;
 
@@ -24,7 +26,7 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
         .await
         .context("failed to get posts for home")?;
     let mut boxed_posts: Vec<Box<dyn Component>> = Vec::new();
-    for post in posts {
+    for post in posts.clone() {
         boxed_posts.push(PostComponent::new(post))
     }
 
@@ -43,8 +45,15 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     body.set_inner_html(&comp.to_html());
 
     if account_info.is_some() {
-        register_event_listeners(document.clone(), cl.clone());
+        let address = account_info.clone().unwrap().address;
+        let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
+        let wallet = get_wallet(&storage).unwrap();
+        for post in posts {
+            register_post_event_listener(wallet.clone(), client.clone(), address.clone(), post)
+        }
     }
+
+    register_event_listeners(document.clone(), cl.clone());
 
     Ok(())
 }
@@ -75,9 +84,15 @@ fn register_event_listeners(document: web_sys::Document, cl: VerificationClient)
 
             let wallet = util::get_wallet(&storage).unwrap();
             let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
-            let resp = util::broadcast_tx(&wallet, client, util::MSG_TYPE_CREATE_POST, msg)
-                .await
-                .into_inner();
+            let resp = util::broadcast_tx(
+                &wallet,
+                client,
+                util::MSG_TYPE_CREATE_POST,
+                msg,
+                BroadcastMode::Block as i32,
+            )
+            .await
+            .into_inner();
 
             util::console_log(resp.tx_response.unwrap().raw_log.as_str());
 

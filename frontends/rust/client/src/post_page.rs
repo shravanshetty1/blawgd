@@ -9,6 +9,7 @@ use crate::components::Component;
 use crate::state::{get_state, set_state};
 use crate::util;
 use anyhow::Result;
+use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 use wasm_bindgen::JsCast;
 
@@ -93,7 +94,14 @@ fn register_event_listeners(
 
             let wallet = util::get_wallet(&storage).unwrap();
             let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
-            util::broadcast_tx(&wallet, client, util::MSG_TYPE_CREATE_POST, msg).await;
+            util::broadcast_tx(
+                &wallet,
+                client,
+                util::MSG_TYPE_CREATE_POST,
+                msg,
+                BroadcastMode::Block as i32,
+            )
+            .await;
             window.location().reload();
         });
     })

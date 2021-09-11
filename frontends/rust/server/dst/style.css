@@ -272,6 +272,7 @@ a {
 .post-component-bar-button:hover{
     color: white;
     background-color: black;
+    cursor: pointer;
 }
 
 .post-component-bar-button-content {

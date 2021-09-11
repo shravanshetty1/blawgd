@@ -1,5 +1,7 @@
 use crate::blawgd_client::verification_client::VerificationClient;
-use crate::blawgd_client::{query_client::QueryClient as BlawgdClient, AccountInfo};
+use crate::blawgd_client::{
+    query_client::QueryClient as BlawgdClient, AccountInfo, MsgLikePost, PostView,
+};
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::{
     auth::v1beta1::query_client::QueryClient,
@@ -9,6 +11,7 @@ use cosmos_sdk_proto::cosmos::{
 };
 use crw_client::tx::TxBuilder;
 use crw_wallet::crypto::MnemonicWallet;
+use gloo::events;
 use wasm_bindgen::JsValue;
 
 pub const COSMOS_DP: &str = "m/44'/118'/0'/0/0";
@@ -17,6 +20,7 @@ pub const GRPC_WEB_ADDRESS: &str = "http://localhost:9091";
 pub const MSG_TYPE_CREATE_POST: &str = "/blawgd.MsgCreatePost";
 pub const MSG_TYPE_FOLLOW: &str = "/blawgd.MsgFollow";
 pub const MSG_TYPE_STOP_FOLLOW: &str = "/blawgd.MsgStopFollow";
+pub const MSG_TYPE_LIKE: &str = "/blawgd.MsgLikePost";
 pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str = "/blawgd.MsgUpdateAccountInfo";
 pub const ADDRESS_HRP: &str = "cosmos";
 pub const TENDERMINT_HOST: &str = "http://localhost:26657";
@@ -141,6 +145,7 @@ pub async fn broadcast_tx<M: prost::Message>(
     client: grpc_web_client::Client,
     msg_type: &str,
     msg: M,
+    mode: i32,
 ) -> tonic::Response<BroadcastTxResponse> {
     let acc_resp = QueryClient::new(client.clone())
         .account(QueryAccountRequest {
@@ -166,7 +171,7 @@ pub async fn broadcast_tx<M: prost::Message>(
     let resp = ServiceClient::new(client)
         .broadcast_tx(BroadcastTxRequest {
             tx_bytes: tx_raw,
-            mode: BroadcastMode::Block as i32,
+            mode,
         })
         .await
         .unwrap();
@@ -175,4 +180,53 @@ pub async fn broadcast_tx<M: prost::Message>(
     gloo::timers::future::TimeoutFuture::new(800).await;
 
     resp
+}
+
+pub fn register_post_event_listener(
+    wallet: MnemonicWallet,
+    client: grpc_web_client::Client,
+    address: String,
+    post: PostView,
+) {
+    let window = web_sys::window().unwrap();
+    let document = window.document().expect("document missing");
+    let like_button_wrapper_id = format!("post-{}-like", post.id);
+    let like_button_wrapper = document
+        .get_element_by_id(like_button_wrapper_id.as_str())
+        .unwrap();
+    let like_button_id = format!("post-{}-like-content", post.id);
+    let like_button = document.get_element_by_id(like_button_id.as_str()).unwrap();
+    events::EventListener::new(&like_button_wrapper, "click", move |_| {
+        let address = address.clone();
+        let post = post.clone();
+        let wallet = wallet.clone();
+        let client = client.clone();
+
+        let like_button_text: String = like_button.inner_html();
+        let likes_count_text = like_button_text
+            .strip_suffix(" Likes")
+            .unwrap_or("0")
+            .to_string();
+        let mut likes_count = likes_count_text.parse::<i32>().unwrap_or(0);
+        likes_count += 1;
+        like_button.set_inner_html(format!("{} Likes", likes_count).as_str());
+
+        wasm_bindgen_futures::spawn_local(async move {
+            let resp = broadcast_tx(
+                &wallet,
+                client,
+                MSG_TYPE_LIKE,
+                MsgLikePost {
+                    creator: address,
+                    post_id: post.id,
+                    amount: 1,
+                },
+                BroadcastMode::Sync as i32,
+            )
+            .await;
+
+            console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str())
+        });
+    })
+    .forget();
 }

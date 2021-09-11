@@ -31,6 +31,7 @@ message PostView {
   string content = 3;
   string parent_post = 4;
   uint64 comments_count = 5;
+  uint64 like_count = 6;
 }
 
 // Models
