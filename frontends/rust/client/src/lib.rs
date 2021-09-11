@@ -15,6 +15,7 @@ mod login_page;
 mod post_page;
 mod profile_page;
 mod state;
+mod storage;
 mod timeline_page;
 mod util;
 
