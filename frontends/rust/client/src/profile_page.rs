@@ -9,6 +9,7 @@ use crate::{
 };
 
 use crate::blawgd_client::verification_client::VerificationClient;
+use crate::config::HOST_NAME;
 use crate::state::{get_state, set_state};
 use anyhow::Context;
 use anyhow::Result;
@@ -23,7 +24,7 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     let url: String = window.location().href().unwrap();
     let address = url
         .as_str()
-        .strip_prefix(format!("{}/profile/", util::HOST_NAME).as_str())
+        .strip_prefix(format!("{}/profile/", HOST_NAME).as_str())
         .unwrap()
         .to_string();
 
@@ -133,7 +134,7 @@ fn register_event_listeners(document: &web_sys::Document, address: String, cl: V
             let window = web_sys::window().unwrap();
             let document = window.document().unwrap();
             let storage = window.local_storage().unwrap().unwrap();
-            let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
+            let client = grpc_web_client::Client::new(crate::config::GRPC_WEB_ADDRESS.into());
 
             let session_address = util::get_stored_data(&storage).unwrap().address;
             if util::is_following(cl.clone(), session_address.clone(), address.clone())

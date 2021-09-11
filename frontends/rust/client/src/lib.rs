@@ -25,7 +25,7 @@ pub fn main() -> Result<(), JsValue> {
     // TODO should not refresh page when visiting another page
 
     wasm_bindgen_futures::spawn_local(async move {
-        let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
+        let client = grpc_web_client::Client::new(crate::config::GRPC_WEB_ADDRESS.into());
 
         let mut supervisor = light_client::new_supervisor(client.clone()).await;
         let light_client = supervisor.handle();
@@ -40,7 +40,7 @@ pub fn main() -> Result<(), JsValue> {
         let url: String = web_sys::window().unwrap().location().href().unwrap();
         let url_path = url
             .as_str()
-            .strip_prefix(format!("{}/", util::HOST_NAME).as_str())
+            .strip_prefix(format!("{}/", crate::config::HOST_NAME).as_str())
             .unwrap();
 
         let result = match url_path {

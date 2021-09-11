@@ -90,12 +90,16 @@ fn register_event_listeners(document: &web_sys::Document, account_info: &Option<
                 .get_bech32_address("cosmos")
                 .unwrap();
 
-            let resp = reqwest::get(&format!("{}/?address={}", util::FAUCET_ADDR, address))
-                .await
-                .unwrap()
-                .text()
-                .await
-                .unwrap();
+            let resp = reqwest::get(&format!(
+                "{}/?address={}",
+                crate::config::FAUCET_ADDR,
+                address
+            ))
+            .await
+            .unwrap()
+            .text()
+            .await
+            .unwrap();
             util::console_log(resp.as_str());
 
             util::set_stored_data(&storage, StoredData { mnemonic, address });

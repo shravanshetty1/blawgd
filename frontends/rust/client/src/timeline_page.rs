@@ -81,7 +81,7 @@ fn register_event_listeners(document: &web_sys::Document, address: String, cl: V
             };
 
             let wallet = util::get_wallet(&storage).unwrap();
-            let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
+            let client = grpc_web_client::Client::new(crate::config::GRPC_WEB_ADDRESS.into());
             util::broadcast_tx(
                 &wallet,
                 client,

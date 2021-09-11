@@ -20,7 +20,7 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
 
     let account_info = util::get_session_account_info(&storage, cl.clone()).await;
     if account_info.is_none() {
-        window.location().replace(util::HOST_NAME);
+        window.location().replace(crate::config::HOST_NAME);
     }
 
     let account_info_comp = AccountInfoComp::new(account_info.clone().unwrap());
@@ -140,7 +140,7 @@ fn register_event_listeners(document: &web_sys::Document, cl: VerificationClient
             };
 
             let wallet = util::get_wallet(&storage).unwrap();
-            let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
+            let client = grpc_web_client::Client::new(crate::config::GRPC_WEB_ADDRESS.into());
             util::broadcast_tx(
                 &wallet,
                 client.clone(),

@@ -46,7 +46,7 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
 
     if account_info.is_some() {
         let address = account_info.clone().unwrap().address;
-        let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
+        let client = grpc_web_client::Client::new(crate::config::GRPC_WEB_ADDRESS.into());
         let wallet = get_wallet(&storage).unwrap();
         for post in posts {
             register_post_event_listener(wallet.clone(), client.clone(), address.clone(), post)
@@ -83,7 +83,7 @@ fn register_event_listeners(document: web_sys::Document, cl: VerificationClient)
             };
 
             let wallet = util::get_wallet(&storage).unwrap();
-            let client = grpc_web_client::Client::new(util::GRPC_WEB_ADDRESS.into());
+            let client = grpc_web_client::Client::new(crate::config::GRPC_WEB_ADDRESS.into());
             let resp = util::broadcast_tx(
                 &wallet,
                 client,

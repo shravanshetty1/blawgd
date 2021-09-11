@@ -38,8 +38,8 @@ pub async fn new_supervisor(
     let instance = make_instance(peer_id).await;
     let instance2 = make_instance(peer_id).await;
     let (instances, addresses) = tendermint_light_client::builder::SupervisorBuilder::new()
-        .primary(peer_id, "tcp://127.0.0.1:26657".parse().unwrap(), instance)
-        .witness(peer_id, "tcp://127.0.0.1:26657".parse().unwrap(), instance2)
+        .primary(peer_id, config::TENDERMINT_HOST.parse().unwrap(), instance)
+        .witness(peer_id, config::TENDERMINT_HOST.parse().unwrap(), instance2)
         .inner();
 
     let supervisor = tendermint_light_client::supervisor::Supervisor::new(
@@ -85,8 +85,8 @@ async fn make_instance(peer_id: PeerId) -> tendermint_light_client::supervisor::
         Box::new(ProdPredicates),
     );
 
-    let mut trusted_height = config::TRUSTED_HEIGHT.to_string();
-    let mut trusted_hash = config::TRUSTED_HASH.to_string();
+    let mut trusted_height = util::TRUSTED_HEIGHT.to_string();
+    let mut trusted_hash = util::TRUSTED_HASH.to_string();
     if config::ENVIRONMENT == "dev" {
         let resp = get_block(0).await;
         trusted_height = resp.block.header.height.to_string();
@@ -125,7 +125,7 @@ impl tendermint_light_client::evidence::EvidenceReporter for EvidenceReporter {
         let resp = reqwest::get(
             format!(
                 "{}/broadcast_evidence?evidence={}",
-                util::TENDERMINT_HOST,
+                crate::config::TENDERMINT_HOST,
                 evidence
             )
             .as_str(),
@@ -158,7 +158,7 @@ async fn get_block(height: u64) -> tendermint_rpc::endpoint::block::Response {
         param = format!("?height={}", height)
     }
 
-    reqwest::get(format!("{}/block{}", util::TENDERMINT_HOST, param).as_str())
+    reqwest::get(format!("{}/block{}", crate::config::TENDERMINT_HOST, param).as_str())
         .await
         .unwrap()
         .json::<tendermint_rpc::response::Wrapper<tendermint_rpc::endpoint::block::Response>>()
@@ -174,7 +174,7 @@ async fn get_commit(height: u64) -> commit::Response {
         param = format!("?height={}", height)
     }
 
-    reqwest::get(format!("{}/commit{}", util::TENDERMINT_HOST, param).as_str())
+    reqwest::get(format!("{}/commit{}", crate::config::TENDERMINT_HOST, param).as_str())
         .await
         .unwrap()
         .json::<tendermint_rpc::response::Wrapper<commit::Response>>()
@@ -196,7 +196,12 @@ impl io::Io for LightClientIO {
         let height = signed_header.header.height.value();
 
         let validator_infos = reqwest::get(
-            format!("{}/validators?height={}", util::TENDERMINT_HOST, height).as_str(),
+            format!(
+                "{}/validators?height={}",
+                crate::config::TENDERMINT_HOST,
+                height
+            )
+            .as_str(),
         )
         .await
         .unwrap()
@@ -214,7 +219,12 @@ impl io::Io for LightClientIO {
         .unwrap();
 
         let next_validator_infos = reqwest::get(
-            format!("{}/validators?height={}", util::TENDERMINT_HOST, height + 1).as_str(),
+            format!(
+                "{}/validators?height={}",
+                crate::config::TENDERMINT_HOST,
+                height + 1
+            )
+            .as_str(),
         )
         .await
         .unwrap()

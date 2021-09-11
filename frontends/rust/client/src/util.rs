@@ -15,8 +15,6 @@ use gloo::events;
 use wasm_bindgen::JsValue;
 
 pub const COSMOS_DP: &str = "m/44'/118'/0'/0/0";
-pub const HOST_NAME: &str = "http://localhost:2341";
-pub const GRPC_WEB_ADDRESS: &str = "http://localhost:9091";
 pub const MSG_TYPE_CREATE_POST: &str = "/blawgd.MsgCreatePost";
 pub const MSG_TYPE_FOLLOW: &str = "/blawgd.MsgFollow";
 pub const MSG_TYPE_STOP_FOLLOW: &str = "/blawgd.MsgStopFollow";
@@ -24,8 +22,9 @@ pub const MSG_TYPE_LIKE: &str = "/blawgd.MsgLikePost";
 pub const MSG_TYPE_REPOST: &str = "/blawgd.MsgRepost";
 pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str = "/blawgd.MsgUpdateAccountInfo";
 pub const ADDRESS_HRP: &str = "cosmos";
-pub const TENDERMINT_HOST: &str = "http://localhost:26657";
-pub const FAUCET_ADDR: &str = "http://localhost:2342";
+
+pub const TRUSTED_HEIGHT: &str = "13284";
+pub const TRUSTED_HASH: &str = "C34D2576BF6CB817706D5C6FED9D9C5BBEEBFF255D33E860EC0A95B3809FD267";
 
 // TODO this is bad
 pub struct StoredData {
