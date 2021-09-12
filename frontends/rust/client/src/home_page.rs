@@ -1,4 +1,3 @@
-use crate::blawgd_client::query_client::QueryClient as BlawgdQueryClient;
 use crate::blawgd_client::verification_client::VerificationClient;
 use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::home_page::HomePage;
@@ -6,11 +5,11 @@ use crate::components::nav_bar::NavBar;
 use crate::components::post::PostComponent;
 use crate::components::post_creator::PostCreator;
 use crate::components::Component;
-use crate::state::{get_state, set_state, State};
+use crate::state::{get_state, set_state};
 use crate::util;
 use crate::util::{get_wallet, register_post_event_listener};
+use anyhow::Context;
 use anyhow::Result;
-use anyhow::{anyhow, Context};
 use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 use wasm_bindgen::JsCast;

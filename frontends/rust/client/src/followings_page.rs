@@ -1,8 +1,7 @@
 use crate::blawgd_client::verification_client::VerificationClient;
 use crate::{
-    blawgd_client, components::blawgd_html::BlawgdHTMLDoc,
-    components::followings_page::FollowingsPage, components::nav_bar::NavBar,
-    components::Component, util,
+    components::blawgd_html::BlawgdHTMLDoc, components::followings_page::FollowingsPage,
+    components::nav_bar::NavBar, components::Component, util,
 };
 use anyhow::Result;
 

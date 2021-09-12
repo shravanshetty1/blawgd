@@ -1,7 +1,5 @@
 use crate::blawgd_client::verification_client::VerificationClient;
-use crate::blawgd_client::{
-    query_client::QueryClient as BlawgdClient, AccountInfo, MsgLikePost, MsgRepost, PostView,
-};
+use crate::blawgd_client::{AccountInfo, MsgLikePost, MsgRepost, PostView};
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::{
     auth::v1beta1::query_client::QueryClient,

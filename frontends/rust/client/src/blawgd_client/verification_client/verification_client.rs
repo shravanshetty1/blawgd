@@ -1,19 +1,10 @@
 use super::keys;
 use super::VerificationClient;
-use crate::blawgd_client::verification_client::helpers::{
-    convert_tm_to_ics_merkle_proof, get_exist_proof,
-};
+use crate::blawgd_client::verification_client::helpers::convert_tm_to_ics_merkle_proof;
 use crate::blawgd_client::verification_client::proof::{verify_membership, verify_non_membership};
 use crate::blawgd_client::{query_client, AccountInfo, GetRequest, Post, PostView};
-use anyhow::bail;
-use anyhow::ensure;
+use anyhow::anyhow;
 use anyhow::Result;
-use anyhow::{anyhow, Context};
-use hex;
-use prost::DecodeError;
-use std::convert::TryInto;
-use std::error::Error;
-use tendermint::merkle::proof;
 use tendermint_light_client::supervisor::Handle;
 use wasm_bindgen::__rt::std::collections::HashMap;
 
@@ -49,9 +40,9 @@ impl VerificationClient {
                 .get(&key)
                 .ok_or(anyhow!("did not get proof for key {}", key))?
                 .clone();
-            let mut proof: tendermint_proto::crypto::ProofOps =
+            let proof: tendermint_proto::crypto::ProofOps =
                 prost::Message::decode(proof.as_slice())?;
-            let mut proof = convert_tm_to_ics_merkle_proof(proof)?;
+            let proof = convert_tm_to_ics_merkle_proof(proof)?;
 
             if val.is_empty() {
                 verify_non_membership(proof, root.as_slice(), key.as_bytes())?;
@@ -234,7 +225,7 @@ impl VerificationClient {
             .map(|(k, v)| (k.clone(), v.as_ref().unwrap().clone()))
             .collect();
 
-        let mut post_views = postsToPostViews(account_infos, posts);
+        let mut post_views = posts_to_post_views(account_infos, posts);
 
         post_views.sort_by(|a, b| {
             let id1: u64 = a.id.parse().unwrap_or(0);
@@ -313,14 +304,14 @@ impl VerificationClient {
     }
 }
 
-pub fn postsToPostViews(
+pub fn posts_to_post_views(
     account_infos: HashMap<String, AccountInfo>,
     posts: Vec<Post>,
 ) -> Vec<PostView> {
     let mut post_views: Vec<PostView> = Vec::new();
     for p in posts {
         let p = p.clone();
-        let account_info = account_infos
+        let mut account_info = account_infos
             .get(&keys::account_info_key(p.creator.clone()))
             .cloned()
             .unwrap_or(AccountInfo {
@@ -331,12 +322,14 @@ pub fn postsToPostViews(
                 followers_count: 0,
                 post_count: 0,
             });
-        let account_info = normalize_account_info(account_info, p.creator.clone());
+        if !p.creator.is_empty() {
+            account_info = normalize_account_info(account_info, p.creator.clone());
+        }
 
         let mut repost_parent_view: Option<Box<PostView>> = None;
         if p.repost_parent.is_some() {
             let p = p.repost_parent.unwrap().clone();
-            let account_info = account_infos
+            let mut account_info = account_infos
                 .get(&keys::account_info_key(p.creator.clone()))
                 .cloned()
                 .unwrap_or(AccountInfo {
@@ -347,7 +340,9 @@ pub fn postsToPostViews(
                     followers_count: 0,
                     post_count: 0,
                 });
-            let account_info = normalize_account_info(account_info, p.creator.clone());
+            if !p.creator.is_empty() {
+                account_info = normalize_account_info(account_info, p.creator.clone());
+            }
             repost_parent_view = Some(Box::new(PostView {
                 id: p.id,
                 creator: Some(account_info),

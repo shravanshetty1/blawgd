@@ -1,5 +1,4 @@
 use crate::blawgd_client::PostView;
-use crate::util;
 
 pub struct PostComponent {
     post: PostView,

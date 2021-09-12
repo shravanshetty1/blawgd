@@ -3,23 +3,27 @@ use std::time::Duration;
 use async_trait::async_trait;
 use contracts::contract_trait;
 use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::service_client::ServiceClient as base_client;
-use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::{
-    GetLatestBlockRequest, GetNodeInfoRequest,
-};
+use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::GetNodeInfoRequest;
 
 use tendermint::{abci::transaction::Hash, evidence::Evidence, Time};
 
 use tendermint_light_client::{
-    components::io, components::io::IoError, components::scheduler,
-    components::verifier::ProdVerifier, fork_detector::ProdForkDetector, light_client,
-    operations::ProdHasher, predicates::ProdPredicates, store::memory::MemoryStore,
-    types::LightBlock, types::PeerId, types::TrustThreshold,
+    components::{io, io::IoError, scheduler, verifier::ProdVerifier},
+    fork_detector::ProdForkDetector,
+    light_client,
+    operations::ProdHasher,
+    predicates::ProdPredicates,
+    store::memory::MemoryStore,
+    supervisor::Handle,
+    types::{LightBlock, PeerId, Status, TrustThreshold},
 };
 
-use crate::blawgd_client::query_client::QueryClient;
 use crate::config;
 use crate::util;
-use tendermint_light_client::supervisor::{Handle, Supervisor};
+use gloo::storage::errors::StorageError;
+use gloo::storage::LocalStorage;
+use gloo::storage::Storage;
+use tendermint::block::Height;
 use tendermint_rpc::endpoint::commit;
 
 pub async fn new_supervisor(
@@ -76,7 +80,7 @@ async fn make_instance(peer_id: PeerId) -> tendermint_light_client::supervisor::
     let builder = tendermint_light_client::builder::LightClientBuilder::custom(
         peer_id,
         options,
-        Box::new(MemoryStore::new()),
+        Box::new(LightStore),
         Box::new(LightClientIO::new(peer_id)),
         Box::new(ProdHasher),
         Box::new(WasmClock),
@@ -104,6 +108,111 @@ async fn make_instance(peer_id: PeerId) -> tendermint_light_client::supervisor::
     let instance = builder.build();
 
     instance
+}
+
+fn status_string(s: Status) -> String {
+    match s {
+        Status::Unverified => "unverified".to_string(),
+        Status::Verified => "verified".to_string(),
+        Status::Trusted => "trusted".to_string(),
+        Status::Failed => "failed".to_string(),
+    }
+}
+
+fn light_store_key(status: Status, height: Height) -> String {
+    format!("light-{}-{}", status_string(status), height)
+}
+
+#[derive(Debug)]
+pub struct LightStore;
+
+impl tendermint_light_client::store::LightStore for LightStore {
+    fn get(&self, height: Height, status: Status) -> Option<LightBlock> {
+        LocalStorage::get(light_store_key(status, height)).ok()
+    }
+
+    fn update(&mut self, light_block: &LightBlock, status: Status) {
+        let height = light_block.signed_header.header.height.clone();
+        LocalStorage::set(light_store_key(status, height), light_block);
+    }
+
+    fn insert(&mut self, light_block: LightBlock, status: Status) {
+        let height = light_block.signed_header.header.height.clone();
+        LocalStorage::set(light_store_key(status, height), light_block);
+    }
+
+    fn remove(&mut self, height: Height, status: Status) {
+        LocalStorage::delete(light_store_key(status, height));
+    }
+
+    fn highest(&self, status: Status) -> Option<LightBlock> {
+        let local_storage = LocalStorage::raw();
+        let length = LocalStorage::length();
+
+        let mut highest: u64 = u64::MIN;
+        for i in 0..length {
+            let key: String = local_storage.key(i).unwrap().unwrap();
+            if !key.starts_with(format!("light-{}-", status_string(status)).as_str()) {
+                continue;
+            }
+
+            let height: u64 = key
+                .strip_prefix(format!("light-{}-", status_string(status)).as_str())
+                .unwrap()
+                .parse()
+                .unwrap();
+            if height > highest {
+                highest = height;
+            }
+        }
+
+        self.get(Height::from(highest as u32), status)
+    }
+
+    fn lowest(&self, status: Status) -> Option<LightBlock> {
+        let local_storage = LocalStorage::raw();
+        let length = LocalStorage::length();
+
+        let mut lowest: u64 = u64::MAX;
+        for i in 0..length {
+            let key: String = local_storage.key(i).unwrap().unwrap();
+            if !key.starts_with(format!("light-{}-", status_string(status)).as_str()) {
+                continue;
+            }
+
+            let height: u64 = key
+                .strip_prefix(format!("light-{}-", status_string(status)).as_str())
+                .unwrap()
+                .parse()
+                .unwrap();
+            if height < lowest {
+                lowest = height;
+            }
+        }
+
+        self.get(Height::from(lowest as u32), status)
+    }
+
+    fn all(&self, status: Status) -> Box<dyn Iterator<Item = LightBlock>> {
+        let local_storage = LocalStorage::raw();
+        let length = LocalStorage::length();
+
+        let mut lbs = Vec::new();
+        for index in 0..length {
+            let key: String = local_storage.key(index).unwrap().unwrap();
+            if !key.starts_with(format!("light-{}-", status_string(status)).as_str()) {
+                continue;
+            }
+
+            let lb: Result<LightBlock, StorageError> = LocalStorage::get(key);
+            if lb.is_err() {
+                continue;
+            }
+            lbs.push(lb.unwrap());
+        }
+
+        Box::new(lbs.into_iter())
+    }
 }
 
 pub struct WasmClock;

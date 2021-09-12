@@ -1,13 +1,12 @@
-use crate::blawgd_client::query_client::QueryClient as BlawgdQueryClient;
-use crate::blawgd_client::verification_client::VerificationClient;
-use crate::components::blawgd_html::BlawgdHTMLDoc;
-use crate::components::nav_bar::NavBar;
-use crate::components::post::PostComponent;
-use crate::components::post_creator::PostCreator;
-use crate::components::post_page::PostPage;
-use crate::components::Component;
-use crate::state::{get_state, set_state};
-use crate::util;
+use crate::{
+    blawgd_client::verification_client::VerificationClient,
+    components::{
+        blawgd_html::BlawgdHTMLDoc, nav_bar::NavBar, post::PostComponent,
+        post_creator::PostCreator, post_page::PostPage, Component,
+    },
+    state::{get_state, set_state},
+    util,
+};
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;

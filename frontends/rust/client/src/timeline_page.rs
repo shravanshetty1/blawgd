@@ -4,7 +4,6 @@ use wasm_bindgen::JsCast;
 use crate::blawgd_client::verification_client::VerificationClient;
 use crate::state::{get_state, set_state};
 use crate::{
-    blawgd_client::query_client::QueryClient as BlawgdQueryClient,
     components::blawgd_html::BlawgdHTMLDoc, components::home_page::HomePage,
     components::nav_bar::NavBar, components::post::PostComponent,
     components::post_creator::PostCreator, components::Component, util,
