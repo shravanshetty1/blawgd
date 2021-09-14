@@ -35,11 +35,13 @@ impl super::Component for PostComponent {
 
         let mut post = self.post.clone();
         if post.repost_parent.is_some() {
+            let old_post_header = post_header.clone();
             post_header = format!(
                 r#"<a href="/profile/{}" class="post-component-header">Reposted by {}</a>"#,
                 account_info.address, account_info.name
             )
             .to_string();
+            post_header.push_str(old_post_header.as_str());
             let repost = post.repost_parent.unwrap().as_ref().clone();
             post.content = repost.content.clone();
             account_info = repost.creator.clone().unwrap();
