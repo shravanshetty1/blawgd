@@ -14,7 +14,7 @@ func DefaultGenesis() *GenesisState {
 		// 2 TB
 		// 2 billion
 		//MaxPostCount: 2000000000,
-		MaxPostCount: 20000000,
+		MaxPostCount: 2000000,
 		//MaxPostCount: 6,
 	}
 }
