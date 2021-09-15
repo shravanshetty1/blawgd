@@ -6,6 +6,8 @@ import (
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/NYTimes/gziphandler"
 )
 
 type customWriter struct {
@@ -43,7 +45,7 @@ func main() {
 	}
 
 	fmt.Println("started frontend at  port 2341...")
-	err = http.ListenAndServe(":2341", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	err = http.ListenAndServe(":2341", gziphandler.GzipHandler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		cw := &customWriter{
 			ResponseWriter: w,
 			notFound:       false,
@@ -54,7 +56,7 @@ func main() {
 			w.WriteHeader(200)
 			io.Copy(w, bytes.NewReader(indexFile))
 		}
-	}))
+	})))
 	if err != nil {
 		fmt.Println("failed to start frontend " + err.Error())
 	}
