@@ -9,9 +9,9 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/NYTimes/gziphandler"
+	"golang.org/x/crypto/acme/autocert"
 
-	"github.com/caddyserver/certmagic"
+	"github.com/NYTimes/gziphandler"
 
 	"github.com/gorilla/mux"
 )
@@ -59,11 +59,30 @@ func main() {
 
 	env := os.Getenv("ENV")
 	if env == "PROD" {
-		fmt.Println("started reverse proxy for " + HOST)
-		err = certmagic.HTTPS([]string{HOST, "www." + HOST, "tendermint." + HOST, "grpc." + HOST, "faucet." + HOST}, router)
+
+		m := autocert.Manager{
+			Prompt: autocert.AcceptTOS,
+			Cache:  autocert.DirCache("~/.blawgd-https"),
+		}
+		go http.ListenAndServe(":"+strconv.Itoa(80), m.HTTPHandler(nil))
+
+		httpsServ := http.Server{
+			Addr:      ":" + strconv.Itoa(443),
+			TLSConfig: m.TLSConfig(),
+			Handler:   router,
+		}
+
+		err = httpsServ.ListenAndServeTLS("", "")
 		if err != nil {
 			log.Fatal(err)
 		}
+
+		//fmt.Println("started reverse proxy for " + HOST)
+		//certmagic.RateLimitEvents = 20000000
+		//err = certmagic.HTTPS([]string{HOST, "www." + HOST, "tendermint." + HOST, "grpc." + HOST, "faucet." + HOST}, router)
+		//if err != nil {
+		//	log.Fatal(err)
+		//}
 	} else {
 		fmt.Println("started reverse proxy on localhost....")
 		err = http.ListenAndServe(":"+strconv.Itoa(PORT), router)
