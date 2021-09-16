@@ -16,6 +16,6 @@ The light clients (website and apps) verify all data received from nodes using [
 , making it impossible for any man in the middle to censor information without being detected.
 
 (Currently unsupported) - All nodes on the network communicate over [TOR](https://en.wikipedia.org/wiki/Tor_(network)) making the network highly resistant
- to takedowns from entities such as corrupt governments and agencies.
+ to takedowns from external entities.
 
 You can find out more details by going through the architecture [documentation](./docs/ARCHITECTURE.md).
