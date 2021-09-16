@@ -6,11 +6,18 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"os"
+	"strconv"
+
+	"github.com/NYTimes/gziphandler"
+
+	"github.com/caddyserver/certmagic"
 
 	"github.com/gorilla/mux"
 )
 
 const HOST = "localhost"
+const PORT = 8080
 
 func main() {
 
@@ -48,9 +55,20 @@ func main() {
 	router.Host("faucet." + HOST).Subrouter().PathPrefix("/").Handler(faucet)
 	router.PathPrefix("/").Handler(frontendServer)
 
-	fmt.Println("started reverse proxy on port 8080....")
-	err = http.ListenAndServe(":8080", router)
-	if err != nil {
-		log.Fatal(err)
+	router.Use(gziphandler.GzipHandler)
+
+	env := os.Getenv("ENV")
+	if env == "PROD" {
+		fmt.Println("started reverse proxy for " + HOST)
+		err = certmagic.HTTPS([]string{HOST, "www." + HOST, "tendermint." + HOST, "grpc." + HOST, "faucet." + HOST}, router)
+		if err != nil {
+			log.Fatal(err)
+		}
+	} else {
+		fmt.Println("started reverse proxy on localhost....")
+		err = http.ListenAndServe(":"+strconv.Itoa(PORT), router)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }
