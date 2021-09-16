@@ -50,9 +50,8 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
         for post in posts {
             register_post_event_listener(wallet.clone(), client.clone(), address.clone(), post)
         }
+        register_event_listeners(document.clone(), cl.clone());
     }
-
-    register_event_listeners(document.clone(), cl.clone());
 
     Ok(())
 }
