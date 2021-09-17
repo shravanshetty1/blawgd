@@ -58,7 +58,7 @@ message AccountInfo {
   uint64 post_count = 7;
 }
 
-// Messages
+// Transactions
 
 message MsgRepost {
   string creator = 1;
