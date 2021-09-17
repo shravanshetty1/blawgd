@@ -12,7 +12,7 @@ The light clients (website and apps) verify all data received from nodes of the 
 (Currently unimplemented) - All nodes on the network communicate over [TOR](https://en.wikipedia.org/wiki/Tor_(network))
  making the network highly resistant to takedowns from external entities.
 
-You can find out more details by going through the architecture [documentation](./docs/ARCHITECTURE.md).
+You can find out more details by going through the [architecture documentation](./docs/ARCHITECTURE.md).
 
 ### Notable features
 1. Censorship proof
@@ -21,7 +21,7 @@ You can find out more details by going through the architecture [documentation](
 4. Incentivizes popular posts.
 
 ### Status
-The network has been released where as the clients and providers are under active development.
+The network has been released whereas the clients and providers are under active development.
 
 ### Platforms
 Currently, a rudimentary website client has been released and is available [here](https://blawgd.com). Apps should be released soon which will be a lot

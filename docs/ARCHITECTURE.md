@@ -7,8 +7,8 @@ censorship resistant.
 Basic understanding of [blockchain](https://en.wikipedia.org/wiki/Blockchain) will help greatly in readers ability to comprehend this document.
 This document will not explain blockchain concepts, however will provide links to other documents that explain these concepts.
 
-Blawgd is similar to other microblogging platforms such as [twitter](https://twitter.com) and [koo](httos://kooapp.com) 
-in its usage however it greatly differs from them in its inner workings.
+Blawgd is similar to other microblogging platforms such as [twitter](https://twitter.com) and [koo](https://kooapp.com) in 
+its usage however it greatly differs from them in its inner workings.
 The other popular microblogging platform store data on their servers which are controlled by them
 giving them complete control of what goes on in their platform. This makes it very easy for owners
 of the platform to control what the user sees and is allowed to say on their platform. They are
@@ -18,7 +18,7 @@ The blawgd platform on the other hand
  is controlled by various entities such as stakeholders of the blockchain network and client authors
 making it very hard for any one party to influence the behaviour of the platform.
 The blawgd platform is divided into the network and the clients. The network stores all the data
-and the client queries the network to retrieve data.
+and the client verifies the data queried from the network.
 
 The blawgd network is controlled by stake holders of the blockchain network using [proof of stake](https://en.wikipedia.org/wiki/Proof_of_stake).
 Any malicious change to the network has to be voted on by a majority of stakeholders democratically
@@ -42,7 +42,7 @@ Since each client will be used by fraction of the user base any potential censor
  6. Recommendations are not provided by the network (will be provided by "providers")
  7. Login mechanism may be drastically different than traditional login mechanisms.
  8. Reads are free but any action that requires writes such as creating a new post or liking an existing posts
- require some token to be paid as transaction fees. The transaction fee will vary based on the traffic of the network.
+ require some coins to be paid as transaction fees. The transaction fee will vary based on the traffic of the network.
 
 ### The network
 
@@ -127,7 +127,7 @@ message GenesisState {
 }
 ```
 The `max_post_count` will be increased as network experiences more traffic such 
-that the network is storing the last 30-15 days worth of posts.
+that the network is always storing the last 30-15 days worth of posts.
 
 All nodes on the network should communicate over [TOR](https://www.torproject.org/), however currently they dont. This is planned in future development.
 
@@ -145,7 +145,7 @@ implementation which can be found [here](https://github.com/informalsystems/tend
 on how the light client works can be found [here](https://docs.tendermint.com/master/spec/light-client/).
 
 To summarize the current client gets block headers from nodes using the [light client protocol](https://docs.tendermint.com/master/spec/light-client/).
-It then retrieves data from nodes in the blawgd network along with proofs. It verifies the proofs against the blockheaders to
+It then retrieves data from nodes in the blawgd network along with proofs. It verifies the proofs against the block headers to
 verify the authenticity of the data provided by the node. Once the data is proved to be authentic the data is parsed
 and displayed to the user as posts, account info, likes .etc.
 
