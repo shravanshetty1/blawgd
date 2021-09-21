@@ -1,5 +1,5 @@
-use crate::blawgd_client::verification_client::VerificationClient;
 use crate::blawgd_client::{AccountInfo, MsgLikePost, MsgRepost, PostView};
+use crate::clients::verification_client::VerificationClient;
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::{
     auth::v1beta1::query_client::QueryClient,
@@ -12,7 +12,6 @@ use crw_wallet::crypto::MnemonicWallet;
 use gloo::events;
 use wasm_bindgen::JsValue;
 
-pub const COSMOS_DP: &str = "m/44'/118'/0'/0/0";
 pub const MSG_TYPE_CREATE_POST: &str = "/blawgd.MsgCreatePost";
 pub const MSG_TYPE_FOLLOW: &str = "/blawgd.MsgFollow";
 pub const MSG_TYPE_STOP_FOLLOW: &str = "/blawgd.MsgStopFollow";
@@ -20,20 +19,6 @@ pub const MSG_TYPE_LIKE: &str = "/blawgd.MsgLikePost";
 pub const MSG_TYPE_REPOST: &str = "/blawgd.MsgRepost";
 pub const MSG_TYPE_UPDATE_ACCOUNT_INFO: &str = "/blawgd.MsgUpdateAccountInfo";
 pub const ADDRESS_HRP: &str = "cosmos";
-
-pub const TRUSTED_HEIGHT: &str = "13284";
-pub const TRUSTED_HASH: &str = "C34D2576BF6CB817706D5C6FED9D9C5BBEEBFF255D33E860EC0A95B3809FD267";
-
-// TODO this is bad
-pub struct StoredData {
-    pub mnemonic: String,
-    pub address: String,
-}
-
-pub fn set_stored_data(storage: &web_sys::Storage, stored_data: StoredData) {
-    storage.set_item("mnemonic", stored_data.mnemonic.as_str());
-    storage.set_item("address", stored_data.address.as_str());
-}
 
 pub async fn is_following(
     cl: VerificationClient,
@@ -50,65 +35,6 @@ pub async fn is_following(
     }
 
     Ok(is_following)
-}
-
-// TODO This is bad
-pub fn get_stored_data(storage: &web_sys::Storage) -> Option<StoredData> {
-    let mnemonic_result = storage.get_item("mnemonic");
-    let mut mnemonic: String = String::new();
-    if mnemonic_result.is_ok() {
-        if mnemonic_result.as_ref().unwrap().is_some() {
-            mnemonic = mnemonic_result.unwrap().unwrap();
-        }
-    }
-
-    let address_result = storage.get_item("address");
-    let mut address: String = String::new();
-    if address_result.is_ok() {
-        if address_result.as_ref().unwrap().is_some() {
-            address = address_result.unwrap().unwrap();
-        }
-    }
-
-    if mnemonic.is_empty() || address.is_empty() {
-        return None;
-    }
-
-    Some(StoredData { mnemonic, address })
-}
-
-pub fn remove_stored_data(storage: &web_sys::Storage) {
-    storage.remove_item("mnemonic");
-    storage.remove_item("address");
-}
-
-pub async fn get_session_account_info(
-    storage: &web_sys::Storage,
-    client: VerificationClient,
-) -> Option<AccountInfo> {
-    let stored_data = get_stored_data(storage);
-    if stored_data.is_none() {
-        return None;
-    }
-
-    client
-        .get_account_info(stored_data.unwrap().address.clone())
-        .await
-        .ok()
-}
-
-pub fn get_wallet(storage: &web_sys::Storage) -> Result<MnemonicWallet, &str> {
-    let stored_data = get_stored_data(storage);
-
-    // Validation
-    if stored_data.is_none() {
-        return Err("cannot create wallet since user has not logged in");
-    }
-
-    Ok(
-        crw_wallet::crypto::MnemonicWallet::new(stored_data.unwrap().mnemonic.as_str(), COSMOS_DP)
-            .expect("could not generate alice wallet"),
-    )
 }
 
 pub fn console_log(message: &str) {

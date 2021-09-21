@@ -76,7 +76,7 @@ pub struct AccountInfo {
     #[prost(uint64, tag = "7")]
     pub post_count: u64,
 }
-// Messages
+// Transactions
 
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct MsgRepost {

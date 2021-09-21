@@ -1,4 +1,4 @@
-use crate::blawgd_client::verification_client::helpers::{get_cosmos_specs, get_default_path};
+use crate::clients::verification_client::helpers::{get_cosmos_specs, get_default_path};
 use anyhow::anyhow;
 use anyhow::bail;
 use anyhow::ensure;

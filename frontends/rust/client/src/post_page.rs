@@ -1,5 +1,7 @@
+use crate::clients::verification_client::VerificationClient;
+use crate::host::Host;
+use crate::storage::Store;
 use crate::{
-    blawgd_client::verification_client::VerificationClient,
     components::{
         blawgd_html::BlawgdHTMLDoc, nav_bar::NavBar, post::PostComponent,
         post_creator::PostCreator, post_page::PostPage, Component,
@@ -12,22 +14,18 @@ use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 use wasm_bindgen::JsCast;
 
-pub async fn handle(cl: VerificationClient) -> Result<()> {
+pub async fn handle(store: Store, host: Host, cl: VerificationClient) -> Result<()> {
     let window = web_sys::window().unwrap();
     let document = window.document().expect("document missing");
-    let storage = window
-        .local_storage()
-        .expect("storage object missing")
-        .unwrap();
 
     let url: String = window.location().href().unwrap();
     let post_id = url
         .as_str()
-        .strip_prefix(format!("{}/post/", crate::config::HOST_NAME).as_str())
+        .strip_prefix(format!("{}/post/", host.endpoint()).as_str())
         .unwrap()
         .to_string();
 
-    let account_info = util::get_session_account_info(&storage, cl.clone()).await;
+    let account_info = store.get_session_account_info(cl.clone()).await.ok();
     let posts = cl.get_post_by_parent_post(post_id.clone(), 1).await?;
     let mut boxed_posts: Vec<Box<dyn Component>> = Vec::new();
     for post in posts {
@@ -56,12 +54,14 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     let body = document.body().expect("body missing");
     body.set_inner_html(&comp.to_html());
 
-    register_event_listeners(post_id.to_string(), &document, cl.clone());
+    register_event_listeners(store, host, post_id.to_string(), &document, cl.clone());
 
     Ok(())
 }
 
 fn register_event_listeners(
+    store: Store,
+    host: Host,
     main_post_id: String,
     document: &web_sys::Document,
     cl: VerificationClient,
@@ -73,12 +73,13 @@ fn register_event_listeners(
     let main_post_id1: String = main_post_id.clone();
     events::EventListener::new(&post_creator_button, "click", move |_| {
         let main_post_id: String = main_post_id1.clone();
+        let store = store.clone();
+        let host = host.clone();
         wasm_bindgen_futures::spawn_local(async move {
             let window = web_sys::window().unwrap();
             let document = window.document().expect("document missing");
-            let storage = window.local_storage().unwrap().unwrap();
 
-            let address: String = util::get_stored_data(&storage).unwrap().address;
+            let address: String = store.get_application_data().unwrap().address;
             let post_content: String = document
                 .get_element_by_id("post-creator-input")
                 .expect("post-creator-input element not found")
@@ -91,8 +92,8 @@ fn register_event_listeners(
                 parent_post: main_post_id,
             };
 
-            let wallet = util::get_wallet(&storage).unwrap();
-            let client = grpc_web_client::Client::new(crate::config::GRPC_WEB_ADDRESS.into());
+            let wallet = store.get_wallet().unwrap();
+            let client = grpc_web_client::Client::new(host.grpc_endpoint());
             util::broadcast_tx(
                 &wallet,
                 client,

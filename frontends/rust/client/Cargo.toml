@@ -37,6 +37,7 @@ chrono = { version = "0.4", features = ["wasmbind"] }
 ics23 = { git = "https://github.com/confio/ics23", branch = "master" }
 hex = "0.4.3"
 anyhow = "1.0"
+async-lock = "2.4.0"
 
 [dependencies.web-sys]
 version = "0.3.4"

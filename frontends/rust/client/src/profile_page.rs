@@ -8,33 +8,34 @@ use crate::{
     util,
 };
 
-use crate::blawgd_client::verification_client::VerificationClient;
-use crate::config::HOST_NAME;
+use crate::blawgd_client::MsgStopFollow;
+use crate::clients::verification_client::VerificationClient;
+use crate::host::Host;
 use crate::state::{get_state, set_state};
+use crate::storage::Store;
 use anyhow::Context;
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 
-pub async fn handle(cl: VerificationClient) -> Result<()> {
+pub async fn handle(store: Store, host: Host, cl: VerificationClient) -> Result<()> {
     let window = web_sys::window().unwrap();
     let document = window.document().unwrap();
-    let storage = window.local_storage().unwrap().unwrap();
 
     let url: String = window.location().href().unwrap();
     let address = url
         .as_str()
-        .strip_prefix(format!("{}/profile/", HOST_NAME).as_str())
+        .strip_prefix(format!("{}/profile/", host.endpoint()).as_str())
         .unwrap()
         .to_string();
 
-    let logged_in_account_info = util::get_session_account_info(&storage, cl.clone()).await;
+    let logged_in_account_info = store.get_session_account_info(cl.clone()).await.ok();
     let account_info = cl
         .get_account_info(address.clone())
         .await
         .context("failed to get valid profile info response")?;
-    let posts = cl.get_post_by_account(address.clone(), 1).await?;
-    let logged_in_data = util::get_stored_data(&storage);
+    let posts = cl.get_post_by_account(address.clone(), 1 as u64).await?;
+    let logged_in_data = store.get_application_data().ok();
     let mut profile_button: Option<ButtonType> = None;
     if logged_in_data.is_some() {
         if address == logged_in_data.as_ref().unwrap().address {
@@ -75,7 +76,7 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
 
     if profile_button.is_some() {
         if !matches!(profile_button.unwrap(), ButtonType::Edit) {
-            register_event_listeners(&document, address.clone(), cl.clone());
+            register_event_listeners(store, host, &document, address.clone(), cl.clone());
         }
     }
 
@@ -122,7 +123,13 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     Ok(())
 }
 
-fn register_event_listeners(document: &web_sys::Document, address: String, cl: VerificationClient) {
+fn register_event_listeners(
+    store: Store,
+    host: Host,
+    document: &web_sys::Document,
+    address: String,
+    cl: VerificationClient,
+) {
     let follow_toggle = document.get_element_by_id("follow-toggle").unwrap();
 
     let address1 = address.clone();
@@ -130,24 +137,24 @@ fn register_event_listeners(document: &web_sys::Document, address: String, cl: V
     events::EventListener::new(&follow_toggle, "click", move |_| {
         let address = address1.clone();
         let cl = cl1.clone();
+        let store = store.clone();
+        let host = host.clone();
         wasm_bindgen_futures::spawn_local(async move {
             let window = web_sys::window().unwrap();
-            let document = window.document().unwrap();
-            let storage = window.local_storage().unwrap().unwrap();
-            let client = grpc_web_client::Client::new(crate::config::GRPC_WEB_ADDRESS.into());
+            let client = grpc_web_client::Client::new(host.grpc_endpoint());
 
-            let session_address = util::get_stored_data(&storage).unwrap().address;
+            let session_address = store.get_application_data().unwrap().address;
             if util::is_following(cl.clone(), session_address.clone(), address.clone())
                 .await
                 .unwrap()
             {
-                let msg = Box::new(crate::blawgd_client::MsgStopFollow {
+                let msg = Box::new(MsgStopFollow {
                     creator: session_address.clone(),
                     address: address.clone(),
                 });
                 let msg_type = util::MSG_TYPE_STOP_FOLLOW;
                 util::broadcast_tx(
-                    &util::get_wallet(&storage).unwrap(),
+                    &store.get_wallet().unwrap(),
                     client.clone(),
                     msg_type,
                     msg,
@@ -161,7 +168,7 @@ fn register_event_listeners(document: &web_sys::Document, address: String, cl: V
                 });
                 let msg_type = util::MSG_TYPE_FOLLOW;
                 util::broadcast_tx(
-                    &util::get_wallet(&storage).unwrap(),
+                    &store.get_wallet().unwrap(),
                     client.clone(),
                     msg_type,
                     msg,

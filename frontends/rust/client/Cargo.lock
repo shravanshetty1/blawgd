@@ -359,6 +359,7 @@ name = "client"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-lock",
  "async-trait",
  "chrono",
  "console_error_panic_hook",

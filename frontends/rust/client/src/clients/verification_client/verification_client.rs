@@ -1,8 +1,8 @@
 use super::keys;
-use super::VerificationClient;
-use crate::blawgd_client::verification_client::helpers::convert_tm_to_ics_merkle_proof;
-use crate::blawgd_client::verification_client::proof::{verify_membership, verify_non_membership};
 use crate::blawgd_client::{query_client, AccountInfo, GetRequest, Post, PostView};
+use crate::clients::verification_client::helpers::convert_tm_to_ics_merkle_proof;
+use crate::clients::verification_client::proof::{verify_membership, verify_non_membership};
+use crate::clients::verification_client::VerificationClient;
 use anyhow::anyhow;
 use anyhow::Result;
 use tendermint_light_client::supervisor::Handle;

@@ -1,34 +1,42 @@
-use crate::blawgd_client::verification_client::VerificationClient;
-use crate::components::blawgd_html::BlawgdHTMLDoc;
-use crate::components::home_page::HomePage;
-use crate::components::nav_bar::NavBar;
-use crate::components::post::PostComponent;
-use crate::components::post_creator::PostCreator;
-use crate::components::Component;
-use crate::state::{get_state, set_state};
-use crate::util;
-use crate::util::{get_wallet, register_post_event_listener};
+use crate::dom::Document;
+use crate::host::Host;
+use crate::storage::Store;
+use crate::{
+    clients::verification_client::VerificationClient,
+    components::blawgd_html::BlawgdHTMLDoc,
+    components::home_page::HomePage,
+    components::nav_bar::NavBar,
+    components::post::PostComponent,
+    components::post_creator::PostCreator,
+    components::Component,
+    dom,
+    state::{get_state, set_state},
+    util,
+    util::register_post_event_listener,
+};
+use anyhow::anyhow;
 use anyhow::Context;
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 use wasm_bindgen::JsCast;
 
-pub async fn handle(cl: VerificationClient) -> Result<()> {
-    let window = web_sys::window().unwrap();
-    let document = window.document().unwrap();
-    let storage = window.local_storage().unwrap().unwrap();
+pub async fn handle(
+    host: Host,
+    store: Store,
+    window: dom::Window,
+    cl: VerificationClient,
+) -> Result<()> {
+    let document = window.document()?;
 
-    let account_info = util::get_session_account_info(&storage, cl.clone()).await;
-    let posts = cl
-        .get_post_by_parent_post("".to_string(), 1)
-        .await
-        .context("failed to get posts for home")?;
-    let mut boxed_posts: Vec<Box<dyn Component>> = Vec::new();
-    for post in posts.clone() {
-        boxed_posts.push(PostComponent::new(post))
-    }
+    // TODO make this concurrent
+    let posts = cl.get_post_by_parent_post("".to_string(), 1).await?;
+    let account_info = store.get_session_account_info(cl.clone()).await.ok();
 
+    let post_components = posts
+        .iter()
+        .map(|p| PostComponent::new(p.clone()) as Box<dyn Component>)
+        .collect::<Vec<Box<dyn Component>>>();
     let nav_bar = NavBar::new(account_info.clone());
     let mut post_creator: Option<Box<dyn Component>> = None;
     if account_info.is_some() {
@@ -37,32 +45,38 @@ pub async fn handle(cl: VerificationClient) -> Result<()> {
     let comp = BlawgdHTMLDoc::new(HomePage::new(
         nav_bar,
         post_creator,
-        boxed_posts.into_boxed_slice(),
+        post_components.into_boxed_slice(),
     ));
 
-    let body = document.body().expect("body missing");
+    let body = document.body()?;
     body.set_inner_html(&comp.to_html());
 
     if account_info.is_some() {
-        let address = account_info.clone().unwrap().address;
-        let client = grpc_web_client::Client::new(crate::config::GRPC_WEB_ADDRESS.into());
-        let wallet = get_wallet(&storage).unwrap();
+        let address = account_info
+            .clone()
+            .ok_or(anyhow!("account info is empty"))?
+            .address;
+        let client = grpc_web_client::Client::new(host.grpc_endpoint().into());
+        let wallet = store.get_wallet()?;
         for post in posts {
             register_post_event_listener(wallet.clone(), client.clone(), address.clone(), post)
         }
-        register_event_listeners(document.clone(), cl.clone());
+        register_event_listeners(store, host, document.clone(), cl.clone())?;
     }
 
     Ok(())
 }
 
-fn register_event_listeners(document: web_sys::Document, cl: VerificationClient) {
-    let post_creator_button = document
-        .clone()
-        .get_element_by_id("post-creator-button")
-        .expect("post-creator-button element not found");
-
+fn register_event_listeners(
+    store: Store,
+    host: Host,
+    document: Document,
+    cl: VerificationClient,
+) -> Result<()> {
+    let post_creator_button = document.get_element_by_id("post-creator-button")?.inner();
     events::EventListener::new(&post_creator_button, "click", move |_| {
+        let store = store.clone();
+        let host = host.clone();
         wasm_bindgen_futures::spawn_local(async move {
             let window = web_sys::window().unwrap();
             let document = window.document().expect("document missing");
@@ -75,13 +89,13 @@ fn register_event_listeners(document: web_sys::Document, cl: VerificationClient)
                 .unwrap()
                 .value();
             let msg = super::blawgd_client::MsgCreatePost {
-                creator: util::get_stored_data(&storage).unwrap().address,
+                creator: store.get_application_data().unwrap().address,
                 content: post_content,
                 parent_post: "".to_string(),
             };
 
-            let wallet = util::get_wallet(&storage).unwrap();
-            let client = grpc_web_client::Client::new(crate::config::GRPC_WEB_ADDRESS.into());
+            let wallet = store.get_wallet().unwrap();
+            let client = grpc_web_client::Client::new(host.grpc_endpoint());
             let resp = util::broadcast_tx(
                 &wallet,
                 client,
@@ -139,4 +153,6 @@ fn register_event_listeners(document: web_sys::Document, cl: VerificationClient)
         });
     })
     .forget();
+
+    Ok(())
 }
