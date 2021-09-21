@@ -14,8 +14,9 @@ impl VerificationClient {
     pub async fn get(&self, keys: Vec<String>) -> Result<HashMap<String, Option<Vec<u8>>>> {
         let lb = self
             .lc
+            .read()
+            .await
             .latest_trusted()
-            .await?
             .ok_or(anyhow!("could not get latest trusted light block"))?;
         let height = lb.signed_header.header.height.value() - 1;
         let root = lb.signed_header.header.app_hash.value();

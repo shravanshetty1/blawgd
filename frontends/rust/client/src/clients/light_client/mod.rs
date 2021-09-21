@@ -16,9 +16,11 @@ use crate::{
     host::Host, util,
 };
 use anyhow::Result;
+use async_lock::RwLock;
 use evidence::EvidenceReporter;
 use gloo::{storage::errors::StorageError, storage::LocalStorage, storage::Storage};
 use light_client_io::LightClientIO;
+use std::sync::Arc;
 use supervisor::SupervisorHandle;
 use tendermint_light_client::components::clock::Clock;
 use tendermint_light_client::{
@@ -49,7 +51,7 @@ mod light_store;
 const TRUSTING_PERIOD: u64 = 3600000;
 const CLOCK_DRIFT: u64 = 1;
 
-pub async fn new(peer_id: PeerId, host: Host) -> Result<Supervisor> {
+pub async fn new(peer_id: PeerId, host: Host) -> Result<Arc<RwLock<Supervisor>>> {
     let rpc_client = TendermintRPCClient::new(host.clone())?;
 
     let instance = new_light_client_instance(peer_id, rpc_client.clone()).await?;
@@ -66,7 +68,7 @@ pub async fn new(peer_id: PeerId, host: Host) -> Result<Supervisor> {
         ProdForkDetector::default(),
         CustomEvidenceReporter::new(rpc_client.clone()),
     );
-    Ok(supervisor)
+    Ok(Arc::new(RwLock::new(supervisor)))
 }
 
 async fn new_light_client_instance(
@@ -104,9 +106,9 @@ async fn new_light_client_instance(
     Ok(instance)
 }
 
-pub async fn start_sync(handler: SupervisorHandle) {
+pub async fn start_sync(lc: Arc<RwLock<Supervisor>>) {
     loop {
-        match handler.verify_to_highest().await {
+        match lc.write().await.verify_to_highest().await {
             Ok(light_block) => {
                 util::console_log(
                     format!("[info] synced to block {}", light_block.height()).as_str(),

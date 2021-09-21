@@ -59,13 +59,8 @@ pub async fn main_handler() -> Result<()> {
         .default_node_info
         .ok_or(anyhow!("could not get node info"))?;
     let peer_id = node_info.default_node_id.parse::<PeerId>()?;
-    let mut lc_operator = light_client::new(peer_id, host.clone()).await?;
-    let lc = lc_operator.handle();
-    wasm_bindgen_futures::spawn_local(async move {
-        lc_operator.run().await;
-    });
-    lc.verify_to_highest().await;
-
+    let lc = light_client::new(peer_id, host.clone()).await?;
+    lc.write().await.verify_to_highest().await?;
     let cl = VerificationClient::new(lc.clone(), grpc_client.clone());
 
     let url = window.location().href()?;
