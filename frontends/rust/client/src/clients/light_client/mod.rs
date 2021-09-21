@@ -48,27 +48,56 @@ mod custom_evidence_reporter;
 mod light_client_io;
 mod light_store;
 
+use anyhow::anyhow;
+
 const TRUSTING_PERIOD: u64 = 3600000;
 const CLOCK_DRIFT: u64 = 1;
 
-pub async fn new(peer_id: PeerId, host: Host) -> Result<Arc<RwLock<Supervisor>>> {
-    let rpc_client = TendermintRPCClient::new(host.clone())?;
+pub struct LightClient;
 
-    let instance = new_light_client_instance(peer_id, rpc_client.clone()).await?;
-    let instance2 = new_light_client_instance(peer_id, rpc_client.clone()).await?;
+impl LightClient {
+    pub async fn new(cl: grpc_web_client::Client, host: Host) -> Result<Arc<RwLock<Supervisor>>> {
+        let node_info = base_client::new(cl)
+            .get_node_info(GetNodeInfoRequest {})
+            .await?
+            .get_ref()
+            .clone()
+            .default_node_info
+            .ok_or(anyhow!("could not get node info"))?;
+        let peer_id = node_info.default_node_id.parse::<PeerId>()?;
+        let rpc_client = TendermintRPCClient::new(host.clone())?;
 
-    let address = host.tendermint_endpoint().parse::<Url>()?;
-    let (instances, _) = SupervisorBuilder::new()
-        .primary(peer_id, address.clone(), instance)
-        .witness(peer_id, address, instance2)
-        .inner();
+        let instance = new_light_client_instance(peer_id, rpc_client.clone()).await?;
+        let instance2 = new_light_client_instance(peer_id, rpc_client.clone()).await?;
 
-    let supervisor = Supervisor::new(
-        instances,
-        ProdForkDetector::default(),
-        CustomEvidenceReporter::new(rpc_client.clone()),
-    );
-    Ok(Arc::new(RwLock::new(supervisor)))
+        let address = host.tendermint_endpoint().parse::<Url>()?;
+        let (instances, _) = SupervisorBuilder::new()
+            .primary(peer_id, address.clone(), instance)
+            .witness(peer_id, address, instance2)
+            .inner();
+
+        let supervisor = Supervisor::new(
+            instances,
+            ProdForkDetector::default(),
+            CustomEvidenceReporter::new(rpc_client.clone()),
+        );
+        Ok(Arc::new(RwLock::new(supervisor)))
+    }
+    pub async fn sync_forever(lc: Arc<RwLock<Supervisor>>) {
+        loop {
+            match lc.write().await.verify_to_highest().await {
+                Ok(light_block) => {
+                    util::console_log(
+                        format!("[info] synced to block {}", light_block.height()).as_str(),
+                    );
+                }
+                Err(err) => {
+                    util::console_log(format!("[error] sync failed: {}", err).as_str());
+                }
+            }
+            gloo::timers::future::TimeoutFuture::new(5000).await;
+        }
+    }
 }
 
 async fn new_light_client_instance(
@@ -104,20 +133,4 @@ async fn new_light_client_instance(
     .build();
 
     Ok(instance)
-}
-
-pub async fn start_sync(lc: Arc<RwLock<Supervisor>>) {
-    loop {
-        match lc.write().await.verify_to_highest().await {
-            Ok(light_block) => {
-                util::console_log(
-                    format!("[info] synced to block {}", light_block.height()).as_str(),
-                );
-            }
-            Err(err) => {
-                util::console_log(format!("[error] sync failed: {}", err).as_str());
-            }
-        }
-        gloo::timers::future::TimeoutFuture::new(5000).await;
-    }
 }

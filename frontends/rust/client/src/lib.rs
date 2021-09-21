@@ -3,19 +3,14 @@ use wasm_bindgen::{prelude::*, JsValue};
 
 mod blawgd_client;
 mod components;
-mod edit_profile_page;
-mod followings_page;
-mod home_page;
-mod login_page;
-mod post_page;
-mod profile_page;
 mod state;
-mod timeline_page;
 mod util;
 use std::sync::Arc;
 mod host;
 
 use crate::clients::light_client;
+use crate::clients::light_client::LightClient;
+use crate::pages::PageRenderer;
 use crate::storage::Store;
 use crate::{clients::verification_client::VerificationClient, state::State};
 use anyhow::{anyhow, Result};
@@ -25,6 +20,7 @@ use host::Host;
 
 mod clients;
 mod dom;
+mod pages;
 mod storage;
 
 #[wasm_bindgen(start)]
@@ -43,45 +39,18 @@ pub fn main() -> Result<(), JsValue> {
 
 pub async fn main_handler() -> Result<()> {
     let window = web_sys::window().ok_or(anyhow!("could not get window object"))?;
+
     let window = dom::new_window(window);
-    let host = Host::new(
-        window.location().protocol()?,
-        window.location().hostname()?,
-        window.location().port()?,
-    );
+    let location = window.location();
+    let host = Host::new(location.protocol()?, location.hostname()?, location.port()?);
     let grpc_client = grpc_web_client::Client::new(host.grpc_endpoint().into());
+    let light_client = LightClient::new(grpc_client.clone(), host.clone()).await?;
+    light_client.write().await.verify_to_highest().await?;
 
-    let node_info = base_client::new(grpc_client.clone())
-        .get_node_info(GetNodeInfoRequest {})
-        .await?
-        .get_ref()
-        .clone()
-        .default_node_info
-        .ok_or(anyhow!("could not get node info"))?;
-    let peer_id = node_info.default_node_id.parse::<PeerId>()?;
-    let lc = light_client::new(peer_id, host.clone()).await?;
-    lc.write().await.verify_to_highest().await?;
-    let cl = VerificationClient::new(lc.clone(), grpc_client.clone());
+    let verification_client = VerificationClient::new(light_client.clone(), grpc_client.clone());
+    let page_renderer = PageRenderer::new(host, Store, window, verification_client, grpc_client);
+    page_renderer.render(location.href()?.as_str()).await?;
 
-    let url = window.location().href()?;
-    let url_path = url
-        .as_str()
-        .strip_prefix(format!("{}/", host.endpoint()).as_str())
-        .ok_or(anyhow!("could not stip prefix of {}", url))?;
-    match url_path {
-        url if str::starts_with(url, "followings") => {
-            followings_page::handle(Store, host, cl).await
-        }
-        url if str::starts_with(url, "post") => post_page::handle(Store, host, cl).await,
-        url if str::starts_with(url, "edit-profile") => {
-            edit_profile_page::handle(Store, host, cl).await
-        }
-        url if str::starts_with(url, "timeline") => timeline_page::handle(host, Store, cl).await,
-        url if str::starts_with(url, "profile") => profile_page::handle(Store, host, cl).await,
-        url if str::starts_with(url, "login") => login_page::handle(Store, host, cl).await,
-        _ => home_page::handle(host, Store, window, cl).await,
-    }?;
-
-    light_client::start_sync(lc).await;
+    LightClient::sync_forever(light_client).await;
     Ok(())
 }

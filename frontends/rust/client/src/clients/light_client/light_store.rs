@@ -5,30 +5,10 @@ use tendermint::block::Height;
 use tendermint_light_client::store;
 use tendermint_light_client::types::{LightBlock, Status};
 
-fn status_string(s: Status) -> String {
-    match s {
-        Status::Unverified => "unverified".to_string(),
-        Status::Verified => "verified".to_string(),
-        Status::Trusted => "trusted".to_string(),
-        Status::Failed => "failed".to_string(),
-    }
-}
-
-fn light_store_key(status: Status, height: Height) -> String {
-    format!("light-{}-{}", status_string(status), height)
-}
-
-fn light_store_min_key(status: Status) -> String {
-    format!("light-min-{}", status_string(status))
-}
-
-fn light_store_max_key(status: Status) -> String {
-    format!("light-max-{}", status_string(status))
-}
-
 #[derive(Debug)]
 pub struct CustomLightStore;
 
+// TODO inject storage
 impl LightStore for CustomLightStore {
     fn get(&self, height: Height, status: Status) -> Option<LightBlock> {
         LocalStorage::get(light_store_key(status, height)).ok()
@@ -158,4 +138,25 @@ impl LightStore for CustomLightStore {
 
         Box::new(lbs.into_iter())
     }
+}
+
+fn status_string(s: Status) -> String {
+    match s {
+        Status::Unverified => "unverified".to_string(),
+        Status::Verified => "verified".to_string(),
+        Status::Trusted => "trusted".to_string(),
+        Status::Failed => "failed".to_string(),
+    }
+}
+
+fn light_store_key(status: Status, height: Height) -> String {
+    format!("light-{}-{}", status_string(status), height)
+}
+
+fn light_store_min_key(status: Status) -> String {
+    format!("light-min-{}", status_string(status))
+}
+
+fn light_store_max_key(status: Status) -> String {
+    format!("light-max-{}", status_string(status))
 }

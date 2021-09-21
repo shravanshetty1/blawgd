@@ -1,80 +1,95 @@
+use crate::blawgd_client::MsgCreatePost;
+use crate::dom::Document;
+use crate::host::Host;
+use crate::pages::PageRenderer;
+use crate::storage::Store;
+use crate::{
+    clients::verification_client::VerificationClient,
+    components::blawgd_html::BlawgdHTMLDoc,
+    components::home_page::HomePage,
+    components::nav_bar::NavBar,
+    components::post::PostComponent,
+    components::post_creator::PostCreator,
+    components::Component,
+    dom,
+    state::{get_state, set_state},
+    util,
+    util::register_post_event_listener,
+};
+use anyhow::anyhow;
+use anyhow::Context;
+use anyhow::Result;
+use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
+use futures::future::try_join;
 use gloo::events;
 use wasm_bindgen::JsCast;
 
-use crate::clients::verification_client::VerificationClient;
-use crate::host::Host;
-use crate::state::{get_state, set_state};
-use crate::storage::Store;
-use crate::{
-    components::blawgd_html::BlawgdHTMLDoc, components::home_page::HomePage,
-    components::nav_bar::NavBar, components::post::PostComponent,
-    components::post_creator::PostCreator, components::Component, util,
-};
-use anyhow::anyhow;
-use anyhow::Result;
-use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
+impl PageRenderer {
+    pub async fn home_page(&self) -> Result<()> {
+        // TODO make this concurrent
+        let posts_resp = self.client.get_post_by_parent_post("".to_string(), 1);
+        let account_info_resp = self.store.get_session_account_info(self.client.clone());
+        let (posts, account_info) = try_join(posts_resp, account_info_resp).await?;
+        let account_info = Some(account_info);
 
-pub async fn handle(host: Host, store: Store, cl: VerificationClient) -> Result<()> {
-    let window = web_sys::window().unwrap();
-    let document = window.document().expect("document missing");
+        let post_components = posts
+            .iter()
+            .map(|p| PostComponent::new(p.clone()) as Box<dyn Component>)
+            .collect::<Vec<Box<dyn Component>>>();
+        let nav_bar = NavBar::new(account_info.clone());
+        let mut post_creator: Option<Box<dyn Component>> = None;
+        if account_info.is_some() {
+            post_creator = Some(PostCreator::new());
+        }
+        let comp = BlawgdHTMLDoc::new(HomePage::new(
+            nav_bar,
+            post_creator,
+            post_components.into_boxed_slice(),
+        ));
 
-    let account_info = store
-        .clone()
-        .get_session_account_info(cl.clone())
-        .await
-        .ok();
+        let body = self.window.document()?.body()?;
+        body.set_inner_html(&comp.to_html());
 
-    let posts = cl
-        .get_timeline(
-            account_info
+        if account_info.is_some() {
+            let address = account_info
                 .clone()
-                .ok_or(anyhow!("user not logged in"))?
-                .address
-                .clone(),
-            1,
-        )
-        .await?;
-    let mut boxed_posts: Vec<Box<dyn Component>> = Vec::new();
-    for post in posts {
-        boxed_posts.push(PostComponent::new(post))
-    }
-    let nav_bar = NavBar::new(account_info.clone());
-    let mut post_creator: Option<Box<dyn Component>> = None;
-    if account_info.is_some() {
-        post_creator = Some(PostCreator::new());
-    }
-    let comp = BlawgdHTMLDoc::new(HomePage::new(
-        nav_bar,
-        post_creator,
-        boxed_posts.into_boxed_slice(),
-    ));
+                .ok_or(anyhow!("account info is empty"))?
+                .address;
+            let wallet = self.store.get_wallet()?;
+            for post in posts {
+                register_post_event_listener(
+                    wallet.clone(),
+                    self.grpc_client.clone(),
+                    address.clone(),
+                    post,
+                )
+            }
+            register_event_listeners(
+                self.store.clone(),
+                self.host.clone(),
+                self.window.document()?,
+                self.client.clone(),
+            )?;
+        }
 
-    let body = document.body().expect("body missing");
-    body.set_inner_html(&comp.to_html());
-
-    if account_info.is_some() {
-        register_event_listeners(host, store, &document, account_info.unwrap().address, cl)
-    };
-    Ok(())
+        Ok(())
+    }
 }
 
 fn register_event_listeners(
-    host: Host,
     store: Store,
-    document: &web_sys::Document,
-    address: String,
+    host: Host,
+    document: Document,
     cl: VerificationClient,
-) {
-    let post_creator_button = document
-        .get_element_by_id("post-creator-button")
-        .expect("post-creator-button element not found");
-
+) -> Result<()> {
+    let post_creator_button = document.get_element_by_id("post-creator-button")?.inner();
     events::EventListener::new(&post_creator_button, "click", move |_| {
-        let host = host.clone();
         let store = store.clone();
+        let host = host.clone();
         wasm_bindgen_futures::spawn_local(async move {
             let window = web_sys::window().unwrap();
             let document = window.document().expect("document missing");
+            let storage = window.local_storage().unwrap().unwrap();
 
             let post_content: String = document
                 .get_element_by_id("post-creator-input")
@@ -82,7 +97,7 @@ fn register_event_listeners(
                 .dyn_ref::<web_sys::HtmlTextAreaElement>()
                 .unwrap()
                 .value();
-            let msg = super::blawgd_client::MsgCreatePost {
+            let msg = MsgCreatePost {
                 creator: store.get_application_data().unwrap().address,
                 content: post_content,
                 parent_post: "".to_string(),
@@ -90,14 +105,18 @@ fn register_event_listeners(
 
             let wallet = store.get_wallet().unwrap();
             let client = grpc_web_client::Client::new(host.grpc_endpoint());
-            util::broadcast_tx(
+            let resp = util::broadcast_tx(
                 &wallet,
                 client,
                 util::MSG_TYPE_CREATE_POST,
                 msg,
                 BroadcastMode::Block as i32,
             )
-            .await;
+            .await
+            .into_inner();
+
+            util::console_log(resp.tx_response.unwrap().raw_log.as_str());
+
             window.location().reload();
         });
     })
@@ -105,7 +124,6 @@ fn register_event_listeners(
 
     let window = web_sys::window().unwrap();
     events::EventListener::new(&window, "scroll", move |_| {
-        let address = address.clone();
         let cl = cl.clone();
         wasm_bindgen_futures::spawn_local(async move {
             let window = web_sys::window().unwrap();
@@ -124,12 +142,13 @@ fn register_event_listeners(
                 state.page += 1;
 
                 let posts = cl
-                    .get_timeline(address.clone(), state.page.clone() as u64)
+                    .get_post_by_parent_post("".to_string(), state.page.clone() as u64)
                     .await
                     .unwrap();
                 if posts.len() == 0 {
                     return;
                 }
+
                 let mut posts_html: String = String::new();
                 for post in posts {
                     posts_html = format!("{}{}", posts_html, PostComponent::new(post).to_html());
@@ -143,4 +162,6 @@ fn register_event_listeners(
         });
     })
     .forget();
+
+    Ok(())
 }

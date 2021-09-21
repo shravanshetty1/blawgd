@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+// TODO Clean up vomit
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct State {
     pub page: i32,

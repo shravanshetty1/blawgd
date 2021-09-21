@@ -41,6 +41,7 @@ impl Io for LightClientIO {
             let val_resp = self.rpc_client.validators(height);
             let next_val_resp = self.rpc_client.validators(height + 1);
             let (val_resp, next_val_resp) = try_join(val_resp, next_val_resp).await?;
+
             let validators =
                 Set::with_proposer(val_resp.validators, signed_header.header.proposer_address)?;
             let next_validators = Set::without_proposer(next_val_resp.validators);
