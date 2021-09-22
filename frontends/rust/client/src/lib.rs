@@ -1,3 +1,6 @@
+// uncomment to force warnings
+// #![deny(warnings)]
+
 use wasm_bindgen::{prelude::*, JsValue};
 mod components;
 use std::sync::Arc;
@@ -41,21 +44,23 @@ pub async fn main_handler() -> Result<()> {
     let host = Host::new(location.protocol()?, location.hostname()?, location.port()?);
     let grpc_client = grpc_web_client::Client::new(host.grpc_endpoint());
     let light_client = LightClient::new(grpc_client.clone(), host.clone()).await?;
+    let vc = VerificationClient::new(light_client.clone(), grpc_client.clone());
+    // TODO make this concurrent
     light_client.write().await.verify_to_highest().await?;
+    let session = Store.get_session_account_info(vc.clone()).await.ok();
 
     let rpc_client = TendermintRPCClient::new(host.clone())?;
-    let vc = VerificationClient::new(light_client.clone(), grpc_client.clone());
     let ctx = Arc::new(ApplicationContext {
         client: MasterClient {
             lc: light_client.clone(),
-            vc: vc.clone(),
+            vc,
             rpc: rpc_client,
             grpc: grpc_client,
         },
         host,
         store: Store,
         window,
-        session: Store.get_session_account_info(vc).await.ok(),
+        session,
         logger: Logger,
     });
     PageRenderer::new(ctx)

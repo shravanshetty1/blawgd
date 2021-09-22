@@ -20,20 +20,20 @@ impl PageRenderer {
     }
 
     pub async fn render(&self, url: &str) -> Result<()> {
+        let ctx = self.ctx.clone();
+
         let url_path = url
-            .strip_prefix(format!("{}/", self.ctx.host.endpoint()).as_str())
+            .strip_prefix(format!("{}/", ctx.host.endpoint()).as_str())
             .ok_or(anyhow!("could not stip prefix of {}", url))?;
 
         match url_path {
             // url if url.starts_with("followings") => followings_page::handle(Store, host, cl).await,
             // url if url.starts_with("post") => post_page::handle(Store, host, cl).await,
-            // url if url.starts_with("edit-profile") => {
-            //     edit_profile_page::handle(Store, host, cl).await
-            // }
+            url if url.starts_with("edit-profile") => PageRenderer::edit_profile_page(ctx).await,
             // url if url.starts_with("timeline") => timeline_page::handle(host, Store, cl).await,
             // url if url.starts_with("profile") => profile_page::handle(Store, host, cl).await,
             // url if url.starts_with("login") => login_page::handle(Store, host, cl).await,
-            _ => PageRenderer::home_page(self.ctx.clone()).await,
+            _ => PageRenderer::home_page(ctx).await,
         }?;
 
         Ok(())

@@ -38,6 +38,6 @@ impl super::Component for AccountInfoComp {
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
-        unimplemented!()
+        Ok(())
     }
 }

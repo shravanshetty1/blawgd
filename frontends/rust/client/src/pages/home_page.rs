@@ -14,24 +14,24 @@ use std::sync::Arc;
 
 impl PageRenderer {
     pub async fn home_page(ctx: Arc<ApplicationContext>) -> Result<()> {
-        let posts_resp = ctx.client.vc.get_post_by_parent_post("".to_string(), 1);
-        let account_info_resp = ctx.store.get_session_account_info(ctx.client.vc.clone());
-        let (posts, account_info) = try_join(posts_resp, account_info_resp).await?;
-        let account_info = Some(account_info);
-
-        let post_components = posts
+        let posts = ctx
+            .client
+            .vc
+            .get_post_by_parent_post("".to_string(), 1)
+            .await?;
+        let posts = posts
             .iter()
             .map(|p| PostComponent::new(p.clone()) as Box<dyn Component>)
             .collect::<Vec<Box<dyn Component>>>();
-        let nav_bar = NavBar::new(account_info.clone());
+        let nav_bar = NavBar::new(ctx.session.clone());
         let mut post_creator: Option<Box<dyn Component>> = None;
-        if account_info.is_some() {
+        if ctx.session.is_some() {
             post_creator = Some(PostCreator::new());
         }
         let comp = BlawgdHTMLDoc::new(HomePage::new(
             nav_bar,
             post_creator,
-            post_components.into_boxed_slice(),
+            posts.into_boxed_slice(),
         ));
 
         let body = ctx.window.document()?.body()?;
