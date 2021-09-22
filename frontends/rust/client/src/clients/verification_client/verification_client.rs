@@ -83,13 +83,27 @@ impl VerificationClient {
 
     pub async fn get_account_info(&self, address: String) -> Result<AccountInfo> {
         let account_info = self
-            .get_proto::<AccountInfo>(vec![keys::account_info_key(address.clone())])
+            .get_account_infos(vec![address.clone()])
             .await?
-            .values()
-            .next()
-            .cloned()
-            .ok_or(anyhow!("could not get account info"))?
-            .unwrap_or(AccountInfo {
+            .first()
+            .ok_or(anyhow!("could not get account info for {}", address))?
+            .clone();
+        Ok(account_info)
+    }
+
+    pub async fn get_account_infos(&self, addresses: Vec<String>) -> Result<Vec<AccountInfo>> {
+        let address_to_account_info = self
+            .get_proto::<AccountInfo>(
+                addresses
+                    .iter()
+                    .map(|a| keys::account_info_key(a.clone()))
+                    .collect(),
+            )
+            .await?;
+
+        let mut account_infos: Vec<AccountInfo> = Vec::new();
+        for (address, account_info) in address_to_account_info {
+            let account_info = account_info.unwrap_or(AccountInfo {
                 address: address.clone(),
                 name: "".to_string(),
                 photo: "".to_string(),
@@ -97,7 +111,10 @@ impl VerificationClient {
                 followers_count: 0,
                 post_count: 0,
             });
-        Ok(normalize_account_info(account_info, address.clone()))
+            account_infos.push(normalize_account_info(account_info, address))
+        }
+
+        Ok(account_infos)
     }
 
     pub async fn get_following_list(&self, address: String) -> Result<Vec<String>> {

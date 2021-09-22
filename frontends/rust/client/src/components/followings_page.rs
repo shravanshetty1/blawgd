@@ -66,6 +66,6 @@ impl Component for FollowingsPage {
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
-        unimplemented!()
+        Ok(())
     }
 }

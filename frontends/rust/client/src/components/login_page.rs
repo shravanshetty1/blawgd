@@ -1,7 +1,14 @@
 use super::Component;
 use crate::context::ApplicationContext;
+use crate::storage::{ApplicationData, COSMOS_DP};
+use crate::task;
 use anyhow::Result;
+use bip39::{Language, Mnemonic, MnemonicType};
+use crw_wallet::crypto::MnemonicWallet;
+use gloo::events;
 use prost::alloc::sync::Arc;
+use task::spawn_local;
+use wasm_bindgen::JsCast;
 
 pub struct LoginPage {
     nav_bar: Box<dyn Component>,
@@ -60,6 +67,70 @@ impl Component for LoginPage {
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
-        unimplemented!()
+        let document = ctx.window.document()?;
+        let generate_account = document.get_element_by_id("generate-account")?.inner();
+        events::EventListener::new(&generate_account, "click", move |_| {
+            let document = document.clone();
+            spawn_local(async move {
+                let phrase = Mnemonic::new(MnemonicType::Words24, Language::English)
+                    .phrase()
+                    .to_owned();
+
+                let mnemonic_field = document.get_element_by_id("wallet-mnemonic")?.inner();
+                mnemonic_field.set_text_content(Some(phrase.as_str()));
+                Ok(())
+            });
+        })
+        .forget();
+
+        let session = ctx.session.clone();
+        if session.is_some() {
+            let document = ctx.window.document()?;
+            let logout_button = document.get_element_by_id("logout-button")?.inner();
+            let store = ctx.store.clone();
+            let location = ctx.window.location().inner().clone();
+            events::EventListener::new(&logout_button, "click", move |_| {
+                store.delete_application_data();
+                location.reload();
+            })
+            .forget();
+        }
+
+        let document = ctx.window.document()?;
+        let login_element = document.get_element_by_id("login")?.inner();
+        events::EventListener::new(&login_element, "click", move |_| {
+            let ctx = ctx.clone();
+            let document = document.clone();
+            spawn_local(async move {
+                let mnemonic: String = document
+                    .get_element_by_id("wallet-mnemonic")?
+                    .inner()
+                    .dyn_ref::<web_sys::HtmlTextAreaElement>()
+                    .unwrap()
+                    .value();
+                let address = MnemonicWallet::new(mnemonic.as_str(), COSMOS_DP)?
+                    .get_bech32_address("cosmos")?;
+
+                let resp = reqwest::get(&format!(
+                    "{}/?address={}",
+                    ctx.host.faucet_endpoint(),
+                    address
+                ))
+                .await?
+                .text()
+                .await?;
+                crate::logger::console_log(resp.as_str());
+
+                ctx.store.set_application_data(ApplicationData {
+                    mnemonic: mnemonic.to_string(),
+                    address,
+                });
+                ctx.window.location().inner().reload();
+                Ok(())
+            });
+        })
+        .forget();
+
+        Ok(())
     }
 }
