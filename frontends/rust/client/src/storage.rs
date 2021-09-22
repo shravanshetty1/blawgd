@@ -1,4 +1,4 @@
-use crate::blawgd_client::AccountInfo;
+use crate::clients::blawgd_client::AccountInfo;
 use crate::clients::verification_client::VerificationClient;
 use anyhow::Result;
 use crw_wallet::crypto::MnemonicWallet;

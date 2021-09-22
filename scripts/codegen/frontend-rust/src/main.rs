@@ -1,6 +1,6 @@
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     tonic_build::configure()
-        .out_dir("../../../frontends/rust/client/src/blawgd_client")
+        .out_dir("../../../frontends/rust/client/src/clients/blawgd_client")
         .format(true)
         .build_client(true)
         .build_server(false)

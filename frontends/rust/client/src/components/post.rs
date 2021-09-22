@@ -1,12 +1,17 @@
-use crate::blawgd_client::{MsgLikePost, MsgRepost, PostView};
+use crate::clients::blawgd_client::{MsgLikePost, MsgRepost, PostView};
 use crate::context::ApplicationContext;
+use crate::task;
 use crate::util;
 use crate::util::{MSG_TYPE_LIKE, MSG_TYPE_REPOST};
+use anyhow::anyhow;
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use events::EventListener;
 use gloo::events;
+use std::borrow::Cow;
+use std::future::Future;
 use std::sync::Arc;
+use task::spawn_local;
 
 pub struct PostComponent {
     post: PostView,
@@ -26,34 +31,39 @@ impl PostComponent {
         let document = ctx.window.document()?;
         let like_button_wrapper_id = format!("post-{}-like", post.id);
         let like_button_wrapper = document.get_element_by_id(like_button_wrapper_id.as_str())?;
-        let like_button_id = format!("post-{}-like-content", post.id);
-        let like_button = document.get_element_by_id(like_button_id.as_str())?;
-
         EventListener::new(&like_button_wrapper.inner(), "click", move |_| {
-            let like_button_text: String = like_button.inner_html();
-            let likes_count_text = like_button_text.strip_suffix(" Likes").unwrap_or("0");
-            let mut likes_count = likes_count_text.parse::<i32>().unwrap_or(0);
-            likes_count += 1;
-            like_button.set_inner_html(format!("{} Likes", likes_count).as_str());
-
-            let ctx = ctx.clone();
             let post = post.clone();
-            wasm_bindgen_futures::spawn_local(async move {
+            let ctx = ctx.clone();
+            let document = document.clone();
+            spawn_local(async move {
+                let like_button_id = format!("post-{}-like-content", post.id);
+                let like_button = document.get_element_by_id(like_button_id.as_str())?;
+                let like_button_text = like_button.inner_html();
+                let likes_count_text = like_button_text.strip_suffix(" Likes").unwrap_or("0");
+                let mut likes_count = likes_count_text.parse::<i32>()?;
+                likes_count += 1;
+                like_button.set_inner_html(format!("{} Likes", likes_count).as_str());
+
+                let session = ctx
+                    .session
+                    .as_ref()
+                    .ok_or(anyhow!("could not get session account info"))?;
                 let resp = ctx
                     .client
                     .broadcast_tx(
-                        &ctx.store.get_wallet().unwrap(),
+                        &ctx.store.get_wallet()?,
                         MSG_TYPE_LIKE,
                         MsgLikePost {
-                            creator: ctx.session.as_ref().unwrap().address.clone(),
+                            creator: session.address.clone(),
                             post_id: post.id,
                             amount: 1,
                         },
                         BroadcastMode::Sync as i32,
                     )
-                    .await;
+                    .await?;
 
-                util::console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str())
+                util::console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str());
+                Ok(())
             });
         })
         .forget();
@@ -62,37 +72,43 @@ impl PostComponent {
 
     fn repost_event(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
         let post = self.post.clone();
-        let document = ctx.window.document().unwrap();
+        let document = ctx.window.document()?;
         let repost_button_wrapper_id = format!("post-{}-repost", post.id);
         let repost_button_wrapper =
             document.get_element_by_id(repost_button_wrapper_id.as_str())?;
-        let repost_button_id = format!("post-{}-repost-content", post.id);
-        let repost_button = document.get_element_by_id(repost_button_id.as_str())?;
-
         EventListener::new(&repost_button_wrapper.inner(), "click", move |_| {
-            let repost_button_text: String = repost_button.inner_html();
-            let repost_count_text = repost_button_text.strip_suffix(" Reposts").unwrap_or("0");
-            let mut repost_count = repost_count_text.parse::<i32>().unwrap_or(0);
-            repost_count += 1;
-            repost_button.set_inner_html(format!("{} Reposts", repost_count).as_str());
-
-            let ctx = ctx.clone();
             let post = post.clone();
-            wasm_bindgen_futures::spawn_local(async move {
+            let ctx = ctx.clone();
+            let document = document.clone();
+            spawn_local(async move {
+                let repost_button_id = format!("post-{}-repost-content", post.id);
+                let repost_button = document.get_element_by_id(repost_button_id.as_str())?;
+                let repost_button_text: String = repost_button.inner_html();
+                let repost_count_text = repost_button_text.strip_suffix(" Reposts").unwrap_or("0");
+                let mut repost_count = repost_count_text.parse::<i32>().unwrap_or(0);
+                repost_count += 1;
+                repost_button.set_inner_html(format!("{} Reposts", repost_count).as_str());
+
                 let resp = ctx
                     .client
                     .broadcast_tx(
-                        &ctx.store.get_wallet().unwrap(),
+                        &ctx.store.get_wallet()?,
                         MSG_TYPE_REPOST,
                         MsgRepost {
-                            creator: ctx.session.as_ref().unwrap().address.clone(),
+                            creator: ctx
+                                .session
+                                .as_ref()
+                                .ok_or(anyhow!("could not get session account info"))?
+                                .address
+                                .clone(),
                             post_id: post.id,
                         },
                         BroadcastMode::Sync as i32,
                     )
-                    .await;
+                    .await?;
 
-                util::console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str())
+                util::console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str());
+                Ok(())
             });
         })
         .forget();
@@ -180,10 +196,3 @@ impl super::Component for PostComponent {
         Ok(())
     }
 }
-//
-// pub fn event(f: Box<dyn Future<Output = ()>>) {
-//     EventListener::new(x, "x", move |_| {
-//         let f = f;
-//         wasm_bindgen_futures::spawn_local(f.await)
-//     });
-// }

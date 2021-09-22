@@ -1,5 +1,5 @@
 use super::Component;
-use crate::blawgd_client::AccountInfo;
+use crate::clients::blawgd_client::AccountInfo;
 use crate::context::ApplicationContext;
 use anyhow::Result;
 use prost::alloc::sync::Arc;

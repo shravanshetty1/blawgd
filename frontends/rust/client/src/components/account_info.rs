@@ -1,14 +1,14 @@
-use crate::blawgd_client;
+use crate::clients::blawgd_client::AccountInfo;
 use crate::context::ApplicationContext;
 use anyhow::Result;
 use prost::alloc::sync::Arc;
 
 pub struct AccountInfoComp {
-    account_info: blawgd_client::AccountInfo,
+    account_info: AccountInfo,
 }
 
 impl AccountInfoComp {
-    pub fn new(account_info: blawgd_client::AccountInfo) -> Box<AccountInfoComp> {
+    pub fn new(account_info: AccountInfo) -> Box<AccountInfoComp> {
         Box::new(AccountInfoComp { account_info })
     }
 }

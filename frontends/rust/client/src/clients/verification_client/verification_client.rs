@@ -1,5 +1,5 @@
 use super::keys;
-use crate::blawgd_client::{query_client, AccountInfo, GetRequest, Post, PostView};
+use crate::clients::blawgd_client::{query_client, AccountInfo, GetRequest, Post, PostView};
 use crate::clients::verification_client::helpers::convert_tm_to_ics_merkle_proof;
 use crate::clients::verification_client::proof::{verify_membership, verify_non_membership};
 use crate::clients::verification_client::VerificationClient;

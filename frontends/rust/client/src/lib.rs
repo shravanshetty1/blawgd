@@ -1,5 +1,4 @@
 use wasm_bindgen::{prelude::*, JsValue};
-mod blawgd_client;
 mod components;
 mod util;
 use std::sync::Arc;
@@ -18,6 +17,7 @@ mod context;
 mod dom;
 mod pages;
 mod storage;
+mod task;
 
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {

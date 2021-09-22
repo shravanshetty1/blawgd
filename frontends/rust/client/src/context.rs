@@ -1,4 +1,4 @@
-use crate::blawgd_client::AccountInfo;
+use crate::clients::blawgd_client::AccountInfo;
 use crate::clients::MasterClient;
 use crate::dom::Window;
 use crate::host::Host;
