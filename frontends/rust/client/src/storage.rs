@@ -18,6 +18,7 @@ pub struct ApplicationData {
     pub address: String,
 }
 
+// TODO inject storage
 impl Store {
     pub fn set_application_data(&self, app_data: ApplicationData) -> Result<()> {
         Ok(LocalStorage::set("app_data", app_data)?)

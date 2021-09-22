@@ -1,4 +1,7 @@
 use crate::blawgd_client::AccountInfo;
+use crate::context::ApplicationContext;
+use anyhow::Result;
+use std::sync::Arc;
 
 pub struct NavBar {
     account_info: Option<AccountInfo>,
@@ -65,5 +68,9 @@ impl super::Component for NavBar {
     </div>"#,
             account_menu_items, login_component
         ))
+    }
+
+    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+        Ok(())
     }
 }

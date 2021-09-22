@@ -1,3 +1,7 @@
+use crate::context::ApplicationContext;
+use anyhow::Result;
+use std::sync::Arc;
+
 pub struct PostCreator {
     button_text: String,
 }
@@ -28,5 +32,9 @@ impl super::Component for PostCreator {
         </div>"#,
             self.button_text
         ))
+    }
+
+    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+        Ok(())
     }
 }

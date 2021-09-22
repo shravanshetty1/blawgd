@@ -1,5 +1,8 @@
 use super::Component;
 use crate::blawgd_client::AccountInfo;
+use crate::context::ApplicationContext;
+use anyhow::Result;
+use prost::alloc::sync::Arc;
 
 pub struct FollowingsPage {
     nav_bar: Box<dyn Component>,
@@ -60,5 +63,9 @@ impl Component for FollowingsPage {
             self.nav_bar.to_html(),
             account_infos_component,
         ))
+    }
+
+    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+        unimplemented!()
     }
 }

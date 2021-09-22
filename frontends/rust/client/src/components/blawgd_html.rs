@@ -1,3 +1,7 @@
+use crate::context::ApplicationContext;
+use anyhow::Result;
+use std::sync::Arc;
+
 pub struct BlawgdHTMLDoc {
     page: Box<dyn super::Component>,
 }
@@ -20,7 +24,6 @@ impl super::Component for BlawgdHTMLDoc {
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<div id="state" hidden>This is a disgusting hack</div>
 {}
 </body>
 <script type="module">
@@ -32,5 +35,10 @@ impl super::Component for BlawgdHTMLDoc {
 "#,
             self.page.to_html()
         )
+    }
+
+    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+        self.page.register_events(ctx)?;
+        Ok(())
     }
 }

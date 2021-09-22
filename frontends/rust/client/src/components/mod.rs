@@ -9,7 +9,11 @@ pub mod post;
 pub mod post_creator;
 pub mod post_page;
 pub mod profile_page;
+use crate::context::ApplicationContext;
+use anyhow::Result;
+use std::sync::Arc;
 
 pub trait Component {
     fn to_html(&self) -> String;
+    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()>;
 }

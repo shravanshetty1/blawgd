@@ -1,4 +1,7 @@
 use super::Component;
+use crate::context::ApplicationContext;
+use anyhow::Result;
+use prost::alloc::sync::Arc;
 
 pub struct LoginPage {
     nav_bar: Box<dyn Component>,
@@ -54,5 +57,9 @@ impl Component for LoginPage {
             self.nav_bar.to_html(),
             account_info_component
         ))
+    }
+
+    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+        unimplemented!()
     }
 }

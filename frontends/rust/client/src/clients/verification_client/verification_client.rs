@@ -5,8 +5,7 @@ use crate::clients::verification_client::proof::{verify_membership, verify_non_m
 use crate::clients::verification_client::VerificationClient;
 use anyhow::anyhow;
 use anyhow::Result;
-use tendermint_light_client::supervisor::Handle;
-use wasm_bindgen::__rt::std::collections::HashMap;
+use std::collections::HashMap;
 
 const PER_PAGE: u64 = 30;
 

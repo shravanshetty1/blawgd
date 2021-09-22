@@ -1,4 +1,7 @@
 use crate::components::Component;
+use crate::context::ApplicationContext;
+use anyhow::Result;
+use prost::alloc::sync::Arc;
 
 pub struct PostPage {
     nav_bar: Box<dyn Component>,
@@ -52,5 +55,9 @@ impl super::Component for PostPage {
             post_creator,
             posts
         ))
+    }
+
+    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+        unimplemented!()
     }
 }

@@ -1,4 +1,7 @@
 use crate::components::Component;
+use crate::context::ApplicationContext;
+use anyhow::Result;
+use std::sync::Arc;
 
 pub struct HomePage {
     nav_bar: Box<dyn Component>,
@@ -47,5 +50,20 @@ impl super::Component for HomePage {
             post_creator,
             posts
         ))
+    }
+
+    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+        self.nav_bar.register_events(ctx.clone())?;
+        if self.post_creator.is_some() {
+            self.post_creator
+                .as_ref()
+                .unwrap()
+                .register_events(ctx.clone())?;
+        }
+        for p in self.posts.iter() {
+            p.register_events(ctx.clone())?;
+        }
+
+        Ok(())
     }
 }

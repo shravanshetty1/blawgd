@@ -1,4 +1,7 @@
 use crate::blawgd_client;
+use crate::context::ApplicationContext;
+use anyhow::Result;
+use prost::alloc::sync::Arc;
 
 pub struct AccountInfoComp {
     account_info: blawgd_client::AccountInfo,
@@ -32,5 +35,9 @@ impl super::Component for AccountInfoComp {
             account_info.address,
             account_info.following_count
         )
+    }
+
+    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+        unimplemented!()
     }
 }

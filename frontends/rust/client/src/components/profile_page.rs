@@ -1,4 +1,7 @@
 use super::Component;
+use crate::context::ApplicationContext;
+use anyhow::Result;
+use prost::alloc::sync::Arc;
 
 pub struct ProfilePage {
     nav_bar: Box<dyn Component>,
@@ -77,5 +80,9 @@ impl Component for ProfilePage {
             account_info_component,
             posts
         ))
+    }
+
+    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+        unimplemented!()
     }
 }

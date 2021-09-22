@@ -1,7 +1,7 @@
 use crate::clients::rpc_client::TendermintRPCClient;
 use anyhow::Result;
 use async_trait::async_trait;
-use futures::future::{join, try_join, try_join_all};
+use futures::future::try_join;
 use io::{AtHeight, Io};
 use tendermint::validator::Set;
 use tendermint_light_client::{
@@ -9,7 +9,6 @@ use tendermint_light_client::{
     components::io::IoError,
     types::{LightBlock, PeerId},
 };
-use tendermint_rpc::response::Wrapper;
 
 pub struct LightClientIO {
     rpc_client: TendermintRPCClient,

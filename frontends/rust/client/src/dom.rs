@@ -44,6 +44,12 @@ impl Element {
     pub fn inner(&self) -> web_sys::Element {
         self.inner.clone()
     }
+    pub fn set_inner_html(&self, val: &str) {
+        self.inner.set_inner_html(val)
+    }
+    pub fn inner_html(&self) -> String {
+        self.inner.inner_html()
+    }
 }
 
 #[derive(Clone)]

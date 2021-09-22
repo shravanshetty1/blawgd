@@ -1,54 +1,33 @@
-use std::time::Duration;
-
-use async_trait::async_trait;
-use contracts::contract_trait;
-use cosmos_sdk_proto::{
-    cosmos::base::tendermint::v1beta1::service_client::ServiceClient as base_client,
-    cosmos::base::tendermint::v1beta1::GetNodeInfoRequest,
-};
-
-use tendermint::{abci::transaction::Hash, block::Height, evidence::Evidence, net::Address, Time};
-
-use self::custom_evidence_reporter::CustomEvidenceReporter;
-use super::rpc_client::TendermintRPCClient;
-use crate::{
-    clients::light_client::clock::WasmClock, clients::light_client::light_store::CustomLightStore,
-    host::Host, util,
-};
+use crate::clients::light_client::clock::WasmClock;
+use crate::clients::light_client::custom_evidence_reporter::CustomEvidenceReporter;
+use crate::clients::light_client::light_client_io::LightClientIO;
+use crate::clients::light_client::light_store::CustomLightStore;
+use crate::clients::rpc_client::TendermintRPCClient;
+use crate::host::Host;
+use crate::util;
+use anyhow::anyhow;
 use anyhow::Result;
 use async_lock::RwLock;
-use evidence::EvidenceReporter;
-use gloo::{storage::errors::StorageError, storage::LocalStorage, storage::Storage};
-use light_client_io::LightClientIO;
+use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::service_client::ServiceClient;
+use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::GetNodeInfoRequest;
 use std::sync::Arc;
-use supervisor::SupervisorHandle;
-use tendermint_light_client::components::clock::Clock;
-use tendermint_light_client::{
-    builder::{LightClientBuilder, SupervisorBuilder},
-    components::{io, io::IoError, scheduler, verifier::ProdVerifier},
-    evidence,
-    fork_detector::ProdForkDetector,
-    light_client,
-    operations::ProdHasher,
-    predicates::ProdPredicates,
-    store::memory::MemoryStore,
-    supervisor,
-    supervisor::Handle,
-    supervisor::Supervisor,
-    types::{LightBlock, PeerId, Status, TrustThreshold},
-};
-use tendermint_rpc::{
-    endpoint::{block, commit},
-    response::Wrapper,
-    Url,
-};
+use std::time::Duration;
+use tendermint_light_client::builder::LightClientBuilder;
+use tendermint_light_client::builder::SupervisorBuilder;
+use tendermint_light_client::components::scheduler;
+use tendermint_light_client::components::verifier::ProdVerifier;
+use tendermint_light_client::fork_detector::ProdForkDetector;
+use tendermint_light_client::operations::ProdHasher;
+use tendermint_light_client::predicates::ProdPredicates;
+use tendermint_light_client::supervisor::Supervisor;
+use tendermint_light_client::types::{PeerId, TrustThreshold};
+use tendermint_light_client::{light_client, supervisor};
+use tendermint_rpc::Url;
 
 mod clock;
 mod custom_evidence_reporter;
 mod light_client_io;
 mod light_store;
-
-use anyhow::anyhow;
 
 const TRUSTING_PERIOD: u64 = 3600000;
 const CLOCK_DRIFT: u64 = 1;
@@ -57,7 +36,7 @@ pub struct LightClient;
 
 impl LightClient {
     pub async fn new(cl: grpc_web_client::Client, host: Host) -> Result<Arc<RwLock<Supervisor>>> {
-        let node_info = base_client::new(cl)
+        let node_info = ServiceClient::new(cl)
             .get_node_info(GetNodeInfoRequest {})
             .await?
             .get_ref()
