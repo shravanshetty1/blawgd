@@ -10,6 +10,9 @@ pub fn new_window(window: web_sys::Window) -> Window {
 }
 
 impl Window {
+    pub fn inner(&self) -> web_sys::Window {
+        self.window.clone()
+    }
     pub fn location(&self) -> Location {
         Location {
             location: self.window.location(),
@@ -58,6 +61,9 @@ pub struct Document {
 }
 
 impl Document {
+    pub fn inner(&self) -> web_sys::Document {
+        self.document.clone()
+    }
     pub fn body(&self) -> Result<HtmlElement> {
         Ok(HtmlElement {
             inner: self
@@ -81,6 +87,9 @@ pub struct Location {
 }
 
 impl Location {
+    pub fn inner(&self) -> web_sys::Location {
+        self.location.clone()
+    }
     pub fn href(&self) -> Result<String> {
         Ok(self
             .location

@@ -103,7 +103,7 @@
 //                 .text()
 //                 .await
 //                 .unwrap();
-//             util::console_log(resp.as_str());
+//             crate::logger::console_log(resp.as_str());
 //
 //             store.set_application_data(ApplicationData { mnemonic, address });
 //             window.location().reload();

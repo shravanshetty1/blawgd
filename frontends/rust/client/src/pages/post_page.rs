@@ -143,7 +143,7 @@
 //                 main_column.insert_adjacent_html("beforeend", posts_html.as_str());
 //
 //                 set_state(state.clone());
-//                 util::console_log(format!("{}", state.page).as_str());
+//                 crate::logger::console_log(format!("{}", state.page).as_str());
 //             }
 //         });
 //     })

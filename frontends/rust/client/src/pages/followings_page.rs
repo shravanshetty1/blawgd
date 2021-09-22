@@ -33,3 +33,21 @@
 //
 //     Ok(())
 // }
+
+//
+// pub async fn is_following(
+//     cl: VerificationClient,
+//     address1: String,
+//     address2: String,
+// ) -> Result<bool> {
+//     let followings = cl.get_following_list(address1).await?;
+//
+//     let mut is_following: bool = false;
+//     for following in followings {
+//         if following.to_string() == address2 {
+//             is_following = true;
+//         }
+//     }
+//
+//     Ok(is_following)
+// }

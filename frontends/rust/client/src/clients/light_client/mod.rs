@@ -4,7 +4,6 @@ use crate::clients::light_client::light_client_io::LightClientIO;
 use crate::clients::light_client::light_store::CustomLightStore;
 use crate::clients::rpc_client::TendermintRPCClient;
 use crate::host::Host;
-use crate::util;
 use anyhow::anyhow;
 use anyhow::Result;
 use async_lock::RwLock;
@@ -66,12 +65,12 @@ impl LightClient {
         loop {
             match lc.write().await.verify_to_highest().await {
                 Ok(light_block) => {
-                    util::console_log(
+                    crate::logger::console_log(
                         format!("[info] synced to block {}", light_block.height()).as_str(),
                     );
                 }
                 Err(err) => {
-                    util::console_log(format!("[error] sync failed: {}", err).as_str());
+                    crate::logger::console_log(format!("[error] sync failed: {}", err).as_str());
                 }
             }
             gloo::timers::future::TimeoutFuture::new(5000).await;

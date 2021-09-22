@@ -1,6 +1,5 @@
 use wasm_bindgen::{prelude::*, JsValue};
 mod components;
-mod util;
 use std::sync::Arc;
 mod host;
 use crate::clients::light_client::LightClient;
@@ -8,13 +7,16 @@ use crate::clients::rpc_client::TendermintRPCClient;
 use crate::clients::verification_client::VerificationClient;
 use crate::clients::MasterClient;
 use crate::context::ApplicationContext;
+use crate::logger::Logger;
 use crate::pages::PageRenderer;
 use crate::storage::Store;
 use anyhow::{anyhow, Result};
 use host::Host;
+
 mod clients;
 mod context;
 mod dom;
+mod logger;
 mod pages;
 mod storage;
 mod task;
@@ -54,6 +56,7 @@ pub async fn main_handler() -> Result<()> {
         store: Store,
         window,
         session: Store.get_session_account_info(vc).await.ok(),
+        logger: Logger,
     });
     PageRenderer::new(ctx)
         .render(location.href()?.as_str())

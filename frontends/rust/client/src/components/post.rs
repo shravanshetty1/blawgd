@@ -1,8 +1,7 @@
 use crate::clients::blawgd_client::{MsgLikePost, MsgRepost, PostView};
+use crate::clients::{MSG_TYPE_LIKE, MSG_TYPE_REPOST};
 use crate::context::ApplicationContext;
 use crate::task;
-use crate::util;
-use crate::util::{MSG_TYPE_LIKE, MSG_TYPE_REPOST};
 use anyhow::anyhow;
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
@@ -62,7 +61,7 @@ impl PostComponent {
                     )
                     .await?;
 
-                util::console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str());
+                crate::logger::console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str());
                 Ok(())
             });
         })
@@ -107,7 +106,7 @@ impl PostComponent {
                     )
                     .await?;
 
-                util::console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str());
+                crate::logger::console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str());
                 Ok(())
             });
         })
