@@ -35,18 +35,18 @@ impl PostPage {
 }
 
 impl super::Component for PostPage {
-    fn to_html(&self) -> String {
+    fn to_html(&self) -> Result<String> {
         let mut posts: String = String::new();
         for post in self.posts.iter() {
-            posts = format!("{}{}", posts, post.to_html())
+            posts = format!("{}{}", posts, post.to_html()?)
         }
 
         let mut post_creator: String = String::new();
         if self.post_creator.is_some() {
-            post_creator = self.post_creator.as_ref().unwrap().to_html();
+            post_creator = self.post_creator.as_ref().unwrap().to_html()?;
         }
 
-        String::from(format!(
+        let html = String::from(format!(
             r#"
 <div class="page">
     {}
@@ -58,11 +58,12 @@ impl super::Component for PostPage {
     <div class="secondary-column"></div>
 </div>
 "#,
-            self.nav_bar.to_html(),
-            self.main_post.to_html(),
+            self.nav_bar.to_html()?,
+            self.main_post.to_html()?,
             post_creator,
             posts
-        ))
+        ));
+        Ok(html)
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {

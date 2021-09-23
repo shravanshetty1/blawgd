@@ -22,7 +22,7 @@ impl FollowingsPage {
 }
 
 impl Component for FollowingsPage {
-    fn to_html(&self) -> String {
+    fn to_html(&self) -> Result<String> {
         let mut account_infos_component = String::new();
         for account_info in &self.account_infos {
             account_infos_component = format!(
@@ -49,7 +49,7 @@ impl Component for FollowingsPage {
             )
         }
 
-        String::from(format!(
+        Ok(String::from(format!(
             r#"
 <div class="page">
     {}
@@ -60,9 +60,9 @@ impl Component for FollowingsPage {
     <div class="secondary-column"></div>
 </div>
 "#,
-            self.nav_bar.to_html(),
+            self.nav_bar.to_html()?,
             account_infos_component,
-        ))
+        )))
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {

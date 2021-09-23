@@ -14,7 +14,7 @@ impl NavBar {
 }
 
 impl super::Component for NavBar {
-    fn to_html(&self) -> String {
+    fn to_html(&self) -> Result<String> {
         let mut account_menu_items: String = String::new();
         let mut login_component: String = String::from(
             r#"
@@ -53,7 +53,7 @@ impl super::Component for NavBar {
             ));
         }
 
-        String::from(format!(
+        let html = String::from(format!(
             r#"
     <div class="nav-bar">
         <a href="/" class="nav-bar-header">
@@ -67,7 +67,8 @@ impl super::Component for NavBar {
         {}
     </div>"#,
             account_menu_items, login_component
-        ))
+        ));
+        Ok(html)
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {

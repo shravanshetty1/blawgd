@@ -14,9 +14,9 @@ impl AccountInfoComp {
 }
 
 impl super::Component for AccountInfoComp {
-    fn to_html(&self) -> String {
+    fn to_html(&self) -> Result<String> {
         let account_info = self.account_info.clone();
-        format!(
+        let html = format!(
             r#"
             <div class="account-info">
                 <img id="account-info-photo" src="{}" class="account-info-photo">
@@ -34,7 +34,8 @@ impl super::Component for AccountInfoComp {
             account_info.followers_count,
             account_info.address,
             account_info.following_count
-        )
+        );
+        Ok(html)
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {

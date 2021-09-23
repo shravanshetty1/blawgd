@@ -43,7 +43,7 @@ impl PageRenderer {
         }?;
 
         let body = ctx.window.document()?.get_element_by_id("body")?;
-        body.set_inner_html(&page.to_html());
+        body.set_inner_html(&page.to_html()?);
         page.register_events(ctx)?;
 
         Ok(())

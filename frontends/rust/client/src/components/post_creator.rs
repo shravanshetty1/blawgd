@@ -27,8 +27,8 @@ impl PostCreator {
 }
 
 impl super::Component for PostCreator {
-    fn to_html(&self) -> String {
-        String::from(format!(
+    fn to_html(&self) -> Result<String> {
+        Ok(String::from(format!(
             r#"
         <div class="post-creator">
             <textarea id="post-creator-input" class="post-creator-input"></textarea>
@@ -39,7 +39,7 @@ impl super::Component for PostCreator {
             </div>
         </div>"#,
             self.button_text
-        ))
+        )))
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {

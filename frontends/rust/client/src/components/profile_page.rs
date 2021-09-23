@@ -45,10 +45,10 @@ impl ProfilePage {
 }
 
 impl Component for ProfilePage {
-    fn to_html(&self) -> String {
+    fn to_html(&self) -> Result<String> {
         let mut posts: String = String::new();
         for post in self.posts.iter() {
-            posts = format!("{}{}", posts, post.to_html())
+            posts = format!("{}{}", posts, post.to_html()?)
         }
 
         let mut button = String::new();
@@ -72,11 +72,11 @@ impl Component for ProfilePage {
                     {}
                 </div>
                 "#,
-            AccountInfoComp::new(self.account_info.clone()).to_html(),
+            AccountInfoComp::new(self.account_info.clone()).to_html()?,
             button
         ));
 
-        String::from(format!(
+        let html = String::from(format!(
             r#"
 <div class="page">
     {}
@@ -87,10 +87,11 @@ impl Component for ProfilePage {
     <div class="secondary-column"></div>
 </div>
 "#,
-            self.nav_bar.to_html(),
+            self.nav_bar.to_html()?,
             account_info_component,
             posts
-        ))
+        ));
+        Ok(html)
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {

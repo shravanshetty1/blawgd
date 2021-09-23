@@ -15,6 +15,6 @@ pub mod scroll_event;
 pub mod timeline_page;
 
 pub trait Component {
-    fn to_html(&self) -> String;
+    fn to_html(&self) -> Result<String>;
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()>;
 }

@@ -35,7 +35,7 @@ impl PostComponent {
             let ctx = ctx.clone();
             let document = document.clone();
 
-            // TODO spawn local is slow, move like out of it
+            // TODO rerender the entire component
 
             spawn_local(async move {
                 let session = ctx
@@ -120,7 +120,7 @@ impl PostComponent {
 }
 
 impl super::Component for PostComponent {
-    fn to_html(&self) -> String {
+    fn to_html(&self) -> Result<String> {
         let mut account_info = self.post.creator.clone().unwrap();
 
         let mut post_text_class = "post-component-text";
@@ -152,7 +152,7 @@ impl super::Component for PostComponent {
             account_info = repost.creator.clone().unwrap();
         }
 
-        String::from(format!(
+        let html = String::from(format!(
             r#"
         <div class="post-component">
             {}
@@ -190,7 +190,8 @@ impl super::Component for PostComponent {
             post.repost_count,
             post.id,
             post.comments_count
-        ))
+        ));
+        Ok(html)
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {

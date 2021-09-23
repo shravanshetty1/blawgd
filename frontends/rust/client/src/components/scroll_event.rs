@@ -42,7 +42,7 @@ pub fn reg_scroll_event(state: Arc<RwLock<PageState>>, ctx: Arc<ApplicationConte
 
                 let mut posts_html: String = String::new();
                 for post in posts.iter() {
-                    posts_html = format!("{}{}", posts_html, post.to_html());
+                    posts_html = format!("{}{}", posts_html, post.to_html()?);
                 }
 
                 let main_column = document.get_element_by_id("main-column")?.inner();

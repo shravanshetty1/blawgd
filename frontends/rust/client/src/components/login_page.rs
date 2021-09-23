@@ -28,7 +28,7 @@ impl LoginPage {
 }
 
 impl Component for LoginPage {
-    fn to_html(&self) -> String {
+    fn to_html(&self) -> Result<String> {
         let mut account_info_component = String::new();
         if self.account_info.is_some() {
             account_info_component = String::from(format!(
@@ -39,11 +39,11 @@ impl Component for LoginPage {
                     <div id="logout-button" class="button">Logout</div>
                 </div>
                 "#,
-                self.account_info.as_ref().unwrap().to_html()
+                self.account_info.as_ref().unwrap().to_html()?
             ))
         }
 
-        String::from(format!(
+        let html = String::from(format!(
             r#"
 <div class="page">
     {}
@@ -61,9 +61,11 @@ impl Component for LoginPage {
     <div class="secondary-column"></div>
 </div>
 "#,
-            self.nav_bar.to_html(),
+            self.nav_bar.to_html()?,
             account_info_component
-        ))
+        ));
+
+        Ok(html)
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {

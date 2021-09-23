@@ -28,8 +28,8 @@ impl EditProfilePage {
 }
 
 impl Component for EditProfilePage {
-    fn to_html(&self) -> String {
-        String::from(format!(
+    fn to_html(&self) -> Result<String> {
+        Ok(String::from(format!(
             r#"
 <div class="page">
     {}
@@ -50,9 +50,9 @@ impl Component for EditProfilePage {
     <div class="secondary-column"></div>
 </div>
 "#,
-            self.nav_bar.to_html(),
-            self.account_info.to_html(),
-        ))
+            self.nav_bar.to_html()?,
+            self.account_info.to_html()?,
+        )))
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
