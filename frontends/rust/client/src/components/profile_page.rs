@@ -1,13 +1,23 @@
 use super::Component;
+use crate::clients::blawgd_client::{AccountInfo, MsgFollow, MsgStopFollow};
+use crate::clients::{MSG_TYPE_FOLLOW, MSG_TYPE_STOP_FOLLOW};
+use crate::components::account_info::AccountInfoComp;
+use crate::components::scroll_event::{reg_scroll_event, PageState};
 use crate::context::ApplicationContext;
+use crate::task;
 use anyhow::Result;
+use async_lock::RwLock;
+use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
+use gloo::events;
 use prost::alloc::sync::Arc;
+use task::spawn_local;
 
 pub struct ProfilePage {
     nav_bar: Box<dyn Component>,
-    account_info: Box<dyn Component>,
+    account_info: AccountInfo,
     button: Option<ButtonType>,
     posts: Box<[Box<dyn Component>]>,
+    state: Arc<RwLock<PageState>>,
 }
 
 #[derive(Clone)]
@@ -20,7 +30,7 @@ pub enum ButtonType {
 impl ProfilePage {
     pub fn new(
         nav_bar: Box<dyn Component>,
-        account_info: Box<dyn Component>,
+        account_info: AccountInfo,
         button: Option<ButtonType>,
         posts: Box<[Box<dyn Component>]>,
     ) -> Box<ProfilePage> {
@@ -29,6 +39,7 @@ impl ProfilePage {
             account_info,
             button,
             posts,
+            state: Arc::new(RwLock::new(PageState { page: 1 })),
         })
     }
 }
@@ -61,7 +72,7 @@ impl Component for ProfilePage {
                     {}
                 </div>
                 "#,
-            self.account_info.to_html(),
+            AccountInfoComp::new(self.account_info.clone()).to_html(),
             button
         ));
 
@@ -83,6 +94,62 @@ impl Component for ProfilePage {
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
-        unimplemented!()
+        self.nav_bar.register_events(ctx.clone())?;
+        for post in self.posts.iter() {
+            post.register_events(ctx.clone())?;
+        }
+
+        reg_scroll_event(self.state.clone(), ctx.clone())?;
+
+        if ctx.session.is_none() {
+            return Ok(());
+        }
+
+        let document = ctx.window.document()?;
+        let follow_toggle = document.get_element_by_id("follow-toggle")?.inner();
+        let button_type = self.button.clone().unwrap();
+        let account_info = self.account_info.clone();
+        events::EventListener::new(&follow_toggle, "click", move |_| {
+            let ctx = ctx.clone();
+            let button_type = button_type.clone();
+            let account_info = account_info.clone();
+            spawn_local(async move {
+                let session = ctx.session.clone().unwrap();
+                match button_type {
+                    ButtonType::Follow => {
+                        ctx.client
+                            .broadcast_tx(
+                                &ctx.store.get_wallet()?,
+                                MSG_TYPE_FOLLOW,
+                                MsgFollow {
+                                    creator: session.address.clone(),
+                                    address: account_info.address.clone(),
+                                },
+                                BroadcastMode::Block as i32,
+                            )
+                            .await?;
+                    }
+                    _ => {
+                        ctx.client
+                            .broadcast_tx(
+                                &ctx.store.get_wallet()?,
+                                MSG_TYPE_STOP_FOLLOW,
+                                MsgStopFollow {
+                                    creator: session.address.clone(),
+                                    address: account_info.address.clone(),
+                                },
+                                BroadcastMode::Block as i32,
+                            )
+                            .await?;
+                    }
+                }
+
+                ctx.window.location().inner().reload();
+                Ok(())
+            });
+        })
+        .forget();
+
+        Ok(())
     }
 }

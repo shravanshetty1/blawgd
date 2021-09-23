@@ -1,5 +1,5 @@
 use crate::components::post::PostComponent;
-use crate::components::scroll_event::{scroll_event, PageState};
+use crate::components::scroll_event::{reg_scroll_event, PageState};
 use crate::components::Component;
 use crate::context::ApplicationContext;
 use crate::task::spawn_local;
@@ -78,7 +78,7 @@ impl super::Component for PostPage {
                 .register_events(ctx.clone());
         }
 
-        scroll_event(self.state.clone(), ctx)?;
+        reg_scroll_event(self.state.clone(), ctx)?;
         Ok(())
     }
 }

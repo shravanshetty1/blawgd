@@ -11,7 +11,9 @@ pub struct PageState {
     pub page: u64,
 }
 
-pub fn scroll_event(state: Arc<RwLock<PageState>>, ctx: Arc<ApplicationContext>) -> Result<()> {
+// TODO make this generic
+
+pub fn reg_scroll_event(state: Arc<RwLock<PageState>>, ctx: Arc<ApplicationContext>) -> Result<()> {
     let window = ctx.window.inner();
     events::EventListener::new(&window, "scroll", move |_| {
         let ctx = ctx.clone();
