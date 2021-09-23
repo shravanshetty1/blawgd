@@ -92,17 +92,26 @@ impl VerificationClient {
     }
 
     pub async fn get_account_infos(&self, addresses: Vec<String>) -> Result<Vec<AccountInfo>> {
+        let mut key_to_address: HashMap<String, String> = HashMap::new();
         let address_to_account_info = self
             .get_proto::<AccountInfo>(
                 addresses
                     .iter()
-                    .map(|a| keys::account_info_key(a.clone()))
+                    .map(|a| {
+                        let k = keys::account_info_key(a.clone());
+                        key_to_address.insert(k.clone(), a.clone());
+                        k
+                    })
                     .collect(),
             )
             .await?;
 
         let mut account_infos: Vec<AccountInfo> = Vec::new();
-        for (address, account_info) in address_to_account_info {
+        for (key, account_info) in address_to_account_info {
+            let address = key_to_address
+                .get(key.as_str())
+                .unwrap_or(&"".to_string())
+                .clone();
             let account_info = account_info.unwrap_or(AccountInfo {
                 address: address.clone(),
                 name: "".to_string(),

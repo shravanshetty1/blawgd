@@ -19,6 +19,7 @@ crw-client = { git = "https://github.com/shravanshetty1/cosmos-rust-wallet", bra
 wasm-bindgen-futures = "0.4.24"
 cosmos-sdk-proto = "0.5.0"
 prost = { version = "0.7.0"}
+# find a way to remove this
 prost_2 = { package = "prost", version = "0.8.0" }
 console_error_panic_hook = "0.1.6"
 tonic = { version = "0.4.3", default-features = false, features = ["codegen", "prost"] }
@@ -48,11 +49,9 @@ features = [
     'Storage',
     'EventListener',
     'Location',
-    'Node',
     'HtmlInputElement',
     'HtmlTextAreaElement',
     'HtmlImageElement',
-    'Response',
 ]
 
 [patch.crates-io]

@@ -10,11 +10,13 @@ use wasm_bindgen::JsCast;
 
 pub struct PostCreator {
     button_text: String,
+    parent_post: String,
 }
 
 impl PostCreator {
-    pub fn new() -> Box<PostCreator> {
+    pub fn new(parent_post: String) -> Box<PostCreator> {
         Box::new(PostCreator {
+            parent_post,
             button_text: "Post".into(),
         })
     }
@@ -43,9 +45,11 @@ impl super::Component for PostCreator {
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
         let document = ctx.window.document()?;
         let post_creator_button = document.get_element_by_id("post-creator-button")?.inner();
+        let parent_post = self.parent_post.clone();
         events::EventListener::new(&post_creator_button, "click", move |_| {
             let document = document.clone();
             let ctx = ctx.clone();
+            let parent_post = parent_post.clone();
             task::spawn_local(async move {
                 let post_content: String = document
                     .get_element_by_id("post-creator-input")?
@@ -56,7 +60,7 @@ impl super::Component for PostCreator {
                 let msg = MsgCreatePost {
                     creator: ctx.store.get_application_data()?.address,
                     content: post_content,
-                    parent_post: "".to_string(),
+                    parent_post,
                 };
 
                 let wallet = ctx.store.get_wallet()?;
@@ -70,11 +74,8 @@ impl super::Component for PostCreator {
                     )
                     .await?
                     .into_inner();
-
                 crate::logger::console_log(resp.tx_response.unwrap().raw_log.as_str());
-
                 ctx.window.location().inner().reload();
-
                 Ok(())
             });
         })

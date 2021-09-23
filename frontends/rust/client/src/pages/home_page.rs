@@ -26,7 +26,7 @@ impl PageRenderer {
         let nav_bar = NavBar::new(ctx.session.clone());
         let mut post_creator: Option<Box<dyn Component>> = None;
         if ctx.session.is_some() {
-            post_creator = Some(PostCreator::new());
+            post_creator = Some(PostCreator::new("".to_string()));
         }
         let comp = BlawgdHTMLDoc::new(HomePage::new(
             nav_bar,

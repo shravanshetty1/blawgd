@@ -34,6 +34,9 @@ impl PostComponent {
             let post = post.clone();
             let ctx = ctx.clone();
             let document = document.clone();
+
+            // TODO spawn local is slow, move like out of it
+
             spawn_local(async move {
                 let like_button_id = format!("post-{}-like-content", post.id);
                 let like_button = document.get_element_by_id(like_button_id.as_str())?;

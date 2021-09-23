@@ -12,6 +12,7 @@ pub mod profile_page;
 use crate::context::ApplicationContext;
 use anyhow::Result;
 use std::sync::Arc;
+pub mod scroll_event;
 
 pub trait Component {
     fn to_html(&self) -> String;
