@@ -31,7 +31,7 @@ impl PageRenderer {
             url if url.starts_with("followings") => PageRenderer::followings_page(ctx).await,
             url if url.starts_with("post") => PageRenderer::post_page(ctx).await,
             url if url.starts_with("edit-profile") => PageRenderer::edit_profile_page(ctx).await,
-            // url if url.starts_with("timeline") => timeline_page::handle(host, Store, cl).await,
+            url if url.starts_with("timeline") => PageRenderer::timeline_page(ctx).await,
             url if url.starts_with("profile") => PageRenderer::profile_page(ctx).await,
             url if url.starts_with("login") => PageRenderer::login_page(ctx).await,
             _ => PageRenderer::home_page(ctx).await,

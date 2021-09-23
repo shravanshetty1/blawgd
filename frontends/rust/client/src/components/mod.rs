@@ -13,6 +13,7 @@ use crate::context::ApplicationContext;
 use anyhow::Result;
 use std::sync::Arc;
 pub mod scroll_event;
+pub mod timeline_page;
 
 pub trait Component {
     fn to_html(&self) -> String;
