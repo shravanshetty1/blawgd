@@ -63,6 +63,6 @@ pub async fn main_handler() -> Result<()> {
         .render(location.href()?.as_str())
         .await?;
 
-    // LightClient::sync_forever(light_client).await;
+    LightClient::sync_forever(light_client).await;
     Ok(())
 }
