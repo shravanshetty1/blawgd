@@ -1,18 +1,16 @@
-use crate::components::blawgd_html::BlawgdHTMLDoc;
 use crate::components::nav_bar::NavBar;
 use crate::components::post::PostComponent;
 use crate::components::post_creator::PostCreator;
 use crate::components::post_page::PostPage;
 use crate::components::Component;
 use crate::context::ApplicationContext;
-use crate::pages::PageRenderer;
+use crate::pages::PageBuilder;
 use anyhow::anyhow;
 use anyhow::Result;
 use std::sync::Arc;
 
-impl PageRenderer {
-    pub async fn post_page(ctx: Arc<ApplicationContext>) -> Result<()> {
-        let document = ctx.window.document()?;
+impl PageBuilder {
+    pub async fn post_page(ctx: Arc<ApplicationContext>) -> Result<Box<dyn Component>> {
         let url: String = ctx.window.location().href()?;
         let post_id = url
             .as_str()
@@ -37,16 +35,13 @@ impl PageRenderer {
         for post in posts {
             boxed_posts.push(PostComponent::new(post))
         }
-        let comp = BlawgdHTMLDoc::new(PostPage::new(
+        let comp = PostPage::new(
             nav_bar,
             main_post,
             post_creator_component,
             boxed_posts.into_boxed_slice(),
-        ));
+        );
 
-        document.body()?.set_inner_html(comp.to_html().as_str());
-        comp.register_events(ctx);
-
-        Ok(())
+        Ok(comp)
     }
 }

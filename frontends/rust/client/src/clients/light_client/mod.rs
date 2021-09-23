@@ -61,7 +61,7 @@ impl LightClient {
         );
         Ok(Arc::new(RwLock::new(supervisor)))
     }
-    pub async fn sync_forever(lc: Arc<RwLock<Supervisor>>) {
+    pub async fn sync_forever(lc: Arc<RwLock<Supervisor>>, timeout_ms: u32) {
         loop {
             match lc.write().await.verify_to_highest().await {
                 Ok(light_block) => {
@@ -73,7 +73,7 @@ impl LightClient {
                     crate::logger::console_log(format!("[error] sync failed: {}", err).as_str());
                 }
             }
-            gloo::timers::future::TimeoutFuture::new(5000).await;
+            gloo::timers::future::TimeoutFuture::new(timeout_ms).await;
         }
     }
 }

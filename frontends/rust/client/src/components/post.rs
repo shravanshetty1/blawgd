@@ -38,6 +38,11 @@ impl PostComponent {
             // TODO spawn local is slow, move like out of it
 
             spawn_local(async move {
+                let session = ctx
+                    .session
+                    .as_ref()
+                    .ok_or(anyhow!("could not get session account info"))?;
+
                 let like_button_id = format!("post-{}-like-content", post.id);
                 let like_button = document.get_element_by_id(like_button_id.as_str())?;
                 let like_button_text = like_button.inner_html();
@@ -46,10 +51,6 @@ impl PostComponent {
                 likes_count += 1;
                 like_button.set_inner_html(format!("{} Likes", likes_count).as_str());
 
-                let session = ctx
-                    .session
-                    .as_ref()
-                    .ok_or(anyhow!("could not get session account info"))?;
                 let resp = ctx
                     .client
                     .broadcast_tx(
@@ -83,6 +84,11 @@ impl PostComponent {
             let ctx = ctx.clone();
             let document = document.clone();
             spawn_local(async move {
+                let session = ctx
+                    .session
+                    .as_ref()
+                    .ok_or(anyhow!("could not get session account info"))?;
+
                 let repost_button_id = format!("post-{}-repost-content", post.id);
                 let repost_button = document.get_element_by_id(repost_button_id.as_str())?;
                 let repost_button_text: String = repost_button.inner_html();
@@ -97,12 +103,7 @@ impl PostComponent {
                         &ctx.store.get_wallet()?,
                         MSG_TYPE_REPOST,
                         MsgRepost {
-                            creator: ctx
-                                .session
-                                .as_ref()
-                                .ok_or(anyhow!("could not get session account info"))?
-                                .address
-                                .clone(),
+                            creator: session.address.clone(),
                             post_id: post.id,
                         },
                         BroadcastMode::Sync as i32,

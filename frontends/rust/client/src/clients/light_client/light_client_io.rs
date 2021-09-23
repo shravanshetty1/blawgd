@@ -34,6 +34,7 @@ impl Io for LightClientIO {
                 AtHeight::Highest => 0,
             };
 
+            // TODO optimize to be done parallel
             let signed_header = self.rpc_client.get_commit(height).await?.signed_header;
             let height = signed_header.header.height.value();
 

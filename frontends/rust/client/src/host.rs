@@ -5,7 +5,6 @@ pub struct Host {
     port: String,
 }
 
-// TODO this can be made more generic
 impl Host {
     pub fn new(protocol: String, host_addr: String, port: String) -> Host {
         Host {

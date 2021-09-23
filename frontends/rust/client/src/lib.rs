@@ -11,7 +11,7 @@ use crate::clients::verification_client::VerificationClient;
 use crate::clients::MasterClient;
 use crate::context::ApplicationContext;
 use crate::logger::Logger;
-use crate::pages::PageRenderer;
+use crate::pages::{PageBuilder, PageRenderer};
 use crate::storage::Store;
 use anyhow::{anyhow, Result};
 use host::Host;
@@ -27,7 +27,6 @@ mod task;
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
     console_error_panic_hook::set_once();
-    // TODO should not refresh page when visiting another page
     task::spawn_local(main_handler());
     Ok(())
 }
@@ -40,9 +39,9 @@ pub async fn main_handler() -> Result<()> {
     let host = Host::new(location.protocol()?, location.hostname()?, location.port()?);
     let grpc_client = grpc_web_client::Client::new(host.grpc_endpoint());
     let light_client = LightClient::new(grpc_client.clone(), host.clone()).await?;
-    let vc = VerificationClient::new(light_client.clone(), grpc_client.clone());
-    // TODO make this concurrent
     light_client.write().await.verify_to_highest().await?;
+
+    let vc = VerificationClient::new(light_client.clone(), grpc_client.clone());
     let session = Store.get_session_account_info(vc.clone()).await.ok();
 
     let rpc_client = TendermintRPCClient::new(host.clone())?;
@@ -63,6 +62,6 @@ pub async fn main_handler() -> Result<()> {
         .render(location.href()?.as_str())
         .await?;
 
-    LightClient::sync_forever(light_client).await;
+    LightClient::sync_forever(light_client, 5000).await;
     Ok(())
 }

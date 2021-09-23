@@ -6,7 +6,9 @@ where
     I: Future<Output = Result<()>> + 'static,
 {
     wasm_bindgen_futures::spawn_local(async move {
-        // TODO handle error
-        task.await.unwrap()
+        let resp = task.await;
+        if resp.is_err() {
+            crate::logger::console_log(resp.err().unwrap().to_string().as_str());
+        }
     })
 }

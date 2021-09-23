@@ -5,6 +5,7 @@ mod login_page;
 mod post_page;
 mod profile_page;
 mod timeline_page;
+use crate::components::Component;
 use crate::context::ApplicationContext;
 use anyhow::anyhow;
 use anyhow::Result;
@@ -13,6 +14,8 @@ use prost::alloc::sync::Arc;
 pub struct PageRenderer {
     ctx: Arc<ApplicationContext>,
 }
+
+pub struct PageBuilder;
 
 impl PageRenderer {
     pub fn new(ctx: Arc<ApplicationContext>) -> PageRenderer {
@@ -27,15 +30,21 @@ impl PageRenderer {
             .ok_or(anyhow!("could not stip prefix of {}", url))?;
 
         // TODO return components and render outside
-        match url_path {
-            url if url.starts_with("followings") => PageRenderer::followings_page(ctx).await,
-            url if url.starts_with("post") => PageRenderer::post_page(ctx).await,
-            url if url.starts_with("edit-profile") => PageRenderer::edit_profile_page(ctx).await,
-            url if url.starts_with("timeline") => PageRenderer::timeline_page(ctx).await,
-            url if url.starts_with("profile") => PageRenderer::profile_page(ctx).await,
-            url if url.starts_with("login") => PageRenderer::login_page(ctx).await,
-            _ => PageRenderer::home_page(ctx).await,
+        let page: Box<dyn Component> = match url_path {
+            url if url.starts_with("followings") => PageBuilder::followings_page(ctx.clone()).await,
+            url if url.starts_with("post") => PageBuilder::post_page(ctx.clone()).await,
+            url if url.starts_with("edit-profile") => {
+                PageBuilder::edit_profile_page(ctx.clone()).await
+            }
+            url if url.starts_with("timeline") => PageBuilder::timeline_page(ctx.clone()).await,
+            url if url.starts_with("profile") => PageBuilder::profile_page(ctx.clone()).await,
+            url if url.starts_with("login") => PageBuilder::login_page(ctx.clone()).await,
+            _ => PageBuilder::home_page(ctx.clone()).await,
         }?;
+
+        let body = ctx.window.document()?.get_element_by_id("body")?;
+        body.set_inner_html(&page.to_html());
+        page.register_events(ctx)?;
 
         Ok(())
     }

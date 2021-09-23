@@ -18,17 +18,18 @@ pub struct ApplicationData {
     pub address: String,
 }
 
-// TODO inject storage
+const APP_DATA: &str = "app_data";
+
 impl Store {
     pub fn set_application_data(&self, app_data: ApplicationData) -> Result<()> {
-        Ok(LocalStorage::set("app_data", app_data)?)
+        Ok(LocalStorage::set(APP_DATA, app_data)?)
     }
     pub fn get_application_data(&self) -> Result<ApplicationData> {
-        let app_data: Result<ApplicationData, StorageError> = LocalStorage::get("app_data");
+        let app_data: Result<ApplicationData, StorageError> = LocalStorage::get(APP_DATA);
         Ok(app_data?)
     }
     pub fn delete_application_data(&self) {
-        LocalStorage::delete("app_data")
+        LocalStorage::delete(APP_DATA)
     }
 
     pub async fn get_session_account_info(&self, cl: VerificationClient) -> Result<AccountInfo> {

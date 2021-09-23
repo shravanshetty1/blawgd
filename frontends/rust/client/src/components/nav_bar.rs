@@ -19,7 +19,7 @@ impl super::Component for NavBar {
         let mut login_component: String = String::from(
             r#"
             <a href="/login" class="login-link-component-wrapper">
-                <img src="profile.jpeg" class="post-component-account-info-image">
+                <img src="/profile.jpeg" class="post-component-account-info-image">
                 <div class="login-link-component-text">Login/Logout</div>
             </a>
             "#,
