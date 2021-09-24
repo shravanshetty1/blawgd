@@ -59,6 +59,7 @@ pub async fn main_handler() -> Result<()> {
             rpc: rpc_client,
             cosmos: CosmosClient {
                 client: grpc_client,
+                wallet: Store.get_wallet()?,
             },
         },
         host,

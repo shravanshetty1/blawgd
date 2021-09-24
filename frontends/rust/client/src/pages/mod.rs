@@ -44,6 +44,7 @@ impl PageRenderer {
 
         let body = ctx.window.document()?.get_element_by_id("body")?;
         body.set_inner_html(&page.to_html()?);
+        ctx.store.set_should_verify(true);
         page.register_events(ctx)?;
 
         Ok(())

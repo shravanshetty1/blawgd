@@ -63,19 +63,14 @@ impl super::Component for PostCreator {
                     parent_post,
                 };
 
-                let wallet = ctx.store.get_wallet()?;
                 let resp = ctx
                     .client
                     .cosmos
-                    .broadcast_tx(
-                        &wallet,
-                        MSG_TYPE_CREATE_POST,
-                        msg,
-                        BroadcastMode::Block as i32,
-                    )
+                    .broadcast_tx(MSG_TYPE_CREATE_POST, msg)
                     .await?
                     .into_inner();
                 crate::logger::console_log(resp.tx_response.unwrap().raw_log.as_str());
+                ctx.store.set_should_verify(false);
                 ctx.window
                     .location()
                     .inner()

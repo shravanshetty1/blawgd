@@ -123,13 +123,11 @@ impl Component for ProfilePage {
                         ctx.client
                             .cosmos
                             .broadcast_tx(
-                                &ctx.store.get_wallet()?,
                                 MSG_TYPE_FOLLOW,
                                 MsgFollow {
                                     creator: session.address.clone(),
                                     address: account_info.address.clone(),
                                 },
-                                BroadcastMode::Block as i32,
                             )
                             .await?;
                     }
@@ -137,18 +135,17 @@ impl Component for ProfilePage {
                         ctx.client
                             .cosmos
                             .broadcast_tx(
-                                &ctx.store.get_wallet()?,
                                 MSG_TYPE_STOP_FOLLOW,
                                 MsgStopFollow {
                                     creator: session.address.clone(),
                                     address: account_info.address.clone(),
                                 },
-                                BroadcastMode::Block as i32,
                             )
                             .await?;
                     }
                 }
 
+                ctx.store.set_should_verify(false);
                 ctx.window
                     .location()
                     .inner()

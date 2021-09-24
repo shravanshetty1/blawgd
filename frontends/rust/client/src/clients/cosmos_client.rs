@@ -1,9 +1,12 @@
 use crate::clients::ADDRESS_HRP;
+use crate::storage::Store;
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::{BaseAccount, QueryAccountRequest};
 use cosmos_sdk_proto::cosmos::tx::v1beta1::service_client::ServiceClient;
-use cosmos_sdk_proto::cosmos::tx::v1beta1::{BroadcastTxRequest, BroadcastTxResponse, Tx, TxRaw};
+use cosmos_sdk_proto::cosmos::tx::v1beta1::{
+    BroadcastMode, BroadcastTxRequest, BroadcastTxResponse, Tx, TxRaw,
+};
 use crw_client::tx::TxBuilder;
 use crw_wallet::crypto::MnemonicWallet;
 use gloo::timers::future::TimeoutFuture;
@@ -20,6 +23,7 @@ where
     T: Clone,
 {
     pub client: T,
+    pub wallet: MnemonicWallet,
 }
 
 pub const MSG_BANK_SEND: &str = "/cosmos.bank.v1beta1.MsgSend";
@@ -35,14 +39,12 @@ where
 {
     pub async fn broadcast_tx<M: prost::Message>(
         &self,
-        wallet: &MnemonicWallet,
         msg_type: &str,
         msg: M,
-        mode: i32,
     ) -> Result<Response<BroadcastTxResponse>> {
         let acc_resp = QueryClient::new(self.client.clone())
             .account(QueryAccountRequest {
-                address: wallet.get_bech32_address(ADDRESS_HRP)?,
+                address: self.wallet.get_bech32_address(ADDRESS_HRP)?,
             })
             .await?;
 
@@ -54,18 +56,15 @@ where
             .timeout_height(0)
             .fee("stake", "0", 3000000)
             .add_message(msg_type, msg)?
-            .sign(wallet)?;
+            .sign(&self.wallet.clone())?;
         let tx_raw = serialize_tx(&tx)?;
 
         let resp = ServiceClient::new(self.client.clone())
             .broadcast_tx(BroadcastTxRequest {
                 tx_bytes: tx_raw,
-                mode,
+                mode: BroadcastMode::Block as i32,
             })
             .await?;
-
-        // wait for another block to get committed since light client is 1 block behind
-        TimeoutFuture::new(800).await;
 
         Ok(resp)
     }

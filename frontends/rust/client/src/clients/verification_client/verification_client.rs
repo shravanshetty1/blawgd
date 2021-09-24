@@ -11,6 +11,7 @@ const PER_PAGE: u64 = 30;
 
 impl VerificationClient {
     pub async fn get(&self, keys: Vec<String>) -> Result<HashMap<String, Option<Vec<u8>>>> {
+        let verify = self.store.should_verify()?;
         let lb = self
             .lc
             .supervisor
@@ -18,8 +19,12 @@ impl VerificationClient {
             .await
             .latest_trusted()
             .ok_or(anyhow!("could not get latest trusted light block"))?;
-        let height = lb.signed_header.header.height.value() - 1;
+        let mut height = lb.signed_header.header.height.value() - 1;
         let root = lb.signed_header.header.app_hash.value();
+
+        if !verify {
+            height = 0;
+        }
 
         let resp = query_client::QueryClient::new(self.client.clone())
             .get(GetRequest {
@@ -31,24 +36,26 @@ impl VerificationClient {
 
         let data = resp.data;
         let proofs = resp.proofs;
-        for key in keys {
-            let val = data
-                .get(&key)
-                .ok_or(anyhow!("did not get data for key {}", key))?
-                .clone();
+        if verify {
+            for key in keys {
+                let val = data
+                    .get(&key)
+                    .ok_or(anyhow!("did not get data for key {}", key))?
+                    .clone();
 
-            let proof = proofs
-                .get(&key)
-                .ok_or(anyhow!("did not get proof for key {}", key))?
-                .clone();
-            let proof: tendermint_proto::crypto::ProofOps =
-                prost::Message::decode(proof.as_slice())?;
-            let proof = convert_tm_to_ics_merkle_proof(proof)?;
+                let proof = proofs
+                    .get(&key)
+                    .ok_or(anyhow!("did not get proof for key {}", key))?
+                    .clone();
+                let proof: tendermint_proto::crypto::ProofOps =
+                    prost::Message::decode(proof.as_slice())?;
+                let proof = convert_tm_to_ics_merkle_proof(proof)?;
 
-            if val.is_empty() {
-                verify_non_membership(proof, root.as_slice(), key.as_bytes())?;
-            } else {
-                verify_membership(proof, root.as_slice(), key.as_bytes(), val.as_slice())?;
+                if val.is_empty() {
+                    verify_non_membership(proof, root.as_slice(), key.as_bytes())?;
+                } else {
+                    verify_membership(proof, root.as_slice(), key.as_bytes(), val.as_slice())?;
+                }
             }
         }
         let result: HashMap<String, Option<Vec<u8>>> = data

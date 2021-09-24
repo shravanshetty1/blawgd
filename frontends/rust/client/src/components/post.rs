@@ -52,14 +52,12 @@ impl PostComponent {
                     .client
                     .cosmos
                     .broadcast_tx(
-                        &ctx.store.get_wallet()?,
                         MSG_TYPE_LIKE,
                         MsgLikePost {
                             creator: session.address.clone(),
                             post_id: post.id,
                             amount: 1,
                         },
-                        BroadcastMode::Sync as i32,
                     )
                     .await?;
 
@@ -99,13 +97,11 @@ impl PostComponent {
                     .client
                     .cosmos
                     .broadcast_tx(
-                        &ctx.store.get_wallet()?,
                         MSG_TYPE_REPOST,
                         MsgRepost {
                             creator: session.address.clone(),
                             post_id: post.id,
                         },
-                        BroadcastMode::Sync as i32,
                     )
                     .await?;
 

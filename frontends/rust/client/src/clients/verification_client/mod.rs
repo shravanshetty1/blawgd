@@ -1,4 +1,6 @@
 use crate::clients::light_client::LightClient;
+use crate::storage::Store;
+
 pub mod helpers;
 pub mod keys;
 pub mod proof;
@@ -16,10 +18,15 @@ pub mod verification_client;
 pub struct VerificationClient {
     lc: LightClient,
     client: grpc_web_client::Client,
+    store: Store,
 }
 
 impl VerificationClient {
     pub fn new(lc: LightClient, client: grpc_web_client::Client) -> VerificationClient {
-        VerificationClient { lc, client }
+        VerificationClient {
+            lc,
+            client,
+            store: Store,
+        }
     }
 }

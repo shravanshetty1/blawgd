@@ -18,6 +18,7 @@ pub struct ApplicationData {
 }
 
 const APP_DATA: &str = "app_data";
+const SHOULD_VERIFY: &str = "should_verify";
 
 impl Store {
     pub fn set_application_data(&self, app_data: ApplicationData) -> Result<()> {
@@ -39,5 +40,18 @@ impl Store {
     pub fn get_wallet(&self) -> Result<MnemonicWallet> {
         let app_data = self.get_application_data()?;
         Ok(MnemonicWallet::new(app_data.mnemonic.as_str(), COSMOS_DP)?)
+    }
+
+    pub fn should_verify(&self) -> Result<bool> {
+        let should_verify: Result<bool, StorageError> = LocalStorage::get(SHOULD_VERIFY);
+        if should_verify.is_err() {
+            return Ok(true);
+        }
+
+        Ok(should_verify?)
+    }
+
+    pub fn set_should_verify(&self, state: bool) -> Result<()> {
+        Ok(LocalStorage::set(SHOULD_VERIFY, state)?)
     }
 }

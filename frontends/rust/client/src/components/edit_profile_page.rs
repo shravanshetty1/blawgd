@@ -157,16 +157,11 @@ impl Component for EditProfilePage {
                     name,
                     photo,
                 };
-                let wallet = ctx.store.get_wallet()?;
                 ctx.client
                     .cosmos
-                    .broadcast_tx(
-                        &wallet,
-                        MSG_TYPE_UPDATE_ACCOUNT_INFO,
-                        msg,
-                        BroadcastMode::Block as i32,
-                    )
+                    .broadcast_tx(MSG_TYPE_UPDATE_ACCOUNT_INFO, msg)
                     .await?;
+                ctx.store.set_should_verify(false);
                 ctx.window
                     .location()
                     .inner()
