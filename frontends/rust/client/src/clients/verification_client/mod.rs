@@ -1,7 +1,4 @@
-use async_lock::RwLock;
-use std::sync::Arc;
-use tendermint_light_client::supervisor::Supervisor;
-
+use crate::clients::light_client::LightClient;
 pub mod helpers;
 pub mod keys;
 pub mod proof;
@@ -17,12 +14,12 @@ pub mod verification_client;
 
 #[derive(Clone)]
 pub struct VerificationClient {
-    lc: Arc<RwLock<Supervisor>>,
+    lc: LightClient,
     client: grpc_web_client::Client,
 }
 
 impl VerificationClient {
-    pub fn new(lc: Arc<RwLock<Supervisor>>, client: grpc_web_client::Client) -> VerificationClient {
+    pub fn new(lc: LightClient, client: grpc_web_client::Client) -> VerificationClient {
         VerificationClient { lc, client }
     }
 }

@@ -13,6 +13,7 @@ impl VerificationClient {
     pub async fn get(&self, keys: Vec<String>) -> Result<HashMap<String, Option<Vec<u8>>>> {
         let lb = self
             .lc
+            .supervisor
             .read()
             .await
             .latest_trusted()

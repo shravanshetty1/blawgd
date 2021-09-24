@@ -1,5 +1,6 @@
-use crate::clients::blawgd_client::{MsgLikePost, MsgRepost, PostView};
-use crate::clients::{MSG_TYPE_LIKE, MSG_TYPE_REPOST};
+use crate::clients::blawgd_client::{
+    MsgLikePost, MsgRepost, PostView, MSG_TYPE_LIKE, MSG_TYPE_REPOST,
+};
 use crate::context::ApplicationContext;
 use crate::task::spawn_local;
 use anyhow::anyhow;
@@ -49,6 +50,7 @@ impl PostComponent {
 
                 let resp = ctx
                     .client
+                    .cosmos
                     .broadcast_tx(
                         &ctx.store.get_wallet()?,
                         MSG_TYPE_LIKE,
@@ -95,6 +97,7 @@ impl PostComponent {
 
                 let resp = ctx
                     .client
+                    .cosmos
                     .broadcast_tx(
                         &ctx.store.get_wallet()?,
                         MSG_TYPE_REPOST,

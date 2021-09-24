@@ -4,6 +4,7 @@ use crate::components::nav_bar::NavBar;
 use crate::components::Component;
 use crate::context::ApplicationContext;
 use crate::pages::PageBuilder;
+use anyhow::anyhow;
 use anyhow::Result;
 use std::sync::Arc;
 

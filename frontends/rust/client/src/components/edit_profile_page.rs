@@ -1,5 +1,6 @@
 use super::Component;
-use crate::clients::{blawgd_client, MSG_TYPE_UPDATE_ACCOUNT_INFO};
+use crate::clients::blawgd_client;
+use crate::clients::blawgd_client::MSG_TYPE_UPDATE_ACCOUNT_INFO;
 use crate::context::ApplicationContext;
 use crate::task;
 use anyhow::anyhow;
@@ -158,6 +159,7 @@ impl Component for EditProfilePage {
                 };
                 let wallet = ctx.store.get_wallet()?;
                 ctx.client
+                    .cosmos
                     .broadcast_tx(
                         &wallet,
                         MSG_TYPE_UPDATE_ACCOUNT_INFO,

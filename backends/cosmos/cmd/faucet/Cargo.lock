@@ -264,9 +264,9 @@ dependencies = [
 
 [[package]]
 name = "anyhow"
-version = "1.0.43"
+version = "1.0.44"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "28ae2b3dec75a406790005a200b1bd89785afc02517a00ca99ecfe093ee9e6cf"
+checksum = "61604a8f862e1d5c3229fdd78f8b02c68dcf73a4c4b05fd636d12240aaa242c1"
 
 [[package]]
 name = "async-stream"
@@ -372,6 +372,22 @@ dependencies = [
  "radium",
  "tap",
  "wyz",
+]
+
+[[package]]
+name = "blawgd-faucet"
+version = "0.1.0"
+dependencies = [
+ "actix-cors",
+ "actix-web",
+ "anyhow",
+ "cosmos-sdk-proto",
+ "crw-client",
+ "crw-wallet",
+ "prost 0.7.0",
+ "qstring",
+ "serde_json",
+ "tonic 0.4.3",
 ]
 
 [[package]]
@@ -522,10 +538,10 @@ version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "78f4841c74e806ccb9198968db8312355830751a3e9849789c328692a65e4c6a"
 dependencies = [
- "prost",
+ "prost 0.7.0",
  "prost-types",
  "tendermint-proto",
- "tonic",
+ "tonic 0.4.3",
 ]
 
 [[package]]
@@ -554,13 +570,13 @@ dependencies = [
  "cosmos-sdk-proto",
  "crw-wallet",
  "grpc-web-client",
- "prost",
+ "prost 0.7.0",
  "prost-types",
  "reqwest",
  "serde",
  "serde_json",
  "thiserror",
- "tonic",
+ "tonic 0.4.3",
 ]
 
 [[package]]
@@ -678,21 +694,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "80df024fbc5ac80f87dfef0d9f5209a252f2a497f7f42944cff24d8253cac065"
 dependencies = [
  "cfg-if 1.0.0",
-]
-
-[[package]]
-name = "faucet"
-version = "0.1.0"
-dependencies = [
- "actix-cors",
- "actix-web",
- "cosmos-sdk-proto",
- "crw-client",
- "crw-wallet",
- "prost",
- "qstring",
- "serde_json",
- "tonic",
 ]
 
 [[package]]
@@ -815,9 +816,9 @@ dependencies = [
 
 [[package]]
 name = "futures-io"
-version = "0.3.16"
+version = "0.3.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0b0e06c393068f3a6ef246c75cdca793d6a46347e75286933e5e75fd2fd11582"
+checksum = "522de2a0fe3e380f1bc577ba0474108faf3f6b18321dbf60b3b9c39a75073377"
 
 [[package]]
 name = "futures-macro"
@@ -919,7 +920,7 @@ dependencies = [
 [[package]]
 name = "grpc-web-client"
 version = "0.1.2"
-source = "git+https://github.com/titanous/grpc-web-client?branch=main#fd5b607924dcff6f8cc5167ed81a9bb6f9534e2c"
+source = "git+https://github.com/titanous/grpc-web-client?branch=main#a1474c8219a9467d752a740055cc5de583833e87"
 dependencies = [
  "base64",
  "byteorder",
@@ -931,8 +932,8 @@ dependencies = [
  "httparse",
  "hyper 0.14.11",
  "js-sys",
- "prost",
- "tonic",
+ "prost 0.8.0",
+ "tonic 0.5.2",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "wasm-streams",
@@ -1483,9 +1484,9 @@ checksum = "624a8340c38c1b80fd549087862da4ba43e08858af025b236e509b6649fc13d5"
 
 [[package]]
 name = "openssl"
-version = "0.10.35"
+version = "0.10.36"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "549430950c79ae24e6d02e0b7404534ecf311d94cc9f861e9e4020187d13d885"
+checksum = "8d9facdb76fec0b73c406f125d44d86fdad818d66fef0531eec9233ca425ff4a"
 dependencies = [
  "bitflags",
  "cfg-if 1.0.0",
@@ -1503,9 +1504,9 @@ checksum = "28988d872ab76095a6e6ac88d99b54fd267702734fd7ffe610ca27f533ddb95a"
 
 [[package]]
 name = "openssl-sys"
-version = "0.9.65"
+version = "0.9.67"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7a7907e3bfa08bb85105209cdfcb6c63d109f8f6c1ed6ca318fff5c1853fbc1d"
+checksum = "69df2d8dfc6ce3aaf44b40dec6f487d5a886516cf6879c49e98e0710f310a058"
 dependencies = [
  "autocfg",
  "cc",
@@ -1661,6 +1662,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "prost"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "de5e2533f59d08fcf364fd374ebda0692a70bd6d7e66ef97f306f45c6c5d8020"
+dependencies = [
+ "bytes 1.0.1",
+]
+
+[[package]]
 name = "prost-derive"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1680,7 +1690,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b518d7cdd93dab1d1122cf07fa9a60771836c668dde9d9e2a139f957f0d9f1bb"
 dependencies = [
  "bytes 1.0.1",
- "prost",
+ "prost 0.7.0",
 ]
 
 [[package]]
@@ -2268,7 +2278,7 @@ dependencies = [
  "chrono",
  "num-derive",
  "num-traits",
- "prost",
+ "prost 0.7.0",
  "prost-types",
  "serde",
  "serde_bytes",
@@ -2491,7 +2501,7 @@ dependencies = [
  "hyper 0.14.11",
  "percent-encoding",
  "pin-project",
- "prost",
+ "prost 0.7.0",
  "prost-derive",
  "tokio 1.10.0",
  "tokio-stream",
@@ -2500,6 +2510,28 @@ dependencies = [
  "tower-service",
  "tracing",
  "tracing-futures",
+]
+
+[[package]]
+name = "tonic"
+version = "0.5.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "796c5e1cd49905e65dd8e700d4cb1dffcbfdb4fc9d017de08c1a537afd83627c"
+dependencies = [
+ "async-stream",
+ "base64",
+ "bytes 1.0.1",
+ "futures-core",
+ "futures-util",
+ "http",
+ "http-body 0.4.3",
+ "percent-encoding",
+ "pin-project",
+ "tokio-stream",
+ "tokio-util 0.6.7",
+ "tower-layer",
+ "tower-service",
+ "tracing",
 ]
 
 [[package]]

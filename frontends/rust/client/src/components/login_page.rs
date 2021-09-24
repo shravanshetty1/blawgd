@@ -1,6 +1,7 @@
 use super::Component;
+use crate::clients::COSMOS_DP;
 use crate::context::ApplicationContext;
-use crate::storage::{ApplicationData, COSMOS_DP};
+use crate::storage::ApplicationData;
 use crate::task;
 use anyhow::anyhow;
 use anyhow::Result;
@@ -122,7 +123,8 @@ impl Component for LoginPage {
                 .await?
                 .text()
                 .await?;
-                crate::logger::console_log(resp.as_str());
+
+                ctx.logger.log(resp.as_str());
 
                 ctx.store.set_application_data(ApplicationData {
                     mnemonic: mnemonic.to_string(),

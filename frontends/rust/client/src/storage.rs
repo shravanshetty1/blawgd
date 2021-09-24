@@ -1,13 +1,12 @@
 use crate::clients::blawgd_client::AccountInfo;
 use crate::clients::verification_client::VerificationClient;
+use crate::clients::COSMOS_DP;
 use anyhow::Result;
 use crw_wallet::crypto::MnemonicWallet;
 use gloo::storage::errors::StorageError;
 use gloo::storage::{LocalStorage, Storage};
 use serde::Deserialize;
 use serde::Serialize;
-
-pub const COSMOS_DP: &str = "m/44'/118'/0'/0/0";
 
 #[derive(Clone)]
 pub struct Store;

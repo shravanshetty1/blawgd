@@ -1,5 +1,4 @@
-use crate::clients::blawgd_client::MsgCreatePost;
-use crate::clients::MSG_TYPE_CREATE_POST;
+use crate::clients::blawgd_client::{MsgCreatePost, MSG_TYPE_CREATE_POST};
 use crate::context::ApplicationContext;
 use crate::task;
 use anyhow::anyhow;
@@ -67,6 +66,7 @@ impl super::Component for PostCreator {
                 let wallet = ctx.store.get_wallet()?;
                 let resp = ctx
                     .client
+                    .cosmos
                     .broadcast_tx(
                         &wallet,
                         MSG_TYPE_CREATE_POST,

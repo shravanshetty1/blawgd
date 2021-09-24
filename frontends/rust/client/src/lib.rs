@@ -1,11 +1,12 @@
 // uncomment to force warnings
-#![deny(warnings)]
-#![allow(dead_code)]
+// #![deny(warnings)]
+// #![allow(dead_code)]
 
 use wasm_bindgen::{prelude::*, JsValue};
 mod components;
 use std::sync::Arc;
 mod host;
+use crate::clients::cosmos_client::CosmosClient;
 use crate::clients::light_client::LightClient;
 use crate::clients::rpc_client::TendermintRPCClient;
 use crate::clients::verification_client::VerificationClient;
@@ -17,7 +18,7 @@ use crate::storage::Store;
 use anyhow::{anyhow, Result};
 use host::Host;
 
-mod clients;
+pub mod clients;
 mod context;
 mod dom;
 mod logger;
@@ -40,7 +41,12 @@ pub async fn main_handler() -> Result<()> {
     let host = Host::new(location.protocol()?, location.hostname()?, location.port()?);
     let grpc_client = grpc_web_client::Client::new(host.grpc_endpoint());
     let light_client = LightClient::new(grpc_client.clone(), host.clone()).await?;
-    light_client.write().await.verify_to_highest().await?;
+    light_client
+        .supervisor
+        .write()
+        .await
+        .verify_to_highest()
+        .await?;
 
     let vc = VerificationClient::new(light_client.clone(), grpc_client.clone());
     let session = Store.get_session_account_info(vc.clone()).await.ok();
@@ -51,7 +57,9 @@ pub async fn main_handler() -> Result<()> {
             lc: light_client.clone(),
             vc,
             rpc: rpc_client,
-            grpc: grpc_client,
+            cosmos: CosmosClient {
+                client: grpc_client,
+            },
         },
         host,
         store: Store,
@@ -63,6 +71,6 @@ pub async fn main_handler() -> Result<()> {
         .render(location.href()?.as_str())
         .await?;
 
-    LightClient::sync_forever(light_client, 5000).await;
+    light_client.sync_forever(5000).await;
     Ok(())
 }

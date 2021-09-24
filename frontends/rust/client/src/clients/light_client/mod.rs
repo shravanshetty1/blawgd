@@ -31,10 +31,13 @@ mod light_store;
 const TRUSTING_PERIOD: u64 = 3600000;
 const CLOCK_DRIFT: u64 = 1;
 
-pub struct LightClient;
+#[derive(Clone)]
+pub struct LightClient {
+    pub supervisor: Arc<RwLock<Supervisor>>,
+}
 
 impl LightClient {
-    pub async fn new(cl: grpc_web_client::Client, host: Host) -> Result<Arc<RwLock<Supervisor>>> {
+    pub async fn new(cl: grpc_web_client::Client, host: Host) -> Result<LightClient> {
         let node_info = ServiceClient::new(cl)
             .get_node_info(GetNodeInfoRequest {})
             .await?
@@ -59,11 +62,13 @@ impl LightClient {
             ProdForkDetector::default(),
             CustomEvidenceReporter::new(rpc_client.clone()),
         );
-        Ok(Arc::new(RwLock::new(supervisor)))
+        Ok(LightClient {
+            supervisor: Arc::new(RwLock::new(supervisor)),
+        })
     }
-    pub async fn sync_forever(lc: Arc<RwLock<Supervisor>>, timeout_ms: u32) {
+    pub async fn sync_forever(&self, timeout_ms: u32) {
         loop {
-            match lc.write().await.verify_to_highest().await {
+            match self.supervisor.write().await.verify_to_highest().await {
                 Ok(light_block) => {
                     crate::logger::console_log(
                         format!("[info] synced to block {}", light_block.height()).as_str(),

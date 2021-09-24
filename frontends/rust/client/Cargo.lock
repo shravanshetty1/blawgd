@@ -261,6 +261,40 @@ dependencies = [
 ]
 
 [[package]]
+name = "blawgd-client"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "async-lock",
+ "async-trait",
+ "chrono",
+ "console_error_panic_hook",
+ "contracts",
+ "cosmos-sdk-proto",
+ "crw-client",
+ "crw-wallet",
+ "futures",
+ "gloo",
+ "grpc-web-client",
+ "hex",
+ "ics23",
+ "prost 0.7.0",
+ "prost 0.8.0",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tendermint",
+ "tendermint-light-client",
+ "tendermint-proto 0.21.0",
+ "tendermint-rpc",
+ "tiny-bip39",
+ "tonic",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+]
+
+[[package]]
 name = "block-buffer"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -352,40 +386,6 @@ dependencies = [
  "time",
  "wasm-bindgen",
  "winapi 0.3.9",
-]
-
-[[package]]
-name = "client"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "async-lock",
- "async-trait",
- "chrono",
- "console_error_panic_hook",
- "contracts",
- "cosmos-sdk-proto",
- "crw-client",
- "crw-wallet",
- "futures",
- "gloo",
- "grpc-web-client",
- "hex",
- "ics23",
- "prost 0.7.0",
- "prost 0.8.0",
- "reqwest",
- "serde",
- "serde_json",
- "tendermint",
- "tendermint-light-client",
- "tendermint-proto 0.21.0",
- "tendermint-rpc",
- "tiny-bip39",
- "tonic",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
 ]
 
 [[package]]

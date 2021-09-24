@@ -3,7 +3,7 @@ use wasm_bindgen::JsValue;
 pub struct Logger;
 
 impl Logger {
-    pub fn log(msg: &str) {
+    pub fn log(&self, msg: &str) {
         web_sys::console::log_1(&JsValue::from_str(msg))
     }
 }

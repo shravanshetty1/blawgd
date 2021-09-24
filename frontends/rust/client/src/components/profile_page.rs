@@ -1,6 +1,7 @@
 use super::Component;
-use crate::clients::blawgd_client::{AccountInfo, MsgFollow, MsgStopFollow};
-use crate::clients::{MSG_TYPE_FOLLOW, MSG_TYPE_STOP_FOLLOW};
+use crate::clients::blawgd_client::{
+    AccountInfo, MsgFollow, MsgStopFollow, MSG_TYPE_FOLLOW, MSG_TYPE_STOP_FOLLOW,
+};
 use crate::components::account_info::AccountInfoComp;
 use crate::components::scroll_event::{reg_scroll_event, PageState};
 use crate::context::ApplicationContext;
@@ -120,6 +121,7 @@ impl Component for ProfilePage {
                 match button_type {
                     ButtonType::Follow => {
                         ctx.client
+                            .cosmos
                             .broadcast_tx(
                                 &ctx.store.get_wallet()?,
                                 MSG_TYPE_FOLLOW,
@@ -133,6 +135,7 @@ impl Component for ProfilePage {
                     }
                     _ => {
                         ctx.client
+                            .cosmos
                             .broadcast_tx(
                                 &ctx.store.get_wallet()?,
                                 MSG_TYPE_STOP_FOLLOW,
