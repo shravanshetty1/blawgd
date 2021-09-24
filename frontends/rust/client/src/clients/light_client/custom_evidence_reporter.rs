@@ -20,7 +20,7 @@ impl CustomEvidenceReporter {
 #[contract_trait]
 #[async_trait(?Send)]
 impl EvidenceReporter for CustomEvidenceReporter {
-    async fn report(&self, e: Evidence, peer: PeerId) -> Result<Hash, IoError> {
+    async fn report(&self, e: Evidence, _: PeerId) -> Result<Hash, IoError> {
         // TODO change this error
         let resp = self
             .rpc_client

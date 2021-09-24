@@ -38,7 +38,7 @@ impl super::Component for AccountInfoComp {
         Ok(html)
     }
 
-    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+    fn register_events(&self, _: Arc<ApplicationContext>) -> Result<()> {
         Ok(())
     }
 }

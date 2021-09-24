@@ -56,8 +56,8 @@ impl Component for EditProfilePage {
     }
 
     fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
-        self.account_info.register_events(ctx.clone());
-        self.nav_bar.register_events(ctx.clone());
+        self.account_info.register_events(ctx.clone())?;
+        self.nav_bar.register_events(ctx.clone())?;
 
         let document = ctx.window.document()?;
         let preview_button = document.get_element_by_id("preview-button")?.inner();
@@ -164,8 +164,12 @@ impl Component for EditProfilePage {
                         msg,
                         BroadcastMode::Block as i32,
                     )
-                    .await;
-                ctx.window.location().inner().reload();
+                    .await?;
+                ctx.window
+                    .location()
+                    .inner()
+                    .reload()
+                    .map_err(|_| anyhow!("could not reload page"))?;
 
                 Ok(())
             });

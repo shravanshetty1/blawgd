@@ -1,16 +1,12 @@
 use crate::clients::blawgd_client::{MsgLikePost, MsgRepost, PostView};
 use crate::clients::{MSG_TYPE_LIKE, MSG_TYPE_REPOST};
 use crate::context::ApplicationContext;
-use crate::task;
+use crate::task::spawn_local;
 use anyhow::anyhow;
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
-use events::EventListener;
-use gloo::events;
-use std::borrow::Cow;
-use std::future::Future;
+use gloo::events::EventListener;
 use std::sync::Arc;
-use task::spawn_local;
 
 pub struct PostComponent {
     post: PostView,

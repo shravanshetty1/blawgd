@@ -2,6 +2,7 @@ use crate::clients::blawgd_client::MsgCreatePost;
 use crate::clients::MSG_TYPE_CREATE_POST;
 use crate::context::ApplicationContext;
 use crate::task;
+use anyhow::anyhow;
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
@@ -75,7 +76,11 @@ impl super::Component for PostCreator {
                     .await?
                     .into_inner();
                 crate::logger::console_log(resp.tx_response.unwrap().raw_log.as_str());
-                ctx.window.location().inner().reload();
+                ctx.window
+                    .location()
+                    .inner()
+                    .reload()
+                    .map_err(|_| anyhow!("could not reload page"))?;
                 Ok(())
             });
         })

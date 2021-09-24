@@ -1,5 +1,6 @@
 // uncomment to force warnings
-// #![deny(warnings)]
+#![deny(warnings)]
+#![allow(dead_code)]
 
 use wasm_bindgen::{prelude::*, JsValue};
 mod components;
@@ -11,7 +12,7 @@ use crate::clients::verification_client::VerificationClient;
 use crate::clients::MasterClient;
 use crate::context::ApplicationContext;
 use crate::logger::Logger;
-use crate::pages::{PageBuilder, PageRenderer};
+use crate::pages::PageRenderer;
 use crate::storage::Store;
 use anyhow::{anyhow, Result};
 use host::Host;

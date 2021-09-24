@@ -2,6 +2,7 @@ use crate::components::post::PostComponent;
 use crate::components::Component;
 use crate::context::ApplicationContext;
 use crate::task::spawn_local;
+use anyhow::anyhow;
 use anyhow::Result;
 use async_lock::RwLock;
 use gloo::events;
@@ -46,7 +47,9 @@ pub fn reg_scroll_event(state: Arc<RwLock<PageState>>, ctx: Arc<ApplicationConte
                 }
 
                 let main_column = document.get_element_by_id("main-column")?.inner();
-                main_column.insert_adjacent_html("beforeend", posts_html.as_str());
+                main_column
+                    .insert_adjacent_html("beforeend", posts_html.as_str())
+                    .map_err(|_| anyhow!("could not insert html"))?;
 
                 for post in posts {
                     post.register_events(ctx.clone())?;

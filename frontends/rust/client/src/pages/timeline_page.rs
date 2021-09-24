@@ -1,4 +1,3 @@
-use crate::components::home_page::HomePage;
 use crate::components::nav_bar::NavBar;
 use crate::components::post::PostComponent;
 use crate::components::post_creator::PostCreator;

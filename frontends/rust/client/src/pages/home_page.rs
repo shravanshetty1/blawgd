@@ -6,9 +6,7 @@ use crate::components::Component;
 use crate::context::ApplicationContext;
 use crate::pages::PageBuilder;
 
-use crate::clients::blawgd_client::PostView;
 use anyhow::Result;
-use futures::future::try_join;
 use std::sync::Arc;
 
 impl PageBuilder {

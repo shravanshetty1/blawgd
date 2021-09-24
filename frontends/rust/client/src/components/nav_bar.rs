@@ -71,7 +71,7 @@ impl super::Component for NavBar {
         Ok(html)
     }
 
-    fn register_events(&self, ctx: Arc<ApplicationContext>) -> Result<()> {
+    fn register_events(&self, _: Arc<ApplicationContext>) -> Result<()> {
         Ok(())
     }
 }

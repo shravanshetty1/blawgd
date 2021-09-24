@@ -55,6 +55,6 @@ impl Io for LightClientIO {
         }
         .await;
 
-        res.map_err(|e| IoError::invalid_height())
+        res.map_err(|_| IoError::invalid_height())
     }
 }

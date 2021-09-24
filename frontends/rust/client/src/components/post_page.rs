@@ -1,12 +1,8 @@
-use crate::components::post::PostComponent;
 use crate::components::scroll_event::{reg_scroll_event, PageState};
 use crate::components::Component;
 use crate::context::ApplicationContext;
-use crate::task::spawn_local;
-use anyhow::anyhow;
 use anyhow::Result;
 use async_lock::RwLock;
-use gloo::events;
 use prost::alloc::sync::Arc;
 
 pub struct PostPage {
@@ -76,7 +72,7 @@ impl super::Component for PostPage {
             self.post_creator
                 .as_ref()
                 .unwrap()
-                .register_events(ctx.clone());
+                .register_events(ctx.clone())?;
         }
 
         reg_scroll_event(self.state.clone(), ctx)?;

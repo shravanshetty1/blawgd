@@ -247,7 +247,7 @@ impl VerificationClient {
             .get_proto::<AccountInfo>(account_info_keys)
             .await?
             .iter()
-            .filter(|(k, v)| v.is_some())
+            .filter(|(_, v)| v.is_some())
             .map(|(k, v)| (k.clone(), v.as_ref().unwrap().clone()))
             .collect();
 

@@ -16,31 +16,31 @@ impl LightStore for CustomLightStore {
 
     fn update(&mut self, light_block: &LightBlock, status: Status) {
         let height = light_block.signed_header.header.height.clone();
-        LocalStorage::set(light_store_key(status, height), light_block);
+        LocalStorage::set(light_store_key(status, height), light_block).unwrap();
 
         let min: u64 = LocalStorage::get(light_store_min_key(status)).unwrap_or(u64::MAX);
         if height.value() < min {
-            LocalStorage::set(light_store_min_key(status), height.value());
+            LocalStorage::set(light_store_min_key(status), height.value()).unwrap();
         }
 
         let max: u64 = LocalStorage::get(light_store_max_key(status)).unwrap_or(u64::MIN);
         if height.value() > max {
-            LocalStorage::set(light_store_max_key(status), height.value());
+            LocalStorage::set(light_store_max_key(status), height.value()).unwrap();
         }
     }
 
     fn insert(&mut self, light_block: LightBlock, status: Status) {
         let height = light_block.signed_header.header.height.clone();
-        LocalStorage::set(light_store_key(status, height), light_block);
+        LocalStorage::set(light_store_key(status, height), light_block).unwrap();
 
         let min: u64 = LocalStorage::get(light_store_min_key(status)).unwrap_or(u64::MAX);
         if height.value() < min {
-            LocalStorage::set(light_store_min_key(status), height.value());
+            LocalStorage::set(light_store_min_key(status), height.value()).unwrap();
         }
 
         let max: u64 = LocalStorage::get(light_store_max_key(status)).unwrap_or(u64::MIN);
         if height.value() > max {
-            LocalStorage::set(light_store_max_key(status), height.value());
+            LocalStorage::set(light_store_max_key(status), height.value()).unwrap();
         }
     }
 
@@ -84,7 +84,7 @@ impl LightStore for CustomLightStore {
             }
         }
 
-        LocalStorage::set(light_store_max_key(status), highest);
+        LocalStorage::set(light_store_max_key(status), highest).unwrap();
         self.get(Height::from(highest as u32), status)
     }
 
@@ -114,7 +114,7 @@ impl LightStore for CustomLightStore {
             }
         }
 
-        LocalStorage::set(light_store_min_key(status), lowest);
+        LocalStorage::set(light_store_min_key(status), lowest).unwrap();
         self.get(Height::from(lowest as u32), status)
     }
 

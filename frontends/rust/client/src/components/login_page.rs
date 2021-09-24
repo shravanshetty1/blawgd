@@ -2,6 +2,7 @@ use super::Component;
 use crate::context::ApplicationContext;
 use crate::storage::{ApplicationData, COSMOS_DP};
 use crate::task;
+use anyhow::anyhow;
 use anyhow::Result;
 use bip39::{Language, Mnemonic, MnemonicType};
 use crw_wallet::crypto::MnemonicWallet;
@@ -93,7 +94,7 @@ impl Component for LoginPage {
             let location = ctx.window.location().inner().clone();
             events::EventListener::new(&logout_button, "click", move |_| {
                 store.delete_application_data();
-                location.reload();
+                location.reload().unwrap();
             })
             .forget();
         }
@@ -126,8 +127,12 @@ impl Component for LoginPage {
                 ctx.store.set_application_data(ApplicationData {
                     mnemonic: mnemonic.to_string(),
                     address,
-                });
-                ctx.window.location().inner().reload();
+                })?;
+                ctx.window
+                    .location()
+                    .inner()
+                    .reload()
+                    .map_err(|_| anyhow!("could not reload page"))?;
                 Ok(())
             });
         })

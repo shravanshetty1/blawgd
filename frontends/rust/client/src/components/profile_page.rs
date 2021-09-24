@@ -5,6 +5,7 @@ use crate::components::account_info::AccountInfoComp;
 use crate::components::scroll_event::{reg_scroll_event, PageState};
 use crate::context::ApplicationContext;
 use crate::task;
+use anyhow::anyhow;
 use anyhow::Result;
 use async_lock::RwLock;
 use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
@@ -145,7 +146,11 @@ impl Component for ProfilePage {
                     }
                 }
 
-                ctx.window.location().inner().reload();
+                ctx.window
+                    .location()
+                    .inner()
+                    .reload()
+                    .map_err(|_| anyhow!("could not reload page"))?;
                 Ok(())
             });
         })

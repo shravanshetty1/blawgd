@@ -1,13 +1,9 @@
-use crate::components::post::PostComponent;
 use crate::components::scroll_event::{reg_scroll_event, PageState};
 use crate::components::Component;
 use crate::context::ApplicationContext;
-use crate::task;
 use anyhow::Result;
 use async_lock::RwLock;
-use gloo::events;
 use std::sync::Arc;
-use task::spawn_local;
 
 pub struct HomePage {
     nav_bar: Box<dyn Component>,
