@@ -46,7 +46,7 @@ pub async fn main_handler() -> Result<()> {
     let light_client = LightClient::new(peer_id, host.clone()).await?;
 
     let since = chrono::Utc::now().timestamp_millis() - Store.last_lc_sync()?;
-    if since > SYNC_TIMEOUT as i64 {
+    if since > SYNC_TIMEOUT as i64 + 1000 {
         light_client
             .supervisor
             .write()

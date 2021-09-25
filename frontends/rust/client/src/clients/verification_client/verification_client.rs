@@ -55,7 +55,7 @@ impl VerificationClient {
             data = resp.data;
             proofs = resp.proofs;
         } else {
-            let (given_root, resp) = self.prefetch.clone().unwrap();
+            let (given_root, resp) = self.prefetch.as_ref().unwrap();
             let mut pre_data: HashMap<String, Vec<u8>> = HashMap::new();
             let mut pre_proofs: HashMap<String, Vec<u8>> = HashMap::new();
             for key in keys.iter() {
@@ -83,7 +83,7 @@ impl VerificationClient {
 
             data = pre_data;
             proofs = pre_proofs;
-            root = given_root;
+            root = given_root.clone();
         }
 
         if verify {
