@@ -4,6 +4,46 @@ pub struct GenesisState {
     pub max_post_count: u64,
 }
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
+pub struct GetPostsRequest {
+    #[prost(int64, tag = "1")]
+    pub height: i64,
+    #[prost(string, repeated, tag = "2")]
+    pub post_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
+pub struct GetTimelineRequest {
+    #[prost(int64, tag = "1")]
+    pub height: i64,
+    #[prost(int64, tag = "2")]
+    pub page: i64,
+    #[prost(int64, tag = "3")]
+    pub per_page: i64,
+    #[prost(string, tag = "4")]
+    pub address: ::prost::alloc::string::String,
+}
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
+pub struct GetPostsByAccountRequest {
+    #[prost(int64, tag = "1")]
+    pub height: i64,
+    #[prost(int64, tag = "2")]
+    pub page: i64,
+    #[prost(int64, tag = "3")]
+    pub per_page: i64,
+    #[prost(string, tag = "4")]
+    pub address: ::prost::alloc::string::String,
+}
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
+pub struct GetPostsByParentPostRequest {
+    #[prost(int64, tag = "1")]
+    pub height: i64,
+    #[prost(int64, tag = "2")]
+    pub page: i64,
+    #[prost(int64, tag = "3")]
+    pub per_page: i64,
+    #[prost(string, tag = "4")]
+    pub parent_post: ::prost::alloc::string::String,
+}
+#[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetRequest {
     #[prost(uint64, tag = "1")]
     pub height: u64,
@@ -160,6 +200,62 @@ pub mod query_client {
             })?;
             let codec = tonic::codec::ProstCodec::default();
             let path = http::uri::PathAndQuery::from_static("/blawgd.Query/Get");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        pub async fn get_posts(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetPostsRequest>,
+        ) -> Result<tonic::Response<super::GetResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/blawgd.Query/GetPosts");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        pub async fn get_posts_by_parent_post(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetPostsByParentPostRequest>,
+        ) -> Result<tonic::Response<super::GetResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/blawgd.Query/GetPostsByParentPost");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        pub async fn get_posts_by_account(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetPostsByAccountRequest>,
+        ) -> Result<tonic::Response<super::GetResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/blawgd.Query/GetPostsByAccount");
+            self.inner.unary(request.into_request(), path, codec).await
+        }
+        pub async fn get_timeline(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetTimelineRequest>,
+        ) -> Result<tonic::Response<super::GetResponse>, tonic::Status> {
+            self.inner.ready().await.map_err(|e| {
+                tonic::Status::new(
+                    tonic::Code::Unknown,
+                    format!("Service was not ready: {}", e.into()),
+                )
+            })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static("/blawgd.Query/GetTimeline");
             self.inner.unary(request.into_request(), path, codec).await
         }
     }

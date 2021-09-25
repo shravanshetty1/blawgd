@@ -1,5 +1,8 @@
 use super::keys;
-use crate::clients::blawgd_client::{query_client, AccountInfo, GetRequest, Post, PostView};
+use crate::clients::blawgd_client::{
+    query_client, AccountInfo, GetPostsByAccountRequest, GetPostsByParentPostRequest, GetRequest,
+    GetResponse, GetTimelineRequest, Post, PostView,
+};
 use crate::clients::verification_client::helpers::convert_tm_to_ics_merkle_proof;
 use crate::clients::verification_client::proof::{verify_membership, verify_non_membership};
 use crate::clients::verification_client::VerificationClient;
@@ -8,10 +11,14 @@ use anyhow::Result;
 use std::collections::HashMap;
 
 const PER_PAGE: u64 = 30;
+const TIMELINE_PER_PAGE: u64 = 5;
 
 impl VerificationClient {
-    pub async fn get(&self, keys: Vec<String>) -> Result<HashMap<String, Option<Vec<u8>>>> {
-        let verify = self.verify.clone();
+    pub fn with_prefetch(&mut self, root: Vec<u8>, prefetch: GetResponse) {
+        self.prefetch = Some((root, prefetch))
+    }
+
+    pub async fn get_latest_block_root_height(&self) -> Result<(Vec<u8>, u64)> {
         let lb = self
             .lc
             .supervisor
@@ -20,22 +27,65 @@ impl VerificationClient {
             .latest_trusted()
             .ok_or(anyhow!("could not get latest trusted light block"))?;
         let mut height = lb.signed_header.header.height.value() - 1;
-        let root = lb.signed_header.header.app_hash.value();
+        let mut root = lb.signed_header.header.app_hash.value();
+        let verify = self.verify.clone();
 
         if !verify {
             height = 0;
         }
 
-        let resp = query_client::QueryClient::new(self.client.clone())
-            .get(GetRequest {
-                height,
-                keys: keys.clone(),
-            })
-            .await?
-            .into_inner();
+        Ok((root, height))
+    }
 
-        let data = resp.data;
-        let proofs = resp.proofs;
+    pub async fn get(&self, keys: Vec<String>) -> Result<HashMap<String, Option<Vec<u8>>>> {
+        let verify = self.verify.clone();
+        let (mut root, mut height) = self.get_latest_block_root_height().await?;
+
+        let mut data: HashMap<String, Vec<u8>> = HashMap::new();
+        let mut proofs: HashMap<String, Vec<u8>> = HashMap::new();
+        if self.prefetch.is_none() {
+            let resp = query_client::QueryClient::new(self.client.clone())
+                .get(GetRequest {
+                    height,
+                    keys: keys.clone(),
+                })
+                .await?
+                .into_inner();
+
+            data = resp.data;
+            proofs = resp.proofs;
+        } else {
+            let (given_root, resp) = self.prefetch.clone().unwrap();
+            let mut pre_data: HashMap<String, Vec<u8>> = HashMap::new();
+            let mut pre_proofs: HashMap<String, Vec<u8>> = HashMap::new();
+            for key in keys.iter() {
+                pre_data.insert(
+                    key.clone(),
+                    resp.data
+                        .get(key.clone().as_str())
+                        .ok_or(anyhow!(
+                            "given key {} does not exist in prefetched data",
+                            key.clone()
+                        ))?
+                        .clone(),
+                );
+                pre_proofs.insert(
+                    key.clone(),
+                    resp.proofs
+                        .get(key.clone().as_str())
+                        .ok_or(anyhow!(
+                            "given key {} does not exist in prefetched data",
+                            key.clone()
+                        ))?
+                        .clone(),
+                );
+            }
+
+            data = pre_data;
+            proofs = pre_proofs;
+            root = given_root;
+        }
+
         if verify {
             for key in keys {
                 let val = data
@@ -191,6 +241,69 @@ impl VerificationClient {
         self.get_posts(post_ids?).await
     }
 
+    pub async fn get_post_by_parent_post_prefetch(
+        &self,
+        parent_post_id: String,
+        mut page: u64,
+    ) -> Result<Vec<PostView>> {
+        let (root, height) = self.get_latest_block_root_height().await?;
+        let resp = query_client::QueryClient::new(self.client.clone())
+            .get_posts_by_parent_post(GetPostsByParentPostRequest {
+                height: height as i64,
+                page: page as i64,
+                per_page: PER_PAGE as i64,
+                parent_post: parent_post_id.clone(),
+            })
+            .await?
+            .into_inner();
+        let mut vc = self.clone();
+        vc.with_prefetch(root, resp);
+
+        Ok(vc.get_post_by_parent_post(parent_post_id, page).await?)
+    }
+
+    pub async fn get_post_by_account_prefetch(
+        &self,
+        address: String,
+        mut page: u64,
+    ) -> Result<Vec<PostView>> {
+        let (root, height) = self.get_latest_block_root_height().await?;
+        let resp = query_client::QueryClient::new(self.client.clone())
+            .get_posts_by_account(GetPostsByAccountRequest {
+                height: height as i64,
+                page: page as i64,
+                per_page: PER_PAGE as i64,
+                address: address.clone(),
+            })
+            .await?
+            .into_inner();
+        let mut vc = self.clone();
+        vc.with_prefetch(root, resp);
+
+        Ok(vc.get_post_by_account(address, page).await?)
+    }
+
+    pub async fn get_timeline_prefetch(
+        &self,
+        address: String,
+        mut page: u64,
+    ) -> Result<Vec<PostView>> {
+        let (root, height) = self.get_latest_block_root_height().await?;
+        let resp = query_client::QueryClient::new(self.client.clone())
+            .get_timeline(GetTimelineRequest {
+                height: height as i64,
+                page: page as i64,
+                per_page: TIMELINE_PER_PAGE as i64,
+                address: address.clone(),
+            })
+            .await?
+            .into_inner();
+        let mut vc = self.clone();
+        vc.with_prefetch(root, resp);
+
+        Ok(vc.get_timeline(address, page).await?)
+    }
+
     pub async fn get_post_by_parent_post(
         &self,
         parent_post_id: String,
@@ -307,7 +420,7 @@ impl VerificationClient {
                 continue;
             }
 
-            let pagination = pagination(1, post_count, page, 5);
+            let pagination = pagination(1, post_count, page, TIMELINE_PER_PAGE);
             if pagination.is_err() {
                 continue;
             }

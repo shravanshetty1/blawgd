@@ -31,7 +31,7 @@ pub fn reg_scroll_event(state: Arc<RwLock<PageState>>, ctx: Arc<ApplicationConte
                 let posts = ctx
                     .client
                     .vc
-                    .get_post_by_parent_post("".to_string(), state.page + 1 as u64)
+                    .get_post_by_parent_post_prefetch("".to_string(), state.page + 1 as u64)
                     .await?;
                 if posts.len() == 0 {
                     return Ok(());

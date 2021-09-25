@@ -1,3 +1,4 @@
+use crate::clients::blawgd_client::GetResponse;
 use crate::clients::light_client::LightClient;
 use crate::storage::Store;
 
@@ -11,6 +12,7 @@ pub struct VerificationClient {
     lc: LightClient,
     client: grpc_web_client::Client,
     verify: bool,
+    prefetch: Option<(Vec<u8>, GetResponse)>,
 }
 
 impl VerificationClient {
@@ -19,6 +21,11 @@ impl VerificationClient {
         client: grpc_web_client::Client,
         verify: bool,
     ) -> VerificationClient {
-        VerificationClient { lc, client, verify }
+        VerificationClient {
+            lc,
+            client,
+            verify,
+            prefetch: None,
+        }
     }
 }

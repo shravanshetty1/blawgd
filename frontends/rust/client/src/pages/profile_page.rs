@@ -21,7 +21,10 @@ impl PageBuilder {
             .to_string();
 
         let account_info = ctx.client.vc.get_account_info(address.clone());
-        let posts = ctx.client.vc.get_post_by_account(address.clone(), 1 as u64);
+        let posts = ctx
+            .client
+            .vc
+            .get_post_by_account_prefetch(address.clone(), 1 as u64);
         let is_following =
             is_following(ctx.client.vc.clone(), ctx.session.clone(), address.clone());
         let (account_info, posts, is_following) =

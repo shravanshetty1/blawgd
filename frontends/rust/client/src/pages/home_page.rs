@@ -14,7 +14,7 @@ impl PageBuilder {
         let posts = ctx
             .client
             .vc
-            .get_post_by_parent_post("".to_string(), 1)
+            .get_post_by_parent_post_prefetch("".to_string(), 1)
             .await?;
         let posts = posts
             .iter()

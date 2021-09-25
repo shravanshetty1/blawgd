@@ -14,7 +14,7 @@ impl PageBuilder {
         let posts = ctx
             .client
             .vc
-            .get_timeline(
+            .get_timeline_prefetch(
                 ctx.session
                     .clone()
                     .ok_or(anyhow!("user not logged in"))?
