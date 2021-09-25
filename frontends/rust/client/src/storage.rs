@@ -84,12 +84,13 @@ impl Store {
         Ok(MnemonicWallet::new(app_data.mnemonic.as_str(), COSMOS_DP)?)
     }
 
-    // TODO store data if should not verify, default should not store data
     pub fn should_verify(&self) -> Result<bool> {
         let should_verify: Result<bool, StorageError> = LocalStorage::get(SHOULD_VERIFY);
         if should_verify.is_err() {
             return Ok(true);
         }
+
+        self.set_should_verify(true)?;
 
         Ok(should_verify?)
     }
