@@ -1,4 +1,5 @@
 use super::Component;
+use crate::clients::verification_client::verification_client::normalize_account_info;
 use crate::clients::COSMOS_DP;
 use crate::context::ApplicationContext;
 use crate::storage::ApplicationData;

@@ -159,7 +159,7 @@ impl Component for EditProfilePage {
                 };
                 ctx.client
                     .cosmos
-                    .broadcast_tx(MSG_TYPE_UPDATE_ACCOUNT_INFO, msg)
+                    .broadcast_tx(ctx.store.get_wallet()?, MSG_TYPE_UPDATE_ACCOUNT_INFO, msg)
                     .await?;
                 ctx.store.set_should_verify(false);
                 ctx.window

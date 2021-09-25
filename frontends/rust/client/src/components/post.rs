@@ -52,6 +52,7 @@ impl PostComponent {
                     .client
                     .cosmos
                     .broadcast_tx(
+                        ctx.store.get_wallet()?,
                         MSG_TYPE_LIKE,
                         MsgLikePost {
                             creator: session.address.clone(),
@@ -97,6 +98,7 @@ impl PostComponent {
                     .client
                     .cosmos
                     .broadcast_tx(
+                        ctx.store.get_wallet()?,
                         MSG_TYPE_REPOST,
                         MsgRepost {
                             creator: session.address.clone(),

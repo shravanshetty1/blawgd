@@ -104,13 +104,18 @@ impl Component for ProfilePage {
 
         reg_scroll_event(self.state.clone(), ctx.clone())?;
 
-        if ctx.session.is_none() {
+        let button_type = self.button.clone();
+        if button_type.is_none() {
             return Ok(());
+        }
+        let button_type = button_type.unwrap();
+        match button_type {
+            ButtonType::Edit => return Ok(()),
+            _ => {}
         }
 
         let document = ctx.window.document()?;
         let follow_toggle = document.get_element_by_id("follow-toggle")?.inner();
-        let button_type = self.button.clone().unwrap();
         let account_info = self.account_info.clone();
         events::EventListener::new(&follow_toggle, "click", move |_| {
             let ctx = ctx.clone();
@@ -123,6 +128,7 @@ impl Component for ProfilePage {
                         ctx.client
                             .cosmos
                             .broadcast_tx(
+                                ctx.store.get_wallet()?,
                                 MSG_TYPE_FOLLOW,
                                 MsgFollow {
                                     creator: session.address.clone(),
@@ -135,6 +141,7 @@ impl Component for ProfilePage {
                         ctx.client
                             .cosmos
                             .broadcast_tx(
+                                ctx.store.get_wallet()?,
                                 MSG_TYPE_STOP_FOLLOW,
                                 MsgStopFollow {
                                     creator: session.address.clone(),

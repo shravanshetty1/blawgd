@@ -58,7 +58,11 @@ impl super::Component for PostCreator {
                     .unwrap()
                     .value();
                 let msg = MsgCreatePost {
-                    creator: ctx.store.get_application_data()?.address,
+                    creator: ctx
+                        .session
+                        .clone()
+                        .ok_or(anyhow!("user not logged in"))?
+                        .address,
                     content: post_content,
                     parent_post,
                 };
@@ -66,7 +70,7 @@ impl super::Component for PostCreator {
                 let resp = ctx
                     .client
                     .cosmos
-                    .broadcast_tx(MSG_TYPE_CREATE_POST, msg)
+                    .broadcast_tx(ctx.store.get_wallet()?, MSG_TYPE_CREATE_POST, msg)
                     .await?
                     .into_inner();
                 crate::logger::console_log(resp.tx_response.unwrap().raw_log.as_str());

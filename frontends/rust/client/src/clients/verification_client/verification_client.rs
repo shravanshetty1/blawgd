@@ -11,7 +11,7 @@ const PER_PAGE: u64 = 30;
 
 impl VerificationClient {
     pub async fn get(&self, keys: Vec<String>) -> Result<HashMap<String, Option<Vec<u8>>>> {
-        let verify = self.store.should_verify()?;
+        let verify = self.verify.clone();
         let lb = self
             .lc
             .supervisor

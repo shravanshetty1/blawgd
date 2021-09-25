@@ -23,7 +23,6 @@ where
     T: Clone,
 {
     pub client: T,
-    pub wallet: MnemonicWallet,
 }
 
 pub const MSG_BANK_SEND: &str = "/cosmos.bank.v1beta1.MsgSend";
@@ -39,12 +38,13 @@ where
 {
     pub async fn broadcast_tx<M: prost::Message>(
         &self,
+        wallet: MnemonicWallet,
         msg_type: &str,
         msg: M,
     ) -> Result<Response<BroadcastTxResponse>> {
         let acc_resp = QueryClient::new(self.client.clone())
             .account(QueryAccountRequest {
-                address: self.wallet.get_bech32_address(ADDRESS_HRP)?,
+                address: wallet.get_bech32_address(ADDRESS_HRP)?,
             })
             .await?;
 
@@ -56,7 +56,7 @@ where
             .timeout_height(0)
             .fee("stake", "0", 3000000)
             .add_message(msg_type, msg)?
-            .sign(&self.wallet.clone())?;
+            .sign(&wallet)?;
         let tx_raw = serialize_tx(&tx)?;
 
         let resp = ServiceClient::new(self.client.clone())

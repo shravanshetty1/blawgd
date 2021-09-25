@@ -26,6 +26,8 @@ mod pages;
 mod storage;
 mod task;
 
+const SYNC_TIMEOUT: u32 = 5000;
+
 #[wasm_bindgen(start)]
 pub fn main() -> Result<(), JsValue> {
     console_error_panic_hook::set_once();
@@ -40,15 +42,24 @@ pub async fn main_handler() -> Result<()> {
     let location = window.location();
     let host = Host::new(location.protocol()?, location.hostname()?, location.port()?);
     let grpc_client = grpc_web_client::Client::new(host.grpc_endpoint());
-    let light_client = LightClient::new(grpc_client.clone(), host.clone()).await?;
-    light_client
-        .supervisor
-        .write()
-        .await
-        .verify_to_highest()
-        .await?;
+    let peer_id = Store.get_peer_id(grpc_client.clone()).await?;
+    let light_client = LightClient::new(peer_id, host.clone()).await?;
 
-    let vc = VerificationClient::new(light_client.clone(), grpc_client.clone());
+    let since = chrono::Utc::now().timestamp_millis() - Store.last_lc_sync()?;
+    if since > SYNC_TIMEOUT as i64 {
+        light_client
+            .supervisor
+            .write()
+            .await
+            .verify_to_highest()
+            .await?;
+    }
+
+    let vc = VerificationClient::new(
+        light_client.clone(),
+        grpc_client.clone(),
+        Store.should_verify()?,
+    );
     let session = Store.get_session_account_info(vc.clone()).await.ok();
 
     let rpc_client = TendermintRPCClient::new(host.clone())?;
@@ -59,7 +70,6 @@ pub async fn main_handler() -> Result<()> {
             rpc: rpc_client,
             cosmos: CosmosClient {
                 client: grpc_client,
-                wallet: Store.get_wallet()?,
             },
         },
         host,
@@ -72,6 +82,6 @@ pub async fn main_handler() -> Result<()> {
         .render(location.href()?.as_str())
         .await?;
 
-    light_client.sync_forever(5000).await;
+    light_client.sync_forever(SYNC_TIMEOUT, Store).await?;
     Ok(())
 }
