@@ -10,7 +10,7 @@ use anyhow::anyhow;
 use anyhow::Result;
 use std::collections::HashMap;
 
-const PER_PAGE: u64 = 30;
+const PER_PAGE: u64 = 6;
 const TIMELINE_PER_PAGE: u64 = 5;
 
 impl VerificationClient {
@@ -205,11 +205,7 @@ impl VerificationClient {
             Ok(Vec::new())
         }
     }
-    pub async fn get_post_by_account(
-        &self,
-        address: String,
-        mut page: u64,
-    ) -> Result<Vec<PostView>> {
+    async fn get_post_by_account(&self, address: String, mut page: u64) -> Result<Vec<PostView>> {
         let account_info = self.get_account_info(address.clone()).await?;
         let mut keys: Vec<String> = Vec::new();
         if account_info.post_count == 0 {
@@ -304,7 +300,7 @@ impl VerificationClient {
         Ok(vc.get_timeline(address, page).await?)
     }
 
-    pub async fn get_post_by_parent_post(
+    async fn get_post_by_parent_post(
         &self,
         parent_post_id: String,
         mut page: u64,
@@ -393,7 +389,7 @@ impl VerificationClient {
         Ok(post_view)
     }
 
-    pub async fn get_timeline(&self, address: String, mut page: u64) -> Result<Vec<PostView>> {
+    async fn get_timeline(&self, address: String, mut page: u64) -> Result<Vec<PostView>> {
         let followings = self.get_following_list(address).await?;
         let mut key_to_address: HashMap<String, String> = HashMap::new();
         for addr in followings.clone() {

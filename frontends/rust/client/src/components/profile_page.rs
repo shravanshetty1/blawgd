@@ -3,7 +3,7 @@ use crate::clients::blawgd_client::{
     AccountInfo, MsgFollow, MsgStopFollow, MSG_TYPE_FOLLOW, MSG_TYPE_STOP_FOLLOW,
 };
 use crate::components::account_info::AccountInfoComp;
-use crate::components::scroll_event::{reg_scroll_event, PageState};
+use crate::components::scroll_event::{reg_scroll_event, AccountPostGetter, PageState};
 use crate::context::ApplicationContext;
 use crate::task;
 use anyhow::anyhow;
@@ -102,7 +102,13 @@ impl Component for ProfilePage {
             post.register_events(ctx.clone())?;
         }
 
-        reg_scroll_event(self.state.clone(), ctx.clone())?;
+        reg_scroll_event(
+            self.state.clone(),
+            ctx.clone(),
+            AccountPostGetter {
+                address: self.account_info.address.clone(),
+            },
+        )?;
 
         let button_type = self.button.clone();
         if button_type.is_none() {

@@ -1,8 +1,11 @@
-use crate::components::scroll_event::{reg_scroll_event, PageState};
+use crate::clients::blawgd_client::PostView;
+use crate::clients::verification_client::VerificationClient;
+use crate::components::scroll_event::{reg_scroll_event, PageState, ParentPostGetter, PostGetter};
 use crate::components::Component;
 use crate::context::ApplicationContext;
 use anyhow::Result;
 use async_lock::RwLock;
+use async_trait::async_trait;
 use std::sync::Arc;
 
 pub struct HomePage {
@@ -70,7 +73,13 @@ impl super::Component for HomePage {
             p.register_events(ctx.clone())?;
         }
 
-        reg_scroll_event(self.state.clone(), ctx)?;
+        reg_scroll_event(
+            self.state.clone(),
+            ctx.clone(),
+            ParentPostGetter {
+                parent_post: "".to_string(),
+            },
+        )?;
         Ok(())
     }
 }

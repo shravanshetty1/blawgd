@@ -1,6 +1,7 @@
-use crate::components::scroll_event::{reg_scroll_event, PageState};
+use crate::components::scroll_event::{reg_scroll_event, PageState, TimelinePostGetter};
 use crate::components::Component;
 use crate::context::ApplicationContext;
+use anyhow::anyhow;
 use anyhow::Result;
 use async_lock::RwLock;
 use std::sync::Arc;
@@ -69,7 +70,18 @@ impl super::Component for TimelinePage {
             p.register_events(ctx.clone())?;
         }
 
-        reg_scroll_event(self.state.clone(), ctx)?;
+        reg_scroll_event(
+            self.state.clone(),
+            ctx.clone(),
+            TimelinePostGetter {
+                address: ctx
+                    .session
+                    .as_ref()
+                    .ok_or(anyhow!("user not logged in"))?
+                    .address
+                    .clone(),
+            },
+        )?;
         Ok(())
     }
 }

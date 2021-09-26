@@ -1,4 +1,5 @@
-use crate::components::scroll_event::{reg_scroll_event, PageState};
+use crate::components::post::PostComponent;
+use crate::components::scroll_event::{reg_scroll_event, PageState, ParentPostGetter};
 use crate::components::Component;
 use crate::context::ApplicationContext;
 use anyhow::Result;
@@ -7,7 +8,7 @@ use prost::alloc::sync::Arc;
 
 pub struct PostPage {
     nav_bar: Box<dyn Component>,
-    main_post: Box<dyn Component>,
+    main_post: Box<PostComponent>,
     post_creator: Option<Box<dyn Component>>,
     posts: Box<[Box<dyn Component>]>,
     state: Arc<RwLock<PageState>>,
@@ -16,7 +17,7 @@ pub struct PostPage {
 impl PostPage {
     pub fn new(
         nav_bar: Box<dyn Component>,
-        main_post: Box<dyn Component>,
+        main_post: Box<PostComponent>,
         post_creator: Option<Box<dyn Component>>,
         posts: Box<[Box<dyn Component>]>,
     ) -> Box<PostPage> {
@@ -75,7 +76,14 @@ impl super::Component for PostPage {
                 .register_events(ctx.clone())?;
         }
 
-        reg_scroll_event(self.state.clone(), ctx)?;
+        reg_scroll_event(
+            self.state.clone(),
+            ctx,
+            ParentPostGetter {
+                parent_post: self.main_post.post.id.clone(),
+            },
+        )?;
+
         Ok(())
     }
 }

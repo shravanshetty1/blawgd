@@ -18,7 +18,10 @@ impl PageBuilder {
             .ok_or(anyhow!("could not get post id from {}", url.clone()))?
             .to_string();
 
-        let posts = ctx.client.vc.get_post_by_parent_post(post_id.clone(), 1);
+        let posts = ctx
+            .client
+            .vc
+            .get_post_by_parent_post_prefetch(post_id.clone(), 1);
         let main_post = ctx.client.vc.get_post(post_id.clone());
         let (posts, main_post) = futures::future::try_join(posts, main_post).await?;
 

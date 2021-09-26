@@ -10,7 +10,7 @@ use gloo::events::EventListener;
 use std::sync::Arc;
 
 pub struct PostComponent {
-    post: PostView,
+    pub post: PostView,
     focus: bool,
 }
 
