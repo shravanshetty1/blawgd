@@ -28,7 +28,7 @@ use tendermint_rpc::Url;
 mod clock;
 mod custom_evidence_reporter;
 mod light_client_io;
-mod light_store;
+pub mod light_store;
 
 const TRUSTING_PERIOD: u64 = 3600000;
 const CLOCK_DRIFT: u64 = 1;
@@ -73,6 +73,7 @@ impl LightClient {
                 }
             }
             store.update_lc_sync()?;
+            store.prune_light_store()?;
             gloo::timers::future::TimeoutFuture::new(timeout_ms).await;
         }
 

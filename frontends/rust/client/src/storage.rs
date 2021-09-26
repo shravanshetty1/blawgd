@@ -1,4 +1,5 @@
 use crate::clients::blawgd_client::AccountInfo;
+use crate::clients::light_client::light_store::CustomLightStore;
 use crate::clients::verification_client::VerificationClient;
 use crate::clients::COSMOS_DP;
 use anyhow::anyhow;
@@ -10,7 +11,8 @@ use gloo::storage::errors::StorageError;
 use gloo::storage::{LocalStorage, Storage};
 use serde::Deserialize;
 use serde::Serialize;
-use tendermint_light_client::types::PeerId;
+use tendermint_light_client::store::LightStore;
+use tendermint_light_client::types::{PeerId, Status};
 
 #[derive(Clone)]
 pub struct Store;
@@ -27,6 +29,7 @@ const APP_DATA: &str = "app_data";
 const SHOULD_VERIFY: &str = "should_verify";
 const PEER_ID: &str = "peer_id";
 const LAST_LC_SYNC: &str = "last_lc_sync";
+const MAX_NUM_BLOCKS: u64 = 10;
 
 impl Store {
     pub fn set_application_data(&self, app_data: ApplicationData) -> Result<()> {
@@ -97,5 +100,43 @@ impl Store {
 
     pub fn set_should_verify(&self, state: bool) -> Result<()> {
         Ok(LocalStorage::set(SHOULD_VERIFY, state)?)
+    }
+
+    pub fn prune_light_store(&self) -> Result<()> {
+        let highest = CustomLightStore
+            .highest(Status::Trusted)
+            .ok_or(anyhow!("could not get highest trusted block"))?
+            .signed_header
+            .header
+            .height
+            .value();
+
+        let local_storage = LocalStorage::raw();
+        let length = LocalStorage::length();
+        for i in 0..length {
+            let key: Option<String> = local_storage.key(i).unwrap();
+            if key.is_none() {
+                continue;
+            }
+
+            let key = key.unwrap();
+            if !key.starts_with("light-") {
+                continue;
+            }
+
+            let height: u64 = key
+                .strip_prefix("light-")
+                .unwrap()
+                .split_once("-")
+                .unwrap()
+                .1
+                .parse()
+                .unwrap();
+            if height < highest - MAX_NUM_BLOCKS {
+                LocalStorage::delete(key);
+            }
+        }
+
+        Ok(())
     }
 }

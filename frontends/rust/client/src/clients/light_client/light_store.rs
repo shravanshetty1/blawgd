@@ -17,53 +17,18 @@ impl LightStore for CustomLightStore {
     fn update(&mut self, light_block: &LightBlock, status: Status) {
         let height = light_block.signed_header.header.height.clone();
         LocalStorage::set(light_store_key(status, height), light_block).unwrap();
-
-        let min: u64 = LocalStorage::get(light_store_min_key(status)).unwrap_or(u64::MAX);
-        if height.value() < min {
-            LocalStorage::set(light_store_min_key(status), height.value()).unwrap();
-        }
-
-        let max: u64 = LocalStorage::get(light_store_max_key(status)).unwrap_or(u64::MIN);
-        if height.value() > max {
-            LocalStorage::set(light_store_max_key(status), height.value()).unwrap();
-        }
     }
 
     fn insert(&mut self, light_block: LightBlock, status: Status) {
         let height = light_block.signed_header.header.height.clone();
         LocalStorage::set(light_store_key(status, height), light_block).unwrap();
-
-        let min: u64 = LocalStorage::get(light_store_min_key(status)).unwrap_or(u64::MAX);
-        if height.value() < min {
-            LocalStorage::set(light_store_min_key(status), height.value()).unwrap();
-        }
-
-        let max: u64 = LocalStorage::get(light_store_max_key(status)).unwrap_or(u64::MIN);
-        if height.value() > max {
-            LocalStorage::set(light_store_max_key(status), height.value()).unwrap();
-        }
     }
 
     fn remove(&mut self, height: Height, status: Status) {
         LocalStorage::delete(light_store_key(status, height));
-
-        let min: u64 = LocalStorage::get(light_store_min_key(status)).unwrap_or(u64::MAX);
-        if height.value() <= min {
-            LocalStorage::delete(light_store_min_key(status));
-        }
-
-        let max: u64 = LocalStorage::get(light_store_max_key(status)).unwrap_or(u64::MIN);
-        if height.value() >= max {
-            LocalStorage::delete(light_store_max_key(status));
-        }
     }
 
     fn highest(&self, status: Status) -> Option<LightBlock> {
-        let max: u64 = LocalStorage::get(light_store_max_key(status)).unwrap_or(u64::MIN);
-        if max != u64::MIN {
-            return self.get(Height::from(max as u32), status);
-        }
-
         let local_storage = LocalStorage::raw();
         let length = LocalStorage::length();
 
@@ -84,16 +49,10 @@ impl LightStore for CustomLightStore {
             }
         }
 
-        LocalStorage::set(light_store_max_key(status), highest).unwrap();
         self.get(Height::from(highest as u32), status)
     }
 
     fn lowest(&self, status: Status) -> Option<LightBlock> {
-        let min: u64 = LocalStorage::get(light_store_min_key(status)).unwrap_or(u64::MAX);
-        if min != u64::MAX {
-            return self.get(Height::from(min as u32), status);
-        }
-
         let local_storage = LocalStorage::raw();
         let length = LocalStorage::length();
 
@@ -114,7 +73,6 @@ impl LightStore for CustomLightStore {
             }
         }
 
-        LocalStorage::set(light_store_min_key(status), lowest).unwrap();
         self.get(Height::from(lowest as u32), status)
     }
 
@@ -151,12 +109,4 @@ fn status_string(s: Status) -> String {
 
 fn light_store_key(status: Status, height: Height) -> String {
     format!("light-{}-{}", status_string(status), height)
-}
-
-fn light_store_min_key(status: Status) -> String {
-    format!("light-min-{}", status_string(status))
-}
-
-fn light_store_max_key(status: Status) -> String {
-    format!("light-max-{}", status_string(status))
 }
