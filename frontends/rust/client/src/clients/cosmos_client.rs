@@ -27,6 +27,7 @@ where
 
 pub const MSG_BANK_SEND: &str = "/cosmos.bank.v1beta1.MsgSend";
 pub const CHAIN_ID: &str = "blawgd";
+pub const MEMO: &str = "browser client";
 
 impl<T> CosmosClient<T>
 where
@@ -51,7 +52,7 @@ where
         let account_data: BaseAccount =
             prost::Message::decode(acc_resp.get_ref().account.as_ref().unwrap().value.as_ref())?;
         let tx = TxBuilder::new(CHAIN_ID)
-            .memo("Test memo")
+            .memo(MEMO)
             .account_info(account_data.sequence, account_data.account_number)
             .timeout_height(0)
             .fee("stake", "0", 3000000)

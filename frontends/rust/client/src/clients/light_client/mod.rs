@@ -72,7 +72,7 @@ impl LightClient {
                     crate::logger::console_log(format!("[error] sync failed: {}", err).as_str());
                 }
             }
-            store.update_lc_sync()?;
+            store.update_last_sync_time()?;
             store.prune_light_store()?;
             gloo::timers::future::TimeoutFuture::new(timeout_ms).await;
         }

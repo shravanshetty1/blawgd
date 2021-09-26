@@ -48,7 +48,7 @@ impl Store {
         cl.get_account_info(address).await
     }
 
-    pub fn update_lc_sync(&self) -> Result<()> {
+    pub fn update_last_sync_time(&self) -> Result<()> {
         let unix_ts = chrono::Utc::now().timestamp_millis();
         Ok(LocalStorage::set(LAST_LC_SYNC, unix_ts)?)
     }

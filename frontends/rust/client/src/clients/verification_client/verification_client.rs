@@ -10,7 +10,7 @@ use anyhow::anyhow;
 use anyhow::Result;
 use std::collections::HashMap;
 
-const PER_PAGE: u64 = 6;
+const PER_PAGE: u64 = 30;
 const TIMELINE_PER_PAGE: u64 = 5;
 
 impl VerificationClient {
