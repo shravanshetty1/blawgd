@@ -29,7 +29,6 @@ impl PageRenderer {
             .strip_prefix(format!("{}/", ctx.host.endpoint()).as_str())
             .ok_or(anyhow!("could not stip prefix of {}", url))?;
 
-        // TODO return components and render outside
         let page: Box<dyn Component> = match url_path {
             url if url.starts_with("followings") => PageBuilder::followings_page(ctx.clone()).await,
             url if url.starts_with("post") => PageBuilder::post_page(ctx.clone()).await,
@@ -44,6 +43,9 @@ impl PageRenderer {
 
         let body = ctx.window.document()?.get_element_by_id("body")?;
         body.set_inner_html(&page.to_html()?);
+
+        // TODO verification should be true no matter what from here
+
         page.register_events(ctx)?;
 
         Ok(())
