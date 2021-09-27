@@ -24,13 +24,13 @@ type (
 	}
 )
 
-func NewKeeper(cdc codec.Codec, storeKey, memKey sdk.StoreKey, bApp *baseapp.BaseApp, b bankkeeper.Keeper) *Keeper {
+func NewKeeper(cdc codec.Codec, storeKey, memKey sdk.StoreKey, bApp *baseapp.BaseApp, bank bankkeeper.Keeper) *Keeper {
 	return &Keeper{
 		cdc:      cdc,
 		storeKey: storeKey,
 		memKey:   memKey,
 		bApp:     bApp,
-		bKeeper:  b,
+		bKeeper:  bank,
 	}
 }
 
