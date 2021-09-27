@@ -37,7 +37,7 @@ impl Display for ExpectedError {
 impl Error for ExpectedError {}
 
 pub const DENOM: &str = "stake";
-pub const AMOUNT: &str = "10000";
+pub const AMOUNT: &str = "1";
 
 pub async fn faucet(state: web::Data<State>, req: HttpRequest) -> HttpResponse {
     let resp = faucet_handler(state, req).await;
