@@ -7,6 +7,7 @@ option go_package = "backends/cosmos/pkg/modules/blawgd/types";
 
 message GenesisState {
   uint64 max_post_count = 1;
+  uint64 max_following_count = 2;
 }
 
 service Query {

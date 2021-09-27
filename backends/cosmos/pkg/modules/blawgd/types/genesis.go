@@ -16,6 +16,8 @@ func DefaultGenesis() *GenesisState {
 		//MaxPostCount: 2000000000,
 		MaxPostCount: 2000000,
 		//MaxPostCount: 6,
+
+		MaxFollowingCount: 100,
 	}
 }
 

@@ -2,6 +2,8 @@
 pub struct GenesisState {
     #[prost(uint64, tag = "1")]
     pub max_post_count: u64,
+    #[prost(uint64, tag = "2")]
+    pub max_following_count: u64,
 }
 #[derive(serde::Serialize, serde::Deserialize, Clone, PartialEq, ::prost::Message)]
 pub struct GetPostsRequest {

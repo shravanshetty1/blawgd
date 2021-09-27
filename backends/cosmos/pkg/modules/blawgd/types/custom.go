@@ -6,5 +6,3 @@ type NewPost struct {
 	ParentPost   string
 	RepostParent *Post
 }
-
-const MAX_FOLLOWING_COUNT = 250

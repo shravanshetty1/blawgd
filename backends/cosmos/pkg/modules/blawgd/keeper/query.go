@@ -3,6 +3,7 @@ package keeper
 import (
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/shravanshetty1/blawgd/backends/cosmos/pkg/modules/blawgd/types"
@@ -30,6 +31,17 @@ func (k *Keeper) GetFollowing(ctx sdk.Context, address string) []string {
 		followingList = strings.Split(followingListRaw, ",")
 	}
 	return followingList
+}
+
+func (k *Keeper) GetMaxFollowingCount(ctx sdk.Context) (uint64, error) {
+	store := ctx.KVStore(k.storeKey)
+	maxFollowingCountRaw := store.Get(types.MaxFollowingCountKey())
+	maxFollowingCount, err := strconv.ParseUint(string(maxFollowingCountRaw), 10, 64)
+	if err != nil {
+		return 0, err
+	}
+
+	return maxFollowingCount, nil
 }
 
 func GetListWithoutRepeated(list []string) []string {

@@ -13,6 +13,7 @@ import (
 func (k *Keeper) Init(ctx sdk.Context, gen *types.GenesisState) {
 	store := ctx.KVStore(k.storeKey)
 	store.Set(types.MaxPostCountKey(), []byte(fmt.Sprint(gen.MaxPostCount)))
+	store.Set(types.MaxFollowingCountKey(), []byte(fmt.Sprint(gen.MaxFollowingCount)))
 }
 
 func (k *Keeper) EndBlock(ctx sdk.Context) error {

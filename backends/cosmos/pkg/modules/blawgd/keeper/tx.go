@@ -119,6 +119,15 @@ func (k *Keeper) StartFollowing(ctx sdk.Context, msg *types.MsgFollow) error {
 		return fmt.Errorf("Unexpected increase in following list length")
 	}
 
+	maxFollowingCount, err := k.GetMaxFollowingCount(ctx)
+	if err != nil {
+		return err
+	}
+
+	if len(followingList) > int(maxFollowingCount) {
+		return fmt.Errorf("cannot follow more then %V accounts", maxFollowingCount)
+	}
+
 	store.Set(types.FollowingKey(msg.Creator), []byte(strings.Join(followingList, ",")))
 
 	creatorAccountInfo, err := k.GetAccountInfo(ctx, msg.Creator)

@@ -57,8 +57,13 @@ func (k *Keeper) NewAnteHandler(inner sdk.AnteHandler) sdk.AnteHandler {
 					return ctx, fmt.Errorf("already following %v", msg.Address)
 				}
 
-				if len(followingList) > types.MAX_FOLLOWING_COUNT {
-					return ctx, fmt.Errorf("cannot follow more than %v accounts", types.MAX_FOLLOWING_COUNT)
+				maxFollowingCount, err := k.GetMaxFollowingCount(ctx)
+				if err != nil {
+					return ctx, err
+				}
+
+				if len(followingList) > int(maxFollowingCount) {
+					return ctx, fmt.Errorf("cannot follow more then %V accounts", maxFollowingCount)
 				}
 			case *types.MsgStopFollow:
 				msg, _ := m.(*types.MsgStopFollow)
