@@ -114,7 +114,7 @@ impl Component for LoginPage {
                     .unwrap()
                     .value();
                 let address = MnemonicWallet::new(mnemonic.as_str(), COSMOS_DP)?
-                    .get_bech32_address("cosmos")?;
+                    .get_bech32_address("blawgd")?;
 
                 let resp = reqwest::get(&format!(
                     "{}/?address={}",

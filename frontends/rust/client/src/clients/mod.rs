@@ -10,7 +10,7 @@ use crate::clients::cosmos_client::CosmosClient;
 use crate::clients::light_client::LightClient;
 
 pub const COSMOS_DP: &str = "m/44'/118'/0'/0/0";
-pub const ADDRESS_HRP: &str = "cosmos";
+pub const ADDRESS_HRP: &str = "blawgd";
 
 pub struct MasterClient {
     pub lc: LightClient,

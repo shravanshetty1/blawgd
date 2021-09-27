@@ -17,7 +17,7 @@ pub struct CosmosClient {
 
 pub const MSG_BANK_SEND: &str = "/cosmos.bank.v1beta1.MsgSend";
 pub const CHAIN_ID: &str = "blawgd";
-pub const ADDRESS_HRP: &str = "cosmos";
+pub const ADDRESS_HRP: &str = "blawgd";
 
 impl CosmosClient {
     pub async fn broadcast_tx<M: prost::Message>(
