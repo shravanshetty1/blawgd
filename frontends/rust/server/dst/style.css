@@ -11,6 +11,20 @@ a {
     color: black;
 }
 
+.faucet-page {
+    margin: auto;
+}
+
+.faucet-page-header {
+    padding: 1rem;
+    text-align: center;
+}
+
+.h-captcha {
+    padding: 1rem;
+    margin: auto;
+}
+
 .page {
     display: flex;
     flex-direction: row;

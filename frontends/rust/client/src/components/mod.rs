@@ -11,6 +11,7 @@ pub mod profile_page;
 use crate::context::ApplicationContext;
 use anyhow::Result;
 use std::sync::Arc;
+pub mod faucet_page;
 pub mod scroll_event;
 pub mod timeline_page;
 

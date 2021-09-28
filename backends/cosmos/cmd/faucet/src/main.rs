@@ -1,7 +1,7 @@
-#![deny(warnings)]
+// #![deny(warnings)]
 
 use crate::cosmos_client::CosmosClient;
-use crate::handler::State;
+use crate::handler::{site_key, State};
 use actix_web::App;
 use actix_web::{web, HttpServer};
 use anyhow::anyhow;
@@ -28,12 +28,14 @@ async fn main() -> std::io::Result<()> {
 
 async fn main_handler() -> Result<()> {
     let args: Vec<String> = std::env::args().collect();
-    if args.len() != 3 {
+    if args.len() != 5 {
         return Err(anyhow!("unexpected length of args {}", args.len()));
     }
 
     let mnemonic = args.index(1).clone();
     let broadcast_node_addr = args.index(2).clone();
+    let captcha_site_key = args.index(3).clone();
+    let captcha_secret = args.index(4).clone();
 
     let wallet = MnemonicWallet::new(mnemonic.as_str(), COSMOS_DP)?;
     let mut client = Channel::builder(broadcast_node_addr.parse::<Uri>()?)
@@ -52,6 +54,8 @@ async fn main_handler() -> Result<()> {
     let state = State {
         wallet,
         client: CosmosClient { client },
+        captcha_site_key,
+        captcha_secret,
     };
 
     println!("started faucet at {}", PORT);
@@ -64,7 +68,8 @@ async fn main_handler() -> Result<()> {
         App::new()
             .wrap(cors)
             .app_data(state)
-            .route("/", web::get().to(faucet))
+            .route("/", web::post().to(faucet))
+            .route("/sitekey", web::get().to(site_key))
     })
     .bind(("127.0.0.1", PORT))?
     .run()

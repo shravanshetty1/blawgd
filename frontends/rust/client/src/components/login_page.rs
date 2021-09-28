@@ -7,6 +7,8 @@ use crate::task;
 use anyhow::anyhow;
 use anyhow::Result;
 use bip39::{Language, Mnemonic, MnemonicType};
+use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
+use cosmos_sdk_proto::cosmos::auth::v1beta1::QueryAccountRequest;
 use crw_wallet::crypto::MnemonicWallet;
 use gloo::events;
 use prost::alloc::sync::Arc;
@@ -116,26 +118,29 @@ impl Component for LoginPage {
                 let address = MnemonicWallet::new(mnemonic.as_str(), COSMOS_DP)?
                     .get_bech32_address("blawgd")?;
 
-                let resp = reqwest::get(&format!(
-                    "{}/?address={}",
-                    ctx.host.faucet_endpoint(),
-                    address
-                ))
-                .await?
-                .text()
-                .await?;
-
-                ctx.logger.log(resp.as_str());
-
+                let resp = QueryClient::new(ctx.client.cosmos.client.clone())
+                    .account(QueryAccountRequest {
+                        address: address.clone(),
+                    })
+                    .await;
                 ctx.store.set_application_data(ApplicationData {
                     mnemonic: mnemonic.to_string(),
                     address,
                 })?;
-                ctx.window
-                    .location()
-                    .inner()
-                    .reload()
-                    .map_err(|_| anyhow!("could not reload page"))?;
+
+                if resp.is_ok() {
+                    ctx.window
+                        .location()
+                        .inner()
+                        .set_href(ctx.host.endpoint().as_str())
+                        .map_err(|_| anyhow!("could not redirect to home page"))?;
+                } else {
+                    ctx.window
+                        .location()
+                        .inner()
+                        .set_href(format!("{}{}", ctx.host.endpoint(), "/faucet").as_str())
+                        .map_err(|_| anyhow!("could not redirect to faucet page"))?;
+                }
                 Ok(())
             });
         })

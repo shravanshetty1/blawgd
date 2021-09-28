@@ -52,6 +52,7 @@ features = [
     'HtmlInputElement',
     'HtmlTextAreaElement',
     'HtmlImageElement',
+    'Node',
 ]
 
 [patch.crates-io]
