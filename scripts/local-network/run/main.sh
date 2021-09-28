@@ -9,4 +9,4 @@ CAPTCHA_SECRET="0x0000000000000000000000000000000000000000"
 
 (./scripts/codegen/main.sh)
 (cd ./frontends/rust/client; wasm-pack build --target web --dev --out-dir ../server/dst;)
-(trap 'kill 0' SIGINT; (go run ./scripts/reverse-proxy/main.go) & (./backends/cosmos/scripts/network/genesis-validator/run/main.sh $VAL_HOME) & (cd ./backends/cosmos/cmd/faucet; cargo run "$FAUCET" "http://localhost:9090" "$CAPTCHA_KEY" "$CAPTCHA_SECRET") & (go run ./frontends/rust/server/main.go))
+(trap 'kill 0' SIGINT; (ENV="DEV" go run ./scripts/reverse-proxy/main.go) & (./backends/cosmos/scripts/network/genesis-validator/run/main.sh $VAL_HOME) & (cd ./backends/cosmos/cmd/faucet; cargo run "$FAUCET" "http://localhost:9090" "$CAPTCHA_KEY" "$CAPTCHA_SECRET") & (go run ./frontends/rust/server/main.go))
