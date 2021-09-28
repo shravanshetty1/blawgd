@@ -39,8 +39,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	editedFile := strings.Replace(string(b), "enable-unsafe-cors = false", "enable-unsafe-cors = true", -1)
-	editedFile = strings.Replace(editedFile, `pruning = "default"`, `pruning = "custom"`, -1)
+	editedFile := strings.Replace(string(b), `pruning = "default"`, `pruning = "custom"`, -1)
 	editedFile = strings.Replace(editedFile, `pruning-keep-recent = "0"`, `pruning-keep-recent = "10"`, -1)
 	editedFile = strings.Replace(editedFile, `pruning-interval = "0"`, `pruning-interval = "10"`, -1)
 
@@ -54,8 +53,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	editedFile = strings.Replace(string(b), "cors_allowed_origins = []", `cors_allowed_origins = ["*"]`, -1)
-	editedFile = strings.Replace(editedFile, `timeout_commit = "5s"`, `timeout_commit = "1s"`, -1)
+	editedFile = strings.Replace(string(b), `timeout_commit = "5s"`, `timeout_commit = "1s"`, -1)
 	editedFile = strings.Replace(editedFile, `create_empty_blocks = true`, `create_empty_blocks = false`, -1)
 
 	err = ioutil.WriteFile(filepath.Join(userHomeAbs, TENDERMINT_CONFIG_FILE), []byte(editedFile), 0777)

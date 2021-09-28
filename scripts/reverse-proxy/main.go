@@ -9,6 +9,8 @@ import (
 	"os"
 	"strconv"
 
+	"github.com/rs/cors"
+
 	"golang.org/x/crypto/acme/autocert"
 
 	"github.com/NYTimes/gziphandler"
@@ -55,7 +57,7 @@ func main() {
 	router.Host("faucet." + HOST).Subrouter().PathPrefix("/").Handler(faucet)
 	router.PathPrefix("/").Handler(frontendServer)
 
-	router.Use(gziphandler.GzipHandler)
+	router.Use(gziphandler.GzipHandler, cors.AllowAll().Handler)
 
 	env := os.Getenv("ENV")
 	if env == "PROD" {
