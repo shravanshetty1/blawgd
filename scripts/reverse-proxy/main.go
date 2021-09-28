@@ -18,10 +18,16 @@ import (
 	"github.com/gorilla/mux"
 )
 
-const HOST = "localhost"
 const PORT = 8080
 
 func main() {
+	var host string
+	env := os.Getenv("ENV")
+	if env == "PROD" {
+		host = "blawgd.com"
+	} else {
+		host = "localhost"
+	}
 
 	u, err := url.Parse("http://localhost:26657")
 	if err != nil {
@@ -52,14 +58,13 @@ func main() {
 	frontendServer := httputil.NewSingleHostReverseProxy(u)
 
 	router := mux.NewRouter()
-	router.Host("tendermint." + HOST).Subrouter().PathPrefix("/").Handler(tendermintRpc)
-	router.Host("grpc." + HOST).Subrouter().PathPrefix("/").Handler(grpcWeb)
-	router.Host("faucet." + HOST).Subrouter().PathPrefix("/").Handler(faucet)
+	router.Host("tendermint." + host).Subrouter().PathPrefix("/").Handler(tendermintRpc)
+	router.Host("grpc." + host).Subrouter().PathPrefix("/").Handler(grpcWeb)
+	router.Host("faucet." + host).Subrouter().PathPrefix("/").Handler(faucet)
 	router.PathPrefix("/").Handler(frontendServer)
 
 	router.Use(gziphandler.GzipHandler, cors.AllowAll().Handler)
 
-	env := os.Getenv("ENV")
 	if env == "PROD" {
 
 		m := autocert.Manager{
