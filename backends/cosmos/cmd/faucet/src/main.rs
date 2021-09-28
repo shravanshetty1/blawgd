@@ -61,12 +61,7 @@ async fn main_handler() -> Result<()> {
     println!("started faucet at {}", PORT);
     HttpServer::new(move || {
         let state = web::Data::new(state.clone());
-        let cors = actix_cors::Cors::default()
-            .allow_any_origin()
-            .allow_any_header()
-            .allow_any_method();
         App::new()
-            .wrap(cors)
             .app_data(state)
             .route("/", web::post().to(faucet))
             .route("/sitekey", web::get().to(site_key))
