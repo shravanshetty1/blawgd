@@ -20,7 +20,8 @@ You can find out more details by going through the [architecture documentation](
 4. Incentivizes popular posts.
 
 ### Status
-Currently, a proof of concept client has been released and is available [here](https://blawgd.com). Network is yet to be released.
+Network has been released. Browser client is available [here](https://blawgd.com). Apps coming soon.
+
 
 ### Support
 Feel free to create issues for any bugs you encounter and document reliable ways to reproduce them.
