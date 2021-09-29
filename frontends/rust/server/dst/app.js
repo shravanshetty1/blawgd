@@ -22,3 +22,47 @@ function captcha(response) {
         }
     });
 }
+
+function wasm_progress(loaded, total) {
+    let percentage = (loaded/total) * 100;
+    document.getElementById("progress").innerHTML = "Loaded "+percentage.toFixed(1)+"%"
+}
+
+async function wasm_progress_handler(url) {
+    // Get your normal fetch response
+    let response = await fetch(url);
+
+    let total = 2621440;
+    let loaded = 0;
+
+    let res = new Response(new ReadableStream({
+        async start(controller) {
+            let reader = response.body.getReader();
+            for (; ;) {
+                let {done, value} = await reader.read();
+
+                if (done) {
+                    wasm_progress(total, total)
+                    break
+                }
+
+                loaded += value.byteLength;
+                wasm_progress(loaded, total)
+                controller.enqueue(value);
+            }
+            controller.close();
+        },
+    }, {
+        "status": response.status,
+        "statusText": response.statusText
+    }));
+
+// Make sure to copy the headers!
+// Wasm is very picky with it's headers and it will fail to compile if they are not
+// specified correctly.
+    for (let pair of response.headers.entries()) {
+        res.headers.set(pair[0], pair[1]);
+    }
+
+    return res;
+}

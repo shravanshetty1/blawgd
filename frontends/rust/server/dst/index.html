@@ -3,13 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title> Blawgd </title>
+    <link rel="icon" type="image/png" href="/favicon.svg"/>
     <link rel="stylesheet" href="/style.css">
     <script src="/app.js"></script>
 </head>
 <body id="body">
+<div class="page-loader">
+    <img src="/logo.png" class="page-loader-logo">
+    <div id="progress" class="page-loader-progress">Loaded 0%</div>
+</div>
 </body>
 <script type="module">
+    let reader = await wasm_progress_handler("/blawgd_client_bg.wasm");
     import init from '/blawgd_client.js';
-    init();
+    init(reader);
 </script>
 </html>
