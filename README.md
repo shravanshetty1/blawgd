@@ -1,6 +1,6 @@
-# [blawgd.com](https://blawgd.com)
+<p align="center"><a href="https://blawgd.com"><img src="./logo.png"></a></p>
 
-Blawgd is a censorship resistant micro-blogging platform.
+<p align="center">Blawgd is a censorship resistant micro-blogging platform.</p>
 
 ### Overview
 It achieves censorship resistance and decentralization from blockchain technology. A new post, like, follow .etc. are all 
