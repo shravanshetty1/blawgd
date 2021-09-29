@@ -25,7 +25,11 @@ function captcha(response) {
 
 function wasm_progress(loaded, total) {
     let percentage = (loaded/total) * 100;
-    document.getElementById("progress").innerHTML = "Loaded "+percentage.toFixed(1)+"%"
+    if (percentage < 100) {
+        document.getElementById("progress").innerHTML = "Loaded "+percentage.toFixed(1)+"%"
+    } else {
+        document.getElementById("progress").innerHTML = "Rendering..."
+    }
 }
 
 async function wasm_progress_handler(url) {
