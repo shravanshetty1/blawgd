@@ -55,7 +55,7 @@ impl PostComponent {
                         ctx.store.get_wallet()?,
                         MSG_TYPE_LIKE,
                         MsgLikePost {
-                            creator: session.address.clone(),
+                            creator: session.account_info.address.clone(),
                             post_id: post.id,
                             amount: 1,
                         },
@@ -101,7 +101,7 @@ impl PostComponent {
                         ctx.store.get_wallet()?,
                         MSG_TYPE_REPOST,
                         MsgRepost {
-                            creator: session.address.clone(),
+                            creator: session.account_info.address.clone(),
                             post_id: post.id,
                         },
                     )

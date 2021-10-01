@@ -11,7 +11,9 @@ impl PageBuilder {
     pub async fn login_page(ctx: Arc<ApplicationContext>) -> Result<Box<dyn Component>> {
         let mut account_info_comp: Option<Box<dyn Component>> = None;
         if ctx.session.is_some() {
-            account_info_comp = Some(AccountInfoComp::new(ctx.session.clone().unwrap()))
+            account_info_comp = Some(AccountInfoComp::new(
+                ctx.session.clone().unwrap().account_info,
+            ))
         }
         let nav_bar = NavBar::new(ctx.session.clone());
         let comp = LoginPage::new(nav_bar, account_info_comp);

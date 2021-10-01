@@ -62,6 +62,7 @@ impl super::Component for PostCreator {
                         .session
                         .clone()
                         .ok_or(anyhow!("user not logged in"))?
+                        .account_info
                         .address,
                     content: post_content,
                     parent_post,

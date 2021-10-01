@@ -3,176 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title> Blawgd </title>
+    <link rel="icon" type="image/png" href="/favicon.svg">
     <link rel="stylesheet" href="/style.css">
+    <script src="/app.js"></script>
 </head>
-
-<body>
+<body id="body">
 <div class="page">
     <div class="nav-bar">
-        <div class="nav-bar-header">
+        <a href="/" class="nav-bar-header">
             Blawgd
-        </div>
+        </a>
         <div class="nav-bar-menu">
-            <div class="nav-bar-menu-element">Home</div>
-            <div class="nav-bar-menu-element">Explore</div>
-            <div class="nav-bar-menu-element">Profile</div>
-            <div class="nav-bar-menu-element">About</div>
+            <a href="/" class="nav-bar-menu-element">Explore</a>
+            <a href="/timeline" class="nav-bar-menu-element">Timeline</a>
+            <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0" class="nav-bar-menu-element">Profile</a>
+            <a href="/about" class="nav-bar-menu-element">About</a>
         </div>
-        <div class="login-link-component-wrapper">
+        <div class="nav-bar-balance">
+            1000093 Coins
+        </div>
+        <a href="/login" class="login-link-component-wrapper">
             <img src="/profile.jpeg" class="post-component-account-info-image">
-            <div class="login-link-component-text">Login/Logout</div>
-        </div>
+            <div class="login-link-component-text">anona6wu0</div>
+        </a>
     </div>
-    <div class="main-column">
+    <div id="main-column" class="main-column">
+
         <div class="post-creator">
-            <textarea class="post-creator-input"></textarea>
+            <textarea id="post-creator-input" class="post-creator-input"></textarea>
             <div class="post-creator-buttons">
-                <div class="post-creator-button-post">
+                <div id="post-creator-button" class="post-creator-button-post">
                     Post
                 </div>
             </div>
         </div>
+
         <div class="post-component">
+
             <div class="post-component-text-wrapper">
-                <img src="/profile.jpeg" class="post-component-account-info-image">
+                <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0"><img src="/profile.jpeg" class="post-component-account-info-image"></a>
                 <div class="post-component-text-content">
                     <div class="post-component-account-info">
-                        <div class="post-component-account-info-name">Bob Sag</div>
-                        <div class="post-component-account-info-address">@sag</div>
+                        <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0" class="post-component-account-info-name">anona6wu0</a>
+                        <div class="post-component-account-info-address">@blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0</div>
                     </div>
                     <div class="post-component-text">
-                        Some post lololol. Some post ahahha.
+                        hello
                     </div>
                 </div>
             </div>
             <div class="post-component-bar">
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">0 Likes</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">0 Reposts</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">0 Comments</div></div>
+                <div id="post-2-like" class="post-component-bar-button"><div id="post-2-like-content" class="post-component-bar-button-content">0 Likes</div></div>
+                <div id="post-2-repost" class="post-component-bar-button"><div id="post-2-repost-content" class="post-component-bar-button-content">0 Reposts</div></div>
+                <a href="/post/2" class="post-component-bar-button"><div class="post-component-bar-button-content">0 Comments</div></a>
             </div>
         </div>
         <div class="post-component">
+
             <div class="post-component-text-wrapper">
-                <img src="/profile.jpeg" class="post-component-account-info-image">
+                <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0"><img src="/profile.jpeg" class="post-component-account-info-image"></a>
                 <div class="post-component-text-content">
                     <div class="post-component-account-info">
-                        <div class="post-component-account-info-name">Bob Sag</div>
-                        <div class="post-component-account-info-address">@sag</div>
+                        <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0" class="post-component-account-info-name">anona6wu0</a>
+                        <div class="post-component-account-info-address">@blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0</div>
                     </div>
                     <div class="post-component-text">
-                        Some post lololol. Some post ahahha.
+                        gmail
                     </div>
                 </div>
             </div>
             <div class="post-component-bar">
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Like</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Repost</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Comment</div></div>
-            </div>
-        </div>
-        <div class="post-component">
-            <div class="post-component-text-wrapper">
-                <img src="/profile.jpeg" class="post-component-account-info-image">
-                <div class="post-component-text-content">
-                    <div class="post-component-account-info">
-                        <div class="post-component-account-info-name">Bob Sag</div>
-                        <div class="post-component-account-info-address">@sag</div>
-                    </div>
-                    <div class="post-component-text">
-                        Some post lololol. Some post ahahha.
-                    </div>
-                </div>
-            </div>
-            <div class="post-component-bar">
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Like</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Repost</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Comment</div></div>
-            </div>
-        </div>
-        <div class="post-component">
-            <div class="post-component-text-wrapper">
-                <img src="/profile.jpeg" class="post-component-account-info-image">
-                <div class="post-component-text-content">
-                    <div class="post-component-account-info">
-                        <div class="post-component-account-info-name">Bob Sag</div>
-                        <div class="post-component-account-info-address">@sag</div>
-                    </div>
-                    <div class="post-component-text">
-                        Some post lololol. Some post ahahha.
-                    </div>
-                </div>
-            </div>
-            <div class="post-component-bar">
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Like</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Repost</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Comment</div></div>
-            </div>
-        </div>
-        <div class="post-component">
-            <div class="post-component-text-wrapper">
-                <img src="/profile.jpeg" class="post-component-account-info-image">
-                <div class="post-component-text-content">
-                    <div class="post-component-account-info">
-                        <div class="post-component-account-info-name">Bob Sag</div>
-                        <div class="post-component-account-info-address">@sag</div>
-                    </div>
-                    <div class="post-component-text">
-                        Some post lololol. Some post ahahha.
-                    </div>
-                </div>
-            </div>
-            <div class="post-component-bar">
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Like</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Repost</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Comment</div></div>
-            </div>
-        </div>
-        <div class="post-component">
-            <div class="post-component-text-wrapper">
-                <img src="/profile.jpeg" class="post-component-account-info-image">
-                <div class="post-component-text-content">
-                    <div class="post-component-account-info">
-                        <div class="post-component-account-info-name">Bob Sag</div>
-                        <div class="post-component-account-info-address">@sag</div>
-                    </div>
-                    <div class="post-component-text">
-                        Some post lololol. Some post ahahha.
-                    </div>
-                </div>
-            </div>
-            <div class="post-component-bar">
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Like</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Repost</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Comment</div></div>
-            </div>
-        </div>
-        <div class="post-component">
-            <div class="post-component-text-wrapper">
-                <img src="/profile.jpeg" class="post-component-account-info-image">
-                <div class="post-component-text-content">
-                    <div class="post-component-account-info">
-                        <div class="post-component-account-info-name">Bob Sag</div>
-                        <div class="post-component-account-info-address">@sag</div>
-                    </div>
-                    <div class="post-component-text">
-                        Some post lololol. Some post ahahha.
-                    </div>
-                </div>
-            </div>
-            <div class="post-component-bar">
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Like</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Repost</div></div>
-                <div class="post-component-bar-button"><div class="post-component-bar-button-content">Comment</div></div>
+                <div id="post-1-like" class="post-component-bar-button"><div id="post-1-like-content" class="post-component-bar-button-content">0 Likes</div></div>
+                <div id="post-1-repost" class="post-component-bar-button"><div id="post-1-repost-content" class="post-component-bar-button-content">0 Reposts</div></div>
+                <a href="/post/1" class="post-component-bar-button"><div class="post-component-bar-button-content">0 Comments</div></a>
             </div>
         </div>
     </div>
     <div class="secondary-column"></div>
 </div>
-
 </body>
-<script type="module">
-    import init from './client.js';
-
-    init();
-</script>
 </html>

@@ -11,7 +11,7 @@ use crate::clients::light_client::LightClient;
 use crate::clients::rpc_client::TendermintRPCClient;
 use crate::clients::verification_client::VerificationClient;
 use crate::clients::MasterClient;
-use crate::context::ApplicationContext;
+use crate::context::{ApplicationContext, SessionInfo};
 use crate::logger::Logger;
 use crate::pages::PageRenderer;
 use crate::storage::Store;
@@ -60,7 +60,9 @@ pub async fn main_handler() -> Result<()> {
         grpc_client.clone(),
         Store.should_verify()?,
     );
-    let session = Store.get_session_account_info(vc.clone()).await.ok();
+    let session = SessionInfo::new(Store, vc.clone(), grpc_client.clone())
+        .await
+        .ok();
 
     let rpc_client = TendermintRPCClient::new(host.clone())?;
     let ctx = Arc::new(ApplicationContext {

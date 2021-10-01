@@ -1,15 +1,15 @@
 use crate::clients::blawgd_client::AccountInfo;
-use crate::context::ApplicationContext;
+use crate::context::{ApplicationContext, SessionInfo};
 use anyhow::Result;
 use std::sync::Arc;
 
 pub struct NavBar {
-    account_info: Option<AccountInfo>,
+    session: Option<SessionInfo>,
 }
 
 impl NavBar {
-    pub fn new(account_info: Option<AccountInfo>) -> Box<NavBar> {
-        Box::new(NavBar { account_info })
+    pub fn new(session: Option<SessionInfo>) -> Box<NavBar> {
+        Box::new(NavBar { session })
     }
 }
 
@@ -25,8 +25,9 @@ impl super::Component for NavBar {
             "#,
         );
 
-        if self.account_info.is_some() {
-            let account_info = self.account_info.as_ref().unwrap().clone();
+        if self.session.is_some() {
+            let session = self.session.as_ref().unwrap();
+            let account_info = session.account_info.clone();
             account_menu_items = String::from(format!(
                 r#"
             <a href="/timeline" class="nav-bar-menu-element">Timeline</a>
@@ -43,11 +44,15 @@ impl super::Component for NavBar {
 
             login_component = String::from(format!(
                 r#"
+            <div class="nav-bar-balance">
+                {} Coins
+            </div>
             <a href="/login" class="login-link-component-wrapper">
                 <img src="{}" class="post-component-account-info-image">
                 <div class="login-link-component-text">{}</div>
             </a>
             "#,
+                session.balance.clone(),
                 account_info.photo.clone(),
                 login_comp_text
             ));

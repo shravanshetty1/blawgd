@@ -78,6 +78,7 @@ impl super::Component for TimelinePage {
                     .session
                     .as_ref()
                     .ok_or(anyhow!("user not logged in"))?
+                    .account_info
                     .address
                     .clone(),
             },

@@ -4,7 +4,7 @@ use crate::components::nav_bar::NavBar;
 use crate::components::post::PostComponent;
 use crate::components::profile_page::{ButtonType, ProfilePage};
 use crate::components::Component;
-use crate::context::ApplicationContext;
+use crate::context::{ApplicationContext, SessionInfo};
 use crate::pages::PageBuilder;
 use anyhow::anyhow;
 use anyhow::Result;
@@ -33,7 +33,7 @@ impl PageBuilder {
         let session = ctx.session.clone();
         let mut profile_button: Option<ButtonType> = None;
         if session.is_some() {
-            if address == session.clone().unwrap().address {
+            if address == session.clone().unwrap().account_info.address {
                 profile_button = Some(ButtonType::Edit);
             } else {
                 if is_following {
@@ -61,13 +61,13 @@ impl PageBuilder {
 
 pub async fn is_following(
     cl: VerificationClient,
-    session: Option<AccountInfo>,
+    session: Option<SessionInfo>,
     address2: String,
 ) -> Result<bool> {
     if session.is_none() {
         return Ok(false);
     }
-    let address1 = session.unwrap().address;
+    let address1 = session.unwrap().account_info.address;
     let followings = cl.get_following_list(address1).await?;
 
     let mut is_following: bool = false;

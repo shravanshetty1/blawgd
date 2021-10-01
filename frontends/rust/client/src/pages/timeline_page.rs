@@ -18,6 +18,7 @@ impl PageBuilder {
                 ctx.session
                     .clone()
                     .ok_or(anyhow!("user not logged in"))?
+                    .account_info
                     .address
                     .clone(),
                 1,

@@ -134,10 +134,15 @@ a {
 }
 
 .nav-bar-menu {
-    margin-top: auto;
+    margin-top: 3rem;
     margin-bottom: auto;
     display: flex;
     flex-direction: column;
+}
+
+.nav-bar-balance {
+    margin: auto;
+    padding: 1rem;
 }
 
 .login-component-buttons {

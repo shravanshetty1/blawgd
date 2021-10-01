@@ -137,7 +137,7 @@ impl Component for ProfilePage {
                                 ctx.store.get_wallet()?,
                                 MSG_TYPE_FOLLOW,
                                 MsgFollow {
-                                    creator: session.address.clone(),
+                                    creator: session.account_info.address.clone(),
                                     address: account_info.address.clone(),
                                 },
                             )
@@ -150,7 +150,7 @@ impl Component for ProfilePage {
                                 ctx.store.get_wallet()?,
                                 MSG_TYPE_STOP_FOLLOW,
                                 MsgStopFollow {
-                                    creator: session.address.clone(),
+                                    creator: session.account_info.address.clone(),
                                     address: account_info.address.clone(),
                                 },
                             )

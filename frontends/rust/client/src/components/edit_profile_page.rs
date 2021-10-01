@@ -99,7 +99,9 @@ impl Component for EditProfilePage {
             let document = document.clone();
             let session = session.clone();
             spawn_local(async move {
-                let account_info = session.ok_or(anyhow!("not logged in to reset"))?;
+                let account_info = session
+                    .ok_or(anyhow!("not logged in to reset"))?
+                    .account_info;
                 document
                     .get_element_by_id("account-info-name")?
                     .set_inner_html(account_info.name.as_str());
@@ -152,6 +154,7 @@ impl Component for EditProfilePage {
                         .session
                         .as_ref()
                         .ok_or(anyhow!("not logged in"))?
+                        .account_info
                         .address
                         .clone(),
                     name,
