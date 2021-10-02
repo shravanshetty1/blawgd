@@ -455,3 +455,16 @@ a {
     flex-direction: column;
     margin-left: 1.5rem;
 }
+
+html::-webkit-scrollbar {
+    width: 1rem;
+}
+
+html::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: rgba(151, 152, 159, 0.3);
+    border-radius: 0.5rem;
+}
