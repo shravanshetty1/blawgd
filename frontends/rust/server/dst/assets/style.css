@@ -203,7 +203,8 @@ a {
     justify-content: center;
     align-items: center;
     min-height: 10rem;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid gray;
+    margin-bottom: 1rem;
 }
 .account-info {
     display: flex;
