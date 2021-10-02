@@ -4,11 +4,14 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-color: #1F1D2C;
+    color: white;
+    font-family: Poppins;
 }
 
 a {
     text-decoration: none;
-    color: black;
+    color: white;
 }
 
 .faucet-page {
@@ -29,6 +32,20 @@ a {
 .page-loader {
     margin: auto;
     text-align: center;
+}
+
+.nav-bar-menu-element-logo {
+    padding: 0.5rem;
+    background-color: #2f2f2f;
+    border-radius: 25%;
+}
+
+.nav-bar-menu-element-logo:hover {
+    background-color: #6B5ECD;
+}
+
+.nav-bar-menu-element-text {
+    margin-left: 1rem;
 }
 
 .page-loader-logo {
@@ -56,8 +73,15 @@ a {
 .page {
     display: flex;
     flex-direction: row;
-    flex-grow: 1;
     justify-content: center;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: row;
+    max-width: 75rem;
+    width: 100%;
+    box-shadow: 0 -2px 20px rgba(0, 0, 0, 1);
 }
 
 .login-page-header {
@@ -68,20 +92,15 @@ a {
 .main-column {
     display: flex;
     flex-direction: column;
-    width: 40%;
-    border: 1px solid black;
+    width: 65%;
+    border: 1px solid gray;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
 }
 
-/*.secondary-column {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    width: 25%;*/
-/*    border: 1px solid black;*/
-/*}*/
-
 .nav-bar {
-    border: 1px solid black;
-    width: 25%;
+    border-left: 1px solid gray;
+    width: 35%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -91,19 +110,23 @@ a {
 }
 
 .nav-bar-header {
-    padding: 1rem;
-    font-size: 50px;
+    padding: 2rem;
 }
 
 .login-link-component-wrapper {
     padding: 1rem;
     font-size: 30px;
-    border: 1px solid black;
+    background-color: #2f2f2f;
     margin: 1rem;
     border-radius: 1rem;
     display: flex;
     align-items: center;
     max-width: 85%;
+}
+
+.login-link-component-wrapper:hover {
+    background-color: #6B5ECD;
+    transition: 0.2s;
 }
 
 .login-link-component-text{
@@ -134,15 +157,28 @@ a {
 }
 
 .nav-bar-menu {
-    margin-top: 3rem;
+    margin-top: auto;
     margin-bottom: auto;
     display: flex;
     flex-direction: column;
 }
 
 .nav-bar-balance {
-    margin: auto;
-    padding: 1rem;
+    padding: 2rem;
+    font-size: 120%;
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-bar-balance-logo {
+    width: 2rem;
+    height: 2rem;
+    color: #6B5ECD;
+}
+
+.nav-bar-balance-value {
+    padding: 0.2rem;
+    margin-left: 0.5rem;
 }
 
 .login-component-buttons {
@@ -152,8 +188,15 @@ a {
 }
 
 .nav-bar-menu-element {
-    font-size: 25px;
     padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.nav-bar-menu-element:hover .nav-bar-menu-element-logo, .nav-bar-menu-element.hover .nav-bar-menu-element-logo {
+    background-color: #6B5ECD;
+    transition: 0.2s;
 }
 
 .timelines {
@@ -268,7 +311,7 @@ a {
 }
 
 .account-info-name {
-    font-size: 35px;
+    font-size: 120%;
     padding: 0.25rem;
 }
 

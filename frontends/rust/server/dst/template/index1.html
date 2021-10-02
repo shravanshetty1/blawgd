@@ -3,83 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <title> Blawgd </title>
-    <link rel="icon" type="image/png" href="/favicon.svg">
-    <link rel="stylesheet" href="/style.css">
-    <script src="/app.js"></script>
+    <link rel="icon" type="image/png" href="/assets/imgs/favicon.svg">
+    <link rel="stylesheet" href="/assets/style.css">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <script src="/assets/app.js"></script>
 </head>
 <body id="body">
 <div class="page">
-    <div class="nav-bar">
-        <a href="/" class="nav-bar-header">
-            Blawgd
-        </a>
-        <div class="nav-bar-menu">
-            <a href="/" class="nav-bar-menu-element">Explore</a>
-            <a href="/timeline" class="nav-bar-menu-element">Timeline</a>
-            <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0" class="nav-bar-menu-element">Profile</a>
-            <a href="/about" class="nav-bar-menu-element">About</a>
-        </div>
-        <div class="nav-bar-balance">
-            1000093 Coins
-        </div>
-        <a href="/login" class="login-link-component-wrapper">
-            <img src="/profile.jpeg" class="post-component-account-info-image">
-            <div class="login-link-component-text">anona6wu0</div>
-        </a>
-    </div>
-    <div id="main-column" class="main-column">
+    <div class="page-wrapper">
+        <div class="nav-bar">
+            <a href="/" class="nav-bar-header">
+                <img src="/assets/imgs/logo.png">
+            </a>
+            <div class="nav-bar-menu">
+                <a href="/" class="nav-bar-menu-element">
+                    <img src="/assets/imgs/explore.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Explore</div>
+                </a>
+                <a href="/timeline" class="nav-bar-menu-element">
+                    <img src="/assets/imgs/home.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Timeline</div>
+                </a>
+                <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0" class="nav-bar-menu-element">
+                    <img src="/assets/imgs/User.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Profile</div>
+                </a>
+                <a href="/about" class="nav-bar-menu-element">
+                    <img src="/assets/imgs/about.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">About</div>
+                </a>
 
-        <div class="post-creator">
-            <textarea id="post-creator-input" class="post-creator-input"></textarea>
-            <div class="post-creator-buttons">
-                <div id="post-creator-button" class="post-creator-button-post">
-                    Post
-                </div>
             </div>
+            <div class="nav-bar-balance">
+                <img src="/assets/imgs/money.svg" class="nav-bar-balance-logo"> <div class="nav-bar-balance-value">100093</div>
+            </div>
+            <a href="/login" class="login-link-component-wrapper">
+                <img src="/assets/imgs/profile.jpeg" class="post-component-account-info-image">
+                <div class="login-link-component-text">anona6wu0</div>
+            </a>
         </div>
+        <div id="main-column" class="main-column">
 
-        <div class="post-component">
-
-            <div class="post-component-text-wrapper">
-                <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0"><img src="/profile.jpeg" class="post-component-account-info-image"></a>
-                <div class="post-component-text-content">
-                    <div class="post-component-account-info">
-                        <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0" class="post-component-account-info-name">anona6wu0</a>
-                        <div class="post-component-account-info-address">@blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0</div>
-                    </div>
-                    <div class="post-component-text">
-                        hello
+            <div class="post-creator">
+                <textarea id="post-creator-input" class="post-creator-input"></textarea>
+                <div class="post-creator-buttons">
+                    <div id="post-creator-button" class="post-creator-button-post">
+                        Post
                     </div>
                 </div>
             </div>
-            <div class="post-component-bar">
-                <div id="post-2-like" class="post-component-bar-button"><div id="post-2-like-content" class="post-component-bar-button-content">0 Likes</div></div>
-                <div id="post-2-repost" class="post-component-bar-button"><div id="post-2-repost-content" class="post-component-bar-button-content">0 Reposts</div></div>
-                <a href="/post/2" class="post-component-bar-button"><div class="post-component-bar-button-content">0 Comments</div></a>
-            </div>
-        </div>
-        <div class="post-component">
 
-            <div class="post-component-text-wrapper">
-                <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0"><img src="/profile.jpeg" class="post-component-account-info-image"></a>
-                <div class="post-component-text-content">
-                    <div class="post-component-account-info">
-                        <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0" class="post-component-account-info-name">anona6wu0</a>
-                        <div class="post-component-account-info-address">@blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0</div>
-                    </div>
-                    <div class="post-component-text">
-                        gmail
+            <div class="post-component">
+
+                <div class="post-component-text-wrapper">
+                    <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0"><img src="/assets/imgs/profile.jpeg" class="post-component-account-info-image"></a>
+                    <div class="post-component-text-content">
+                        <div class="post-component-account-info">
+                            <a href="/profile/blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0" class="post-component-account-info-name">anona6wu0</a>
+                            <div class="post-component-account-info-address">@blawgd1h9tua624vjx00sl4nnc42ef2fffjcjq2pa6wu0</div>
+                        </div>
+                        <div class="post-component-text">
+                            hello
+                        </div>
                     </div>
                 </div>
+                <div class="post-component-bar">
+                    <div id="post-2-like" class="post-component-bar-button"><div id="post-2-like-content" class="post-component-bar-button-content">0 Likes</div></div>
+                    <div id="post-2-repost" class="post-component-bar-button"><div id="post-2-repost-content" class="post-component-bar-button-content">0 Reposts</div></div>
+                    <a href="/post/2" class="post-component-bar-button"><div class="post-component-bar-button-content">0 Comments</div></a>
+                </div>
             </div>
-            <div class="post-component-bar">
-                <div id="post-1-like" class="post-component-bar-button"><div id="post-1-like-content" class="post-component-bar-button-content">0 Likes</div></div>
-                <div id="post-1-repost" class="post-component-bar-button"><div id="post-1-repost-content" class="post-component-bar-button-content">0 Reposts</div></div>
-                <a href="/post/1" class="post-component-bar-button"><div class="post-component-bar-button-content">0 Comments</div></a>
-            </div>
+
         </div>
     </div>
-    <div class="secondary-column"></div>
 </div>
 </body>
 </html>
