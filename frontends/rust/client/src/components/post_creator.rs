@@ -31,7 +31,7 @@ impl super::Component for PostCreator {
         Ok(String::from(format!(
             r#"
         <div class="post-creator">
-            <textarea id="post-creator-input" class="post-creator-input"></textarea>
+            <textarea id="post-creator-input" class="post-creator-input" placeholder="Whats happening?"></textarea>
             <div class="post-creator-buttons">
                 <div id="post-creator-button" class="post-creator-button-post">
                     {}

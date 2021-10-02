@@ -43,10 +43,9 @@ impl PostComponent {
                 let like_button_id = format!("post-{}-like-content", post.id);
                 let like_button = document.get_element_by_id(like_button_id.as_str())?;
                 let like_button_text = like_button.inner_html();
-                let likes_count_text = like_button_text.strip_suffix(" Likes").unwrap_or("0");
-                let mut likes_count = likes_count_text.parse::<i32>()?;
+                let mut likes_count = like_button_text.parse::<i32>().unwrap_or(0);
                 likes_count += 1;
-                like_button.set_inner_html(format!("{} Likes", likes_count).as_str());
+                like_button.set_inner_html(format!("{}", likes_count).as_str());
 
                 let resp = ctx
                     .client
@@ -89,10 +88,9 @@ impl PostComponent {
                 let repost_button_id = format!("post-{}-repost-content", post.id);
                 let repost_button = document.get_element_by_id(repost_button_id.as_str())?;
                 let repost_button_text: String = repost_button.inner_html();
-                let repost_count_text = repost_button_text.strip_suffix(" Reposts").unwrap_or("0");
-                let mut repost_count = repost_count_text.parse::<i32>().unwrap_or(0);
+                let mut repost_count = repost_button_text.parse::<i32>().unwrap_or(0);
                 repost_count += 1;
-                repost_button.set_inner_html(format!("{} Reposts", repost_count).as_str());
+                repost_button.set_inner_html(format!("{}", repost_count).as_str());
 
                 let resp = ctx
                     .client
@@ -151,26 +149,36 @@ impl super::Component for PostComponent {
 
         let html = String::from(format!(
             r#"
-        <div class="post-component">
-            {}
-            <div class="post-component-text-wrapper">
-                <a href="/profile/{}"><img src="{}" class="post-component-account-info-image"></a>
-                <div class="post-component-text-content">
-                    <div class="post-component-account-info">
-                        <a href="/profile/{}" class="post-component-account-info-name">{}</a>
-                        <div class="post-component-account-info-address">@{}</div>
-                    </div>
-                    <div class="{}">
-                        {}
+            <div class="post-component">
+                {}
+                <div class="post-component-text-wrapper">
+                    <a href="/profile/{}"><img src="{}" class="post-component-account-info-image"></a>
+                    <div class="post-component-text-content">
+                        <div class="post-component-account-info">
+                            <a href="/profile/{}" class="post-component-account-info-name">{}</a>
+                            <div class="post-component-account-info-address">@{}</div>
+                        </div>
+                        <div class="{}">
+                            {}
+                        </div>
                     </div>
                 </div>
+                <div class="post-component-bar">
+                    <div id="post-{}-like" class="post-component-bar-button">
+                        <img src="/assets/imgs/like.svg" class="post-component-bar-button-logo">
+                        <div id="post-{}-like-content" class="post-component-bar-button-content">{}</div>
+                    </div>
+                    <div id="post-{}-repost" class="post-component-bar-button">
+                        <img src="/assets/imgs/Repost.svg" class="post-component-bar-button-logo">
+                        <div id="post-{}-repost-content" class="post-component-bar-button-content">{}</div>
+                    </div>
+                    <a href="/post/{}" class="post-component-bar-button">
+                        <img src="/assets/imgs/Comment.svg" class="post-component-bar-button-logo">
+                        <div class="post-component-bar-button-content">{}</div>
+                    </a>
+                </div>
             </div>
-            <div class="post-component-bar">
-                <div id="post-{}-like" class="post-component-bar-button"><div id="post-{}-like-content" class="post-component-bar-button-content">{} Likes</div></div>
-                <div id="post-{}-repost" class="post-component-bar-button"><div id="post-{}-repost-content" class="post-component-bar-button-content">{} Reposts</div></div>
-                <a href="/post/{}" class="post-component-bar-button"><div class="post-component-bar-button-content">{} Comments</div></a>
-            </div>
-        </div>"#,
+        "#,
             post_header,
             account_info.address,
             account_info.photo,

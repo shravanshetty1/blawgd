@@ -45,12 +45,13 @@ impl super::Component for HomePage {
         let html = String::from(format!(
             r#"
 <div class="page">
-    {}
-    <div id="main-column" class="main-column">
+    <div class="page-wrapper">
         {}
-        {}
+        <div id="main-column" class="main-column">
+            {}
+            {}
+        </div>
     </div>
-    <div class="secondary-column"></div>
 </div>
 "#,
             self.nav_bar.to_html()?,

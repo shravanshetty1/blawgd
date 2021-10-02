@@ -516,7 +516,7 @@ pub fn posts_to_post_views(
 pub fn normalize_account_info(mut account_info: AccountInfo, address: String) -> AccountInfo {
     account_info.address = address.clone();
     if account_info.photo.is_empty() {
-        account_info.photo = "/profile.jpeg".into();
+        account_info.photo = "/assets/imgs/profile.jpeg".into();
     }
     if account_info.name.is_empty() {
         let name_suffix: String = address.chars().skip(address.len() - 5).take(5).collect();

@@ -19,8 +19,8 @@ impl super::Component for NavBar {
         let mut login_component: String = String::from(
             r#"
             <a href="/login" class="login-link-component-wrapper">
-                <img src="/profile.jpeg" class="post-component-account-info-image">
-                <div class="login-link-component-text">Login/Logout</div>
+                <img src="/assets/imgs/profile.jpeg" class="post-component-account-info-image">
+                <div class="login-link-component-text">Login/Register</div>
             </a>
             "#,
         );
@@ -30,9 +30,12 @@ impl super::Component for NavBar {
             let account_info = session.account_info.clone();
             account_menu_items = String::from(format!(
                 r#"
-            <a href="/timeline" class="nav-bar-menu-element">Timeline</a>
-            <a href="/profile/{}" class="nav-bar-menu-element">Profile</a> 
-            "#,
+                <a href="/timeline" class="nav-bar-menu-element">
+                    <img src="/assets/imgs/home.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Timeline</div>
+                </a>
+                <a href="/profile/{}" class="nav-bar-menu-element">
+                    <img src="/assets/imgs/User.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Profile</div>
+                </a>"#,
                 account_info.address
             ));
 
@@ -45,7 +48,7 @@ impl super::Component for NavBar {
             login_component = String::from(format!(
                 r#"
             <div class="nav-bar-balance">
-                {} Coins
+                <img src="/assets/imgs/money.svg" class="nav-bar-balance-logo"> <div class="nav-bar-balance-value">{}</div>
             </div>
             <a href="/login" class="login-link-component-wrapper">
                 <img src="{}" class="post-component-account-info-image">
@@ -60,17 +63,22 @@ impl super::Component for NavBar {
 
         let html = String::from(format!(
             r#"
-    <div class="nav-bar">
-        <a href="/" class="nav-bar-header">
-            Blawgd
-        </a>
-        <div class="nav-bar-menu">
-            <a href="/" class="nav-bar-menu-element">Explore</a>
+        <div class="nav-bar">
+            <a href="/" class="nav-bar-header">
+                <img src="/assets/imgs/logo.png">
+            </a>
+            <div class="nav-bar-menu">
+                <a href="/" class="nav-bar-menu-element">
+                    <img src="/assets/imgs/explore.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Explore</div>
+                </a>
+                {}
+                <a href="/about" class="nav-bar-menu-element">
+                    <img src="/assets/imgs/about.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">About</div>
+                </a>
+
+            </div>
             {}
-            <a href="/about" class="nav-bar-menu-element">About</a>
-        </div>
-        {}
-    </div>"#,
+        </div>"#,
             account_menu_items, login_component
         ));
         Ok(html)

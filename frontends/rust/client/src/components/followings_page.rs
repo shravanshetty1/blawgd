@@ -28,8 +28,9 @@ impl Component for FollowingsPage {
             account_infos_component = format!(
                 r#"
                 {}
-           <div class="account-info-element">
-            <div class="post-component-text-wrapper">
+            <div class="post-component">
+            <div class="account-info-element">
+            <div class="post-component-text-wrapper account-info-align">
                 <a href="/profile/{}"><img src="{}" class="post-component-account-info-image"></a>
                 <div class="post-component-text-content">
                     <div class="post-component-account-info">
@@ -38,6 +39,7 @@ impl Component for FollowingsPage {
                     </div>
                 </div>
             </div>
+            </div> 
             </div> 
             "#,
                 account_infos_component,
@@ -52,12 +54,14 @@ impl Component for FollowingsPage {
         Ok(String::from(format!(
             r#"
 <div class="page">
+<div class="page-wrapper">
     {}
     <div class="main-column">
         <div class="login-page-header with-padding with-border-bottom with-margin-bottom">Followings</div>
         {}
     </div>
     <div class="secondary-column"></div>
+</div>
 </div>
 "#,
             self.nav_bar.to_html()?,

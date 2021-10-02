@@ -51,12 +51,12 @@ impl Component for LoginPage {
         let html = String::from(format!(
             r#"
 <div class="page">
+<div class="page-wrapper">
     {}
     <div class="main-column">
         {}
         <div class="login-component">
             <textarea id="wallet-mnemonic" class="login-component-mnemonic" placeholder="Mnemonic here..."></textarea>
-            <input id="wallet-password" class="login-component-password" placeholder="Password here...">
             <div class="login-component-buttons">
                 <div id="generate-account" class="button">Generate Account</div>
                 <div id="login" class="button">Login</div>

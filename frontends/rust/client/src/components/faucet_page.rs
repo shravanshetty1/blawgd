@@ -27,6 +27,7 @@ impl Component for FaucetPage {
         Ok(String::from(format!(
             r#"
 <div class="page">
+<div class="page-wrapper">
     {}
     <div id="main" class="main-column">
         <div class="faucet-page">
@@ -37,6 +38,7 @@ impl Component for FaucetPage {
         </div>
     </div>
     <div class="secondary-column"></div>
+</div>
 </div>
 "#,
             self.nav_bar.to_html()?,

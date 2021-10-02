@@ -33,6 +33,7 @@ impl Component for EditProfilePage {
         Ok(String::from(format!(
             r#"
 <div class="page">
+<div class="page-wrapper">
     {}
     <div class="main-column">
         <div class="account-info-wrapper">
@@ -49,6 +50,7 @@ impl Component for EditProfilePage {
         </div>
     </div>
     <div class="secondary-column"></div>
+</div>
 </div>
 "#,
             self.nav_bar.to_html()?,
