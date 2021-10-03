@@ -26,6 +26,7 @@ pub struct ApplicationData {
 }
 
 const APP_DATA: &str = "app_data";
+const VERSION: &str = "version";
 const SHOULD_VERIFY: &str = "should_verify";
 const PEER_ID: &str = "peer_id";
 const LAST_LC_SYNC: &str = "last_lc_sync";
@@ -38,6 +39,14 @@ impl Store {
     pub fn get_application_data(&self) -> Result<ApplicationData> {
         let app_data: Result<ApplicationData, StorageError> = LocalStorage::get(APP_DATA);
         Ok(app_data?)
+    }
+
+    pub fn set_version(&self, version: u64) -> Result<()> {
+        Ok(LocalStorage::set(VERSION, version)?)
+    }
+    pub fn get_version(&self) -> u64 {
+        let version: Result<u64, StorageError> = LocalStorage::get(VERSION);
+        version.unwrap_or(0)
     }
     pub fn delete_application_data(&self) {
         LocalStorage::delete(APP_DATA)
@@ -100,6 +109,14 @@ impl Store {
 
     pub fn set_should_verify(&self, state: bool) -> Result<()> {
         Ok(LocalStorage::set(SHOULD_VERIFY, state)?)
+    }
+
+    pub fn purge(&self) -> Result<()> {
+        let local_storage = LocalStorage::raw();
+        local_storage
+            .clear()
+            .map_err(|_| anyhow!("could not clear local storage"))?;
+        Ok(())
     }
 
     pub fn prune_light_store(&self) -> Result<()> {

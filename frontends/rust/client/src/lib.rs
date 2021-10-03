@@ -25,6 +25,7 @@ mod logger;
 mod pages;
 mod storage;
 mod task;
+mod version;
 
 const SYNC_TIMEOUT: u32 = 5000;
 
@@ -36,8 +37,9 @@ pub fn main() -> Result<(), JsValue> {
 }
 
 pub async fn main_handler() -> Result<()> {
-    let window = web_sys::window().ok_or(anyhow!("could not get window object"))?;
+    version::reset_on_update(Store)?;
 
+    let window = web_sys::window().ok_or(anyhow!("could not get window object"))?;
     let window = dom::new_window(window);
     let location = window.location();
     let host = Host::new(location.protocol()?, location.hostname()?, location.port()?);
