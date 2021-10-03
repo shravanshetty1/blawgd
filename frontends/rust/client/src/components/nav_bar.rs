@@ -67,6 +67,7 @@ impl super::Component for NavBar {
             <a href="/" class="nav-bar-header">
                 <img src="/assets/imgs/logo.png">
             </a>
+            <div>Censorship resistant blogging platform</div>
             <div class="nav-bar-menu">
                 <a href="/" class="nav-bar-menu-element">
                     <img src="/assets/imgs/explore.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Explore</div>
