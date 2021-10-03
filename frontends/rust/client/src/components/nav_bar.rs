@@ -72,7 +72,7 @@ impl super::Component for NavBar {
                     <img src="/assets/imgs/explore.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Explore</div>
                 </a>
                 {}
-                <a href="/about" class="nav-bar-menu-element">
+                <a href="https://github.com/shravanshetty1/blawgd" class="nav-bar-menu-element">
                     <img src="/assets/imgs/about.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">About</div>
                 </a>
 
