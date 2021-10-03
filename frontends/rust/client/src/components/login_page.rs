@@ -55,6 +55,7 @@ impl Component for LoginPage {
     {}
     <div class="main-column">
         {}
+        <div class="login-notice">To signup click on "Generate Account" and "Login" - save the mnemonic somewhere if you want to log back in.</div>
         <div class="login-component">
             <textarea id="wallet-mnemonic" class="login-component-mnemonic" placeholder="Mnemonic here..."></textarea>
             <div class="login-component-buttons">
