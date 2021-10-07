@@ -5,7 +5,6 @@ use crate::context::ApplicationContext;
 use crate::task;
 use anyhow::anyhow;
 use anyhow::Result;
-use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 use prost::alloc::sync::Arc;
 use task::spawn_local;
@@ -166,7 +165,7 @@ impl Component for EditProfilePage {
                     .cosmos
                     .broadcast_tx(ctx.store.get_wallet()?, MSG_TYPE_UPDATE_ACCOUNT_INFO, msg)
                     .await?;
-                ctx.store.set_should_verify(false);
+                ctx.store.set_should_verify(false)?;
                 ctx.window
                     .location()
                     .inner()

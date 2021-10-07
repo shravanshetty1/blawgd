@@ -5,11 +5,8 @@ use crate::clients::light_client::light_store::CustomLightStore;
 use crate::clients::rpc_client::TendermintRPCClient;
 use crate::host::Host;
 use crate::storage::Store;
-use anyhow::anyhow;
 use anyhow::Result;
 use async_lock::RwLock;
-use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::service_client::ServiceClient;
-use cosmos_sdk_proto::cosmos::base::tendermint::v1beta1::GetNodeInfoRequest;
 use std::sync::Arc;
 use std::time::Duration;
 use tendermint_light_client::builder::LightClientBuilder;
@@ -77,7 +74,7 @@ impl LightClient {
             gloo::timers::future::TimeoutFuture::new(timeout_ms).await;
         }
 
-        Ok(())
+        // Ok(())
     }
 }
 
@@ -103,7 +100,7 @@ async fn new_light_client_instance(
         Box::new(ProdPredicates),
     );
 
-    let mut instance: Instance;
+    let instance: Instance;
     if CustomLightStore.highest_trusted_or_verified().is_some() {
         instance = builder.trust_from_store()?.build();
     } else {

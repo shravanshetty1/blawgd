@@ -1,5 +1,4 @@
 use crate::clients::ADDRESS_HRP;
-use crate::storage::Store;
 use anyhow::Result;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::{BaseAccount, QueryAccountRequest};
@@ -9,7 +8,6 @@ use cosmos_sdk_proto::cosmos::tx::v1beta1::{
 };
 use crw_client::tx::TxBuilder;
 use crw_wallet::crypto::MnemonicWallet;
-use gloo::timers::future::TimeoutFuture;
 use tonic::body::Body;
 use tonic::codegen::{HttpBody, StdError};
 use tonic::Response;

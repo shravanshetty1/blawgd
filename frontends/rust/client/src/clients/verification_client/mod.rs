@@ -1,6 +1,5 @@
 use crate::clients::blawgd_client::GetResponse;
 use crate::clients::light_client::LightClient;
-use crate::storage::Store;
 
 pub mod helpers;
 pub mod keys;

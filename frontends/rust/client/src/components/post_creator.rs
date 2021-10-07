@@ -3,7 +3,6 @@ use crate::context::ApplicationContext;
 use crate::task;
 use anyhow::anyhow;
 use anyhow::Result;
-use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 use std::sync::Arc;
 use wasm_bindgen::JsCast;
@@ -75,7 +74,7 @@ impl super::Component for PostCreator {
                     .await?
                     .into_inner();
                 crate::logger::console_log(resp.tx_response.unwrap().raw_log.as_str());
-                ctx.store.set_should_verify(false);
+                ctx.store.set_should_verify(false)?;
                 ctx.window
                     .location()
                     .inner()

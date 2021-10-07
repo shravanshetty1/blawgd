@@ -27,7 +27,7 @@ impl VerificationClient {
             .latest_trusted()
             .ok_or(anyhow!("could not get latest trusted light block"))?;
         let mut height = lb.signed_header.header.height.value() - 1;
-        let mut root = lb.signed_header.header.app_hash.value();
+        let root = lb.signed_header.header.app_hash.value();
         let verify = self.verify.clone();
 
         if !verify {
@@ -39,7 +39,7 @@ impl VerificationClient {
 
     pub async fn get(&self, keys: Vec<String>) -> Result<HashMap<String, Option<Vec<u8>>>> {
         let verify = self.verify.clone();
-        let (mut root, mut height) = self.get_latest_block_root_height().await?;
+        let (mut root, height) = self.get_latest_block_root_height().await?;
 
         let mut data: HashMap<String, Vec<u8>> = HashMap::new();
         let mut proofs: HashMap<String, Vec<u8>> = HashMap::new();
@@ -240,7 +240,7 @@ impl VerificationClient {
     pub async fn get_post_by_parent_post_prefetch(
         &self,
         parent_post_id: String,
-        mut page: u64,
+        page: u64,
     ) -> Result<Vec<PostView>> {
         let (root, height) = self.get_latest_block_root_height().await?;
         let resp = query_client::QueryClient::new(self.client.clone())
@@ -261,7 +261,7 @@ impl VerificationClient {
     pub async fn get_post_by_account_prefetch(
         &self,
         address: String,
-        mut page: u64,
+        page: u64,
     ) -> Result<Vec<PostView>> {
         let (root, height) = self.get_latest_block_root_height().await?;
         let resp = query_client::QueryClient::new(self.client.clone())
@@ -282,7 +282,7 @@ impl VerificationClient {
     pub async fn get_timeline_prefetch(
         &self,
         address: String,
-        mut page: u64,
+        page: u64,
     ) -> Result<Vec<PostView>> {
         let (root, height) = self.get_latest_block_root_height().await?;
         let resp = query_client::QueryClient::new(self.client.clone())

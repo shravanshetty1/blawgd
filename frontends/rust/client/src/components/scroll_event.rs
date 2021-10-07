@@ -9,8 +9,6 @@ use anyhow::Result;
 use async_lock::RwLock;
 use async_trait::async_trait;
 use gloo::events;
-use std::future::Future;
-use std::pin::Pin;
 use std::sync::Arc;
 
 pub struct PageState {

@@ -1,4 +1,3 @@
-use crate::clients::blawgd_client::AccountInfo;
 use crate::clients::verification_client::VerificationClient;
 use crate::components::nav_bar::NavBar;
 use crate::components::post::PostComponent;

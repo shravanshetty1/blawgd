@@ -9,7 +9,6 @@ use crate::task;
 use anyhow::anyhow;
 use anyhow::Result;
 use async_lock::RwLock;
-use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events;
 use prost::alloc::sync::Arc;
 use task::spawn_local;
@@ -160,7 +159,7 @@ impl Component for ProfilePage {
                     }
                 }
 
-                ctx.store.set_should_verify(false);
+                ctx.store.set_should_verify(false)?;
                 ctx.window
                     .location()
                     .inner()

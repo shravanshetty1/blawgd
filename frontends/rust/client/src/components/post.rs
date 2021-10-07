@@ -5,7 +5,6 @@ use crate::context::ApplicationContext;
 use crate::task::spawn_local;
 use anyhow::anyhow;
 use anyhow::Result;
-use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
 use gloo::events::EventListener;
 use std::sync::Arc;
 

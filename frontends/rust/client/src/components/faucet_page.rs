@@ -1,15 +1,8 @@
 use super::Component;
-use crate::clients::blawgd_client;
-use crate::clients::blawgd_client::MSG_TYPE_UPDATE_ACCOUNT_INFO;
 use crate::context::ApplicationContext;
-use crate::task;
 use anyhow::anyhow;
 use anyhow::Result;
-use cosmos_sdk_proto::cosmos::tx::v1beta1::BroadcastMode;
-use gloo::events;
 use prost::alloc::sync::Arc;
-use task::spawn_local;
-use wasm_bindgen::JsCast;
 
 pub struct FaucetPage {
     nav_bar: Box<dyn Component>,
@@ -63,7 +56,7 @@ impl Component for FaucetPage {
             .get_element_by_id("main")?
             .inner()
             .append_child(&script)
-            .map_err(|_| anyhow!("could not append child"));
+            .map_err(|_| anyhow!("could not append child"))?;
 
         Ok(())
     }
