@@ -1,5 +1,6 @@
 use crate::clients::ADDRESS_HRP;
 use anyhow::Result;
+use anyhow::anyhow;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::{BaseAccount, QueryAccountRequest};
 use cosmos_sdk_proto::cosmos::tx::v1beta1::service_client::ServiceClient;
@@ -64,6 +65,12 @@ where
                 mode: BroadcastMode::Block as i32,
             })
             .await?;
+
+        let tx_resp = resp.get_ref().tx_response.clone().ok_or(anyhow!("could not get tx response"))?;
+        let status = tx_resp.code.clone();
+        if status != 0 {
+            return Err(anyhow!("transaction failed - {}",tx_resp.raw_log))
+        }
 
         Ok(resp)
     }

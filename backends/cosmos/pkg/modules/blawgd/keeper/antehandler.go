@@ -11,9 +11,8 @@ func (k *Keeper) NewAnteHandler(inner sdk.AnteHandler) sdk.AnteHandler {
 	return func(ctx sdk.Context, tx sdk.Tx, simulate bool) (newCtx sdk.Context, err error) {
 		msgs := tx.GetMsgs()
 		for _, m := range msgs {
-			switch m.(type) {
+			switch msg := m.(type) {
 			case *types.MsgRepost:
-				msg, _ := m.(*types.MsgRepost)
 				post, err := k.GetPost(ctx, msg.PostId)
 				if err != nil {
 					return ctx, err
@@ -24,7 +23,6 @@ func (k *Keeper) NewAnteHandler(inner sdk.AnteHandler) sdk.AnteHandler {
 				}
 
 			case *types.MsgLikePost:
-				msg, _ := m.(*types.MsgLikePost)
 				post, err := k.GetPost(ctx, msg.PostId)
 				if err != nil {
 					return ctx, err
@@ -48,7 +46,6 @@ func (k *Keeper) NewAnteHandler(inner sdk.AnteHandler) sdk.AnteHandler {
 				}
 
 			case *types.MsgFollow:
-				msg, _ := m.(*types.MsgFollow)
 				followingList := k.GetFollowing(ctx, msg.Creator)
 				var found bool
 				for _, addr := range followingList {
@@ -70,7 +67,6 @@ func (k *Keeper) NewAnteHandler(inner sdk.AnteHandler) sdk.AnteHandler {
 					return ctx, fmt.Errorf("cannot follow more then %V accounts", maxFollowingCount)
 				}
 			case *types.MsgStopFollow:
-				msg, _ := m.(*types.MsgStopFollow)
 				followingList := k.GetFollowing(ctx, msg.Creator)
 				var found bool
 				for _, addr := range followingList {
@@ -84,7 +80,6 @@ func (k *Keeper) NewAnteHandler(inner sdk.AnteHandler) sdk.AnteHandler {
 				}
 			case *types.MsgUpdateAccountInfo:
 			case *types.MsgCreatePost:
-				msg, _ := m.(*types.MsgCreatePost)
 				if msg.ParentPost != "" {
 					pp, err := k.GetPost(ctx, msg.ParentPost)
 					if err != nil {

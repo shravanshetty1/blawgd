@@ -116,7 +116,7 @@ func (k *Keeper) StartFollowing(ctx sdk.Context, msg *types.MsgFollow) error {
 	followingList = GetListWithoutRepeated(followingList)
 
 	if oldLen+1 != len(followingList) {
-		return fmt.Errorf("Unexpected increase in following list length")
+		return fmt.Errorf("unexpected increase in following list length")
 	}
 
 	maxFollowingCount, err := k.GetMaxFollowingCount(ctx)
@@ -125,7 +125,7 @@ func (k *Keeper) StartFollowing(ctx sdk.Context, msg *types.MsgFollow) error {
 	}
 
 	if len(followingList) > int(maxFollowingCount) {
-		return fmt.Errorf("cannot follow more then %V accounts", maxFollowingCount)
+		return fmt.Errorf("cannot follow more then %v accounts", maxFollowingCount)
 	}
 
 	store.Set(types.FollowingKey(msg.Creator), []byte(strings.Join(followingList, ",")))
@@ -176,7 +176,7 @@ func (k *Keeper) StopFollowing(ctx sdk.Context, msg *types.MsgStopFollow) error 
 	})
 
 	if oldLen-1 != len(newFollowingList) {
-		return fmt.Errorf("Unexpected decrease in following list length")
+		return fmt.Errorf("unexpected decrease in following list length")
 	}
 
 	store.Set(types.FollowingKey(msg.Creator), []byte(strings.Join(newFollowingList, ",")))

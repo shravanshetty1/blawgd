@@ -39,14 +39,7 @@ impl PostComponent {
                     .as_ref()
                     .ok_or(anyhow!("could not get session account info"))?;
 
-                let like_button_id = format!("post-{}-like-content", post.id);
-                let like_button = document.get_element_by_id(like_button_id.as_str())?;
-                let like_button_text = like_button.inner_html();
-                let mut likes_count = like_button_text.parse::<i32>().unwrap_or(0);
-                likes_count += 1;
-                like_button.set_inner_html(format!("{}", likes_count).as_str());
-
-                let resp = ctx
+                let _resp = ctx
                     .client
                     .cosmos
                     .broadcast_tx(
@@ -54,13 +47,19 @@ impl PostComponent {
                         MSG_TYPE_LIKE,
                         MsgLikePost {
                             creator: session.account_info.address.clone(),
-                            post_id: post.id,
+                            post_id: post.id.clone(),
                             amount: 1,
                         },
                     )
                     .await?;
 
-                crate::logger::console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str());
+                let like_button_id = format!("post-{}-like-content", post.id);
+                let like_button = document.get_element_by_id(like_button_id.as_str())?;
+                let like_button_text = like_button.inner_html();
+                let mut likes_count = like_button_text.parse::<i32>().unwrap_or(0);
+                likes_count += 1;
+                like_button.set_inner_html(format!("{}", likes_count).as_str());
+
                 Ok(())
             });
         })
@@ -84,14 +83,7 @@ impl PostComponent {
                     .as_ref()
                     .ok_or(anyhow!("could not get session account info"))?;
 
-                let repost_button_id = format!("post-{}-repost-content", post.id);
-                let repost_button = document.get_element_by_id(repost_button_id.as_str())?;
-                let repost_button_text: String = repost_button.inner_html();
-                let mut repost_count = repost_button_text.parse::<i32>().unwrap_or(0);
-                repost_count += 1;
-                repost_button.set_inner_html(format!("{}", repost_count).as_str());
-
-                let resp = ctx
+                let _resp = ctx
                     .client
                     .cosmos
                     .broadcast_tx(
@@ -99,12 +91,18 @@ impl PostComponent {
                         MSG_TYPE_REPOST,
                         MsgRepost {
                             creator: session.account_info.address.clone(),
-                            post_id: post.id,
+                            post_id: post.id.clone(),
                         },
                     )
                     .await?;
 
-                crate::logger::console_log(resp.into_inner().tx_response.unwrap().raw_log.as_str());
+                let repost_button_id = format!("post-{}-repost-content", post.id);
+                let repost_button = document.get_element_by_id(repost_button_id.as_str())?;
+                let repost_button_text: String = repost_button.inner_html();
+                let mut repost_count = repost_button_text.parse::<i32>().unwrap_or(0);
+                repost_count += 1;
+                repost_button.set_inner_html(format!("{}", repost_count).as_str());
+
                 Ok(())
             });
         })
