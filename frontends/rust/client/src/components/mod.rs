@@ -14,6 +14,7 @@ use std::sync::Arc;
 pub mod faucet_page;
 pub mod scroll_event;
 pub mod timeline_page;
+pub mod send_page;
 
 pub trait Component {
     fn to_html(&self) -> Result<String>;

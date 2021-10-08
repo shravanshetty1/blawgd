@@ -11,6 +11,7 @@ use anyhow::anyhow;
 use anyhow::Result;
 use prost::alloc::sync::Arc;
 mod faucet_page;
+mod send_page;
 
 pub struct PageRenderer {
     ctx: Arc<ApplicationContext>,
@@ -40,6 +41,7 @@ impl PageRenderer {
             url if url.starts_with("profile") => PageBuilder::profile_page(ctx.clone()).await,
             url if url.starts_with("login") => PageBuilder::login_page(ctx.clone()).await,
             url if url.starts_with("faucet") => PageBuilder::faucet_page(ctx.clone()).await,
+            url if url.starts_with("send") => PageBuilder::send_page(ctx.clone()).await,
             _ => PageBuilder::home_page(ctx.clone()).await,
         }?;
 

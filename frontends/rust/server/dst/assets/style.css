@@ -472,3 +472,17 @@ html::-webkit-scrollbar-thumb {
     background-color: rgba(151, 152, 159, 0.3);
     border-radius: 0.5rem;
 }
+
+.send-component {
+    margin: auto;
+}
+
+.send-component-inner-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 10rem;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+}
