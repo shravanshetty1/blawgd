@@ -34,6 +34,10 @@ func (k *Keeper) NewAnteHandler(inner sdk.AnteHandler) sdk.AnteHandler {
 					return ctx, fmt.Errorf("post does not exist")
 				}
 
+				if msg.Creator == post.Creator {
+					return ctx, fmt.Errorf("user cannot like their own post")
+				}
+
 				addr, err := sdk.AccAddressFromBech32(msg.Creator)
 				if err != nil {
 					return ctx, err

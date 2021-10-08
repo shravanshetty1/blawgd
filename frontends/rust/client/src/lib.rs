@@ -6,13 +6,11 @@ use std::sync::Arc;
 mod host;
 use crate::clients::cosmos_client::CosmosClient;
 use crate::clients::light_client::LightClient;
-use crate::clients::rpc_client::TendermintRPCClient;
-use crate::clients::verification_client::VerificationClient;
 use crate::clients::MasterClient;
+use crate::clients::{rpc_client::TendermintRPCClient, verification_client::VerificationClient};
 use crate::context::{ApplicationContext, SessionInfo};
 use crate::logger::Logger;
-use crate::pages::PageRenderer;
-use crate::storage::Store;
+use crate::{pages::PageRenderer, storage::Store};
 use anyhow::{anyhow, Result};
 use host::Host;
 

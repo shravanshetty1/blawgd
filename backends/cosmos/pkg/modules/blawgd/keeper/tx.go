@@ -214,6 +214,10 @@ func (k *Keeper) Like(ctx sdk.Context, msg *types.MsgLikePost) error {
 		return err
 	}
 
+	if msg.Creator == post.Creator {
+		return fmt.Errorf("user cannot like their own post")
+	}
+
 	post.LikeCount += msg.Amount
 
 	sender, err := sdk.AccAddressFromBech32(msg.Creator)
