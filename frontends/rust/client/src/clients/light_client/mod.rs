@@ -27,7 +27,10 @@ mod custom_evidence_reporter;
 mod light_client_io;
 pub mod light_store;
 
-const TRUSTING_PERIOD: u64 = 3600000;
+// The current unbonding period(the time a person has to wait to unstake their tokens) is 21 days, 
+// trusting period should be less than unbonding period.
+// Trusting period set to 14 days.
+const TRUSTING_PERIOD: u64 = 3600 * 24 * 7 * 2;
 const CLOCK_DRIFT: u64 = 1;
 
 const TRUSTED_HASH: &str = "0AE3E2F0C186B357D04A2D92E76BA2ECA7930661790DD4B73EB408DB5C3DF3B8";
