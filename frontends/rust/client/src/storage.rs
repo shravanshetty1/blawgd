@@ -72,7 +72,7 @@ impl Store {
 
     pub async fn get_peer_id(&self, grpc: grpc_web_client::Client) -> Result<PeerId> {
         let res: Result<String, StorageError> = LocalStorage::get(PEER_ID);
-        let mut peer_id = String::new();
+        let peer_id: String;
         if res.is_err() {
             peer_id = ServiceClient::new(grpc)
                 .get_node_info(GetNodeInfoRequest {})

@@ -29,16 +29,6 @@ impl Window {
     }
 }
 
-pub struct HtmlElement {
-    inner: web_sys::HtmlElement,
-}
-
-impl HtmlElement {
-    pub fn set_inner_html(&self, val: &str) {
-        self.inner.set_inner_html(val)
-    }
-}
-
 pub struct Element {
     inner: web_sys::Element,
 }
@@ -64,14 +54,7 @@ impl Document {
     pub fn inner(&self) -> web_sys::Document {
         self.document.clone()
     }
-    pub fn body(&self) -> Result<HtmlElement> {
-        Ok(HtmlElement {
-            inner: self
-                .document
-                .body()
-                .ok_or(anyhow!("could not get body object from document"))?,
-        })
-    }
+    
     pub fn get_element_by_id(&self, id: &str) -> Result<Element> {
         Ok(Element {
             inner: self

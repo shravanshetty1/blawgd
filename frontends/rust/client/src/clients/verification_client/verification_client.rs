@@ -41,8 +41,8 @@ impl VerificationClient {
         let verify = self.verify.clone();
         let (mut root, height) = self.get_latest_block_root_height().await?;
 
-        let mut data: HashMap<String, Vec<u8>> = HashMap::new();
-        let mut proofs: HashMap<String, Vec<u8>> = HashMap::new();
+        let data: HashMap<String, Vec<u8>>;
+        let proofs: HashMap<String, Vec<u8>>;
         if self.prefetch.is_none() {
             let resp = query_client::QueryClient::new(self.client.clone())
                 .get(GetRequest {

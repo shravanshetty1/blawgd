@@ -1,6 +1,4 @@
-// uncomment to force warnings
-// #![deny(warnings)]
-// #![allow(dead_code)]
+#![deny(warnings)]
 
 use wasm_bindgen::{prelude::*, JsValue};
 mod components;
