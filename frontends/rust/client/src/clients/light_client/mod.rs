@@ -30,6 +30,9 @@ pub mod light_store;
 const TRUSTING_PERIOD: u64 = 3600000;
 const CLOCK_DRIFT: u64 = 1;
 
+const TRUSTED_HASH: &str = "0AE3E2F0C186B357D04A2D92E76BA2ECA7930661790DD4B73EB408DB5C3DF3B8";
+const TRUSTED_HEIGHT: &str = "769476";
+
 #[derive(Clone)]
 pub struct LightClient {
     pub supervisor: Arc<RwLock<Supervisor>>,
@@ -39,8 +42,9 @@ impl LightClient {
     pub async fn new(peer_id: PeerId, host: Host) -> Result<LightClient> {
         let rpc_client = TendermintRPCClient::new(host.clone())?;
 
-        let instance = new_light_client_instance(peer_id, rpc_client.clone()).await?;
-        let instance2 = new_light_client_instance(peer_id, rpc_client.clone()).await?;
+        let instance = new_light_client_instance(peer_id, rpc_client.clone(), host.clone()).await?;
+        let instance2 =
+            new_light_client_instance(peer_id, rpc_client.clone(), host.clone()).await?;
 
         let address = host.tendermint_endpoint().parse::<Url>()?;
         let (instances, _) = SupervisorBuilder::new()
@@ -81,6 +85,7 @@ impl LightClient {
 async fn new_light_client_instance(
     peer_id: PeerId,
     rpc_client: TendermintRPCClient,
+    host: Host,
 ) -> Result<supervisor::Instance> {
     let options = light_client::Options {
         trust_threshold: TrustThreshold::default(),
@@ -104,10 +109,16 @@ async fn new_light_client_instance(
     if CustomLightStore.highest_trusted_or_verified().is_some() {
         instance = builder.trust_from_store()?.build();
     } else {
-        // TODO remove this once trusted height is hard coded
-        let block_resp = rpc_client.get_block(0).await?;
-        let trusted_height = block_resp.block.header.height.to_string();
-        let trusted_hash = block_resp.block_id.hash.to_string();
+        let trusted_height: String;
+        let trusted_hash: String;
+        if host.endpoint().contains("localhost") {
+            let block_resp = rpc_client.get_block(0).await?;
+            trusted_height = block_resp.block.header.height.to_string();
+            trusted_hash = block_resp.block_id.hash.to_string();
+        } else {
+            trusted_height = TRUSTED_HEIGHT.to_string();
+            trusted_hash = TRUSTED_HASH.to_string();
+        }
 
         instance = builder
             .trust_primary_at(
