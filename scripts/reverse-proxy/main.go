@@ -55,7 +55,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	frontendServer := httputil.NewSingleHostReverseProxy(u)
+	frontendServer := gziphandler.GzipHandler(httputil.NewSingleHostReverseProxy(u))
 
 	router := mux.NewRouter()
 	router.Host("tendermint." + host).Subrouter().PathPrefix("/").Handler(tendermintRpc)
@@ -63,7 +63,7 @@ func main() {
 	router.Host("faucet." + host).Subrouter().PathPrefix("/").Handler(faucet)
 	router.PathPrefix("/").Handler(frontendServer)
 
-	router.Use(gziphandler.GzipHandler, cors.AllowAll().Handler)
+	router.Use(cors.AllowAll().Handler)
 
 	if env == "PROD" {
 
