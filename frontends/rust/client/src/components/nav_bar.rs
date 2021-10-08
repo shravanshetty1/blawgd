@@ -30,7 +30,7 @@ impl super::Component for NavBar {
             account_menu_items = String::from(format!(
                 r#"
                 <a href="/timeline" class="nav-bar-menu-element">
-                    <img src="/assets/imgs/home.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Timeline</div>
+                    <img src="/assets/imgs/clock.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Timeline</div>
                 </a>
                 <a href="/profile/{}" class="nav-bar-menu-element">
                     <img src="/assets/imgs/User.svg" class="nav-bar-menu-element-logo"> <div class="nav-bar-menu-element-text">Profile</div>
