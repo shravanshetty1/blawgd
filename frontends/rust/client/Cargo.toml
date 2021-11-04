@@ -20,11 +20,11 @@ wasm-bindgen-futures = "0.4.24"
 cosmos-sdk-proto = "0.5.0"
 prost = { version = "0.7.0"}
 # find a way to remove this
-prost_2 = { package = "prost", version = "0.8.0" }
+prost_2 = { package = "prost", version = "0.9.0" }
 console_error_panic_hook = "0.1.6"
 tonic = { version = "0.4.3", default-features = false, features = ["codegen", "prost"] }
 tiny-bip39 = { version = "0.8.0", default-features = false }
-grpc-web-client = { git = "https://github.com/titanous/grpc-web-client", branch = "main"}
+grpc-web-client = "0.1.2"
 reqwest = { version = "=0.10.10", features = ["json"] }
 tendermint-light-client = { git = "https://github.com/shravanshetty1/tendermint-rs", branch = "wasm", default-features = false, features = ["std", "eyre_tracer"] }
 tendermint-rpc = { git = "https://github.com/shravanshetty1/tendermint-rs", branch = "wasm" }
