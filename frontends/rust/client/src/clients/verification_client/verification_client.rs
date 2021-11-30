@@ -98,7 +98,7 @@ impl VerificationClient {
                     .ok_or(anyhow!("did not get proof for key {}", key))?
                     .clone();
                 let proof: tendermint_proto::crypto::ProofOps =
-                    prost::Message::decode(proof.as_slice())?;
+                    prost_2::Message::decode(proof.as_slice())?;
                 let proof = convert_tm_to_ics_merkle_proof(proof)?;
 
                 if val.is_empty() {

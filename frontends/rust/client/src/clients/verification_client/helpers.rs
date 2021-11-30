@@ -34,7 +34,7 @@ pub fn convert_tm_to_ics_merkle_proof(
     let mut proofs = vec![];
 
     for op in &tm_proof.ops {
-        let parsed = prost_2::Message::decode(op.data.as_slice())?;
+        let parsed = prost::Message::decode(op.data.as_slice())?;
         proofs.push(parsed);
     }
 

@@ -1,5 +1,8 @@
 .idea
 frontends/rust/client/target
+frontends/rust/client/Cargo.lock
 backends/cosmos/cmd/faucet/target
+backends/cosmos/cmd/faucet/Cargo.lock
 scripts/codegen/frontend-rust/target
+scripts/codegen/frontend-rust/Cargo.lock
 backends/cosmos/node-configs

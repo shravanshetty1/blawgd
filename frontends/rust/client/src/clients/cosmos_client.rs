@@ -1,6 +1,6 @@
 use crate::clients::ADDRESS_HRP;
-use anyhow::Result;
 use anyhow::anyhow;
+use anyhow::Result;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::query_client::QueryClient;
 use cosmos_sdk_proto::cosmos::auth::v1beta1::{BaseAccount, QueryAccountRequest};
 use cosmos_sdk_proto::cosmos::tx::v1beta1::service_client::ServiceClient;
@@ -9,16 +9,16 @@ use cosmos_sdk_proto::cosmos::tx::v1beta1::{
 };
 use crw_client::tx::TxBuilder;
 use crw_wallet::crypto::MnemonicWallet;
-use tonic::body::Body;
-use tonic::codegen::{HttpBody, StdError};
+use tonic::codegen::Body;
+use tonic::codegen::StdError;
 use tonic::Response;
 
 pub struct CosmosClient<T>
 where
     T: tonic::client::GrpcService<tonic::body::BoxBody>,
-    T::ResponseBody: Body + HttpBody + Send + 'static,
+    T::ResponseBody: Body + Send + 'static,
     T::Error: Into<StdError>,
-    <T::ResponseBody as HttpBody>::Error: Into<StdError> + Send,
+    <T::ResponseBody as Body>::Error: Into<StdError> + Send,
     T: Clone,
 {
     pub client: T,
@@ -31,9 +31,9 @@ pub const MEMO: &str = "browser client";
 impl<T> CosmosClient<T>
 where
     T: tonic::client::GrpcService<tonic::body::BoxBody>,
-    T::ResponseBody: Body + HttpBody + Send + 'static,
+    T::ResponseBody: Body + Send + 'static,
     T::Error: Into<StdError>,
-    <T::ResponseBody as HttpBody>::Error: Into<StdError> + Send,
+    <T::ResponseBody as Body>::Error: Into<StdError> + Send,
     T: Clone,
 {
     pub async fn broadcast_tx<M: prost::Message>(
@@ -66,10 +66,14 @@ where
             })
             .await?;
 
-        let tx_resp = resp.get_ref().tx_response.clone().ok_or(anyhow!("could not get tx response"))?;
+        let tx_resp = resp
+            .get_ref()
+            .tx_response
+            .clone()
+            .ok_or(anyhow!("could not get tx response"))?;
         let status = tx_resp.code.clone();
         if status != 0 {
-            return Err(anyhow!("transaction failed - {}",tx_resp.raw_log))
+            return Err(anyhow!("transaction failed - {}", tx_resp.raw_log));
         }
 
         Ok(resp)
